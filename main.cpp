@@ -19,20 +19,12 @@
 
 #include <QtGui/QApplication>
 #include "GUI/mainwindow.h"
-#include "DATA_ACCESS/imagefile.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication aawww(argc, argv);
+    QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    ///sdfsdf
-    ///sdfsdf
-    ///sdfsdf
-    ///sdfsdf
-    ///sdfsdf
-    ///sdfsdf
-
-    ////sdfsdfsdfsdf
-    return aawww.exec();
+    return a.exec();
 }
+
