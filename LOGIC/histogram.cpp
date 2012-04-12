@@ -15,6 +15,8 @@ QTextStream cout(stdout);
 
 Histogram::Histogram(ImagenPGM *imagen)
 {
+
+    //jejejejeje
     int nColumnas=imagen->getColumnNumber();
     int nFilas=imagen->getRowNumber();
     intensidad=imagen->getColorDensity()+1;
