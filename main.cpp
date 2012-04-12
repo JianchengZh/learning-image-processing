@@ -19,7 +19,6 @@
 
 #include <QtGui/QApplication>
 #include "GUI/mainwindow.h"
-#include "DATA_ACCESS/imagefile.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,4 +27,4 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
-////hermanoi
+
