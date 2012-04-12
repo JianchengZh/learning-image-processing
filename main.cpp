@@ -28,5 +28,4 @@ int main(int argc, char *argv[])
     w.show();
     ///jejejejeeje vamos a ver como es esta mierda!!!
     return a.exec();
-    //Test github repository
 }
