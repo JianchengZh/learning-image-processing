@@ -23,10 +23,14 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication aawww(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+    ///sdfsdf
+    ///sdfsdf
+    ///sdfsdf
+    ///sdfsdf
+    ///sdfsdf
+    ///sdfsdf
+    return aawww.exec();
 }
-hola
-cat file
