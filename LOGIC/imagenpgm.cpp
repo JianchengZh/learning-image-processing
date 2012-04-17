@@ -1,17 +1,23 @@
-/*
-  INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
-  Actividad de Programacion 2
-  Archivo:          imagenpgm.cpp
-  Fecha creacion:   Marzo de 2012
-  Autores:          Gustavo Adolfo Rodriguez    0932979
-                    Edwin Fernando Muñoz        0910398
-
-  UNIVERSIDAD DEL VALLE
-  ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
-*/
+//**********************************************************
+// INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
+// PGM_PPM_IMAGE_PROCESSING_V2
+//
+// ARCHIVO: imagenpgm.cpp
+//
+// FECHA INICIACION: Marzo de 2012
+//
+// AUTORES:
+// Gustavo Adolfo Rodriguez         0932979-3743
+// gustalibreros@hotmail.com
+//
+// Edwin Fernando Muñoz             0910398-3743
+// edwinfernandomudelgado@hotmail.com
+//
+// ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
+// UNIVERSIDAD DEL VALLE
+//**********************************************************
 
 #include "imagenpgm.h"
-
 
 ImagenPGM::ImagenPGM(QList<QString> lectura)
 {
@@ -33,6 +39,19 @@ ImagenPGM::ImagenPGM(QList<QString> lectura)
         aux=aux+columnNumber-1;
     }
 
+    //Lookup Table
+    lut = new int [colorDensity+1];
+    for (int i = 0; i < colorDensity+1; ++i) {
+        lut[i ]=i;
+    }
+
+    aux=0;
+    for(int i=0; i<rowNumber; i++){
+        for(int j=0; j<columnNumber; j++){
+            matrizImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
+        }
+        aux=aux+columnNumber-1;
+    }
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int intensidad, int **matriz){

@@ -1,14 +1,21 @@
-/*
-  INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
-  Actividad de Programacion 2
-  Archivo:          imagenppm.cpp
-  Fecha creacion:   Marzo de 2012
-  Autores:          Gustavo Adolfo Rodriguez    0932979
-                    Edwin Fernando Muñoz        0910398
-
-  UNIVERSIDAD DEL VALLE
-  ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
-*/
+//**********************************************************
+// INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
+// PGM_PPM_IMAGE_PROCESSING_V2
+//
+// ARCHIVO: imagenppm.cpp
+//
+// FECHA INICIACION: Marzo de 2012
+//
+// AUTORES:
+// Gustavo Adolfo Rodriguez         0932979-3743
+// gustalibreros@hotmail.com
+//
+// Edwin Fernando Muñoz             0910398-3743
+// edwinfernandomudelgado@hotmail.com
+//
+// ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
+// UNIVERSIDAD DEL VALLE
+//**********************************************************
 
 #include "imagenppm.h"
 
