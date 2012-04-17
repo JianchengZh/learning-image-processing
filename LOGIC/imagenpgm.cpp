@@ -19,8 +19,7 @@
 
 #include "imagenpgm.h"
 
-ImagenPGM::ImagenPGM(QList<QString> lectura)
-{
+ImagenPGM::ImagenPGM(QList<QString> lectura){
     identificacion=lectura.at(0);
     comentario=lectura.at(1);
     columnNumber=lectura.at(2).section(' ',0,0).toInt();
@@ -45,6 +44,10 @@ ImagenPGM::ImagenPGM(QList<QString> lectura)
         lut[i ]=i;
     }
 
+    matrizImagenP = new int**[rowNumber];
+    for (int i=0; i < rowNumber; i++)
+        matrizImagenP[i]=new int*[columnNumber];
+
     aux=0;
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
@@ -61,6 +64,24 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int in
     this->columnNumber=columnas;
     this->colorDensity=intensidad;
     this->matrizImagen=matriz;
+
+    //Lookup Table
+    lut = new int [colorDensity+1];
+    for (int i = 0; i < colorDensity+1; ++i) {
+        lut[i ]=i;
+    }
+
+    matrizImagenP = new int**[rowNumber];
+    for (int i=0; i < rowNumber; i++)
+        matrizImagenP[i]=new int*[columnNumber];
+
+    int aux=0;
+    for(int i=0; i<rowNumber; i++){
+        for(int j=0; j<columnNumber; j++){
+            matrizImagenP[i][j]=&lut[matriz[i][j]];
+        }
+        aux=aux+columnNumber-1;
+    }
 }
 
 void ImagenPGM::exportar(QTextStream &fSalida){
@@ -72,7 +93,7 @@ void ImagenPGM::exportar(QTextStream &fSalida){
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-            fSalida<<matrizImagen[i][j]<<endl;
+            fSalida<<*matrizImagenP[i][j]<<endl;
         }
     }
 }
