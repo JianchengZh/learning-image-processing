@@ -48,10 +48,10 @@ public:
     ~MainController();
 
     bool loadImage(QString filename);
-    QImage* pixelDensityChanged(int density);
-    QImage* colorDensityChanged(int intensidad);
-    QImage* convertGrayscale();
-    QImage* generateHistogram();
+    QString pixelDensityChanged(int density);
+    QString colorDensityChanged(int intensidad);
+    QString convertGrayscale();
+    QString generateHistogram();
     void newJob();
 
     //GETTERS

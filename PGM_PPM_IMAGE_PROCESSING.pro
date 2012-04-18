@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     CONTROLLER/maincontroller.cpp \
     GUI/resultwindow.cpp \
     LOGIC/imagedcm.cpp \
-    DATA_ACCESS/imagefile.cpp
+    DATA_ACCESS/imagefile.cpp \
+    CONTROLLER/resultcontroller.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     CONTROLLER/maincontroller.h \
     GUI/resultwindow.h \
     LOGIC/imagedcm.h \
-    DATA_ACCESS/imagefile.h
+    DATA_ACCESS/imagefile.h \
+    CONTROLLER/resultcontroller.h
 
 FORMS    += \
     GUI/dialogabout.ui \

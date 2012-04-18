@@ -50,7 +50,7 @@ private slots:
     void change_OnSuccessfulLoad();
     void change_OnUnsuccessfulLoad();
     void showImage(QImage *qImage);     // Method for displaying the image on the main screen
-    void showResultWindow(QImage *qImage);
+    void showResultWindow(QString imageFile);
 
     // Events for changing the image size on the main screen
     void on_pButton__AdjustImageSize_clicked();

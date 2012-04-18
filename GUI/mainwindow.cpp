@@ -105,8 +105,8 @@ void MainWindow::on_pButton_PixelDensity_clicked()
     showResultWindow(mainController->pixelDensityChanged(density));
 }
 
-void MainWindow::showResultWindow(QImage *qImage){
-    ResultWindow exportWindow(this, qImage, mainController->getImageType());
+void MainWindow::showResultWindow(QString imageFile){
+    ResultWindow exportWindow(this, imageFile);
     exportWindow.setModal(true);
     exportWindow.exec();
 }
