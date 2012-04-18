@@ -55,7 +55,6 @@ public:
               int *lut);
 
     //Image processing
-    ImagenPGM *reducirTamano();
     ImagenPGM *reducirIntensidad(int bits);
     ImagenPGM *changeSize(int n);
 

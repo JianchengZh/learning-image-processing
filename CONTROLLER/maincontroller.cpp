@@ -119,7 +119,6 @@ QImage* MainController::pixelDensityChanged(int density){
 
     }else{
         ImagenPGM* imagenPGMTransformed;
-        QTextStream (stdout) <<density;
         imagenPGMTransformed=imagenPGM->changeSize(density);
         exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
         return new QImage("tem.pgm~");

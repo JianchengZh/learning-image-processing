@@ -93,36 +93,6 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
 
 //Image processing
 
-ImagenPGM* ImagenPGM::reducirTamano(){
-
-    int r=2;
-    int nColumnasReducida=columnNumber/r;
-    int nFilasReducida=rowNumber/r;
-
-    // inicializacion
-    int **imagenReducida = new int*[nFilasReducida];
-    for (int i=0; i < nFilasReducida; i++)
-        imagenReducida[i]=new int[nColumnasReducida];
-
-    // Proceso de reduccion
-    for(int i=0; i<nFilasReducida; i++){
-        for(int j=0; j<nColumnasReducida; j++){
-            imagenReducida[i][j]=matrizImagen[i*r][j*r];
-        }
-    }
-
-    // creacion de nueva imagen reducida
-
-    ImagenPGM *resultado = new ImagenPGM (identification,
-                                          comment,
-                                          nFilasReducida,
-                                          nColumnasReducida,
-                                          colorDensity,
-                                          imagenReducida);
-
-    return resultado;
-}
-
 ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 
     int intensidadNueva=(int)(pow(2,bits)-1);
