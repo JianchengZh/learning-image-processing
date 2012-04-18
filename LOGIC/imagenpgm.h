@@ -41,26 +41,32 @@ public:
 
     ImagenPGM(QList<QString> lectura);
     ImagenPGM(QString id,
-                     QString coment,
-                     int filas,
-                     int columnas,
-                     int colorDensity,
-                     int **matriz);
+              QString coment,
+              int filas,
+              int columnas,
+              int colorD,
+              int **matriz);
     ImagenPGM(QString id,
-                     QString coment,
-                     int filas,
-                     int columnas,
-                     int colorDensity,
-                     int ***matriz,
-                     int *lut);
+              QString coment,
+              int filas,
+              int columnas,
+              int colorD,
+              int ***matriz,
+              int *lut);
 
+    //Image processing
+    ImagenPGM *reducirTamano();
+    ImagenPGM *reducirIntensidad(int bits);
+
+    // Getters
     int** getMatrix();
     int getRowNumber();
     int getColumnNumber();
     int getColorDensity();
+
+    // export
     void exportar(QTextStream &fSalida);
-    ImagenPGM *reducirTamano();
-    ImagenPGM *reducirIntensidad(int bits);
+
 };
 
 #endif // IMAGENPGM_H

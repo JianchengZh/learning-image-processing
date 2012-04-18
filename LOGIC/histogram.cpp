@@ -18,7 +18,6 @@
 //**********************************************************
 
 #include "histogram.h"
-QTextStream cout(stdout);
 
 Histogram::Histogram(ImagenPGM *imagen)
 {
