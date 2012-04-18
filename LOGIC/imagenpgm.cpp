@@ -68,7 +68,7 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int in
     //Lookup Table
     lut = new int [colorDensity+1];
     for (int i = 0; i < colorDensity+1; ++i) {
-        lut[i ]=i;
+        lut[i]=i;
     }
 
     matrizImagenP = new int**[rowNumber];
@@ -83,6 +83,33 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int in
         aux=aux+columnNumber-1;
     }
 }
+
+//ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int intensidad, int ***matriz, int *lut){
+//    this->identificacion=id;
+//    this->comentario=coment;
+//    this->rowNumber=filas;
+//    this->columnNumber=columnas;
+//    this->colorDensity=intensidad;
+//    this->matrizImagen=matriz;
+
+//    //Lookup Table
+//    lut = new int [colorDensity+1];
+//    for (int i = 0; i < colorDensity+1; ++i) {
+//        lut[i]=i;
+//    }
+
+//    matrizImagenP = new int**[rowNumber];
+//    for (int i=0; i < rowNumber; i++)
+//        matrizImagenP[i]=new int*[columnNumber];
+
+//    int aux=0;
+//    for(int i=0; i<rowNumber; i++){
+//        for(int j=0; j<columnNumber; j++){
+//            matrizImagenP[i][j]=&lut[matriz[i][j]];
+//        }
+//        aux=aux+columnNumber-1;
+//    }
+//}
 
 void ImagenPGM::exportar(QTextStream &fSalida){
 

@@ -46,6 +46,13 @@ public:
                      int columnas,
                      int colorDensity,
                      int **matriz);
+    ImagenPGM(QString id,
+                     QString coment,
+                     int filas,
+                     int columnas,
+                     int colorDensity,
+                     int ***matriz,
+                     int *lut);
 
     int** getMatrix();
     int getRowNumber();
