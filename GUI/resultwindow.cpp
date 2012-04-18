@@ -44,7 +44,7 @@ void ResultWindow::showImage(){
 void ResultWindow::on_pButton_Save_clicked()
 {
 
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "", tr("Images (*.ppm *.pgm)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "../PGM_PPM_IMAGE_PROCESSING/IMAGES", tr("Images (*.ppm *.pgm)"));
     controller->saveImage(filename);
     this->close();
 }

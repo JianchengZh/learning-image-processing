@@ -36,7 +36,7 @@ MainWindow::~MainWindow()
 // Methods related to the load image event
 void MainWindow::on_pButton_LoadImage_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../PGM_PPM_IMAGE_PROCESSING/", tr("Image Files (*)"));
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../PGM_PPM_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
 
     if (mainController->loadImage(filename)) {
         this->change_OnSuccessfulLoad();

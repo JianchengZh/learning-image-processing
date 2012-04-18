@@ -21,7 +21,7 @@
 
 ResultController::ResultController(QString temImageFile)
 {
-    this->imageType=temImageFile.right(3).toLower();
+    this->imageType=temImageFile.right(4).left(3).toLower();
     ImageFile archivo(temImageFile);        // Crear el objeto tipo Archivo
 
     if(archivo.readImageContents()){
@@ -35,17 +35,17 @@ ResultController::ResultController(QString temImageFile)
 
 void ResultController::saveImage(QString fileNameDest){
     if(imageType == "ppm"){
-        QFile temp(fileNameDest);
+
+        QFile temp(fileNameDest+"."+imageType);
         if(temp.open(QFile::WriteOnly)){
             QTextStream fSalida(&temp);
             imagenPPM->exportar(fSalida);
-        }else{
-            QFile temp(fileNameDest);
-            if(temp.open(QFile::WriteOnly)){
-                QTextStream fSalida(&temp);
-                imagenPGM->exportar(fSalida);
-            }
-
+        }
+    }else{
+        QFile temp(fileNameDest+"."+imageType);
+        if(temp.open(QFile::WriteOnly)){
+            QTextStream fSalida(&temp);
+            imagenPGM->exportar(fSalida);
         }
     }
 }
