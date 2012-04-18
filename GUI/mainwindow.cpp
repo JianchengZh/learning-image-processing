@@ -101,7 +101,7 @@ void MainWindow::on_pButton__NormalSize_clicked()
 void MainWindow::on_pButton_PixelDensity_clicked()
 {
     ui->label_Messages->setText("Changing the size of the image...");
-    int density = ui->comboBox_size->currentText().left(1).toInt();
+    int density = ui->comboBox_size->currentText().left(2).toInt();
     showResultWindow(mainController->pixelDensityChanged(density));
 }
 

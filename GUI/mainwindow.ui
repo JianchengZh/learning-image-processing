@@ -131,22 +131,47 @@ Processing Software</string>
          </item>
          <item>
           <property name="text">
-           <string>2x</string>
+           <string>-5x</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>3x</string>
+           <string>-4x</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>4x</string>
+           <string>-3x</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>5x</string>
+           <string>-2x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>+2x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>+3x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>+4x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>+5x</string>
           </property>
          </item>
         </widget>
