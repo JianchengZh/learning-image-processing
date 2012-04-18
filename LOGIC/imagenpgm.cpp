@@ -20,11 +20,11 @@
 #include "imagenpgm.h"
 
 ImagenPGM::ImagenPGM(QList<QString> lectura){
-    identificacion=lectura.at(0);
-    comentario=lectura.at(1);
-    columnNumber=lectura.at(2).section(' ',0,0).toInt();
-    rowNumber=lectura.at(2).section(' ',1,1).toInt();
-    colorDensity=lectura.at(3).toInt();
+    this->identification=lectura.at(0);
+    this->comment=lectura.at(1);
+    this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
+    this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
+    this->colorDensity=lectura.at(3).toInt();
 
     matrizImagen = new int*[rowNumber];
     for (int i=0; i < rowNumber; i++)
@@ -57,18 +57,18 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int intensidad, int **matriz){
-    this->identificacion=id;
-    this->comentario=coment;
+ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int **matriz){
+    this->identification=id;
+    this->comment=coment;
     this->rowNumber=filas;
     this->columnNumber=columnas;
-    this->colorDensity=intensidad;
+    this->colorDensity=colorD;
     this->matrizImagen=matriz;
 
     //Lookup Table
     lut = new int [colorDensity+1];
     for (int i = 0; i < colorDensity+1; ++i) {
-        lut[i ]=i;
+        lut[i]=i;
     }
 
     matrizImagenP = new int**[rowNumber];
@@ -84,19 +84,17 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int in
     }
 }
 
-void ImagenPGM::exportar(QTextStream &fSalida){
-
-    fSalida<<identificacion<<endl;
-    fSalida<<comentario<<endl;
-    fSalida<<columnNumber<<" "<<rowNumber<<endl;
-    fSalida<<colorDensity<<endl;
-
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            fSalida<<*matrizImagenP[i][j]<<endl;
-        }
-    }
+ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int ***matriz, int *lut){
+    this->identification=id;
+    this->comment=coment;
+    this->rowNumber=filas;
+    this->columnNumber=columnas;
+    this->colorDensity=colorD;
+    this->matrizImagenP=matriz;
+    this->lut=lut;
 }
+
+//Image processing
 
 ImagenPGM* ImagenPGM::reducirTamano(){
 
@@ -118,8 +116,8 @@ ImagenPGM* ImagenPGM::reducirTamano(){
 
     // creacion de nueva imagen reducida
 
-    ImagenPGM *resultado = new ImagenPGM (identificacion,
-                                          comentario,
+    ImagenPGM *resultado = new ImagenPGM (identification,
+                                          comment,
                                           nFilasReducida,
                                           nColumnasReducida,
                                           colorDensity,
@@ -148,8 +146,8 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 
     // creacion de nueva imagen intensidad reducida
 
-    ImagenPGM *resultado = new ImagenPGM (identificacion,
-                                          comentario,
+    ImagenPGM *resultado = new ImagenPGM (identification,
+                                          comment,
                                           rowNumber,
                                           columnNumber,
                                           intensidadNueva,
@@ -157,6 +155,29 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 
     return resultado;
 }
+
+ImagenPGM* ImagenPGM::enlarge(int n){
+    int w = this->columnNumber*n;
+    int h = this->rowNumber*n;
+
+    int **enlargedImage = new int*[h];
+    for (int i=0; i < h; i++)
+        enlargedImage[i]=new int[w];
+
+    for (int i = 0; i <h; ++i) {
+        for (int j = 0; j < w; ++j) {
+            enlargedImage[i][j]=*(matrizImagenP[floor(i/n)][floor(j/n)]);
+        }
+    }
+    return new ImagenPGM (identification,
+                          comment,
+                          h,
+                          w,
+                          colorDensity,
+                          enlargedImage);
+}
+
+// Getters:
 
 int ImagenPGM::getColorDensity(){
     return colorDensity;
@@ -172,4 +193,18 @@ int ImagenPGM::getRowNumber(){
 
 int** ImagenPGM::getMatrix(){
     return matrizImagen;
+}
+
+void ImagenPGM::exportar(QTextStream &fSalida){
+
+    fSalida<<identification<<endl;
+    fSalida<<comment<<endl;
+    fSalida<<columnNumber<<" "<<rowNumber<<endl;
+    fSalida<<colorDensity<<endl;
+
+    for(int i=0; i<rowNumber; i++){
+        for(int j=0; j<columnNumber; j++){
+            fSalida<<*matrizImagenP[i][j]<<endl;
+        }
+    }
 }
