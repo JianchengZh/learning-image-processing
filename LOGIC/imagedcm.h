@@ -20,8 +20,8 @@
 #ifndef IMAGEDCM_H
 #define IMAGEDCM_H
 
-#include <dcmtk/dcmimgle/dcmimage.h>
-#include <dcmtk/dcmdata/dcfilefo.h>
+//#include <dcmtk/dcmimgle/dcmimage.h>
+//#include <dcmtk/dcmdata/dcfilefo.h>
 #include <QImage>
 
 class ImageDCM
