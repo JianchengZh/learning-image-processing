@@ -77,7 +77,7 @@ private slots:
 private:
 
     Ui::MainWindow *ui;
-    MainController *mainController;
+    MainController * mainController;
     QImage *qImage;
 };
 

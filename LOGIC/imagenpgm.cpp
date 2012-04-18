@@ -160,13 +160,17 @@ ImagenPGM* ImagenPGM::enlarge(int n){
     int w = this->columnNumber*n;
     int h = this->rowNumber*n;
 
+    QTextStream cout(stdout);
+
     int **enlargedImage = new int*[h];
     for (int i=0; i < h; i++)
         enlargedImage[i]=new int[w];
 
     for (int i = 0; i <h; ++i) {
         for (int j = 0; j < w; ++j) {
-            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
+            enlargedImage[i][j]=*(matrizImagenP[(int)ceil(i/n)][(int)ceil(j/n)]);
+            cout<<"posicion x"<<(int)ceil(i/n);
+            cout<<"posicion y"<<(int)ceil(j/n);
         }
     }
     return new ImagenPGM (identification,

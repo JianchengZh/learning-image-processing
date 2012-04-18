@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>565</height>
+    <width>998</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,12 +35,12 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>660</x>
       <y>10</y>
-      <width>261</width>
+      <width>299</width>
       <height>521</height>
      </rect>
     </property>
@@ -131,17 +131,22 @@ Processing Software</string>
          </item>
          <item>
           <property name="text">
-           <string>50%</string>
+           <string>2x</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>25%</string>
+           <string>3x</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>12.5%</string>
+           <string>4x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5x</string>
           </property>
          </item>
         </widget>
@@ -531,7 +536,7 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>930</width>
+     <width>998</width>
      <height>25</height>
     </rect>
    </property>

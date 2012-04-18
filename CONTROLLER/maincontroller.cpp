@@ -119,15 +119,16 @@ QImage* MainController::pixelDensityChanged(int density){
 
     }else{
         ImagenPGM* imagenPGMTransformed;
-        if(density==50)
-        {
-            imagenPGMTransformed=imagenPGM->reducirTamano();
-        }else{
-            if(density==25){
-                imagenPGMTransformed=imagenPGM->reducirTamano()->reducirTamano();
-            }else
-                imagenPGMTransformed=imagenPGM->reducirTamano()->reducirTamano()->reducirTamano();
-        }
+//        if(density==50)
+//        {
+//            imagenPGMTransformed=imagenPGM->reducirTamano();
+//        }else{
+//            if(density==25){
+//                imagenPGMTransformed=imagenPGM->reducirTamano()->reducirTamano();
+//            }else
+//                imagenPGMTransformed=imagenPGM->reducirTamano()->reducirTamano()->reducirTamano();
+//        }
+        imagenPGMTransformed=imagenPGM->enlarge(density);
         exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
         return new QImage("tem.pgm~");
     }
