@@ -65,9 +65,6 @@ private slots:
     //GrayScale
     void on_pButton_ConvertGrayscale_clicked();
 
-    // Histogram
-    void on_pButton_Histogram_clicked();
-
     //     MenuBar Events
     void on_actionClose_triggered();
     void on_actionNew_Job_triggered();

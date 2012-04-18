@@ -73,8 +73,8 @@ void MainWindow::change_OnSuccessfulLoad(){
     if (mainController->getImageType()=="PPM") {
         ui->pButton_ConvertGrayscale->setEnabled(true);
     } else {
-        ui->pButton_Histogram->setEnabled(true);
         QImage *histograma = new QImage (mainController->generateHistogram());
+        ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100),Qt::KeepAspectRatio)));
     }
 }
 
@@ -86,7 +86,6 @@ void MainWindow::change_OnUnsuccessfulLoad(){
 void MainWindow::showImage(QImage *qImage){
     this->qImage=qImage;
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*this->qImage));
-    ui->label_Histogram->setPixmap(QPixmap::fromImage() )
 }
 
 void MainWindow::on_pButton__AdjustImageSize_clicked()
@@ -125,10 +124,6 @@ void MainWindow::on_pButton_ConvertGrayscale_clicked()
     showResultWindow(mainController->convertGrayscale());
 }
 
-//void MainWindow::on_pButton_Histogram_clicked(){
-//    showResultWindow(mainController->generateHistogram());
-//}
-
 //// OTHER EVENTS
 void MainWindow::on_actionClose_triggered()
 {
@@ -144,7 +139,6 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
     ui->pButton_ConvertGrayscale->setEnabled(false);
-    ui->pButton_Histogram->setEnabled(false);
 
     // Changes in ComboBoxes:
     ui->comboBox_color->setEnabled(false);
