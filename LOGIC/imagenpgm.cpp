@@ -24,17 +24,7 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
     this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
     this->colorDensity=lectura.at(3).toInt();
-    matrizImagen = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrizImagen[i]=new int[columnNumber];
 
-    int aux=4;
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            matrizImagen[i][j]=lectura[i+j+aux].toInt();
-        }
-        aux=aux+columnNumber-1;
-    }
 
     //Lookup Table
     lut = new int [colorDensity+1];
@@ -46,8 +36,7 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     for (int i=0; i < rowNumber; i++)
         matrizImagenP[i]=new int*[columnNumber];
 
-    aux=4;
-
+    int aux=4;
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
             matrizImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
@@ -62,7 +51,6 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
     this->rowNumber=filas;
     this->columnNumber=columnas;
     this->colorDensity=colorD;
-    this->matrizImagen=matriz;
 
     //Lookup Table
     lut = new int [colorDensity+1];
@@ -105,9 +93,7 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-
-            imagenIntensidad[i][j]=floor(matrizImagen[i][j]/divisor);
-
+            imagenIntensidad[i][j]=floor(*matrizImagenP[i][j]/divisor);
         }
     }
 
@@ -178,8 +164,8 @@ int ImagenPGM::getRowNumber(){
     return rowNumber;
 }
 
-int** ImagenPGM::getMatrix(){
-    return matrizImagen;
+int*** ImagenPGM::getMatrix(){
+    return matrizImagenP;
 }
 
 void ImagenPGM::exportar(QTextStream &fSalida){

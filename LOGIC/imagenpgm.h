@@ -33,7 +33,6 @@ class ImagenPGM
 {
     QString identification, comment;
     int rowNumber, columnNumber, colorDensity;
-    int **matrizImagen;
     int ***matrizImagenP;
     int *lut;
 
@@ -59,7 +58,7 @@ public:
     ImagenPGM *changeSize(int n);
 
     // Getters
-    int** getMatrix();
+    int ***getMatrix();
     int getRowNumber();
     int getColumnNumber();
     int getColorDensity();

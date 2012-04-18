@@ -21,12 +21,10 @@
 
 Histogram::Histogram(ImagenPGM *imagen)
 {
-
-    //jejejejeje
     int nColumnas=imagen->getColumnNumber();
     int nFilas=imagen->getRowNumber();
     intensidad=imagen->getColorDensity()+1;
-    int **matrizImagen=imagen->getMatrix();
+    int ***matrizImagen=imagen->getMatrix();
     int totalNumberPixels = nFilas*nColumnas;
 
     relativeFrecuency= new double[intensidad];
@@ -35,7 +33,7 @@ Histogram::Histogram(ImagenPGM *imagen)
 
     for(int i=0; i<nFilas; i++){
         for(int j=0; j<nColumnas; j++){
-            relativeFrecuency[matrizImagen[i][j]]++;
+            relativeFrecuency[*matrizImagen[i][j]]++;
         }
     }
     for (int i=0; i < intensidad; i++){
@@ -75,6 +73,5 @@ double Histogram::findMaxRelativeFrecuency(){
 }
 
 ImagenPGM* Histogram::getHistogram(){
-
     return new ImagenPGM ("P2","#Histogram", intensidad, intensidad, 1, matrizHistograma);
 }
