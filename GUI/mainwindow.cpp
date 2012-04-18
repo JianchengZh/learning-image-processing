@@ -66,15 +66,15 @@ void MainWindow::change_OnSuccessfulLoad(){
     // Set text on Labels:
     ui->label_Messages->setText("The Image was successfully loaded");
     showImage(mainController->getImage());
-    //    ui->label_DimensionsValue->setText("W: "+mainController->getImageWide()+" H: "+mainController->getImageHigh());
-    //    ui->label_DensityValue->setText(mainController->getColorDensity()+" Bits");
-    //    ui->label_ImageTypeValue->setText(mainController->getImageType());
+    ui->label_DimensionsValue->setText("W: "+mainController->getImageWide()+" H: "+mainController->getImageHigh());
+    ui->label_DensityValue->setText(mainController->getColorDensity()+" Bits");
+    ui->label_ImageTypeValue->setText(mainController->getImageType());
 
-    //    if (mainController->getImageType()=="PPM") {
-    //        ui->pButton_ConvertGrayscale->setEnabled(true);
-    //    } else {
-    //        ui->pButton_Histogram->setEnabled(true);
-    //    }
+    if (mainController->getImageType()=="PPM") {
+        ui->pButton_ConvertGrayscale->setEnabled(true);
+    } else {
+        ui->pButton_Histogram->setEnabled(true);
+    }
 }
 
 void MainWindow::change_OnUnsuccessfulLoad(){
