@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>998</width>
-    <height>562</height>
+    <width>940</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,7 +40,7 @@
      <rect>
       <x>660</x>
       <y>10</y>
-      <width>299</width>
+      <width>271</width>
       <height>521</height>
      </rect>
     </property>
@@ -110,7 +110,7 @@ Processing Software</string>
           </font>
          </property>
          <property name="text">
-          <string>Change Pixel density</string>
+          <string>Change Size</string>
          </property>
         </widget>
        </item>
@@ -561,7 +561,7 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>998</width>
+     <width>940</width>
      <height>25</height>
     </rect>
    </property>

@@ -101,7 +101,7 @@ QString MainController::getColorDensity(){
 }
 
 // Image Transfomations
-QImage* MainController::pixelDensityChanged(int density){
+QString MainController::pixelDensityChanged(int density){
 
     if(imagenPPM != 0){
         ImagenPPM* imagenPPMTransformed;
@@ -115,43 +115,42 @@ QImage* MainController::pixelDensityChanged(int density){
                 imagenPPMTransformed=imagenPPM->reducirTamano()->reducirTamano()->reducirTamano();
         }
         exportTempImage(imagenPPMTransformed, "tem.ppm~");   // Imagen transformada se guarda como un Archivo
-        return new QImage("tem.ppm~");
+        return "tem.ppm~";
 
     }else{
         ImagenPGM* imagenPGMTransformed;
         imagenPGMTransformed=imagenPGM->changeSize(density);
         exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
-        return new QImage("tem.pgm~");
+        return "tem.pgm~";
     }
 }
 
-QImage* MainController::colorDensityChanged(int intensidad){
+QString MainController::colorDensityChanged(int intensidad){
 
     if(imagenPPM != 0){
         ImagenPPM *imagenPPMTransformed=imagenPPM->reducirIntensidad(intensidad);
         exportTempImage(imagenPPMTransformed, "tem.ppm~");  // Se guarda como Archivo
-        return new QImage("tem.ppm~");
+        return "tem.ppm~";
 
     }else{
         ImagenPGM *imagenPGMTransformed=imagenPGM->reducirIntensidad(intensidad);
         exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-        return new QImage("tem.pgm~");
+        return "tem.pgm~";
     }
 
 }
 
-QImage* MainController::convertGrayscale(){
+QString MainController::convertGrayscale(){
     ImagenPGM *imagenPGMTransformed=imagenPPM->convertirGris(1);
     exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-    return new QImage("tem.pgm~");
+    return "tem.pgm~";
 }
 
-QImage* MainController::generateHistogram(){
-
+QString MainController::generateHistogram(){
     Histogram histogram(imagenPGM);
     ImagenPGM *imagenPGMTransformed=histogram.getHistogram();
     exportTempImage(imagenPGMTransformed, "tem.pgm~");
-    return new QImage("tem.pgm~");
+    return "tem.pgm~";
 }
 
 
@@ -173,7 +172,6 @@ void MainController::exportTempImage(ImagenPPM *imagen, QString filename){
 }
 
 void MainController::newJob(){
-
     imagenPGM=0;
     imagenPPM=0;
     qImage=0;

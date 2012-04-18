@@ -23,6 +23,8 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QPixmap>
+#include "CONTROLLER/resultcontroller.h"
+
 
 namespace Ui {
 class Export;
@@ -34,7 +36,7 @@ class ResultWindow : public QDialog
     
 public:
 
-    explicit ResultWindow(QWidget *parent, QImage *image, QString type);
+    explicit ResultWindow(QWidget *parent, QString image);
     ~ResultWindow();
 
 private slots:
@@ -46,8 +48,9 @@ private slots:
 private:
 
     Ui::Export *ui;
+    ResultController *controller;
     QImage *qImage;
-    QString imageType;
+    QString temImageFile;
     void showImage();
 };
 

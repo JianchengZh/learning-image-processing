@@ -21,13 +21,13 @@
 #include "ui_resultwindow.h"
 
 
-ResultWindow::ResultWindow(QWidget *parent, QImage *image, QString type) :
+ResultWindow::ResultWindow(QWidget *parent, QString image) :
     QDialog(parent),
     ui(new Ui::Export)
 {
     ui->setupUi(this);
-    qImage=image;
-    imageType=type.toLower();
+    this->temImageFile=image;
+    this->controller= new ResultController(temImageFile);
     showImage();
 }
 
@@ -37,13 +37,15 @@ ResultWindow::~ResultWindow()
 }
 
 void ResultWindow::showImage(){
-    ui->label_imagen->setPixmap(QPixmap::fromImage(*this->qImage));
+    this->qImage= new QImage(temImageFile);
+    ui->label_imagen->setPixmap(QPixmap::fromImage(QImage(temImageFile)));
 }
 
 void ResultWindow::on_pButton_Save_clicked()
 {
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "/home/", tr("Images (*.ppm *.pgm)"));
-    qImage->save(filename+"."+imageType);
+
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "../PGM_PPM_IMAGE_PROCESSING/IMAGES", tr("Images (*.ppm *.pgm)"));
+    controller->saveImage(filename);
     this->close();
 }
 
