@@ -167,11 +167,9 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
     return resultado;
 }
 
-ImagenPGM* ImagenPGM::enlarge(int n){
+ImagenPGM* ImagenPGM::changeSize(int n){
     int w = this->columnNumber*n;
     int h = this->rowNumber*n;
-
-    QTextStream cout(stdout);
 
     int **enlargedImage = new int*[h];
     for (int i=0; i < h; i++)
@@ -179,7 +177,7 @@ ImagenPGM* ImagenPGM::enlarge(int n){
 
     for (int i = 0; i <h; ++i) {
         for (int j = 0; j < w; ++j) {
-            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);;
+            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
         }
         cout<<endl;
     }
