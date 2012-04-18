@@ -166,7 +166,7 @@ ImagenPGM* ImagenPGM::enlarge(int n){
 
     for (int i = 0; i <h; ++i) {
         for (int j = 0; j < w; ++j) {
-            enlargedImage[i][j]=*(matrizImagenP[floor(i/n)][floor(j/n)]);
+            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
         }
     }
     return new ImagenPGM (identification,
