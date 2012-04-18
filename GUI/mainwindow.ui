@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>940</width>
-    <height>560</height>
+    <width>978</width>
+    <height>566</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,7 +40,7 @@
      <rect>
       <x>660</x>
       <y>10</y>
-      <width>271</width>
+      <width>299</width>
       <height>521</height>
      </rect>
     </property>
@@ -299,17 +299,31 @@ Processing Software</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pButton_Histogram">
-       <property name="enabled">
-        <bool>false</bool>
+      <widget class="QLabel" name="label_Histogram">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>29</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-        </font>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-style: outset;
+border-width: 3px;
+border-color: rgb(140, 140, 140);
+border-radius: 5px;
+background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
-        <string>Histogram</string>
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -319,19 +333,6 @@ Processing Software</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -561,7 +562,7 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>940</width>
+     <width>978</width>
      <height>25</height>
     </rect>
    </property>

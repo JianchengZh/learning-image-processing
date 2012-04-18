@@ -149,8 +149,8 @@ QString MainController::convertGrayscale(){
 QString MainController::generateHistogram(){
     Histogram histogram(imagenPGM);
     ImagenPGM *imagenPGMTransformed=histogram.getHistogram();
-    exportTempImage(imagenPGMTransformed, "tem.pgm~");
-    return "tem.pgm~";
+    exportTempImage(imagenPGMTransformed, "histo.pgm~");
+    return "histo.pgm~";
 }
 
 

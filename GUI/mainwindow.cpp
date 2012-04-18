@@ -74,6 +74,7 @@ void MainWindow::change_OnSuccessfulLoad(){
         ui->pButton_ConvertGrayscale->setEnabled(true);
     } else {
         ui->pButton_Histogram->setEnabled(true);
+        QImage *histograma = new QImage (mainController->generateHistogram());
     }
 }
 
@@ -85,6 +86,7 @@ void MainWindow::change_OnUnsuccessfulLoad(){
 void MainWindow::showImage(QImage *qImage){
     this->qImage=qImage;
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*this->qImage));
+    ui->label_Histogram->setPixmap(QPixmap::fromImage() )
 }
 
 void MainWindow::on_pButton__AdjustImageSize_clicked()
@@ -123,9 +125,9 @@ void MainWindow::on_pButton_ConvertGrayscale_clicked()
     showResultWindow(mainController->convertGrayscale());
 }
 
-void MainWindow::on_pButton_Histogram_clicked(){
-    showResultWindow(mainController->generateHistogram());
-}
+//void MainWindow::on_pButton_Histogram_clicked(){
+//    showResultWindow(mainController->generateHistogram());
+//}
 
 //// OTHER EVENTS
 void MainWindow::on_actionClose_triggered()
