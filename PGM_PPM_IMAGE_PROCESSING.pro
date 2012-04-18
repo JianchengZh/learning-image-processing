@@ -37,9 +37,9 @@ FORMS    += \
     GUI/mainwindow.ui \
     GUI/resultwindow.ui
 
-QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
+#QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 
-unix:!macx:!symbian: LIBS += -ldcmimgle
-unix:!macx:!symbian: LIBS += -ldcmdata
-unix:!macx:!symbian: LIBS += -loflog
-unix:!macx:!symbian: LIBS += -lofstd
+#unix:!macx:!symbian: LIBS += -ldcmimgle
+#unix:!macx:!symbian: LIBS += -ldcmdata
+#unix:!macx:!symbian: LIBS += -loflog
+#unix:!macx:!symbian: LIBS += -lofstd
