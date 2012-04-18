@@ -128,7 +128,7 @@ QImage* MainController::pixelDensityChanged(int density){
 //            }else
 //                imagenPGMTransformed=imagenPGM->reducirTamano()->reducirTamano()->reducirTamano();
 //        }
-        imagenPGMTransformed=imagenPGM->enlarge(density);
+        imagenPGMTransformed=imagenPGM->changeSize(density);
         exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
         return new QImage("tem.pgm~");
     }

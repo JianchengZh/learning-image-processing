@@ -57,7 +57,7 @@ public:
     //Image processing
     ImagenPGM *reducirTamano();
     ImagenPGM *reducirIntensidad(int bits);
-    ImagenPGM *enlarge(int n);
+    ImagenPGM *changeSize(int n);
 
     // Getters
     int** getMatrix();
