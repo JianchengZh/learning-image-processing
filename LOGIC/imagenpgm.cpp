@@ -154,18 +154,37 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 }
 
 ImagenPGM* ImagenPGM::changeSize(int n){
-    int w = this->columnNumber*n;
-    int h = this->rowNumber*n;
+    int w=0,h=0,**enlargedImage;
+    if (n>0) {
+        w = this->columnNumber*n;
+        h = this->rowNumber*n;
 
-    int **enlargedImage = new int*[h];
-    for (int i=0; i < h; i++)
-        enlargedImage[i]=new int[w];
+        enlargedImage = new int*[h];
+        for (int i=0; i < h; i++)
+            enlargedImage[i]=new int[w];
 
-    for (int i = 0; i <h; ++i) {
-        for (int j = 0; j < w; ++j) {
-            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
+        for (int i = 0; i <h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
+            }
+        }
+    } else {
+        w = (int)ceil(this->columnNumber/n);
+        h = (int)ceil(this->rowNumber/n);
+
+        // inicializacion
+        enlargedImage = new int*[h];
+        for (int i=0; i < h; i++)
+            enlargedImage[i]=new int[w];
+
+        // Proceso de reduccion
+        for(int i=0; i <h; i++){
+            for(int j=0; j<w; j++){
+                enlargedImage[i][j]=*(matrizImagenP[i*n][j*n]);
+            }
         }
     }
+
     return new ImagenPGM (identification,
                           comment,
                           w,
