@@ -18,14 +18,14 @@
 //**********************************************************
 
 #include "imagenpgm.h"
-
+QTextStream cout(stdout);
 ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->identification=lectura.at(0);
     this->comment=lectura.at(1);
     this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
     this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
     this->colorDensity=lectura.at(3).toInt();
-
+    cout<<"id "<<identification<<endl;
     matrizImagen = new int*[rowNumber];
     for (int i=0; i < rowNumber; i++)
         matrizImagen[i]=new int[columnNumber];
@@ -41,7 +41,7 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     //Lookup Table
     lut = new int [colorDensity+1];
     for (int i = 0; i < colorDensity+1; ++i) {
-        lut[i ]=i;
+        lut[i]=i;
     }
 
     matrizImagenP = new int**[rowNumber];
@@ -49,12 +49,19 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
         matrizImagenP[i]=new int*[columnNumber];
 
     aux=0;
+
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
             matrizImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
+            if (*matrizImagenP[i][j]!=matrizImagen[i][j]){
+                cout<<"lut"<<&lut[lectura[i+j+aux].toInt()]<<endl;
+                cout <<"difiere en "<<i<<" "<<j<<" matrizImagenP "<<*matrizImagenP[i][j]<<" matrizImagen "<<matrizImagen[i][j]<<endl;
+            }
+            cout <<"--- "<<i<<" "<<j<<" matrizImagenP "<<*matrizImagenP[i][j]<<" matrizImagen "<<matrizImagen[i][j]<<endl;
         }
         aux=aux+columnNumber-1;
     }
+    cout<<"entre al constructor 1"<<endl;
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int **matriz){
@@ -79,9 +86,13 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
             matrizImagenP[i][j]=&lut[matriz[i][j]];
+            if (*matrizImagenP[i][j]!=matrizImagen[i][j]){
+                cout <<"difiere en "<<i<<" "<<j<<" matrizImagenP "<<*matrizImagenP[i][j]<<" matrizImagen "<<matrizImagen[i][j]<<endl;
+            }
         }
         aux=aux+columnNumber-1;
     }
+    cout<<"entre al constructor 2"<<endl;
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int ***matriz, int *lut){
@@ -168,15 +179,14 @@ ImagenPGM* ImagenPGM::enlarge(int n){
 
     for (int i = 0; i <h; ++i) {
         for (int j = 0; j < w; ++j) {
-            enlargedImage[i][j]=*(matrizImagenP[(int)ceil(i/n)][(int)ceil(j/n)]);
-            cout<<"posicion x"<<(int)ceil(i/n);
-            cout<<"posicion y"<<(int)ceil(j/n);
+            enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);;
         }
+        cout<<endl;
     }
     return new ImagenPGM (identification,
                           comment,
-                          h,
                           w,
+                          h,
                           colorDensity,
                           enlargedImage);
 }
