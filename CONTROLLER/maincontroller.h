@@ -21,12 +21,13 @@
 #define MAINCONTROLLER_H
 
 // Qt include
-#include <QImage>
-#include <QString>
+//#include <QImage>
+//#include <QString>
 
 // Project include
 #include "LOGIC/imagenpgm.h"
 #include "LOGIC/imagenppm.h"
+#include "LOGIC/image.h"
 #include "LOGIC/histogram.h"
 #include "DATA_ACCESS/imagefile.h"
 #include "LOGIC/imagedcm.h"
@@ -37,6 +38,7 @@ private:
 
     ImagenPGM *imagenPGM;
     ImagenPPM *imagenPPM;
+    Image *imagen;
     QImage *qImage;
 
     void exportTempImage(ImagenPGM *imagen, QString filename);

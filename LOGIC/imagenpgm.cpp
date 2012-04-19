@@ -32,14 +32,14 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
         lut[i]=i;
     }
 
-    matrizImagenP = new int**[rowNumber];
+    matrixImagenP = new int**[rowNumber];
     for (int i=0; i < rowNumber; i++)
-        matrizImagenP[i]=new int*[columnNumber];
+        matrixImagenP[i]=new int*[columnNumber];
 
     int aux=4;
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-            matrizImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
+            matrixImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
         }
         aux=aux+columnNumber-1;
     }
@@ -58,13 +58,13 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
         lut[i]=i;
     }
 
-    matrizImagenP = new int**[rowNumber];
+    matrixImagenP = new int**[rowNumber];
     for (int i=0; i < rowNumber; i++)
-        matrizImagenP[i]=new int*[columnNumber];
+        matrixImagenP[i]=new int*[columnNumber];
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-            matrizImagenP[i][j]=&lut[matriz[i][j]];
+            matrixImagenP[i][j]=&lut[matriz[i][j]];
         }
     }
 }
@@ -75,7 +75,7 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
     this->rowNumber=filas;
     this->columnNumber=columnas;
     this->colorDensity=colorD;
-    this->matrizImagenP=matriz;
+    this->matrixImagenP=matriz;
     this->lut=lut;
 }
 
@@ -93,7 +93,7 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-            imagenIntensidad[i][j]=floor(*matrizImagenP[i][j]/divisor);
+            imagenIntensidad[i][j]=floor(*matrixImagenP[i][j]/divisor);
         }
     }
 
@@ -121,7 +121,7 @@ ImagenPGM* ImagenPGM::changeSize(int n){
 
         for (int i = 0; i <h; ++i) {
             for (int j = 0; j < w; ++j) {
-                enlargedImage[i][j]=*(matrizImagenP[(int)floor(i/n)][(int)floor(j/n)]);
+                enlargedImage[i][j]=*(matrixImagenP[(int)floor(i/n)][(int)floor(j/n)]);
             }
         }
     } else {
@@ -137,7 +137,7 @@ ImagenPGM* ImagenPGM::changeSize(int n){
         // Proceso de reduccion
         for(int i=0; i <h; i++){
             for(int j=0; j<w; j++){
-                enlargedImage[i][j]=*(matrizImagenP[i*n][j*n]);
+                enlargedImage[i][j]=*(matrixImagenP[i*n][j*n]);
             }
         }
     }
@@ -152,20 +152,20 @@ ImagenPGM* ImagenPGM::changeSize(int n){
 
 // Getters:
 
-int ImagenPGM::getColorDensity(){
-    return colorDensity;
-}
+//int ImagenPGM::getColorDensity(){
+//    return colorDensity;
+//}
 
-int ImagenPGM::getColumnNumber(){
-    return columnNumber;
-}
+//int ImagenPGM::getColumnNumber(){
+//    return columnNumber;
+//}
 
-int ImagenPGM::getRowNumber(){
-    return rowNumber;
-}
+//int ImagenPGM::getRowNumber(){
+//    return rowNumber;
+//}
 
 int*** ImagenPGM::getMatrix(){
-    return matrizImagenP;
+    return matrixImagenP;
 }
 
 void ImagenPGM::exportar(QTextStream &fSalida){
@@ -177,7 +177,7 @@ void ImagenPGM::exportar(QTextStream &fSalida){
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
-            fSalida<<*matrizImagenP[i][j]<<endl;
+            fSalida<<*matrixImagenP[i][j]<<endl;
         }
     }
 }

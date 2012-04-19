@@ -20,20 +20,21 @@
 #ifndef IMAGENPPM_H
 #define IMAGENPPM_H
 
-#include <QList>
-#include <QString>
-#include <QTextStream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <QtAlgorithms>
-#include <math.h>
+//#include <QList>
+//#include <QString>
+//#include <QTextStream>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <time.h>
+//#include <QtAlgorithms>
+//#include <math.h>
 #include "imagenpgm.h"
+#include "image.h"
 
-class ImagenPPM
+class ImagenPPM: public Image
 {
-    QString identificacion, comentario;
-    int rowNumber, columnNumber, intensity;
+//    QString identificacion, comentario;
+//    int rowNumber, columnNumber, intensity;
     int **matrizR, **matrizG, **matrizB;
 
 public:
@@ -48,9 +49,9 @@ public:
               int **matrizG,
               int **matrizB);
 
-    int getRowNumber();
-    int getColumnNumber();
-    int getColorDensity();
+//    int getRowNumber();
+//    int getColumnNumber();
+//    int getColorDensity();
 
     void exportar(QTextStream &fSalida);
     ImagenPPM *reducirTamano();

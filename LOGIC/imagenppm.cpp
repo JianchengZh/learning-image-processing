@@ -21,11 +21,11 @@
 
 ImagenPPM::ImagenPPM(QList<QString> lectura)
 {
-    identificacion=lectura.at(0);
-    comentario=lectura.at(1);
+    identification=lectura.at(0);
+    comment=lectura.at(1);
     columnNumber=lectura.at(2).section(' ',0,0).toInt();
     rowNumber=lectura.at(2).section(' ',1,1).toInt();
-    intensity=lectura.at(3).toInt();
+    colorDensity=lectura.at(3).toInt();
 
     matrizR = new int*[rowNumber];
     for (int i=0; i < rowNumber; i++)
@@ -59,11 +59,11 @@ ImagenPPM::ImagenPPM(QList<QString> lectura)
 
 ImagenPPM::ImagenPPM(QString id, QString coment, int filas, int columnas, int intensidad, int **matrizR, int **matrizG, int **matrizB)
 {
-    this->identificacion=id;
-    this->comentario=coment;
+    this->identification=id;
+    this->comment=coment;
     this->rowNumber=filas;
     this->columnNumber=columnas;
-    this->intensity=intensidad;
+    this->colorDensity=intensidad;
     this->matrizR=matrizR;
     this->matrizG=matrizG;
     this->matrizB=matrizB;
@@ -71,10 +71,10 @@ ImagenPPM::ImagenPPM(QString id, QString coment, int filas, int columnas, int in
 
 void ImagenPPM::exportar(QTextStream &fSalida){
 
-    fSalida<<identificacion<<endl;
-    fSalida<<comentario<<endl;
+    fSalida<<identification<<endl;
+    fSalida<<comment<<endl;
     fSalida<<columnNumber<<" "<<rowNumber<<endl;
-    fSalida<<intensity<<endl;
+    fSalida<<colorDensity<<endl;
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
@@ -113,11 +113,11 @@ ImagenPPM* ImagenPPM::reducirTamano(){
 
     // creacion de nueva imagen reducida
 
-    ImagenPPM *resultado = new ImagenPPM (identificacion,
-                                          comentario,
+    ImagenPPM *resultado = new ImagenPPM (identification,
+                                          comment,
                                           nFilasReducida,
                                           nColumnasReducida,
-                                          intensity,
+                                          colorDensity,
                                           reducidaR,
                                           reducidaG,
                                           reducidaB);
@@ -141,7 +141,7 @@ ImagenPPM* ImagenPPM::reducirIntensidad(int bits){
     for (int i=0; i < rowNumber; i++)
         IntensidadB[i]=new int[columnNumber];
 
-    int divisor = (intensity+1)/(intensidadNueva+1);
+    int divisor = (colorDensity+1)/(intensidadNueva+1);
 
     for(int i=0; i<rowNumber; i++){
         for(int j=0; j<columnNumber; j++){
@@ -155,8 +155,8 @@ ImagenPPM* ImagenPPM::reducirIntensidad(int bits){
 
     // creacion de nueva imagen intensidad reducida
 
-    ImagenPPM *resultado = new ImagenPPM (identificacion,
-                                          comentario,
+    ImagenPPM *resultado = new ImagenPPM (identification,
+                                          comment,
                                           rowNumber,
                                           columnNumber,
                                           intensidadNueva,
@@ -182,22 +182,10 @@ ImagenPGM* ImagenPPM::convertirGris(int opcion){
     }
 
     ImagenPGM *resultado = new ImagenPGM ("P2",
-                                          comentario,
+                                          comment,
                                           rowNumber,
                                           columnNumber,
-                                          intensity,
+                                          colorDensity,
                                           matrizPGM);
     return resultado;
-}
-
-int ImagenPPM::getColorDensity(){
-    return intensity;
-}
-
-int ImagenPPM::getColumnNumber(){
-    return columnNumber;
-}
-
-int ImagenPPM::getRowNumber(){
-    return rowNumber;
 }

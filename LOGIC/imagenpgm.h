@@ -20,20 +20,22 @@
 #ifndef IMAGENPGM_H
 #define IMAGENPGM_H
 
-#include <QList>
-#include <QString>
-#include <QTextStream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <QtAlgorithms>
-#include <math.h>
+//#include <QList>
+//#include <QString>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <time.h>
+//#include <QtAlgorithms>
 
-class ImagenPGM
-{
-    QString identification, comment;
-    int rowNumber, columnNumber, colorDensity;
-    int ***matrizImagenP;
+#include <math.h>
+#include <QTextStream>
+#include "image.h"
+
+
+class ImagenPGM: public Image{
+    //    QString identification, comment;
+    //    int rowNumber, columnNumber, colorDensity;
+    int ***matrixImagenP;
     int *lut;
 
 public:
@@ -59,9 +61,9 @@ public:
 
     // Getters
     int ***getMatrix();
-    int getRowNumber();
-    int getColumnNumber();
-    int getColorDensity();
+    //    int getRowNumber();
+    //    int getColumnNumber();
+    //    int getColorDensity();
 
     // export
     void exportar(QTextStream &fSalida);

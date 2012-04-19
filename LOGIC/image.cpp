@@ -2,7 +2,7 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: histogram.h
+// ARCHIVO: image.cpp
 //
 // FECHA INICIACION: Marzo de 2012
 //
@@ -17,28 +17,20 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
-#ifndef HISTOGRAM_H
-#define HISTOGRAM_H
+#include "image.h"
 
-#include "imagenpgm.h"
-
-//
-
-//
-class Histogram
+Image::Image()
 {
-public:
-    Histogram(ImagenPGM *imagen);
-    ImagenPGM *getHistogram();
+}
 
-private:
+int Image::getColorDensity(){
+    return this->colorDensity;
+}
 
-    double *relativeFrecuency;
-    int **matrizHistograma;
-    int intensidad;
+int Image::getColumnNumber(){
+    return this->columnNumber;
+}
 
-    void generateMatrix();
-    double findMaxRelativeFrecuency();
-
-};
-#endif
+int Image::getRowNumber(){
+    return this->rowNumber;
+}

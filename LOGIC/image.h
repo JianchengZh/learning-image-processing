@@ -2,7 +2,7 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: histogram.h
+// ARCHIVO: image.h
 //
 // FECHA INICIACION: Marzo de 2012
 //
@@ -17,28 +17,35 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
-#ifndef HISTOGRAM_H
-#define HISTOGRAM_H
+#ifndef IMAGE_H
+#define IMAGE_H
 
-#include "imagenpgm.h"
+#include <QString>
+#include <QTextStream>
 
-//
-
-//
-class Histogram
+class Image
 {
+
+protected:
+
+    QString identification;
+    QString comment;
+    int rowNumber;
+    int columnNumber;
+    int colorDensity;
+
+
+
 public:
-    Histogram(ImagenPGM *imagen);
-    ImagenPGM *getHistogram();
+    Image();
 
-private:
+    // Getters
+    int getRowNumber();
+    int getColumnNumber();
+    int getColorDensity();
 
-    double *relativeFrecuency;
-    int **matrizHistograma;
-    int intensidad;
-
-    void generateMatrix();
-    double findMaxRelativeFrecuency();
-
+    // export
+    virtual void exportar(QTextStream &fSalida) =0;
 };
-#endif
+
+#endif // IMAGE_H
