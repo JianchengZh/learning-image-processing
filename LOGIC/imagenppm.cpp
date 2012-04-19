@@ -1,6 +1,6 @@
 //**********************************************************
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
-// PGM_PPM_IMAGE_PROCESSING_V2
+// LEARNING_IMAGE_PROCESSING
 //
 // ARCHIVO: imagenppm.cpp
 //
