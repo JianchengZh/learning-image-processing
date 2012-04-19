@@ -56,6 +56,7 @@ public:
     //Image processing
     ImagenPGM *reducirIntensidad(int bits);
     ImagenPGM *changeSize(int n);
+    ImagenPGM *bimodalSegmentaion(int T);
 
     // Getters
     int ***getMatrix();

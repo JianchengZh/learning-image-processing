@@ -150,6 +150,18 @@ ImagenPGM* ImagenPGM::changeSize(int n){
                           enlargedImage);
 }
 
+ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
+    for (int i = 0; i < colorDensity+1; ++i) {
+        if (lut[i]<T) {
+            lut[i]=0;
+        } else {
+            lut[i]=colorDensity;
+        }
+    }
+
+    return this;
+}
+
 // Getters:
 
 int ImagenPGM::getColorDensity(){
