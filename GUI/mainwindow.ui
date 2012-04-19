@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>981</width>
     <height>566</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
      <rect>
       <x>660</x>
       <y>10</y>
-      <width>251</width>
+      <width>299</width>
       <height>521</height>
      </rect>
     </property>
@@ -202,66 +202,12 @@ Processing Software</string>
           </font>
          </property>
          <property name="text">
-          <string>Change Color density</string>
+          <string>Umbral</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_color">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>8 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>7 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>6 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>5 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>4 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>3 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>2 Bits</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>1 Bits</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QLineEdit" name="lineEdit"/>
        </item>
       </layout>
      </item>
@@ -575,7 +521,7 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>920</width>
+     <width>981</width>
      <height>25</height>
     </rect>
    </property>

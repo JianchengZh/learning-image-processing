@@ -54,7 +54,7 @@ void MainWindow::change_OnSuccessfulLoad(){
     ui->pButton__NormalSize->setEnabled(true);
 
     // Changes in ComboBoxes:
-    ui->comboBox_color->setEnabled(true);
+    //ui->comboBox_color->setEnabled(true);
     ui->comboBox_size->setEnabled(true);
 
     // Changes on labels
@@ -109,8 +109,9 @@ void MainWindow::on_pButton_PixelDensity_clicked(){
 
 void MainWindow::on_pButton_ColorDensity_clicked(){
     ui->label_Messages->setText("Changing the Color Density of the image...");
-    int intensidad = ui->comboBox_color->currentText().left(1).toInt();
-    showResultWindow(mainController->colorDensityChanged(intensidad));
+   // int intensidad = ui->comboBox_color->currentText().left(1).toInt();
+   // showResultWindow(mainController->colorDensityChanged(intensidad));
+    int treshold = ui->lineEdit->text().toInt();
     ui->label_Messages->setText("");
 }
 
@@ -143,7 +144,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->pButton_ConvertGrayscale->setEnabled(false);
 
     // Changes in ComboBoxes:
-    ui->comboBox_color->setEnabled(false);
+    //ui->comboBox_color->setEnabled(false);
     ui->comboBox_size->setEnabled(false);
 
     // Changes on labels
