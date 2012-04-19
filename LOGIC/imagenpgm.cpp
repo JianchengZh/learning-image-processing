@@ -81,7 +81,7 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
 
 //Image processing
 
-ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
+ImagenPGM ImagenPGM::changeIntensity(int bits){
 
     int intensidadNueva=(int)(pow(2,bits)-1);
 
@@ -97,23 +97,14 @@ ImagenPGM* ImagenPGM::reducirIntensidad(int bits){
         }
     }
 
-    // creacion de nueva imagen intensidad reducida
-
-    ImagenPGM *resultado = new ImagenPGM (identification,
-                                          comment,
-                                          rowNumber,
-                                          columnNumber,
-                                          intensidadNueva,
-                                          imagenIntensidad);
-
-    return resultado;
+    return *this;
 }
 
-ImagenPGM* ImagenPGM::changeSize(int n){
+ImagenPGM* ImagenPGM::changeSize(int factor){
     int w=0,h=0,**enlargedImage;
-    if (n>0) {
-        w = this->columnNumber*n;
-        h = this->rowNumber*n;
+    if (factor>0) {
+        w = this->columnNumber*factor;
+        h = this->rowNumber*factor;
 
         enlargedImage = new int*[h];
         for (int i=0; i < h; i++)
@@ -121,13 +112,13 @@ ImagenPGM* ImagenPGM::changeSize(int n){
 
         for (int i = 0; i <h; ++i) {
             for (int j = 0; j < w; ++j) {
-                enlargedImage[i][j]=*(matrixImagenP[(int)floor(i/n)][(int)floor(j/n)]);
+                enlargedImage[i][j]=*(matrixImagenP[(int)floor(i/factor)][(int)floor(j/factor)]);
             }
         }
     } else {
-        n*=-1;
-        w = (int)ceil(this->columnNumber/n);
-        h = (int)ceil(this->rowNumber/n);
+        factor*=-1;
+        w = (int)ceil(this->columnNumber/factor);
+        h = (int)ceil(this->rowNumber/factor);
 
         // inicializacion
         enlargedImage = new int*[h];
@@ -137,7 +128,7 @@ ImagenPGM* ImagenPGM::changeSize(int n){
         // Proceso de reduccion
         for(int i=0; i <h; i++){
             for(int j=0; j<w; j++){
-                enlargedImage[i][j]=*(matrixImagenP[i*n][j*n]);
+                enlargedImage[i][j]=*(matrixImagenP[i*factor][j*factor]);
             }
         }
     }
@@ -161,20 +152,6 @@ ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
 
     return this;
 }
-
-// Getters:
-
-//int ImagenPGM::getColorDensity(){
-//    return colorDensity;
-//}
-
-//int ImagenPGM::getColumnNumber(){
-//    return columnNumber;
-//}
-
-//int ImagenPGM::getRowNumber(){
-//    return rowNumber;
-//}
 
 int*** ImagenPGM::getMatrix(){
     return matrixImagenP;

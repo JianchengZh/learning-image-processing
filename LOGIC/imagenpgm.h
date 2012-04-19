@@ -33,8 +33,7 @@
 
 
 class ImagenPGM: public Image{
-    //    QString identification, comment;
-    //    int rowNumber, columnNumber, colorDensity;
+
     int ***matrixImagenP;
     int *lut;
 
@@ -56,15 +55,12 @@ public:
               int *lut);
 
     //Image processing
-    ImagenPGM *reducirIntensidad(int bits);
-    ImagenPGM *changeSize(int n);
+    ImagenPGM changeIntensity(int bits);
+    ImagenPGM *changeSize(int factor);
     ImagenPGM *bimodalSegmentaion(int T);
 
     // Getters
     int ***getMatrix();
-    //    int getRowNumber();
-    //    int getColumnNumber();
-    //    int getColorDensity();
 
     // export
     void exportar(QTextStream &fSalida);

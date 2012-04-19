@@ -39,6 +39,5 @@ private:
 
     void generateMatrix();
     double findMaxRelativeFrecuency();
-
 };
 #endif

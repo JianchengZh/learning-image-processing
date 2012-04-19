@@ -34,8 +34,6 @@ protected:
     int columnNumber;
     int colorDensity;
 
-
-
 public:
     Image();
 
