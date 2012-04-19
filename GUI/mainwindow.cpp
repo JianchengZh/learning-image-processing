@@ -37,7 +37,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_pButton_LoadImage_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
-
     if (mainController->loadImage(filename)) {
         this->change_OnSuccessfulLoad();
     } else {
@@ -67,14 +66,14 @@ void MainWindow::change_OnSuccessfulLoad(){
     ui->label_Messages->setText("The Image was successfully loaded");
     showImage(mainController->getImage());
     ui->label_DimensionsValue->setText("W: "+mainController->getImageWide()+" H: "+mainController->getImageHigh());
-    ui->label_DensityValue->setText(mainController->getColorDensity()+" Bits");
+    ui->label_DensityValue->setText(QString::number(log2(mainController->getColorDensity().toDouble()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImageType());
 
     if (mainController->getImageType()=="PPM") {
         ui->pButton_ConvertGrayscale->setEnabled(true);
     } else {
         QImage *histograma = new QImage (mainController->generateHistogram());
-        ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100),Qt::KeepAspectRatio)));
+        ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
 
@@ -91,40 +90,43 @@ void MainWindow::showImage(QImage *qImage){
 void MainWindow::on_pButton__AdjustImageSize_clicked()
 {
     ui->label_Imagen->setPixmap(QPixmap::fromImage(this->qImage->scaled(QSize(470,470),Qt::KeepAspectRatio)));
+    ui->label_Messages->setText("The image was resized to fit the display area");
 }
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*this->qImage));
+    ui->label_Messages->setText("The image is displayed in original size");
 }
 
 // Image Processing
-void MainWindow::on_pButton_PixelDensity_clicked()
-{
+void MainWindow::on_pButton_PixelDensity_clicked(){
     ui->label_Messages->setText("Changing the size of the image...");
     int density = ui->comboBox_size->currentText().left(2).toInt();
     showResultWindow(mainController->pixelDensityChanged(density));
-}
-
-void MainWindow::showResultWindow(QString imageFile){
-    ResultWindow exportWindow(this, imageFile);
-    exportWindow.setModal(true);
-    exportWindow.exec();
+    ui->label_Messages->setText("");
 }
 
 void MainWindow::on_pButton_ColorDensity_clicked(){
     ui->label_Messages->setText("Changing the Color Density of the image...");
     int intensidad = ui->comboBox_color->currentText().left(1).toInt();
     showResultWindow(mainController->colorDensityChanged(intensidad));
+    ui->label_Messages->setText("");
 }
 
-void MainWindow::on_pButton_ConvertGrayscale_clicked()
-{
+void MainWindow::on_pButton_ConvertGrayscale_clicked(){
     ui->label_Messages->setText("Converting the image to grayscale...");
     showResultWindow(mainController->convertGrayscale());
+    ui->label_Messages->setText("");
 }
 
 //// OTHER EVENTS
+void MainWindow::showResultWindow(QString imageFile){
+    ResultWindow exportWindow(this, imageFile);
+    exportWindow.setModal(true);
+    exportWindow.exec();
+}
+
 void MainWindow::on_actionClose_triggered()
 {
     this->close();
