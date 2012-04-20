@@ -118,9 +118,8 @@ QString MainController::pixelDensityChanged(int density){
         return "tem.ppm~";
 
     }else{
-//        ImagenPGM* imagenPGMTransformed;
-//        imagenPGMTransformed=imagenPGM->changeSize(density);
-//        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
+        ImagenPGM imagenPGMTransformed=imagenPGM->changeSize(density);
+        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
         return "tem.pgm~";
     }
 }
@@ -141,15 +140,15 @@ QString MainController::colorDensityChanged(int intensidad){
 }
 
 QString MainController::convertGrayscale(){
-//    ImagenPGM *imagenPGMTransformed=imagenPPM->convertirGris(1);
-//    exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-//    return "tem.pgm~";
+    //    ImagenPGM *imagenPGMTransformed=imagenPPM->convertirGris(1);
+    //    exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
+    //    return "tem.pgm~";
 }
 
 QString MainController::generateHistogram(){
-//    Histogram histogram(imagenPGM);
-//    ImagenPGM *imagenPGMTransformed=histogram.getHistogram();
-//    exportTempImage(imagenPGMTransformed, "histo.pgm~");
+    //    Histogram histogram(imagenPGM);
+    //    ImagenPGM *imagenPGMTransformed=histogram.getHistogram();
+    //    exportTempImage(imagenPGMTransformed, "histo.pgm~");
     return "histo.pgm~";
 }
 

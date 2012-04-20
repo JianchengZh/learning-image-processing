@@ -40,12 +40,14 @@ class ImagenPGM: public Image{
 public:
 
     ImagenPGM(QList<QString> lectura);
+
     ImagenPGM(QString identification,
               QString coment,
               int filas,
               int columnas,
               int colorD,
               int **matriz);
+
     ImagenPGM(QString identification,
               QString coment,
               int filas,
@@ -56,7 +58,7 @@ public:
 
     //Image processing
     ImagenPGM changeIntensity(int bits);
-    ImagenPGM *changeSize(int factor);
+    ImagenPGM changeSize(int factor);
     ImagenPGM *bimodalSegmentaion(int T);
 
     // Getters

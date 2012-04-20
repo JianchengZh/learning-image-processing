@@ -18,6 +18,7 @@
 //**********************************************************
 
 #include "imagenpgm.h"
+
 ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->identification=lectura.at(0);
     this->comment=lectura.at(1);
@@ -100,7 +101,7 @@ ImagenPGM ImagenPGM::changeIntensity(int bits){
     return *this;
 }
 
-ImagenPGM* ImagenPGM::changeSize(int factor){
+ImagenPGM ImagenPGM::changeSize(int factor){
     int w=0,h=0,**enlargedImage;
     if (factor>0) {
         w = this->columnNumber*factor;
@@ -133,12 +134,12 @@ ImagenPGM* ImagenPGM::changeSize(int factor){
         }
     }
 
-    return new ImagenPGM (identification,
-                          comment,
-                          w,
-                          h,
-                          colorDensity,
-                          enlargedImage);
+    return ImagenPGM (identification,
+                      comment,
+                      w,
+                      h,
+                      colorDensity,
+                      enlargedImage);
 }
 
 ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){

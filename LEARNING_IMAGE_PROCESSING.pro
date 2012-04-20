@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     LOGIC/imagedcm.cpp \
     DATA_ACCESS/imagefile.cpp \
     CONTROLLER/resultcontroller.cpp \
-    LOGIC/image.cpp
+    LOGIC/image.cpp \
+    GUI/test.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -34,12 +35,14 @@ HEADERS  += \
     LOGIC/imagedcm.h \
     DATA_ACCESS/imagefile.h \
     CONTROLLER/resultcontroller.h \
-    LOGIC/image.h
+    LOGIC/image.h \
+    GUI/test.h
 
 FORMS    += \
     GUI/dialogabout.ui \
     GUI/mainwindow.ui \
-    GUI/resultwindow.ui
+    GUI/resultwindow.ui \
+    GUI/test.ui
 
 #QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 

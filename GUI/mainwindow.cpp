@@ -33,7 +33,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// Methods related to the load image event
+//Methods related to the load image event
 void MainWindow::on_pButton_LoadImage_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -48,14 +48,8 @@ void MainWindow::change_OnSuccessfulLoad(){
 
     // Changes on PushButtons:
     ui->pButton_LoadImage->setEnabled(false);
-    ui->pButton_ColorDensity->setEnabled(true);
-    ui->pButton_PixelDensity->setEnabled(true);
     ui->pButton__AdjustImageSize->setEnabled(true);
     ui->pButton__NormalSize->setEnabled(true);
-
-    // Changes in ComboBoxes:
-    //ui->comboBox_color->setEnabled(true);
-    ui->comboBox_size->setEnabled(true);
 
     // Changes on labels
     ui->label_Density->setEnabled(true);
@@ -63,14 +57,12 @@ void MainWindow::change_OnSuccessfulLoad(){
     ui->label_ImageType->setEnabled(true);
 
     // Set text on Labels:
-    ui->label_Messages->setText("The Image was successfully loaded");
-    showImage(mainController->getImage());
     ui->label_DimensionsValue->setText("W: "+mainController->getImageWide()+" H: "+mainController->getImageHigh());
     ui->label_DensityValue->setText(QString::number(log2(mainController->getColorDensity().toDouble()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImageType());
 
     if (mainController->getImageType()=="PPM") {
-        ui->pButton_ConvertGrayscale->setEnabled(true);
+
     } else {
         QImage *histograma = new QImage (mainController->generateHistogram());
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
@@ -78,7 +70,7 @@ void MainWindow::change_OnSuccessfulLoad(){
 }
 
 void MainWindow::change_OnUnsuccessfulLoad(){
-    ui->label_Messages->setText("The Image file is not found");
+    //    ui->label_Messages->setText("The Image file is not found");
 }
 
 // Methods for displaying the image on the main screen
@@ -90,36 +82,34 @@ void MainWindow::showImage(QImage *qImage){
 void MainWindow::on_pButton__AdjustImageSize_clicked()
 {
     ui->label_Imagen->setPixmap(QPixmap::fromImage(this->qImage->scaled(QSize(470,470),Qt::KeepAspectRatio)));
-    ui->label_Messages->setText("The image was resized to fit the display area");
 }
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*this->qImage));
-    ui->label_Messages->setText("The image is displayed in original size");
 }
 
 // Image Processing
-void MainWindow::on_pButton_PixelDensity_clicked(){
-    ui->label_Messages->setText("Changing the size of the image...");
-    int density = ui->comboBox_size->currentText().left(2).toInt();
-    showResultWindow(mainController->pixelDensityChanged(density));
-    ui->label_Messages->setText("");
-}
+//void MainWindow::on_pButton_PixelDensity_clicked(){
+//    ui->label_Messages->setText("Changing the size of the image...");
+//    int density = ui->comboBox_size->currentText().left(2).toInt();
+//    showResultWindow(mainController->pixelDensityChanged(density));
+//    ui->label_Messages->setText("");
+//}
 
-void MainWindow::on_pButton_ColorDensity_clicked(){
-    ui->label_Messages->setText("Changing the Color Density of the image...");
-   // int intensidad = ui->comboBox_color->currentText().left(1).toInt();
-   // showResultWindow(mainController->colorDensityChanged(intensidad));
-    int treshold = ui->lineEdit->text().toInt();
-    ui->label_Messages->setText("");
-}
+//void MainWindow::on_pButton_ColorDensity_clicked(){
+//    ui->label_Messages->setText("Changing the Color Density of the image...");
+//   // int intensidad = ui->comboBox_color->currentText().left(1).toInt();
+//   // showResultWindow(mainController->colorDensityChanged(intensidad));
+//    int treshold = ui->lineEdit->text().toInt();
+//    ui->label_Messages->setText("");
+//}
 
-void MainWindow::on_pButton_ConvertGrayscale_clicked(){
-    ui->label_Messages->setText("Converting the image to grayscale...");
-    showResultWindow(mainController->convertGrayscale());
-    ui->label_Messages->setText("");
-}
+//void MainWindow::on_pButton_ConvertGrayscale_clicked(){
+//    ui->label_Messages->setText("Converting the image to grayscale...");
+//    showResultWindow(mainController->convertGrayscale());
+//    ui->label_Messages->setText("");
+//}
 
 //// OTHER EVENTS
 void MainWindow::showResultWindow(QString imageFile){
@@ -137,15 +127,8 @@ void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
     ui->pButton_LoadImage->setEnabled(true);
-    ui->pButton_ColorDensity->setEnabled(false);
-    ui->pButton_PixelDensity->setEnabled(false);
     ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
-    ui->pButton_ConvertGrayscale->setEnabled(false);
-
-    // Changes in ComboBoxes:
-    //ui->comboBox_color->setEnabled(false);
-    ui->comboBox_size->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -153,7 +136,6 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->label_ImageType->setEnabled(false);
 
     // changes in the text on Labels:
-    ui->label_Messages->setText("");
     ui->label_DensityValue->setText("");
     ui->label_DimensionsValue->setText("");
     ui->label_ImageTypeValue->setText("");
@@ -172,3 +154,10 @@ void MainWindow::on_actionAbout_triggered()
 }
 
 
+
+void MainWindow::on_actionWidget_triggered()
+{
+    Test *test= new Test(ui->widget_options);
+    test->setVisible(true);
+
+}

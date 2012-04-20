@@ -30,6 +30,7 @@
 #include "GUI/dialogabout.h"
 #include "CONTROLLER/maincontroller.h"
 #include "GUI/resultwindow.h"
+#include "GUI/test.h"
 
 namespace Ui {
 class MainWindow;
@@ -56,20 +57,13 @@ private slots:
     void on_pButton__AdjustImageSize_clicked();
     void on_pButton__NormalSize_clicked();
 
-    // PixelDensity Event;
-    void on_pButton_PixelDensity_clicked();
-
-    // ColorDensity
-    void on_pButton_ColorDensity_clicked();
-
-    //GrayScale
-    void on_pButton_ConvertGrayscale_clicked();
-
     //     MenuBar Events
     void on_actionClose_triggered();
     void on_actionNew_Job_triggered();
     void on_actionAbout_triggered();
 
+
+    void on_actionWidget_triggered();
 
 private:
 

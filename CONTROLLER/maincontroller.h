@@ -41,7 +41,7 @@ private:
     Image *imagen;
     QImage *qImage;
 
-    void exportTempImage(ImagenPGM& imagen, QString filename);
+    void exportTempImage(ImagenPGM &imagen, QString filename);
     void exportTempImage(ImagenPPM *imagen, QString filename);
 
 public:
