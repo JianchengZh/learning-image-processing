@@ -31,7 +31,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>51</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="font">
@@ -42,7 +42,8 @@
     </font>
    </property>
    <property name="text">
-    <string>PPM &amp; PGM Image Software</string>
+    <string>Medical
+Image Processing Software</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -52,9 +53,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>30</y>
+     <y>60</y>
      <width>400</width>
-     <height>51</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="font">
@@ -65,53 +66,9 @@
     </font>
    </property>
    <property name="text">
-    <string>Developed by</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_Title_3">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>60</y>
-     <width>400</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Edwin Fernando Muñoz Delgado - 0910398</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_Title_4">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>90</y>
-     <width>400</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Gustavo Adolfo Rodriguez Libreros - 0932979</string>
+    <string>Developed by
+ Edwin Fernando Muñoz Delgado - 0910398
+Gustavo Adolfo Rodriguez Libreros - 0932979</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -123,7 +80,7 @@
      <x>0</x>
      <y>140</y>
      <width>400</width>
-     <height>20</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -132,49 +89,9 @@
     </font>
    </property>
    <property name="text">
-    <string>Escuela de Ingenieria de Sistemas y Computacion</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_Title_6">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>160</y>
-     <width>400</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Facultad de Ingenieria</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_Title_7">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>180</y>
-     <width>400</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Univerisdad del Valle</string>
+    <string>Escuela de Ingenieria de Sistemas y Computacion
+Facultad de Ingenieria
+Univerisdad del Valle</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

@@ -149,9 +149,11 @@ void MainWindow::on_actionAbout_triggered()
 }
 
 void MainWindow::on_actionResize_triggered()
-{
-    Resize *resizeWidget = new Resize(ui->widget_options);
-    resizeWidget->setVisible(true);
+{  
+    ui->widget_options = new Resize(ui->centralWidget);
+    ui->widget_options->setObjectName(QString::fromUtf8("widget_options"));
+    ui->widget_options->setGeometry(QRect(670, 69, 270, 260));
+    ui->widget_options->setVisible(true);
 }
 
 void MainWindow::on_actionExit_triggered()
