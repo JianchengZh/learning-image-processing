@@ -31,6 +31,7 @@
 #include "CONTROLLER/maincontroller.h"
 #include "GUI/resultwindow.h"
 #include "GUI/test.h"
+#include "resize.h"
 
 namespace Ui {
 class MainWindow;
@@ -58,12 +59,11 @@ private slots:
     void on_pButton__NormalSize_clicked();
 
     //     MenuBar Events
-    void on_actionClose_triggered();
     void on_actionNew_Job_triggered();
     void on_actionAbout_triggered();
+    void on_actionResize_triggered();
 
-
-    void on_actionWidget_triggered();
+    void on_actionExit_triggered();
 
 private:
 

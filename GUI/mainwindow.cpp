@@ -118,11 +118,6 @@ void MainWindow::showResultWindow(QString imageFile){
     exportWindow.exec();
 }
 
-void MainWindow::on_actionClose_triggered()
-{
-    this->close();
-}
-
 void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
@@ -153,11 +148,13 @@ void MainWindow::on_actionAbout_triggered()
     about.exec();
 }
 
-
-
-void MainWindow::on_actionWidget_triggered()
+void MainWindow::on_actionResize_triggered()
 {
-    Test *test= new Test(ui->widget_options);
-    test->setVisible(true);
+    Resize *resizeWidget = new Resize(ui->widget_options);
+    resizeWidget->setVisible(true);
+}
 
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
 }
