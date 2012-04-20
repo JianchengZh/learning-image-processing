@@ -23,44 +23,29 @@ MainController::MainController(){
     this->imagenPGM=0;
     this->imagenPPM=0;
     this->qImage=0;
+    this->imagen=0;
 }
 
 MainController::~MainController(){
-
 }
 
 // LOAD IMAGE
 bool MainController::loadImage(QString filename){
 
-    if(!filename.contains("."))
-    {
-        ImageDCM *imageDCM = new ImageDCM();
-
-        if(imageDCM->convertToBMP(filename.toAscii()))
-        {
-            qImage=new QImage(filename+".pgm");
-            return true;
+    ImageFile archivo(filename);
+    if(archivo.readImageContents()){
+        QString imageType = filename.right(3).toUpper();
+        if(imageType == "PPM"){
+            imagen = new ImagenPPM(archivo.getImageContents());
         }else{
-            return false;
+            imagen = new ImagenPGM(archivo.getImageContents());
         }
-
+        return true;
     }else{
-        ImageFile archivo(filename);        // Crear el objeto tipo Archivo
-        if(archivo.readImageContents()){
-            QString imageType = filename.right(3).toUpper();    // Obtener la extension de la imagen
-            qImage=new QImage(filename);
-
-            if(imageType == "PPM"){
-                imagenPPM = new ImagenPPM(archivo.getImageContents());
-            }else{
-                imagenPGM = new ImagenPGM(archivo.getImageContents());
-            }
-            return true;
-        }else{
-            return false;
-        }
+        return false;
     }
 }
+
 
 // GETTERS
 

@@ -30,8 +30,7 @@
 #include "GUI/dialogabout.h"
 #include "CONTROLLER/maincontroller.h"
 #include "GUI/resultwindow.h"
-#include "GUI/test.h"
-#include "resize.h"
+#include "GUI/resizeqwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -47,23 +46,31 @@ public:
 
 private slots:
 
-    // Methods related to the load image event
+    // Load Image
     void on_pButton_LoadImage_clicked();
-    void change_OnSuccessfulLoad();
-    void change_OnUnsuccessfulLoad();
-    void showImage(QImage *qImage);     // Method for displaying the image on the main screen
-    void showResultWindow(QString imageFile);
 
     // Events for changing the image size on the main screen
     void on_pButton__AdjustImageSize_clicked();
     void on_pButton__NormalSize_clicked();
 
-    //     MenuBar Events
+    // MenuBar Events
+
+    // File Menu
     void on_actionNew_Job_triggered();
-    void on_actionAbout_triggered();
+    void on_actionExit_triggered();
+
+    // Edit Menu
+
+    // Preprocessing Menu
     void on_actionResize_triggered();
 
-    void on_actionExit_triggered();
+    // Histogram Menu
+
+    // Tomography Menu
+
+    // Help Menu
+    void on_actionAbout_triggered();
+
 
 private:
 
