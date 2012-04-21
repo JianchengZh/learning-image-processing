@@ -25,6 +25,7 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
     this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
     this->colorDensity=lectura.at(3).toInt();
+    this->imageType="PGM";
 
 
     //Lookup Table
@@ -52,6 +53,7 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
     this->rowNumber=filas;
     this->columnNumber=columnas;
     this->colorDensity=colorD;
+    this->imageType="PGM";
 
     //Lookup Table
     lut = new int [colorDensity+1];
@@ -78,6 +80,7 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
     this->colorDensity=colorD;
     this->matrixImagenP=matriz;
     this->lut=lut;
+    this->imageType="PGM";
 }
 
 //Image processing

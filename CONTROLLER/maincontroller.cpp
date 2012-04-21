@@ -26,7 +26,7 @@ MainController::MainController(){
     this->imagen=0;
 }
 
-MainController::~MainController(){
+MainController::~MainController(){    
 }
 
 // LOAD IMAGE
@@ -37,8 +37,12 @@ bool MainController::loadImage(QString filename){
         QString imageType = filename.right(3).toUpper();
         if(imageType == "PPM"){
             imagen = new ImagenPPM(archivo.getImageContents());
+
         }else{
             imagen = new ImagenPGM(archivo.getImageContents());
+            //            imagenPGM==dynamic_cast<ImagenPGM*>(imagen);
+            imagenPGM=new ImagenPGM(archivo.getImageContents());
+
         }
         return true;
     }else{
@@ -46,81 +50,42 @@ bool MainController::loadImage(QString filename){
     }
 }
 
-
-// GETTERS
-
-QImage* MainController::getImage(){
-    return qImage;
-}
-
-QString MainController::getImageType(){
-    if (imagenPPM !=0) {
-        return "PPM";
-    } else {
-        return "PGM";
-    }
-}
-
-QString MainController::getImageWide(){
-    if (imagenPPM !=0) {
-        return QString::number(imagenPPM->getColumnNumber());
-    } else {
-        return QString::number(imagenPGM->getColumnNumber());
-    }
-}
-
-QString MainController::getImageHigh(){
-    if (imagenPPM !=0) {
-        return QString::number(imagenPPM->getRowNumber());
-    } else {
-        return QString::number(imagenPGM->getRowNumber());
-    }
-}
-
-QString MainController::getColorDensity(){
-    if (imagenPPM !=0) {
-        return QString::number(imagenPPM->getColorDensity());
-    } else {
-        return QString::number(imagenPGM->getColorDensity());
-    }
-}
-
 // Image Transfomations
 QString MainController::pixelDensityChanged(int density){
 
-    if(imagenPPM != 0){
-        ImagenPPM* imagenPPMTransformed;
-        if(density==50)
-        {
-            imagenPPMTransformed=imagenPPM->reducirTamano();
-        }else{
-            if(density==25){
-                imagenPPMTransformed=imagenPPM->reducirTamano()->reducirTamano();
-            }else
-                imagenPPMTransformed=imagenPPM->reducirTamano()->reducirTamano()->reducirTamano();
-        }
-        exportTempImage(imagenPPMTransformed, "tem.ppm~");   // Imagen transformada se guarda como un Archivo
-        return "tem.ppm~";
+    //    if(imagenPPM != 0){
+    //        ImagenPPM* imagenPPMTransformed;
+    //        if(density==50)
+    //        {
+    //            imagenPPMTransformed=imagenPPM->reducirTamano();
+    //        }else{
+    //            if(density==25){
+    //                imagenPPMTransformed=imagenPPM->reducirTamano()->reducirTamano();
+    //            }else
+    //                imagenPPMTransformed=imagenPPM->reducirTamano()->reducirTamano()->reducirTamano();
+    //        }
+    //        exportTempImage(imagenPPMTransformed, "tem.ppm~");   // Imagen transformada se guarda como un Archivo
+    //        return "tem.ppm~";
 
-    }else{
-        ImagenPGM imagenPGMTransformed=imagenPGM->changeSize(density);
-        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
-        return "tem.pgm~";
-    }
+    //    }else{
+    //        ImagenPGM imagenPGMTransformed=imagenPGM->changeSize(density);
+    //        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Imagen transformada se guarda como un Archivo
+    //        return "tem.pgm~";
+    //    }
 }
 
 QString MainController::colorDensityChanged(int intensidad){
 
-    if(imagenPPM != 0){
-        ImagenPPM *imagenPPMTransformed=imagenPPM->reducirIntensidad(intensidad);
-        exportTempImage(imagenPPMTransformed, "tem.ppm~");  // Se guarda como Archivo
-        return "tem.ppm~";
+    //    if(imagenPPM != 0){
+    //        ImagenPPM *imagenPPMTransformed=imagenPPM->reducirIntensidad(intensidad);
+    //        exportTempImage(imagenPPMTransformed, "tem.ppm~");  // Se guarda como Archivo
+    //        return "tem.ppm~";
 
-    }else{
-        ImagenPGM imagenPGMTransformed=imagenPGM->changeIntensity(intensidad);
-        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-        return "tem.pgm~";
-    }
+    //    }else{
+    //        ImagenPGM imagenPGMTransformed=imagenPGM->changeIntensity(intensidad);
+    //        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
+    //        return "tem.pgm~";
+    //    }
 
 }
 
@@ -130,24 +95,17 @@ QString MainController::convertGrayscale(){
     //    return "tem.pgm~";
 }
 
-QString MainController::generateHistogram(){
-    //    Histogram histogram(imagenPGM);
-    //    ImagenPGM *imagenPGMTransformed=histogram.getHistogram();
-    //    exportTempImage(imagenPGMTransformed, "histo.pgm~");
-    return "histo.pgm~";
+QImage* MainController::generateHistogram(){
+    Histogram histogram (imagenPGM);
+    ImagenPGM *imageHistogram=histogram.getHistogram();
+    exportTempImage(imageHistogram, "histo.pgm~");
+    return new QImage("histo.pgm~");
 }
-
 
 // Other Methods
-void MainController::exportTempImage(ImagenPGM &imagen, QString filename){
-    QFile temp(filename);
-    if(temp.open(QFile::WriteOnly)){
-        QTextStream fSalida(&temp);
-        imagen.exportar(fSalida);
-    }
-}
 
-void MainController::exportTempImage(ImagenPPM *imagen, QString filename){
+
+void MainController::exportTempImage(Image *imagen, QString filename){
     QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
@@ -161,4 +119,9 @@ void MainController::newJob(){
     qImage=0;
 }
 
+// Getters
+
+Image* MainController::getImage(){
+    return imagen;
+}
 

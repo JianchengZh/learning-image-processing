@@ -41,8 +41,7 @@ private:
     Image *imagen;
     QImage *qImage;
 
-    void exportTempImage(ImagenPGM &imagen, QString filename);
-    void exportTempImage(ImagenPPM *imagen, QString filename);
+    void exportTempImage(Image *imagen, QString filename);
 
 public:
 
@@ -53,16 +52,11 @@ public:
     QString pixelDensityChanged(int density);
     QString colorDensityChanged(int intensidad);
     QString convertGrayscale();
-    QString generateHistogram();
+    QImage *generateHistogram();
     void newJob();
 
-    //GETTERS
-    QImage* getImage();
-    QString getImageType();
-    QString getImageWide();
-    QString getImageHigh();
-    QString getColorDensity();
+    // Getters
+    Image *getImage();
 
 };
-
 #endif // MAINCONTROLLER_H

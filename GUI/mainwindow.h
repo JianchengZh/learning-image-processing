@@ -27,8 +27,8 @@
 #include <QPixmap>
 
 // Projec include
-#include "GUI/dialogabout.h"
 #include "CONTROLLER/maincontroller.h"
+#include "GUI/dialogabout.h"
 #include "GUI/resultwindow.h"
 #include "GUI/resizeqwidget.h"
 

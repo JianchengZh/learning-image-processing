@@ -47,16 +47,20 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_ImageType->setEnabled(true);
 
         // Set text on Labels:
-        //        ui->label_DimensionsValue->setText("W: "+mainController->getImageWide()+" H: "+mainController->getImageHigh());
-        //        ui->label_DensityValue->setText(QString::number(log2(mainController->getColorDensity().toDouble()+1))+" Bits");
-        //        ui->label_ImageTypeValue->setText(mainController->getImageType());
+        ui->label_DimensionsValue->setText("W:"+QString::number(mainController->getImage()->getColumnNumber())+
+                                           "  H:"+QString::number(mainController->getImage()->getRowNumber()));
+        ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
+        ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
         // Set Image to label_Imagen
         qImage=new QImage(filename);
+
+        // Display Image in Original Size
         on_pButton__NormalSize_clicked();
-        if (mainController->getImageType()=="PGM") {
-            //          QImage *histograma = new QImage (mainController->generateHistogram());
-            //          ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
+
+        if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+            QImage *histograma = mainController->generateHistogram();
+            ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
         }
 
     } else {

@@ -21,11 +21,12 @@
 
 ImagenPPM::ImagenPPM(QList<QString> lectura)
 {
-    identification=lectura.at(0);
-    comment=lectura.at(1);
-    columnNumber=lectura.at(2).section(' ',0,0).toInt();
-    rowNumber=lectura.at(2).section(' ',1,1).toInt();
-    colorDensity=lectura.at(3).toInt();
+    this->identification=lectura.at(0);
+    this->comment=lectura.at(1);
+    this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
+    this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
+    this->colorDensity=lectura.at(3).toInt();
+    this->imageType="PPM";
 
     matrizR = new int*[rowNumber];
     for (int i=0; i < rowNumber; i++)
@@ -67,6 +68,7 @@ ImagenPPM::ImagenPPM(QString id, QString coment, int filas, int columnas, int in
     this->matrizR=matrizR;
     this->matrizG=matrizG;
     this->matrizB=matrizB;
+    this->imageType="PPM";
 }
 
 void ImagenPPM::exportar(QTextStream &fSalida){

@@ -34,3 +34,7 @@ int Image::getColumnNumber(){
 int Image::getRowNumber(){
     return this->rowNumber;
 }
+
+QString Image::getImageType(){
+    return this->imageType;
+}

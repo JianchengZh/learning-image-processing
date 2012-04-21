@@ -30,6 +30,7 @@ protected:
 
     QString identification;
     QString comment;
+    QString imageType;
     int rowNumber;
     int columnNumber;
     int colorDensity;
@@ -41,6 +42,7 @@ public:
     int getRowNumber();
     int getColumnNumber();
     int getColorDensity();
+    QString getImageType();
 
     // export
     virtual void exportar(QTextStream &fSalida) =0;
