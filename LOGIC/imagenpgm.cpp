@@ -19,11 +19,12 @@
 
 #include "imagenpgm.h"
 
+//Constructors
 ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->identification=lectura.at(0);
     this->comment=lectura.at(1);
-    this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
-    this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
+    this->width=lectura.at(2).section(' ',0,0).toInt();
+    this->height=lectura.at(2).section(' ',1,1).toInt();
     this->colorDensity=lectura.at(3).toInt();
     this->imageType="PGM";
 
@@ -34,24 +35,24 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
         lut[i]=i;
     }
 
-    matrixImagenP = new int**[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrixImagenP[i]=new int*[columnNumber];
+    matrixImagenP = new int**[height];
+    for (int i=0; i < height; i++)
+        matrixImagenP[i]=new int*[width];
 
     int aux=4;
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
             matrixImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
         }
-        aux=aux+columnNumber-1;
+        aux=aux+width-1;
     }
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int **matriz){
     this->identification=id;
     this->comment=coment;
-    this->rowNumber=filas;
-    this->columnNumber=columnas;
+    this->height=filas;
+    this->width=columnas;
     this->colorDensity=colorD;
     this->imageType="PGM";
 
@@ -61,12 +62,12 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
         lut[i]=i;
     }
 
-    matrixImagenP = new int**[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrixImagenP[i]=new int*[columnNumber];
+    matrixImagenP = new int**[height];
+    for (int i=0; i < height; i++)
+        matrixImagenP[i]=new int*[width];
 
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
             matrixImagenP[i][j]=&lut[matriz[i][j]];
         }
     }
@@ -75,8 +76,8 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
 ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int ***matriz, int *lut){
     this->identification=id;
     this->comment=coment;
-    this->rowNumber=filas;
-    this->columnNumber=columnas;
+    this->height=filas;
+    this->width=columnas;
     this->colorDensity=colorD;
     this->matrixImagenP=matriz;
     this->lut=lut;
@@ -84,31 +85,11 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
 }
 
 //Image processing
-
-ImagenPGM ImagenPGM::changeIntensity(int bits){
-
-    int intensidadNueva=(int)(pow(2,bits)-1);
-
-    int **imagenIntensidad = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        imagenIntensidad[i]=new int[columnNumber];
-
-    int divisor = (colorDensity+1)/(intensidadNueva+1);
-
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            imagenIntensidad[i][j]=floor(*matrixImagenP[i][j]/divisor);
-        }
-    }
-
-    return *this;
-}
-
-ImagenPGM ImagenPGM::changeSize(int factor){
+Image *ImagenPGM::changeSize(int factor){
     int w=0,h=0,**enlargedImage;
     if (factor>0) {
-        w = this->columnNumber*factor;
-        h = this->rowNumber*factor;
+        w = this->width*factor;
+        h = this->height*factor;
 
         enlargedImage = new int*[h];
         for (int i=0; i < h; i++)
@@ -121,8 +102,8 @@ ImagenPGM ImagenPGM::changeSize(int factor){
         }
     } else {
         factor*=-1;
-        w = (int)ceil(this->columnNumber/factor);
-        h = (int)ceil(this->rowNumber/factor);
+        w = (int)ceil(this->width/factor);
+        h = (int)ceil(this->height/factor);
 
         // inicializacion
         enlargedImage = new int*[h];
@@ -137,40 +118,64 @@ ImagenPGM ImagenPGM::changeSize(int factor){
         }
     }
 
-    return ImagenPGM (identification,
-                      comment,
-                      w,
-                      h,
-                      colorDensity,
-                      enlargedImage);
+    return new ImagenPGM (identification,
+                          comment,
+                          w,
+                          h,
+                          colorDensity,
+                          enlargedImage);
 }
 
-ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
-    for (int i = 0; i < colorDensity+1; ++i) {
-        if (lut[i]<T) {
-            lut[i]=0;
-        } else {
-            lut[i]=colorDensity;
-        }
-    }
+//ImagenPGM ImagenPGM::changeIntensity(int bits){
 
-    return this;
-}
+//    int intensidadNueva=(int)(pow(2,bits)-1);
 
+//    int **imagenIntensidad = new int*[height];
+//    for (int i=0; i < height; i++)
+//        imagenIntensidad[i]=new int[width];
+
+//    int divisor = (colorDensity+1)/(intensidadNueva+1);
+
+//    for(int i=0; i<height; i++){
+//        for(int j=0; j<width; j++){
+//            imagenIntensidad[i][j]=floor(*matrixImagenP[i][j]/divisor);
+//        }
+//    }
+
+//    return *this;
+//}
+//ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
+//    for (int i = 0; i < colorDensity+1; ++i) {
+//        if (lut[i]<T) {
+//            lut[i]=0;
+//        } else {
+//            lut[i]=colorDensity;
+//        }
+//    }
+//    return this;
+//}
+
+// Getters
 int*** ImagenPGM::getMatrix(){
     return matrixImagenP;
 }
 
-void ImagenPGM::exportar(QTextStream &fSalida){
+// export
+void ImagenPGM::exportar(QString filename){
 
-    fSalida<<identification<<endl;
-    fSalida<<comment<<endl;
-    fSalida<<columnNumber<<" "<<rowNumber<<endl;
-    fSalida<<colorDensity<<endl;
+    QFile temp(filename+"."+imageType.toLower());
+    if(temp.open(QFile::WriteOnly)){
+        QTextStream fSalida(&temp);
 
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            fSalida<<*matrixImagenP[i][j]<<endl;
+        fSalida<<identification<<endl;
+        fSalida<<comment<<endl;
+        fSalida<<width<<" "<<height<<endl;
+        fSalida<<colorDensity<<endl;
+
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++){
+                fSalida<<*matrixImagenP[i][j]<<endl;
+            }
         }
     }
 }

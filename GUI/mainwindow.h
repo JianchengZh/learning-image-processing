@@ -29,7 +29,6 @@
 // Projec include
 #include "CONTROLLER/maincontroller.h"
 #include "GUI/dialogabout.h"
-#include "GUI/resultwindow.h"
 #include "GUI/resizeqwidget.h"
 
 namespace Ui {
@@ -70,7 +69,6 @@ private slots:
 
     // Help Menu
     void on_actionAbout_triggered();
-
 
 private:
 

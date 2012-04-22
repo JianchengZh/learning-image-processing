@@ -21,21 +21,11 @@
 
 Histogram::Histogram(ImagenPGM *imagen)
 {
-    QTextStream cout(stdout);
-
     int nColumnas=imagen->getColumnNumber();
-    cout<<"nColumnas: "<<nColumnas<<endl;
-
     int nFilas=imagen->getRowNumber();
-    cout<<"nFilas: "<<nFilas<<endl;
-
     intensidad=imagen->getColorDensity()+1;
-
-
     int ***matrizImagen=imagen->getMatrix();
-
     int totalNumberPixels = nFilas*nColumnas;
-    cout<<"totalNumberPixels: "<<totalNumberPixels<<endl;
 
     relativeFrecuency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
@@ -48,7 +38,6 @@ Histogram::Histogram(ImagenPGM *imagen)
     }
     for (int i=0; i < intensidad; i++){
         relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
-        cout<<"relativeFrecuency["<<i<<"]= "<<relativeFrecuency[i]<<endl;
     }
 
     generateMatrix();

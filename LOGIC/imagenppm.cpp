@@ -19,32 +19,32 @@
 
 #include "imagenppm.h"
 
-ImagenPPM::ImagenPPM(QList<QString> lectura)
-{
+//Constructors
+ImagenPPM::ImagenPPM(QList<QString> lectura){
     this->identification=lectura.at(0);
     this->comment=lectura.at(1);
-    this->columnNumber=lectura.at(2).section(' ',0,0).toInt();
-    this->rowNumber=lectura.at(2).section(' ',1,1).toInt();
+    this->width=lectura.at(2).section(' ',0,0).toInt();
+    this->height=lectura.at(2).section(' ',1,1).toInt();
     this->colorDensity=lectura.at(3).toInt();
     this->imageType="PPM";
 
-    matrizR = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrizR[i]=new int[columnNumber];
+    matrizR = new int*[height];
+    for (int i=0; i < height; i++)
+        matrizR[i]=new int[width];
 
-    matrizG = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrizG[i]=new int[columnNumber];
+    matrizG = new int*[height];
+    for (int i=0; i < height; i++)
+        matrizG[i]=new int[width];
 
-    matrizB = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrizB[i]=new int[columnNumber];
+    matrizB = new int*[height];
+    for (int i=0; i < height; i++)
+        matrizB[i]=new int[width];
 
     int aux1=4;
     int aux2=5;
     int aux3=6;
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
             matrizR[i][j]=lectura[i+j+aux1].toInt();
             matrizG[i][j]=lectura[i+j+aux2].toInt();
             matrizB[i][j]=lectura[i+j+aux3].toInt();
@@ -52,9 +52,9 @@ ImagenPPM::ImagenPPM(QList<QString> lectura)
             aux2=aux2+2;
             aux3=aux3+2;
         }
-        aux1=aux1+columnNumber-1;
-        aux2=aux2+columnNumber-1;
-        aux3=aux3+columnNumber-1;
+        aux1=aux1+width-1;
+        aux2=aux2+width-1;
+        aux3=aux3+width-1;
     }
 }
 
@@ -62,8 +62,8 @@ ImagenPPM::ImagenPPM(QString id, QString coment, int filas, int columnas, int in
 {
     this->identification=id;
     this->comment=coment;
-    this->rowNumber=filas;
-    this->columnNumber=columnas;
+    this->height=filas;
+    this->width=columnas;
     this->colorDensity=intensidad;
     this->matrizR=matrizR;
     this->matrizG=matrizG;
@@ -71,123 +71,227 @@ ImagenPPM::ImagenPPM(QString id, QString coment, int filas, int columnas, int in
     this->imageType="PPM";
 }
 
-void ImagenPPM::exportar(QTextStream &fSalida){
 
-    fSalida<<identification<<endl;
-    fSalida<<comment<<endl;
-    fSalida<<columnNumber<<" "<<rowNumber<<endl;
-    fSalida<<colorDensity<<endl;
+//Image processing
+Image* ImagenPPM::changeSize(int factor){
 
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            fSalida<<matrizR[i][j]<<endl<<matrizG[i][j]<<endl<<matrizB[i][j]<<endl;
+    int newwidth=0,newheight=0;
+    int **enlargedR, **enlargedG, **enlargedB;
+
+    if (factor>0) {
+        newwidth = this->width*factor;
+        newheight = this->height*factor;
+
+        enlargedR = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedR[i]=new int[newwidth];
+
+        enlargedG = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedG[i]=new int[newwidth];
+
+        enlargedB = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedB[i]=new int[newwidth];
+
+        for (int i = 0; i <newheight; ++i) {
+            for (int j = 0; j < newwidth; ++j) {
+                enlargedR[i][j]=matrizR[(int)floor(i/factor)][(int)floor(j/factor)];
+                enlargedG[i][j]=matrizG[(int)floor(i/factor)][(int)floor(j/factor)];
+                enlargedB[i][j]=matrizB[(int)floor(i/factor)][(int)floor(j/factor)];
+            }
+        }
+    }else {
+        factor*=-1;
+        newwidth = (int)ceil(this->width/factor);
+        newheight = (int)ceil(this->height/factor);
+
+        // inicializacion
+        enlargedR = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedR[i]=new int[newwidth];
+
+        enlargedG = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedG[i]=new int[newwidth];
+
+        enlargedB = new int*[newheight];
+        for (int i=0; i < newheight; i++)
+            enlargedB[i]=new int[newwidth];
+
+        // Proceso de reduccion
+        for(int i=0; i <newheight; i++){
+            for(int j=0; j<newwidth; j++){
+                enlargedR[i][j]=matrizR[i*factor][j*factor];
+                enlargedG[i][j]=matrizG[i*factor][j*factor];
+                enlargedB[i][j]=matrizB[i*factor][j*factor];
+            }
+        }
+    }
+
+    return new ImagenPPM (identification,
+                          comment,
+                          newwidth,
+                          newheight,
+                          colorDensity,
+                          enlargedR,
+                          enlargedG,
+                          enlargedB);
+}
+
+// Getters
+
+// export
+void ImagenPPM::exportar(QString filename){
+
+    QFile temp(filename+"."+imageType.toLower());
+    if(temp.open(QFile::WriteOnly)){
+        QTextStream fSalida(&temp);
+
+        fSalida<<identification<<endl;
+        fSalida<<comment<<endl;
+        fSalida<<width<<" "<<height<<endl;
+        fSalida<<colorDensity<<endl;
+
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++){
+                fSalida<<matrizR[i][j]<<endl<<matrizG[i][j]<<endl<<matrizB[i][j]<<endl;
+            }
         }
     }
 }
 
-ImagenPPM* ImagenPPM::reducirTamano(){
 
-    int r=2;
-    int nColumnasReducida=columnNumber/r;
-    int nFilasReducida=rowNumber/r;
 
-    // inicializacion
-    int **reducidaR = new int*[nFilasReducida];
-    for (int i=0; i < nFilasReducida; i++)
-        reducidaR[i]=new int[nColumnasReducida];
 
-    int **reducidaG = new int*[nFilasReducida];
-    for (int i=0; i < nFilasReducida; i++)
-        reducidaG[i]=new int[nColumnasReducida];
 
-    int **reducidaB = new int*[nFilasReducida];
-    for (int i=0; i < nFilasReducida; i++)
-        reducidaB[i]=new int[nColumnasReducida];
 
-    // Proceso de reduccion
-    for(int i=0; i<nFilasReducida; i++){
-        for(int j=0; j<nColumnasReducida; j++){
-            reducidaR[i][j]=matrizR[i*r][j*r];
-            reducidaG[i][j]=matrizG[i*r][j*r];
-            reducidaB[i][j]=matrizB[i*r][j*r];
-        }
-    }
 
-    // creacion de nueva imagen reducida
 
-    ImagenPPM *resultado = new ImagenPPM (identification,
-                                          comment,
-                                          nFilasReducida,
-                                          nColumnasReducida,
-                                          colorDensity,
-                                          reducidaR,
-                                          reducidaG,
-                                          reducidaB);
 
-    return resultado;
-}
 
-ImagenPPM* ImagenPPM::reducirIntensidad(int bits){
 
-    int intensidadNueva=(int)(pow(2,bits)-1);
 
-    int **IntensidadR = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        IntensidadR[i]=new int[columnNumber];
 
-    int **IntensidadG = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        IntensidadG[i]=new int[columnNumber];
 
-    int **IntensidadB = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        IntensidadB[i]=new int[columnNumber];
 
-    int divisor = (colorDensity+1)/(intensidadNueva+1);
 
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
 
-            IntensidadR[i][j]=floor(matrizR[i][j]/divisor);
-            IntensidadG[i][j]=floor(matrizG[i][j]/divisor);
-            IntensidadB[i][j]=floor(matrizB[i][j]/divisor);
 
-        }
-    }
 
-    // creacion de nueva imagen intensidad reducida
 
-    ImagenPPM *resultado = new ImagenPPM (identification,
-                                          comment,
-                                          rowNumber,
-                                          columnNumber,
-                                          intensidadNueva,
-                                          IntensidadR,
-                                          IntensidadG,
-                                          IntensidadB);
-    return resultado;
-}
 
-ImagenPGM* ImagenPPM::convertirGris(int opcion){
 
-    int **matrizPGM = new int*[rowNumber];
-    for (int i=0; i < rowNumber; i++)
-        matrizPGM[i]=new int[columnNumber];
 
-    for(int i=0; i<rowNumber; i++){
-        for(int j=0; j<columnNumber; j++){
-            if(opcion==1)
-                matrizPGM[i][j]=(int)(0.299*matrizR[i][j]+0.587*matrizG[i][j]+0.114*matrizB[i][j]);
-            else
-                matrizPGM[i][j]=(int)(0.33*matrizR[i][j]+0.33*matrizG[i][j]+0.33*matrizB[i][j]);
-        }
-    }
 
-    ImagenPGM *resultado = new ImagenPGM ("P2",
-                                          comment,
-                                          rowNumber,
-                                          columnNumber,
-                                          colorDensity,
-                                          matrizPGM);
-    return resultado;
-}
+
+
+
+
+
+
+
+//ImagenPPM* ImagenPPM::reducirTamano(){
+
+//    int r=2;
+//    int nColumnasReducida=width/r;
+//    int nFilasReducida=height/r;
+
+//    // inicializacion
+//    int **reducidaR = new int*[nFilasReducida];
+//    for (int i=0; i < nFilasReducida; i++)
+//        reducidaR[i]=new int[nColumnasReducida];
+
+//    int **reducidaG = new int*[nFilasReducida];
+//    for (int i=0; i < nFilasReducida; i++)
+//        reducidaG[i]=new int[nColumnasReducida];
+
+//    int **reducidaB = new int*[nFilasReducida];
+//    for (int i=0; i < nFilasReducida; i++)
+//        reducidaB[i]=new int[nColumnasReducida];
+
+//    // Proceso de reduccion
+//    for(int i=0; i<nFilasReducida; i++){
+//        for(int j=0; j<nColumnasReducida; j++){
+//            reducidaR[i][j]=matrizR[i*r][j*r];
+//            reducidaG[i][j]=matrizG[i*r][j*r];
+//            reducidaB[i][j]=matrizB[i*r][j*r];
+//        }
+//    }
+
+//    // creacion de nueva imagen reducida
+
+//    return new ImagenPPM (identification,
+//                          comment,
+//                          nFilasReducida,
+//                          nColumnasReducida,
+//                          colorDensity,
+//                          reducidaR,
+//                          reducidaG,
+//                          reducidaB);
+//}
+
+//ImagenPPM* ImagenPPM::reducirIntensidad(int bits){
+
+//    int intensidadNueva=(int)(pow(2,bits)-1);
+
+//    int **IntensidadR = new int*[height];
+//    for (int i=0; i < height; i++)
+//        IntensidadR[i]=new int[width];
+
+//    int **IntensidadG = new int*[height];
+//    for (int i=0; i < height; i++)
+//        IntensidadG[i]=new int[width];
+
+//    int **IntensidadB = new int*[height];
+//    for (int i=0; i < height; i++)
+//        IntensidadB[i]=new int[width];
+
+//    int divisor = (colorDensity+1)/(intensidadNueva+1);
+
+//    for(int i=0; i<height; i++){
+//        for(int j=0; j<width; j++){
+
+//            IntensidadR[i][j]=floor(matrizR[i][j]/divisor);
+//            IntensidadG[i][j]=floor(matrizG[i][j]/divisor);
+//            IntensidadB[i][j]=floor(matrizB[i][j]/divisor);
+
+//        }
+//    }
+
+//    // creacion de nueva imagen intensidad reducida
+
+//    return new ImagenPPM (identification,
+//                          comment,
+//                          height,
+//                          width,
+//                          intensidadNueva,
+//                          IntensidadR,
+//                          IntensidadG,
+//                          IntensidadB);
+
+//}
+
+//ImagenPGM* ImagenPPM::convertirGris(int opcion){
+
+//    int **matrizPGM = new int*[height];
+//    for (int i=0; i < height; i++)
+//        matrizPGM[i]=new int[width];
+
+//    for(int i=0; i<height; i++){
+//        for(int j=0; j<width; j++){
+//            if(opcion==1)
+//                matrizPGM[i][j]=(int)(0.299*matrizR[i][j]+0.587*matrizG[i][j]+0.114*matrizB[i][j]);
+//            else
+//                matrizPGM[i][j]=(int)(0.33*matrizR[i][j]+0.33*matrizG[i][j]+0.33*matrizB[i][j]);
+//        }
+//    }
+
+//    ImagenPGM *resultado = new ImagenPGM ("P2",
+//                                          comment,
+//                                          height,
+//                                          width,
+//                                          colorDensity,
+//                                          matrizPGM);
+//    return resultado;
+//}

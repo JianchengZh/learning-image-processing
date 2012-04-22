@@ -28,11 +28,11 @@ int Image::getColorDensity(){
 }
 
 int Image::getColumnNumber(){
-    return this->columnNumber;
+    return this->width;
 }
 
 int Image::getRowNumber(){
-    return this->rowNumber;
+    return this->height;
 }
 
 QString Image::getImageType(){

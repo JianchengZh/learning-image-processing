@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Methods related to the load image event
+//Buttons Events
 void MainWindow::on_pButton_LoadImage_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -64,12 +64,10 @@ void MainWindow::on_pButton_LoadImage_clicked()
         }
 
     } else {
-
+        //Falta mostar algo cuando la imagen no pudo ser cargada!!
     }
 }
 
-
-// Methods for displaying the image on the main screen
 void MainWindow::on_pButton__AdjustImageSize_clicked()
 {
     ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
@@ -85,6 +83,73 @@ void MainWindow::on_pButton__NormalSize_clicked()
     }
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*qImage));
 }
+
+// MenuBar Events
+
+// File Menu
+void MainWindow::on_actionNew_Job_triggered()
+{
+    // Changes on PushButtons:
+    ui->pButton_LoadImage->setEnabled(true);
+    ui->pButton__AdjustImageSize->setEnabled(false);
+    ui->pButton__NormalSize->setEnabled(false);
+
+    // Changes on labels
+    ui->label_Density->setEnabled(false);
+    ui->label_Dimensions->setEnabled(false);
+    ui->label_ImageType->setEnabled(false);
+
+    // changes in the text on Labels:
+    ui->label_DensityValue->setText("");
+    ui->label_DimensionsValue->setText("");
+    ui->label_ImageTypeValue->setText("");
+
+    // Erase Image
+    ui->label_Imagen->setPixmap(0);
+    ui->label_Histogram->setPixmap(0);
+
+    // delete widget_options
+    ui->widget_options->deleteLater();
+
+
+    mainController->newJob();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
+}
+
+// Edit Menu
+
+// Preprocessing Menu
+void MainWindow::on_actionResize_triggered()
+{
+    if (ui->widget_options->objectName()=="widget_resize") {
+        ui->widget_options->deleteLater();
+    }
+    ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController);
+    ui->widget_options->setObjectName(QString::fromUtf8("widget_resize"));
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
+
+}
+
+// Histogram Menu
+
+// Tomography Menu
+
+// Help Menu
+void MainWindow::on_actionAbout_triggered()
+{
+    DialogAbout about(this);
+    about.setModal(true);
+    about.exec();
+}
+
+
+
+
 
 // Image Processing
 //void MainWindow::on_pButton_PixelDensity_clicked(){
@@ -114,46 +179,3 @@ void MainWindow::on_pButton__NormalSize_clicked()
 //    exportWindow.setModal(true);
 //    exportWindow.exec();
 //}
-
-void MainWindow::on_actionNew_Job_triggered()
-{
-    // Changes on PushButtons:
-    ui->pButton_LoadImage->setEnabled(true);
-    ui->pButton__AdjustImageSize->setEnabled(false);
-    ui->pButton__NormalSize->setEnabled(false);
-
-    // Changes on labels
-    ui->label_Density->setEnabled(false);
-    ui->label_Dimensions->setEnabled(false);
-    ui->label_ImageType->setEnabled(false);
-
-    // changes in the text on Labels:
-    ui->label_DensityValue->setText("");
-    ui->label_DimensionsValue->setText("");
-    ui->label_ImageTypeValue->setText("");
-
-    // Erase Image
-    ui->label_Imagen->setPixmap(0);
-
-    //    mainController->newJob();
-}
-
-void MainWindow::on_actionAbout_triggered()
-{
-    DialogAbout about(this);
-    about.setModal(true);
-    about.exec();
-}
-
-void MainWindow::on_actionResize_triggered()
-{  
-    ui->widget_options = new ResizeQwidget(ui->centralWidget);
-    ui->widget_options->setObjectName(QString::fromUtf8("widget_options"));
-    ui->widget_options->setGeometry(QRect(670, 69, 270, 260));
-    ui->widget_options->setVisible(true);
-}
-
-void MainWindow::on_actionExit_triggered()
-{
-    this->close();
-}

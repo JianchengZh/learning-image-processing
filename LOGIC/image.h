@@ -31,8 +31,8 @@ protected:
     QString identification;
     QString comment;
     QString imageType;
-    int rowNumber;
-    int columnNumber;
+    int height;
+    int width;
     int colorDensity;
 
 public:
@@ -45,7 +45,10 @@ public:
     QString getImageType();
 
     // export
-    virtual void exportar(QTextStream &fSalida) =0;
+    virtual void exportar(QString filename) =0;
+
+    // Image transformations
+    virtual Image *changeSize(int factor)=0;
 };
 
 #endif // IMAGE_H

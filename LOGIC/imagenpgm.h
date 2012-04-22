@@ -20,13 +20,8 @@
 #ifndef IMAGENPGM_H
 #define IMAGENPGM_H
 
-//#include <QList>
-//#include <QString>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <time.h>
-//#include <QtAlgorithms>
 
+#include <QFile>
 #include <math.h>
 #include <QTextStream>
 #include "image.h"
@@ -39,6 +34,7 @@ class ImagenPGM: public Image{
 
 public:
 
+    //Constructors
     ImagenPGM(QList<QString> lectura);
 
     ImagenPGM(QString identification,
@@ -57,15 +53,15 @@ public:
               int *lut);
 
     //Image processing
-    ImagenPGM changeIntensity(int bits);
-    ImagenPGM changeSize(int factor);
-    ImagenPGM *bimodalSegmentaion(int T);
+    Image *changeSize(int factor);
+    //    ImagenPGM *bimodalSegmentaion(int T);
+    //    ImagenPGM changeIntensity(int bits);
 
     // Getters
     int ***getMatrix();
 
     // export
-    void exportar(QTextStream &fSalida);
+    void exportar(QString filename);
 
 
 };

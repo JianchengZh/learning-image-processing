@@ -17,10 +17,7 @@ SOURCES += main.cpp\
     LOGIC/imagenpgm.cpp \
     LOGIC/imagenppm.cpp \
     CONTROLLER/maincontroller.cpp \
-    GUI/resultwindow.cpp \
-    LOGIC/imagedcm.cpp \
     DATA_ACCESS/imagefile.cpp \
-    CONTROLLER/resultcontroller.cpp \
     LOGIC/image.cpp \
     GUI/resizeqwidget.cpp
 
@@ -31,17 +28,13 @@ HEADERS  += \
     LOGIC/imagenpgm.h \
     LOGIC/imagenppm.h \
     CONTROLLER/maincontroller.h \
-    GUI/resultwindow.h \
-    LOGIC/imagedcm.h \
     DATA_ACCESS/imagefile.h \
-    CONTROLLER/resultcontroller.h \
     LOGIC/image.h \
     GUI/resizeqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
     GUI/mainwindow.ui \
-    GUI/resultwindow.ui \
     GUI/resizeqwidget.ui
 
 #QMAKE_CXXFLAGS += -DHAVE_CONFIG_H

@@ -21,7 +21,7 @@
 #define MAINCONTROLLER_H
 
 // Qt include
-//#include <QImage>
+#include <QImage>
 //#include <QString>
 
 // Project include
@@ -30,7 +30,6 @@
 #include "LOGIC/image.h"
 #include "LOGIC/histogram.h"
 #include "DATA_ACCESS/imagefile.h"
-#include "LOGIC/imagedcm.h"
 
 class MainController
 {
@@ -39,9 +38,6 @@ private:
     ImagenPGM *imagenPGM;
     ImagenPPM *imagenPPM;
     Image *imagen;
-    QImage *qImage;
-
-    void exportTempImage(Image *imagen, QString filename);
 
 public:
 
@@ -49,14 +45,19 @@ public:
     ~MainController();
 
     bool loadImage(QString filename);
-    QString pixelDensityChanged(int density);
-    QString colorDensityChanged(int intensidad);
-    QString convertGrayscale();
     QImage *generateHistogram();
-    void newJob();
+
+    // Image Processing
+    QImage *changeSize(int density);
+    //    QString changeColorDensity(int intensidad);
+    //    QString convertToGrayscale();
+    //    void newJob();
 
     // Getters
     Image *getImage();
+
+    // Others
+    void newJob();
 
 };
 #endif // MAINCONTROLLER_H
