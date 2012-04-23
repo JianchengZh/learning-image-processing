@@ -420,6 +420,7 @@ background-color: rgb(255, 255, 255);</string>
     </property>
     <addaction name="actionResize"/>
     <addaction name="actionChange_Color_Depth"/>
+    <addaction name="actionConver_to_GrayScale"/>
    </widget>
    <widget class="QMenu" name="menuHistogram">
     <property name="title">
@@ -466,6 +467,11 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionChange_Color_Depth">
    <property name="text">
     <string>Change Color Depth</string>
+   </property>
+  </action>
+  <action name="actionConver_to_GrayScale">
+   <property name="text">
+    <string>Conver to GrayScale</string>
    </property>
   </action>
  </widget>

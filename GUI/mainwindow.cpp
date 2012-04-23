@@ -65,7 +65,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         }
 
     } else {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("Sorry, but the selected file is not supported");
         msgBox.exec();
     }
@@ -166,6 +166,24 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
     ui->widget_options->setVisible(true);
 }
 
+void MainWindow::on_actionConver_to_GrayScale_triggered()
+{
+    QMessageBox msgBox(this);
+    msgBox.setText("do you want to give the same weight to all color channels?");
+    msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int method = msgBox.exec();
+    QImage *result=mainController->convertToGrayscale(method);
+
+    if (result!=0) {
+        displayResults(result);
+    } else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry, but the conversion is just for color images");
+        msgBox2.exec();
+    }
+}
+
 // Histogram Menu
 
 // Tomography Menu
@@ -189,3 +207,5 @@ void MainWindow::displayResults(QImage *result)
     ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 }
+
+

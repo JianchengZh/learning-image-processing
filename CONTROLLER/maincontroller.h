@@ -49,9 +49,9 @@ public:
     QImage *generateHistogram();
 
     // Image Processing:
-    QImage *changeSize(int density);
-    QImage *changeColorDepth(int depth);
-    //    QString convertToGrayscale();
+    QImage* changeSize(int density);
+    QImage* changeColorDepth(int depth);
+    QImage* convertToGrayscale(int method);
 
     // Getters:
     Image *getImage();

@@ -56,11 +56,9 @@ public:
               int lutSize);
 
     //Image processing
-    Image *changeSize(int factor);
+    Image* changeSize(int factor);
     Image* changeColorDepth(int bits);
-    //    ImagenPPM *reducirTamano();
-    //    ImagenPPM *reducirIntensidad(int bits);
-    //    ImagenPGM *convertirGris(int opcion);
+    ImagenPGM* convertToGrayScale(int method);
 
     // Getters
 

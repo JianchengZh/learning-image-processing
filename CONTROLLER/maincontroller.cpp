@@ -79,6 +79,21 @@ QImage* MainController::changeColorDepth(int depth){
     oldDisplayedImage=displayedImage;
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
     return displayedImage;
+}
+
+QImage* MainController::convertToGrayscale(int method){
+
+    if(imagenPPM!=0){
+        oldImage=imagen;
+        imagen=imagenPPM->convertToGrayScale(method);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return displayedImage;
+    }else{
+        return 0;
+    }
+
 
 }
 

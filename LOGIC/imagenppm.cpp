@@ -261,6 +261,30 @@ Image* ImagenPPM::changeColorDepth(int bits){
     }
 
 }
+
+ImagenPGM* ImagenPPM::convertToGrayScale(int method){
+
+    int **grayScaleMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        grayScaleMatrix[i]=new int[width];
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            if(method==6)
+                grayScaleMatrix[i][j]=(int)(0.299*matrizRp[i][j][0]+0.587*matrizGp[i][j][0]+0.114*matrizBp[i][j][0]);
+            else
+                grayScaleMatrix[i][j]=(int)(0.33*matrizRp[i][j][0]+0.33*matrizGp[i][j][0]+0.33*matrizBp[i][j][0]);
+        }
+    }
+
+    return new ImagenPGM ("P2",
+                          comment,
+                          height,
+                          width,
+                          colorDepth,
+                          grayScaleMatrix);
+}
+
 // Getters
 
 // export

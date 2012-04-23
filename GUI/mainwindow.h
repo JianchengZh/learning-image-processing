@@ -71,6 +71,7 @@ private slots:
     // Preprocessing Menu
     void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
+    void on_actionConver_to_GrayScale_triggered();
 
     // Histogram Menu
 
@@ -78,6 +79,7 @@ private slots:
 
     // Help Menu
     void on_actionAbout_triggered();
+
 
 private:
 
