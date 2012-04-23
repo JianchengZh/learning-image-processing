@@ -31,6 +31,8 @@
 #include "GUI/dialogabout.h"
 #include "GUI/resizeqwidget.h"
 
+class ResizeQwidget;
+
 namespace Ui {
 class MainWindow;
 }
@@ -42,6 +44,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent=0);
     ~MainWindow();
+
+    void displayResults(QImage *result);
 
 private slots:
 
@@ -59,6 +63,7 @@ private slots:
     void on_actionExit_triggered();
 
     // Edit Menu
+    void on_actionUndo_triggered();
 
     // Preprocessing Menu
     void on_actionResize_triggered();
@@ -74,7 +79,7 @@ private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
-    QImage *qImage;
+    QImage *displayedImage;
 };
 
 #endif // MAINWINDOW_H

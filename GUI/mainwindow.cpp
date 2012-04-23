@@ -53,7 +53,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
         // Set Image to label_Imagen
-        qImage=new QImage(filename);
+        displayedImage=new QImage(filename);
 
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
@@ -72,16 +72,26 @@ void MainWindow::on_pButton__AdjustImageSize_clicked()
 {
     ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
     ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->qImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
+    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
 }
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
-    if(qImage->width()>ui->label_Imagen->width() || qImage->height()>ui->label_Imagen->height()){
-        ui->label_Imagen->setGeometry(QRect(0, 0, qImage->width(), qImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, qImage->width(), qImage->height()));
+
+    if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
+        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+    }else if (displayedImage->width()>ui->label_Imagen->width()) {
+        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
+    }else if (displayedImage->height()>ui->label_Imagen->height()) {
+        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
+    }else{
+        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(*qImage));
+    ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
 }
 
 // MenuBar Events
@@ -121,6 +131,10 @@ void MainWindow::on_actionExit_triggered()
 }
 
 // Edit Menu
+void MainWindow::on_actionUndo_triggered()
+{
+    mainController
+}
 
 // Preprocessing Menu
 void MainWindow::on_actionResize_triggered()
@@ -128,7 +142,7 @@ void MainWindow::on_actionResize_triggered()
     if (ui->widget_options->objectName()=="widget_resize") {
         ui->widget_options->deleteLater();
     }
-    ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController);
+    ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setObjectName(QString::fromUtf8("widget_resize"));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
@@ -148,34 +162,11 @@ void MainWindow::on_actionAbout_triggered()
 }
 
 
+// Other Methods
+void MainWindow::displayResults(QImage *result)
+{
+    displayedImage=result;
+    on_pButton__NormalSize_clicked();
+}
 
 
-
-// Image Processing
-//void MainWindow::on_pButton_PixelDensity_clicked(){
-//    ui->label_Messages->setText("Changing the size of the image...");
-//    int density = ui->comboBox_size->currentText().left(2).toInt();
-//    showResultWindow(mainController->pixelDensityChanged(density));
-//    ui->label_Messages->setText("");
-//}
-
-//void MainWindow::on_pButton_ColorDensity_clicked(){
-//    ui->label_Messages->setText("Changing the Color Density of the image...");
-//   // int intensidad = ui->comboBox_color->currentText().left(1).toInt();
-//   // showResultWindow(mainController->colorDensityChanged(intensidad));
-//    int treshold = ui->lineEdit->text().toInt();
-//    ui->label_Messages->setText("");
-//}
-
-//void MainWindow::on_pButton_ConvertGrayscale_clicked(){
-//    ui->label_Messages->setText("Converting the image to grayscale...");
-//    showResultWindow(mainController->convertGrayscale());
-//    ui->label_Messages->setText("");
-//}
-
-//// OTHER EVENTS
-//void MainWindow::showResultWindow(QString imageFile){
-//    ResultWindow exportWindow(this, imageFile);
-//    exportWindow.setModal(true);
-//    exportWindow.exec();
-//}

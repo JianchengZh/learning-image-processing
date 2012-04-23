@@ -35,9 +35,9 @@ class MainController
 {
 private:
 
-    ImagenPGM *imagenPGM;
-    ImagenPPM *imagenPPM;
-    Image *imagen;
+    ImagenPGM *imagenPGM, *oldImagePGM;
+    ImagenPPM *imagenPPM, *oldImagePPM;
+    Image *imagen, *oldImage;
 
 public:
 
@@ -47,17 +47,17 @@ public:
     bool loadImage(QString filename);
     QImage *generateHistogram();
 
-    // Image Processing
+    // Image Processing:
     QImage *changeSize(int density);
     //    QString changeColorDensity(int intensidad);
     //    QString convertToGrayscale();
-    //    void newJob();
 
-    // Getters
+    // Getters:
     Image *getImage();
 
-    // Others
+    // Others methods:
     void newJob();
+    QImage *undo();
 
 };
 #endif // MAINCONTROLLER_H

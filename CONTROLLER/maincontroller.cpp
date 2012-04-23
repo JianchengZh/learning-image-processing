@@ -59,47 +59,13 @@ QImage* MainController::generateHistogram(){
 
 // Image Transfomations
 QImage* MainController::changeSize(int density){
-
-    Image *resizedImage=imagen->changeSize(density);
+    oldImage=imagen;
+    imagen=oldImage->changeSize(density);
     resizedImage->exportar("temp");
     return new QImage("temp."+imagen->getImageType().toLower());
-
 }
 
-//QString MainController::changeColorDensity(int intensidad){
-
-//    //    if(imagenPPM != 0){
-//    //        ImagenPPM *imagenPPMTransformed=imagenPPM->reducirIntensidad(intensidad);
-//    //        exportTempImage(imagenPPMTransformed, "tem.ppm~");  // Se guarda como Archivo
-//    //        return "tem.ppm~";
-
-//    //    }else{
-//    //        ImagenPGM imagenPGMTransformed=imagenPGM->changeIntensity(intensidad);
-//    //        exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-//    //        return "tem.pgm~";
-//    //    }
-
-//}
-
-//QString MainController::convertToGrayscale(){
-//    //    ImagenPGM *imagenPGMTransformed=imagenPPM->convertirGris(1);
-//    //    exportTempImage(imagenPGMTransformed, "tem.pgm~");  // Se guarda como Archivo
-//    //    return "tem.pgm~";
-//}
-
-
-
-//// Other Methods
-
-
-////void MainController::exportTempImage(Image *imagen, QString filename){
-////    QFile temp(filename);
-////    if(temp.open(QFile::WriteOnly)){
-////        QTextStream fSalida(&temp);
-////        imagen->exportar(fSalida);
-////    }
-////}
-
+// Other Methods
 void MainController::newJob(){
     imagenPGM=0;
     imagenPPM=0;

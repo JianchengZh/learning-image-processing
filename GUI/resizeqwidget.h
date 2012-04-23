@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QPushButton>
 #include "CONTROLLER/maincontroller.h"
+#include "GUI/mainwindow.h"
+
+class MainWindow;
 
 namespace Ui {
 class ResizeQwidget;
@@ -14,7 +17,7 @@ class ResizeQwidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit ResizeQwidget(QWidget *parent, MainController *controller);
+    explicit ResizeQwidget(QWidget *parent, MainController *controller, MainWindow *window);
     ~ResizeQwidget();
 
 private slots:
@@ -23,6 +26,7 @@ private slots:
 private:
     Ui::ResizeQwidget *ui;
     MainController *mainController;
+    MainWindow *mainwindow;
 };
 
 #endif // RESIZEQWIDGET_H
