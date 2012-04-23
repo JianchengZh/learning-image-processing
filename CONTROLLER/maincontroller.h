@@ -38,6 +38,7 @@ private:
     ImagenPGM *imagenPGM, *oldImagePGM;
     ImagenPPM *imagenPPM, *oldImagePPM;
     Image *imagen, *oldImage;
+    QImage *displayedImage, *oldDisplayedImage;
 
 public:
 
@@ -54,6 +55,7 @@ public:
 
     // Getters:
     Image *getImage();
+    QImage *getQImage();
 
     // Others methods:
     void newJob();

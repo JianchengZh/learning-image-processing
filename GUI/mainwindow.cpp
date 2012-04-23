@@ -53,7 +53,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
         // Set Image to label_Imagen
-        displayedImage=new QImage(filename);
+        displayedImage=mainController->getQImage();
 
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
@@ -133,7 +133,8 @@ void MainWindow::on_actionExit_triggered()
 // Edit Menu
 void MainWindow::on_actionUndo_triggered()
 {
-    mainController
+    displayedImage=mainController->undo();
+    on_pButton__NormalSize_clicked();
 }
 
 // Preprocessing Menu

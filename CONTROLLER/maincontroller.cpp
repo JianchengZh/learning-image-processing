@@ -23,6 +23,11 @@ MainController::MainController(){
     this->imagenPGM=0;
     this->imagenPPM=0;
     this->imagen=0;
+    this->oldImage=0;
+    this->oldImagePGM=0;
+    this->oldImagePPM=0;
+    this->displayedImage=0;
+    this->oldDisplayedImage=0;
 }
 
 MainController::~MainController(){    
@@ -42,6 +47,7 @@ bool MainController::loadImage(QString filename){
             //            imagenPGM==dynamic_cast<ImagenPGM*>(imagen);
             imagen=imagenPGM;
         }
+        displayedImage=new QImage(filename);
         return true;
     }else{
         return false;
@@ -49,7 +55,6 @@ bool MainController::loadImage(QString filename){
 }
 
 QImage* MainController::generateHistogram(){
-
     Histogram histogram (imagenPGM);
     ImagenPGM *imageHistogram=histogram.getHistogram();
     imageHistogram->exportar("histogram");
@@ -61,8 +66,18 @@ QImage* MainController::generateHistogram(){
 QImage* MainController::changeSize(int density){
     oldImage=imagen;
     imagen=oldImage->changeSize(density);
-    resizedImage->exportar("temp");
-    return new QImage("temp."+imagen->getImageType().toLower());
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+    return displayedImage;
+}
+
+// Getters
+Image* MainController::getImage(){
+    return imagen;
+}
+QImage* MainController::getQImage(){
+    return displayedImage;
 }
 
 // Other Methods
@@ -70,11 +85,18 @@ void MainController::newJob(){
     imagenPGM=0;
     imagenPPM=0;
     imagen=0;
+    oldImage=0;
+    oldImagePGM=0;
+    oldImagePPM=0;
+    displayedImage=0;
+    oldDisplayedImage=0;
 }
 
-// Getters
-
-Image* MainController::getImage(){
-    return imagen;
+QImage* MainController::undo(){
+    imagen=oldImage;
+    imagenPGM=oldImagePGM;
+    imagenPPM=oldImagePPM;
+    displayedImage=oldDisplayedImage;
+    return displayedImage;
 }
 
