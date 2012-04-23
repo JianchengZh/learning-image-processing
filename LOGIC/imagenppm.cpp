@@ -97,6 +97,19 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
         lutB[i]=i;
     }
 
+    // Matriz Inicialization:
+    matrizRp = new int**[height];
+    for (int i=0; i < height; i++)
+        matrizRp[i]=new int*[width];
+
+    matrizGp = new int**[height];
+    for (int i=0; i < height; i++)
+        matrizGp[i]=new int*[width];
+
+    matrizBp = new int**[height];
+    for (int i=0; i < height; i++)
+        matrizBp[i]=new int*[width];
+
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
             matrizRp[i][j]=&lutR[matrizR[i][j]];
@@ -156,9 +169,9 @@ Image* ImagenPPM::changeSize(int factor){
 
         for (int i = 0; i <newheight; ++i) {
             for (int j = 0; j < newwidth; ++j) {
-                enlargedR[i][j]=*matrizRp[(int)floor(i/factor)][(int)floor(j/factor)];
-                enlargedG[i][j]=*matrizGp[(int)floor(i/factor)][(int)floor(j/factor)];
-                enlargedB[i][j]=*matrizBp[(int)floor(i/factor)][(int)floor(j/factor)];
+                enlargedR[i][j]=*(matrizRp[(int)floor(i/factor)][(int)floor(j/factor)]);
+                enlargedG[i][j]=*(matrizGp[(int)floor(i/factor)][(int)floor(j/factor)]);
+                enlargedB[i][j]=*(matrizBp[(int)floor(i/factor)][(int)floor(j/factor)]);
             }
         }
     }else {
@@ -182,9 +195,9 @@ Image* ImagenPPM::changeSize(int factor){
         // Proceso de reduccion
         for(int i=0; i <newheight; i++){
             for(int j=0; j<newwidth; j++){
-                enlargedR[i][j]=*matrizRp[i*factor][j*factor];
-                enlargedG[i][j]=*matrizGp[i*factor][j*factor];
-                enlargedB[i][j]=*matrizBp[i*factor][j*factor];
+                enlargedR[i][j]=*(matrizRp[i*factor][j*factor]);
+                enlargedG[i][j]=*(matrizGp[i*factor][j*factor]);
+                enlargedB[i][j]=*(matrizBp[i*factor][j*factor]);
             }
         }
     }
@@ -265,7 +278,7 @@ void ImagenPPM::exportar(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                fSalida<<matrizRp[i][j]<<endl<<matrizGp[i][j]<<endl<<matrizBp[i][j]<<endl;
+                fSalida<<*(matrizRp[i][j])<<endl<<*(matrizGp[i][j])<<endl<<*(matrizBp[i][j])<<endl;
             }
         }
     }
