@@ -19,5 +19,4 @@ void ResizeQwidget::on_pushButton_clicked()
 {
         int density = (int)ui->lcdNumber->value();
         mainwindow->displayResults(mainController->changeSize(density));
-
 }

@@ -55,7 +55,7 @@ public:
 
     //Image processing
     Image *changeSize(int factor);
-    Image *changeIntensity(int bits);
+    Image *changeColorDepth(int bits);
     //    ImagenPGM *bimodalSegmentaion(int T);
 
 

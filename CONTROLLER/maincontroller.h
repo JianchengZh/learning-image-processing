@@ -50,7 +50,7 @@ public:
 
     // Image Processing:
     QImage *changeSize(int density);
-    //    QString changeColorDensity(int intensidad);
+    QImage *changeColorDepth(int depth);
     //    QString convertToGrayscale();
 
     // Getters:

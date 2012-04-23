@@ -31,8 +31,10 @@
 #include "CONTROLLER/maincontroller.h"
 #include "GUI/dialogabout.h"
 #include "GUI/resizeqwidget.h"
+#include "GUI/colordepthqwidget.h"
 
 class ResizeQwidget;
+class ColorDepthQwidget;
 
 namespace Ui {
 class MainWindow;
@@ -68,6 +70,7 @@ private slots:
 
     // Preprocessing Menu
     void on_actionResize_triggered();
+    void on_actionChange_Color_Depth_triggered();
 
     // Histogram Menu
 

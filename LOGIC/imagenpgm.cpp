@@ -129,7 +129,7 @@ Image* ImagenPGM::changeSize(int factor){
                           enlargedImage);
 }
 
-Image* ImagenPGM::changeIntensity(int bits){
+Image* ImagenPGM::changeColorDepth(int bits){
 
     if((int)(pow(2,bits)-1)<colorDepth){
         int newColorDepth=(int)(pow(2,bits)-1);

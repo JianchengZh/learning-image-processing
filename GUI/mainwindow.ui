@@ -419,6 +419,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>Preprocessing</string>
     </property>
     <addaction name="actionResize"/>
+    <addaction name="actionChange_Color_Depth"/>
    </widget>
    <widget class="QMenu" name="menuHistogram">
     <property name="title">
@@ -460,6 +461,11 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionResize">
    <property name="text">
     <string>Resize</string>
+   </property>
+  </action>
+  <action name="actionChange_Color_Depth">
+   <property name="text">
+    <string>Change Color Depth</string>
    </property>
   </action>
  </widget>

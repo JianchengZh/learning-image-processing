@@ -23,6 +23,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
     mainController= new MainController();
+    ui->widget_options=0;
 }
 
 MainWindow::~MainWindow()
@@ -143,7 +144,7 @@ void MainWindow::on_actionUndo_triggered()
 // Preprocessing Menu
 void MainWindow::on_actionResize_triggered()
 {
-    if (ui->widget_options->objectName()=="widget_resize") {
+    if (ui->widget_options!=0) {
         ui->widget_options->deleteLater();
     }
     ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
@@ -151,6 +152,18 @@ void MainWindow::on_actionResize_triggered()
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 
+}
+
+void MainWindow::on_actionChange_Color_Depth_triggered()
+{
+
+    if (ui->widget_options!=0) {
+        ui->widget_options->deleteLater();
+    }
+    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this);
+    ui->widget_options->setObjectName(QString::fromUtf8("widget_colorDepth"));
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
 }
 
 // Histogram Menu
@@ -176,5 +189,3 @@ void MainWindow::displayResults(QImage *result)
     ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 }
-
-

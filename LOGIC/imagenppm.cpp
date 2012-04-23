@@ -115,7 +115,6 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
             matrizRp[i][j]=&lutR[matrizR[i][j]];
         }
     }
-
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
             matrizGp[i][j]=&lutG[matrizG[i][j]];
@@ -212,7 +211,7 @@ Image* ImagenPPM::changeSize(int factor){
                           enlargedB);
 }
 
-Image* ImagenPPM::changeIntensity(int bits){
+Image* ImagenPPM::changeColorDepth(int bits){
 
     if((int)(pow(2,bits)-1)<colorDepth){
 

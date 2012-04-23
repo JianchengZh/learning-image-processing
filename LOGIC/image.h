@@ -50,7 +50,7 @@ public:
 
     // Image transformations
     virtual Image *changeSize(int factor)=0;
-    virtual Image *changeIntensity(int bits)=0;
+    virtual Image *changeColorDepth(int bits)=0;
 };
 
 #endif // IMAGE_H

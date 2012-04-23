@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     CONTROLLER/maincontroller.cpp \
     DATA_ACCESS/imagefile.cpp \
     LOGIC/image.cpp \
-    GUI/resizeqwidget.cpp
+    GUI/resizeqwidget.cpp \
+    GUI/colordepthqwidget.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -30,12 +31,14 @@ HEADERS  += \
     CONTROLLER/maincontroller.h \
     DATA_ACCESS/imagefile.h \
     LOGIC/image.h \
-    GUI/resizeqwidget.h
+    GUI/resizeqwidget.h \
+    GUI/colordepthqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
     GUI/mainwindow.ui \
-    GUI/resizeqwidget.ui
+    GUI/resizeqwidget.ui \
+    GUI/colordepthqwidget.ui
 
 #QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 

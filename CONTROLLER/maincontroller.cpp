@@ -72,6 +72,16 @@ QImage* MainController::changeSize(int density){
     return displayedImage;
 }
 
+QImage* MainController::changeColorDepth(int depth){
+    oldImage=imagen;
+    imagen=oldImage->changeColorDepth(depth);
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+    return displayedImage;
+
+}
+
 // Getters
 Image* MainController::getImage(){
     return imagen;

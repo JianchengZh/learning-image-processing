@@ -57,7 +57,7 @@ public:
 
     //Image processing
     Image *changeSize(int factor);
-    Image* changeIntensity(int bits);
+    Image* changeColorDepth(int bits);
     //    ImagenPPM *reducirTamano();
     //    ImagenPPM *reducirIntensidad(int bits);
     //    ImagenPGM *convertirGris(int opcion);
