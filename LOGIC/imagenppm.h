@@ -25,23 +25,39 @@
 
 class ImagenPPM: public Image
 {
-    int **matrizR, **matrizG, **matrizB;
+    int ***matrizRp, ***matrizGp, ***matrizBp;
+    int *lutR, *lutG, *lutB;
 
 public:
 
     //Constructors
     ImagenPPM(QList<QString> lectura);
+
     ImagenPPM(QString id,
-              QString coment,
+              QString comment,
               int filas,
               int columnas,
               int intensity,
-              int **matrizR,
-              int **matrizG,
-              int **matrizB);
+              int **matrizRp,
+              int **matrizGp,
+              int **matrizBp);
+
+    ImagenPPM(QString id,
+              QString comment,
+              int h,
+              int w,
+              int colorD,
+              int ***matrizR,
+              int *lutR,
+              int ***matrizG,
+              int *lutG,
+              int ***matrizB,
+              int *lutB,
+              int lutSize);
 
     //Image processing
     Image *changeSize(int factor);
+    Image* changeIntensity(int bits);
     //    ImagenPPM *reducirTamano();
     //    ImagenPPM *reducirIntensidad(int bits);
     //    ImagenPGM *convertirGris(int opcion);

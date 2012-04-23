@@ -46,9 +46,9 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_Dimensions->setEnabled(true);
         ui->label_ImageType->setEnabled(true);
 
-        // Set text on Labels:
-        ui->label_DimensionsValue->setText("W:"+QString::number(mainController->getImage()->getColumnNumber())+
-                                           "  H:"+QString::number(mainController->getImage()->getRowNumber()));
+        // Set text on Labels with image info
+        ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getColumnNumber())+"P"+
+                                           "  H: "+QString::number(mainController->getImage()->getRowNumber())+"P");
         ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
@@ -64,7 +64,9 @@ void MainWindow::on_pButton_LoadImage_clicked()
         }
 
     } else {
-        //Falta mostar algo cuando la imagen no pudo ser cargada!!
+        QMessageBox msgBox;
+        msgBox.setText("Sorry, but the selected file is not supported");
+        msgBox.exec();
     }
 }
 
@@ -117,10 +119,11 @@ void MainWindow::on_actionNew_Job_triggered()
     // Erase Image
     ui->label_Imagen->setPixmap(0);
     ui->label_Histogram->setPixmap(0);
+    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
     ui->widget_options->deleteLater();
-
 
     mainController->newJob();
 }
@@ -168,6 +171,10 @@ void MainWindow::displayResults(QImage *result)
 {
     displayedImage=result;
     on_pButton__NormalSize_clicked();
+    ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getColumnNumber())+"P"+
+                                       "  H: "+QString::number(mainController->getImage()->getRowNumber())+"P");
+    ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
+    ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 }
 
 

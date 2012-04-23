@@ -33,7 +33,8 @@ protected:
     QString imageType;
     int height;
     int width;
-    int colorDensity;
+    int colorDepth;
+    int lutSize;
 
 public:
     Image();
@@ -49,6 +50,7 @@ public:
 
     // Image transformations
     virtual Image *changeSize(int factor)=0;
+    virtual Image *changeIntensity(int bits)=0;
 };
 
 #endif // IMAGE_H

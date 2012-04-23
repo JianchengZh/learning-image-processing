@@ -24,7 +24,7 @@ Image::Image()
 }
 
 int Image::getColorDensity(){
-    return this->colorDensity;
+    return this->colorDepth;
 }
 
 int Image::getColumnNumber(){

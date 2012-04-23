@@ -39,23 +39,25 @@ public:
 
     ImagenPGM(QString identification,
               QString coment,
-              int filas,
-              int columnas,
+              int h,
+              int w,
               int colorD,
-              int **matriz);
+              int **matrix);
 
     ImagenPGM(QString identification,
               QString coment,
-              int filas,
-              int columnas,
+              int h,
+              int w,
               int colorD,
               int ***matriz,
-              int *lut);
+              int *lut,
+              int lutSize);
 
     //Image processing
     Image *changeSize(int factor);
+    Image *changeIntensity(int bits);
     //    ImagenPGM *bimodalSegmentaion(int T);
-    //    ImagenPGM changeIntensity(int bits);
+
 
     // Getters
     int ***getMatrix();

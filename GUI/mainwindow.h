@@ -25,6 +25,7 @@
 #include <QFileDialog>
 #include <QApplication>
 #include <QPixmap>
+#include <QMessageBox>
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
@@ -80,6 +81,7 @@ private:
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage;
+
 };
 
 #endif // MAINWINDOW_H

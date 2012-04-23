@@ -21,21 +21,28 @@
 
 ImageFile::ImageFile(QString filename) : QFile(filename)
 {
+    supportedFormats << "ppm" << "pgm";
 }
 
 bool ImageFile::readImageContents()
 {
-    if (this->open(QIODevice::ReadOnly)){
-        QTextStream lector(this);
-        int i=0;
-        while (!lector.atEnd())
-        {
-            lectura.insert(i, lector.readLine());
-            i++;
+    if(supportedFormats.contains(fileName().right(3).toLower())){
+        if (this->open(QIODevice::ReadOnly)){
+            QTextStream lector(this);
+            int i=0;
+            while (!lector.atEnd())
+            {
+                lectura.insert(i, lector.readLine());
+                i++;
+            }
+            return true;
         }
-        return true;
+        else{
+            return false;
+        }
+    }else{
+        return false;
     }
-    return false;
 }
 
 void ImageFile::printImageContents()

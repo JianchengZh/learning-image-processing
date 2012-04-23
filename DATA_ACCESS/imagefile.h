@@ -29,6 +29,7 @@ class ImageFile: public QFile
 {
 private:
     QList<QString> lectura;
+    QList<QString> supportedFormats;
 
 public:
     ImageFile(QString fileName);

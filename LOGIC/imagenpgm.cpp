@@ -25,13 +25,14 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->comment=lectura.at(1);
     this->width=lectura.at(2).section(' ',0,0).toInt();
     this->height=lectura.at(2).section(' ',1,1).toInt();
-    this->colorDensity=lectura.at(3).toInt();
+    this->colorDepth=lectura.at(3).toInt();
+    this->lutSize=colorDepth;
     this->imageType="PGM";
 
 
     //Lookup Table
-    lut = new int [colorDensity+1];
-    for (int i = 0; i < colorDensity+1; ++i) {
+    lut = new int [lutSize+1];
+    for (int i = 0; i < lutSize+1; ++i) {
         lut[i]=i;
     }
 
@@ -48,17 +49,18 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int **matriz){
+ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int **matrix){
     this->identification=id;
     this->comment=coment;
-    this->height=filas;
-    this->width=columnas;
-    this->colorDensity=colorD;
+    this->height=h;
+    this->width=w;
+    this->colorDepth=colorD;
+    this->lutSize=colorD;
     this->imageType="PGM";
 
     //Lookup Table
-    lut = new int [colorDensity+1];
-    for (int i = 0; i < colorDensity+1; ++i) {
+    lut = new int [lutSize+1];
+    for (int i = 0; i < lutSize+1; ++i) {
         lut[i]=i;
     }
 
@@ -68,24 +70,25 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int co
 
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrixImagenP[i][j]=&lut[matriz[i][j]];
+            matrixImagenP[i][j]=&lut[matrix[i][j]];
         }
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString coment, int filas, int columnas, int colorD, int ***matriz, int *lut){
+ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){
     this->identification=id;
     this->comment=coment;
-    this->height=filas;
-    this->width=columnas;
-    this->colorDensity=colorD;
-    this->matrixImagenP=matriz;
+    this->height=h;
+    this->width=w;
+    this->colorDepth=colorD;
+    this->matrixImagenP=matrixP;
     this->lut=lut;
+    this->lutSize=lutSize;
     this->imageType="PGM";
 }
 
 //Image processing
-Image *ImagenPGM::changeSize(int factor){
+Image* ImagenPGM::changeSize(int factor){
     int w=0,h=0,**enlargedImage;
     if (factor>0) {
         w = this->width*factor;
@@ -122,28 +125,46 @@ Image *ImagenPGM::changeSize(int factor){
                           comment,
                           w,
                           h,
-                          colorDensity,
+                          colorDepth,
                           enlargedImage);
 }
 
-//ImagenPGM ImagenPGM::changeIntensity(int bits){
+Image* ImagenPGM::changeIntensity(int bits){
 
-//    int intensidadNueva=(int)(pow(2,bits)-1);
+    if((int)(pow(2,bits)-1)<colorDepth){
+        int newColorDepth=(int)(pow(2,bits)-1);
+        int divisor = (colorDepth+1)/(newColorDepth+1);
+        for(int i=0; i<lutSize; i++){
+            lut[i]=lut[i]/divisor;
+        }
+        return new ImagenPGM (identification,
+                              comment,
+                              height,
+                              width,
+                              newColorDepth,
+                              matrixImagenP,
+                              lut,
+                              lutSize);
 
-//    int **imagenIntensidad = new int*[height];
-//    for (int i=0; i < height; i++)
-//        imagenIntensidad[i]=new int[width];
+    }else if ((int)(pow(2,bits)-1)>colorDepth) {
+        int newColorDepth=(int)(pow(2,bits)-1);
+        int divisor = (newColorDepth+1)/(colorDepth+1);
+        for(int i=0; i<lutSize; i++){
+            lut[i]=lut[i]*divisor;
+        }
+        return new ImagenPGM (identification,
+                              comment,
+                              height,
+                              width,
+                              newColorDepth,
+                              matrixImagenP,
+                              lut,
+                              lutSize);
+    }else{
+        return this;
+    }
 
-//    int divisor = (colorDensity+1)/(intensidadNueva+1);
-
-//    for(int i=0; i<height; i++){
-//        for(int j=0; j<width; j++){
-//            imagenIntensidad[i][j]=floor(*matrixImagenP[i][j]/divisor);
-//        }
-//    }
-
-//    return *this;
-//}
+}
 //ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
 //    for (int i = 0; i < colorDensity+1; ++i) {
 //        if (lut[i]<T) {
@@ -170,7 +191,7 @@ void ImagenPGM::exportar(QString filename){
         fSalida<<identification<<endl;
         fSalida<<comment<<endl;
         fSalida<<width<<" "<<height<<endl;
-        fSalida<<colorDensity<<endl;
+        fSalida<<colorDepth<<endl;
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
