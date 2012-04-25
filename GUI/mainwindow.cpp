@@ -159,7 +159,6 @@ void MainWindow::on_actionResize_triggered()
 
 void MainWindow::on_actionChange_Color_Depth_triggered()
 {
-
     if (ui->widget_options!=0) {
         ui->widget_options->deleteLater();
     }
@@ -170,19 +169,19 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
 
 void MainWindow::on_actionConver_to_GrayScale_triggered()
 {
-    QMessageBox msgBox(this);
-    msgBox.setText("do you want to give the same weight to all color channels?");
-    msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
-    msgBox.setDefaultButton(QMessageBox::Yes);
-    int method = msgBox.exec();
-    QImage *result=mainController->convertToGrayscale(method);
-
-    if (result!=0) {
-        displayResults(result);
+    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PPM"){
+        QMessageBox msgBox(this);
+        msgBox.setText("do you want to give the same weight to all color channels?");
+        msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int method = msgBox.exec();
+        mainController->convertToGrayscale(method);
+        displayResults(mainController->getQImage());
         ShowHistogram();
-    } else {
+    }else {
         QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry, but the conversion is just for color images");
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
         msgBox2.exec();
     }
 }
