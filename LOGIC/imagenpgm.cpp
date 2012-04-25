@@ -148,9 +148,9 @@ Image* ImagenPGM::changeColorDepth(int bits){
 
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
         int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (newColorDepth+1)/(colorDepth+1);
+        //int divisor = (newColorDepth+1)/(colorDepth+1);
         for(int i=0; i<lutSize; i++){
-            lut[i]=lut[i]*divisor;
+            lut[i]=lut[i]*newColorDepth;
         }
         return new ImagenPGM (identification,
                               comment,

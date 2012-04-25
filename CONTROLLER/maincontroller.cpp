@@ -71,13 +71,17 @@ bool MainController::changeSize(int density){
     }
 }
 
-QImage* MainController::changeColorDepth(int depth){
-    oldImage=imagen;
-    imagen=oldImage->changeColorDepth(depth);
-    imagen->exportar("temp");
-    oldDisplayedImage=displayedImage;
-    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-    return displayedImage;
+bool MainController::changeColorDepth(int depth){
+    if(imagen!=0){
+        oldImage=imagen;
+        imagen=oldImage->changeColorDepth(depth);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    }else{
+        return false;
+    }
 }
 
 QImage* MainController::convertToGrayscale(int method){
