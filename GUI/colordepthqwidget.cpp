@@ -37,5 +37,13 @@ ColorDepthQwidget::~ColorDepthQwidget()
 void ColorDepthQwidget::on_pushButton_clicked()
 {
     int depth = (int)ui->lcdNumber->value();
-    mainwindow->displayResults(mainController->changeColorDepth(depth));
+    if(mainController->changeColorDepth(depth)){
+        mainwindow->displayResults(mainController->getQImage());
+        mainwindow->ShowHistogram();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }

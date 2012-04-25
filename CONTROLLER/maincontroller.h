@@ -48,7 +48,7 @@ public:
 
     // Image Processing:
     bool changeSize(int density);
-    QImage* changeColorDepth(int depth);
+    bool changeColorDepth(int depth);
     QImage* convertToGrayscale(int method);
 
     // Getters:
