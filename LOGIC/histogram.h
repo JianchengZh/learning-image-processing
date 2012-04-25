@@ -41,6 +41,7 @@ private:
     int max1,max2;
 
     void generateMatrix();
+    void calculateMinbetweenMax();
     double findMaxRelativeFrecuency();
 
 };

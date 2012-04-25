@@ -40,10 +40,19 @@ Histogram::Histogram(ImagenPGM *imagen)
     for (int i=0; i < intensidad; i++){
         //
         relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
+    }
+    QTextStream cout  (stdout);
+    for (int i=1; i < intensidad-1; ++i) {
         //encontrar posicion
-        if(relativeFrecuency[i]>relativeFrecuency[max1]){
-            max2=max1;
-            max1=i;
+        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
+
+            if (relativeFrecuency[i]>relativeFrecuency[max1]) {
+                max2=max1;
+                max1=i;
+            } else if(relativeFrecuency[i]>relativeFrecuency[max2]){
+                max2=i;
+            }
+        cout<<max1<<" max2 "<<max2<<" i "<<i<<" relativeFrecuency[i] "<<relativeFrecuency[i]<<" relativeFrecuency[max2] "<<relativeFrecuency[max2]<<endl;
         }
     }
 
@@ -68,6 +77,10 @@ void Histogram::generateMatrix(){
             }
         }
     }
+}
+
+void Histogram::calculateMinbetweenMax(){
+
 }
 
 double Histogram::findMaxRelativeFrecuency(){
