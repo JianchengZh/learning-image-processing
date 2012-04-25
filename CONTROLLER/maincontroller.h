@@ -35,8 +35,6 @@ class MainController
 {
 private:
 
-    ImagenPGM *imagenPGM, *oldImagePGM;
-    ImagenPPM *imagenPPM, *oldImagePPM;
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
 
