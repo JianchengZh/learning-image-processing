@@ -49,7 +49,9 @@ public:
     // Image Processing:
     bool changeSize(int density);
     bool changeColorDepth(int depth);
-    QImage* convertToGrayscale(int method);
+    bool bimodalSegmentaion(int T);
+    void convertToGrayscale(int method);
+
 
     // Getters:
     Image *getImage();
