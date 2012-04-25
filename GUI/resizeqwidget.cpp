@@ -36,8 +36,14 @@ ResizeQwidget::~ResizeQwidget()
 
 void ResizeQwidget::on_pushButton_clicked()
 {
-        int density = (int)ui->lcdNumber->value();
-        mainwindow->displayResults(mainController->changeSize(density));
+    int density = (int)ui->lcdNumber->value();
+    if(mainController->changeSize(density)){
+        mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
-
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }

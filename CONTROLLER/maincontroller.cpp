@@ -57,13 +57,18 @@ QImage* MainController::generateHistogram(){
 }
 
 // Image Transfomations
-QImage* MainController::changeSize(int density){
-    oldImage=imagen;
-    imagen=oldImage->changeSize(density);
-    imagen->exportar("temp");
-    oldDisplayedImage=displayedImage;
-    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-    return displayedImage;
+bool MainController::changeSize(int density){
+
+    if(imagen!=0){
+        oldImage=imagen;
+        imagen=oldImage->changeSize(density);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    }else{
+        return false;
+    }
 }
 
 QImage* MainController::changeColorDepth(int depth){
