@@ -85,7 +85,8 @@ QImage* MainController::convertToGrayscale(int method){
 
     if(imagenPPM!=0){
         oldImage=imagen;
-        imagen=imagenPPM->convertToGrayScale(method);
+//        imagen=imagenPPM->convertToGrayScale(method);
+        imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());

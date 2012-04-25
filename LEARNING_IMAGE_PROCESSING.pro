@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     DATA_ACCESS/imagefile.cpp \
     LOGIC/image.cpp \
     GUI/resizeqwidget.cpp \
-    GUI/colordepthqwidget.cpp
+    GUI/colordepthqwidget.cpp \
+    GUI/thresholdqwidget.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -32,13 +33,15 @@ HEADERS  += \
     DATA_ACCESS/imagefile.h \
     LOGIC/image.h \
     GUI/resizeqwidget.h \
-    GUI/colordepthqwidget.h
+    GUI/colordepthqwidget.h \
+    GUI/thresholdqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
     GUI/mainwindow.ui \
     GUI/resizeqwidget.ui \
-    GUI/colordepthqwidget.ui
+    GUI/colordepthqwidget.ui \
+    GUI/thresholdqwidget.ui
 
 #QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 

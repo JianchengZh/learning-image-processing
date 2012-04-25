@@ -426,6 +426,7 @@ background-color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>Histogram</string>
     </property>
+    <addaction name="actionThreshold"/>
    </widget>
    <widget class="QMenu" name="menuTomography">
     <property name="title">
@@ -472,6 +473,11 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionConver_to_GrayScale">
    <property name="text">
     <string>Conver to GrayScale</string>
+   </property>
+  </action>
+  <action name="actionThreshold">
+   <property name="text">
+    <string>Threshold</string>
    </property>
   </action>
  </widget>

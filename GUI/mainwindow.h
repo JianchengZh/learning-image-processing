@@ -32,9 +32,11 @@
 #include "GUI/dialogabout.h"
 #include "GUI/resizeqwidget.h"
 #include "GUI/colordepthqwidget.h"
+#include "GUI/thresholdqwidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
+class ThresholdQwidget;
 
 namespace Ui {
 class MainWindow;

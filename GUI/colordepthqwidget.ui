@@ -57,6 +57,9 @@
    <property name="numDigits">
     <number>3</number>
    </property>
+   <property name="intValue" stdset="0">
+    <number>1</number>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
