@@ -51,6 +51,7 @@ public:
     ~MainWindow();
 
     void displayResults(QImage *result);
+    void ShowHistogram();
 
 private slots:
 
@@ -87,8 +88,7 @@ private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
-    QImage *displayedImage;
-
+    QImage *displayedImage, *histogram;
 };
 
 #endif // MAINWINDOW_H

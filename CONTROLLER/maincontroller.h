@@ -57,7 +57,7 @@ public:
 
     // Others methods:
     void newJob();
-    QImage *undo();
+    bool undo();
 
 };
 #endif // MAINCONTROLLER_H

@@ -87,8 +87,6 @@ QImage* MainController::convertToGrayscale(int method){
     }else{
         return 0;
     }
-
-
 }
 
 // Getters
@@ -107,9 +105,14 @@ void MainController::newJob(){
     oldDisplayedImage=0;
 }
 
-QImage* MainController::undo(){
-    imagen=oldImage;
-    displayedImage=oldDisplayedImage;
-    return displayedImage;
+bool MainController::undo(){
+    if (oldImage!=0) {
+        imagen=oldImage;
+        displayedImage=oldDisplayedImage;
+        return true;
+    }else{
+        return false;
+    }
+
 }
 

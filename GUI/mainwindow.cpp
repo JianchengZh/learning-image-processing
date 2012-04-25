@@ -59,10 +59,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
 
-        if (mainController->getImage()->getImageType().toUpper()=="PGM") {
-            QImage *histograma = mainController->generateHistogram();
-            ui->label_Histogram->setPixmap(QPixmap::fromImage(histograma->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
-        }
+        ShowHistogram();
 
     } else {
         QMessageBox msgBox(this);
@@ -137,8 +134,15 @@ void MainWindow::on_actionExit_triggered()
 // Edit Menu
 void MainWindow::on_actionUndo_triggered()
 {
-    displayedImage=mainController->undo();
-    on_pButton__NormalSize_clicked();
+    if (mainController->undo()) {
+        displayedImage=mainController->getQImage();
+        on_pButton__NormalSize_clicked();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry, but pero no se puede ir pa tras");
+        msgBox2.exec();
+    }
+
 }
 
 // Preprocessing Menu
@@ -177,6 +181,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 
     if (result!=0) {
         displayResults(result);
+        ShowHistogram();
     } else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry, but the conversion is just for color images");
@@ -206,6 +211,13 @@ void MainWindow::displayResults(QImage *result)
                                        "  H: "+QString::number(mainController->getImage()->getRowNumber())+"P");
     ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
+}
+
+void MainWindow::ShowHistogram(){
+    if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+        histogram = mainController->generateHistogram();
+        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogram->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
+    }
 }
 
 
