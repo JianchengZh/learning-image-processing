@@ -30,14 +30,18 @@ class Histogram
 public:
     Histogram(ImagenPGM *imagen);
     ImagenPGM *getHistogram();
+    int getMax1();
+    int getMax2();
 
 private:
 
     double *relativeFrecuency;
     int **matrizHistograma;
     int intensidad;
+    int max1,max2;
 
     void generateMatrix();
     double findMaxRelativeFrecuency();
+
 };
 #endif

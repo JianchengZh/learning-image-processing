@@ -37,6 +37,7 @@ private:
 
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
+    Histogram *histogram;
 
 public:
 
@@ -51,6 +52,7 @@ public:
     bool changeColorDepth(int depth);
     bool bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
+    bool isodataSegmentation();
 
 
     // Getters:

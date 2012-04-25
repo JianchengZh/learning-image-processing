@@ -40,6 +40,8 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_isodataSegmentation_clicked();
+
 private:
     Ui::ThresholdQwidget *ui;
     MainController *mainController;

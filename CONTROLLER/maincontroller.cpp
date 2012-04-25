@@ -49,11 +49,10 @@ bool MainController::loadImage(QString filename){
 }
 
 QImage* MainController::generateHistogram(){
-    Histogram histogram (static_cast<ImagenPGM*>(imagen));
-    ImagenPGM *imageHistogram=histogram.getHistogram();
+    histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
+    ImagenPGM *imageHistogram=histogram->getHistogram();
     imageHistogram->exportar("histogram");
     return new QImage("histogram.pgm");
-
 }
 
 // Image Transfomations
@@ -104,6 +103,13 @@ bool MainController::bimodalSegmentaion(int T){
     }else{
         return false;
     }
+}
+
+bool MainController::isodataSegmentation(){
+    QTextStream cout(stdout);
+        int T=(histogram->getMax1()+histogram->getMax2())/2;
+        cout<<histogram->getMax1()<<" "<<histogram->getMax2()<<" "<<T;
+        return bimodalSegmentaion(T);
 }
 
 // Getters

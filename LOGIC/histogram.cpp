@@ -36,8 +36,15 @@ Histogram::Histogram(ImagenPGM *imagen)
             relativeFrecuency[*matrizImagen[i][j]]++;
         }
     }
+    max1=0;max2=0;
     for (int i=0; i < intensidad; i++){
+        //
         relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
+        //encontrar posicion
+        if(relativeFrecuency[i]>relativeFrecuency[max1]){
+            max2=max1;
+            max1=i;
+        }
     }
 
     generateMatrix();
@@ -70,6 +77,14 @@ double Histogram::findMaxRelativeFrecuency(){
     }
     qSort(frequencies.begin(), frequencies.end());
     return frequencies.last();
+}
+
+int Histogram::getMax1(){
+    return max1;
+}
+
+int Histogram::getMax2(){
+    return max2;
 }
 
 ImagenPGM* Histogram::getHistogram(){
