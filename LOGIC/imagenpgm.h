@@ -56,8 +56,7 @@ public:
     //Image processing
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
-    //    ImagenPGM *bimodalSegmentaion(int T);
-
+    Image *bimodalSegmentaion(int T);
 
     // Getters
     int ***getMatrix();

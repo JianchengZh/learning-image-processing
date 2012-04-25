@@ -39,6 +39,8 @@ public:
     
 private:
     Ui::ThresholdQwidget *ui;
+    MainController *mainController;
+    MainWindow *mainwindow;
 };
 
 #endif // THRESHOLDQWIDGET_H

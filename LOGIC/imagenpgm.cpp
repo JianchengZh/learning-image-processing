@@ -165,16 +165,16 @@ Image* ImagenPGM::changeColorDepth(int bits){
     }
 
 }
-//ImagenPGM* ImagenPGM::bimodalSegmentaion(int T){
-//    for (int i = 0; i < colorDensity+1; ++i) {
-//        if (lut[i]<T) {
-//            lut[i]=0;
-//        } else {
-//            lut[i]=colorDensity;
-//        }
-//    }
-//    return this;
-//}
+Image* ImagenPGM::bimodalSegmentaion(int T){
+    for (int i = 0; i < colorDepth+1; ++i) {
+        if (lut[i]<T) {
+            lut[i]=0;
+        } else {
+            lut[i]=colorDepth;
+        }
+    }
+    return this;
+}
 
 // Getters
 int*** ImagenPGM::getMatrix(){
