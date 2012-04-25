@@ -37,6 +37,9 @@ public:
     explicit ThresholdQwidget(QWidget *parent, MainController *controller, MainWindow *window);
     ~ThresholdQwidget();
     
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::ThresholdQwidget *ui;
     MainController *mainController;

@@ -36,3 +36,17 @@ ThresholdQwidget::~ThresholdQwidget()
 {
     delete ui;
 }
+
+void ThresholdQwidget::on_pushButton_clicked()
+{
+    int threshold = (int)ui->lcdNumber->value();
+    if(mainController->bimodalSegmentaion(threshold)){
+        mainwindow->displayResults(mainController->getQImage());
+        mainwindow->ShowHistogram();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}

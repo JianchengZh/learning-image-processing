@@ -123,7 +123,7 @@ void MainWindow::on_actionNew_Job_triggered()
     // delete widget_options
     ui->widget_options->deleteLater();
 
-    mainController->newJob();
+   // mainController->newJob();
 }
 
 void MainWindow::on_actionExit_triggered()
