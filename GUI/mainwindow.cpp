@@ -152,7 +152,6 @@ void MainWindow::on_actionResize_triggered()
         ui->widget_options->deleteLater();
     }
     ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setObjectName(QString::fromUtf8("widget_resize"));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 
@@ -165,7 +164,6 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
         ui->widget_options->deleteLater();
     }
     ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setObjectName(QString::fromUtf8("widget_colorDepth"));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 }
@@ -190,6 +188,14 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 }
 
 // Histogram Menu
+void MainWindow::on_actionThreshold_triggered(){
+    if (ui->widget_options!=0) {
+        ui->widget_options->deleteLater();
+    }
+    ui->widget_options = new ThresholdQwidget(ui->centralWidget, mainController, this);
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
+}
 
 // Tomography Menu
 
