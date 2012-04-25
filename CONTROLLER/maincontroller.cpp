@@ -84,17 +84,25 @@ bool MainController::changeColorDepth(int depth){
     }
 }
 
-QImage* MainController::convertToGrayscale(int method){
+void MainController::convertToGrayscale(int method){
 
-    if(imagen->getImageType()=="PPM"){
         oldImage=imagen;
         imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return displayedImage;
+}
+
+bool MainController::bimodalSegmentaion(int T){
+    if(imagen!=0){
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->bimodalSegmentaion(T);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
     }else{
-        return 0;
+        return false;
     }
 }
 
