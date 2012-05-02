@@ -37,7 +37,7 @@ private:
 
     double *relativeFrecuency;
     int **matrizHistograma;
-    int intensidad,totalNumberPixels ;
+    int intensidad,nSumCxF ;
     int max1,max2,temp1,temp2;
 
     void generateMatrix();
