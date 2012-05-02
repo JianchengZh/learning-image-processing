@@ -37,11 +37,11 @@ private:
 
     double *relativeFrecuency;
     int **matrizHistograma;
-    int intensidad;
+    int intensidad,totalNumberPixels ;
     int max1,max2,temp1,temp2;
 
     void generateMatrix();
-    void calculateMinbetweenMax();
+    void calculateLocalMaximux();
     double findMaxRelativeFrecuency();
 
 };

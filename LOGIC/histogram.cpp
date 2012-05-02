@@ -25,7 +25,7 @@ Histogram::Histogram(ImagenPGM *imagen)
     int nFilas=imagen->getRowNumber();
     intensidad=imagen->getColorDensity()+1;
     int ***matrizImagen=imagen->getMatrix();
-    int totalNumberPixels = nFilas*nColumnas;
+    totalNumberPixels = nFilas*nColumnas;
 
     relativeFrecuency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
@@ -36,31 +36,10 @@ Histogram::Histogram(ImagenPGM *imagen)
             relativeFrecuency[*matrizImagen[i][j]]++;
         }
     }
-    max1=0;max2=0;temp1=0;temp2=0;
-//    for (int i=0; i < intensidad; i++){
-//        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
-//    }
-    QTextStream cout  (stdout);
-    for (int i=1; i < intensidad-1; ++i) {
-        //encontrar posicion
-        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
-            temp2=temp1;
-            temp1=pow(max1-i,2)*relativeFrecuency[i];
-
-            if (relativeFrecuency[i]>relativeFrecuency[max1]) {
-                max2=max1;
-                max1=i;
-            }else if((relativeFrecuency[i]>relativeFrecuency[max2])&&(temp1>temp2)){
-                    max2=i;
-            }else if(i-max2>i-max1){max2=i;}
-
-
-            cout<<(i-max2)<<" ";
-            cout<<" "<<(temp1>temp2)<<" "<< (i-max2>8)<<" --> temp1 "<<temp1<<" temp2 "<<temp2<<" max1 "<<max1<<" max2 "<<max2<<" i "<<i;
-            cout<<" ( "<< i-max2<<" > "<< i-max1<<")"<<endl;
-        }
+    for (int i=0; i < intensidad; i++){
+        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
     }
-
+    calculateLocalMaximux();
     generateMatrix();
 }
 
@@ -84,8 +63,24 @@ void Histogram::generateMatrix(){
     }
 }
 
-void Histogram::calculateMinbetweenMax(){
-
+void Histogram::calculateLocalMaximux(){
+    max1=0;max2=0;temp1=0;temp2=0;
+    QTextStream cout (stdout);
+    for (int i=1; i < intensidad-1; ++i) {
+        //encontrar posicion
+        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
+            temp2=temp1;
+            temp1=pow(max1-i,2)*relativeFrecuency[i];
+            if (relativeFrecuency[i]>relativeFrecuency[max1]) {
+                max2=max1;
+                max1=i;
+            }else if((relativeFrecuency[i]>relativeFrecuency[max2])&&(temp1>temp2)){
+                    max2=i;
+            }else if(i-max2>(totalNumberPixels/max1)*20)
+                max2=i;
+        }
+    }
+    cout<<"Max1 "<<max1<<" Max2 "<<max2;
 }
 
 double Histogram::findMaxRelativeFrecuency(){
