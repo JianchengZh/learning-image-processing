@@ -26,8 +26,7 @@ Histogram::Histogram(ImagenPGM *imagen)
     intensidad=imagen->getColorDensity()+1;
     int ***matrizImagen=imagen->getMatrix();
     int totalNumberPixels = nFilas*nColumnas;
-    nSumCxF = nFilas+nColumnas;
-
+    posicion = nColumnas+nFilas;
     relativeFrecuency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
         relativeFrecuency[i]=0;
@@ -76,10 +75,11 @@ void Histogram::calculateLocalMaximux(){
                 max2=max1;
                 max1=i;
             }else if((relativeFrecuency[i]>relativeFrecuency[max2])&&(temp1>temp2)){
-                    max2=i;
-            }else if(i-max2>(nSumCxF/max1)*20)
                 max2=i;
-        } cout<<"Max1 "<<max1<<" Max2 "<<max2<<" Calcula"<< (i-max2>(nSumCxF/max1)*20);
+            }else if(i-max2>floor(posicion/i)*25){
+                max2=i;
+            }
+        }cout<<"Max1 "<<max1<<" Max2 "<<max2<<" Calcula "<<posicion<<" / "<<i <<" * "<<25<<" = "<<floor(posicion/i)*25 <<endl;
     }
 
 }
