@@ -44,7 +44,6 @@ Histogram::Histogram(ImagenPGM *imagen)
 }
 
 void Histogram::generateMatrix(){
-
     matrizHistograma = new int*[intensidad];
     for (int i=0; i < intensidad; i++)
         matrizHistograma[i]=new int[intensidad];
@@ -55,7 +54,6 @@ void Histogram::generateMatrix(){
         for(int j=0; j<intensidad; j++){
             if(intensidad-i<=((relativeFrecuency[j]*intensidad)/maxFreq)){
                 matrizHistograma[i][j]=0;
-
             }else{
                 matrizHistograma[i][j]=1;
             }
@@ -65,7 +63,7 @@ void Histogram::generateMatrix(){
 
 void Histogram::calculateLocalMaximux(){
     max1=0;max2=0;temp1=0;temp2=0;
-    QTextStream cout (stdout);
+
     for (int i=1; i < intensidad-1; ++i) {
         //encontrar posicion
         if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
@@ -79,9 +77,23 @@ void Histogram::calculateLocalMaximux(){
             }else if(i-max2>floor(posicion/i)*25){
                 max2=i;
             }
-        }cout<<"Max1 "<<max1<<" Max2 "<<max2<<" Calcula "<<posicion<<" / "<<i <<" * "<<25<<" = "<<floor(posicion/i)*25 <<endl;
+        }
     }
 
+}
+
+int Histogram::calculateThresholdIsodata(){
+    int threshold = max1+max2/2;
+    int u1=0,u2=0;
+
+    for (int i = 0; i < intensidad; ++i) {
+        if(relativeFrecuency[i]!=0&&i<threshold)
+            u1++;
+        else
+            u2++;
+    }
+
+    return((u1+u2)/2);
 }
 
 double Histogram::findMaxRelativeFrecuency(){
