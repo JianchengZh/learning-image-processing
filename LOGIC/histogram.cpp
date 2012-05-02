@@ -41,21 +41,23 @@ Histogram::Histogram(ImagenPGM *imagen)
         relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
     }
     QTextStream cout  (stdout);
+    cout<<nFilas<<" "<<nColumnas<<endl;
     for (int i=1; i < intensidad-1; ++i) {
         //encontrar posicion
         if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
             if (relativeFrecuency[i]>relativeFrecuency[max1]) {
                 max2=max1;
                 max1=i;
-            }if(i-max2>8){
+            }else if((relativeFrecuency[i]>relativeFrecuency[max2])&&(i-max1>16)){
                 temp2=temp1;
                 temp1=pow(max1-i,2)*relativeFrecuency[i];
-                cout<<(i-max2);
+
                 if(temp1>temp2){
                     max2=i;
-                    cout<<" "<<(temp1>temp2)<<" "<< (i-max2>8)<<" --> temp1 "<<temp1<<" temp2 "<<temp2<<" max1 "<<max1<<" max2 "<<max2<<" i "<<i<<endl;
                 }
             }
+            cout<<(i-max2)<<" ";
+            cout<<" "<<(temp1>temp2)<<" "<< (i-max2>8)<<" --> temp1 "<<temp1<<" temp2 "<<temp2<<" max1 "<<max1<<" max2 "<<max2<<" i "<<i<<endl;
         }
     }
 
