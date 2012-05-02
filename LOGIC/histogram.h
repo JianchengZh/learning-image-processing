@@ -38,7 +38,7 @@ private:
     double *relativeFrecuency;
     int **matrizHistograma;
     int intensidad;
-    int max1,max2;
+    int max1,max2,temp1,temp2;
 
     void generateMatrix();
     void calculateMinbetweenMax();
