@@ -106,10 +106,10 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 bool MainController::isodataSegmentation(){
-    QTextStream cout(stdout);
-        int T=(histogram->getMax1()+histogram->getMax2())/2;
-        cout<<histogram->getMax1()<<" "<<histogram->getMax2()<<" "<<T;
-        return bimodalSegmentaion(T);
+        QTextStream cout(stdout);
+//        int T=(histogram->getMax1()+histogram->getMax2())/2;
+        cout<<histogram->calculateThresholdIsodata();
+        return bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
 // Getters

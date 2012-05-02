@@ -32,6 +32,7 @@ public:
     ImagenPGM *getHistogram();
     int getMax1();
     int getMax2();
+    int calculateThresholdIsodata();
 
 private:
 
@@ -43,7 +44,7 @@ private:
     void generateMatrix();
     void calculateLocalMaximux();
     double findMaxRelativeFrecuency();
-    int calculateThresholdIsodata();
+
 
 };
 #endif

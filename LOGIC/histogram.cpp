@@ -92,7 +92,6 @@ int Histogram::calculateThresholdIsodata(){
         else
             u2++;
     }
-
     return((u1+u2)/2);
 }
 
