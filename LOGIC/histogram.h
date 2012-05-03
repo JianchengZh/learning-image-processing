@@ -45,6 +45,5 @@ private:
     void calculateLocalMaximux();
     double findMaxRelativeFrecuency();
 
-
 };
 #endif

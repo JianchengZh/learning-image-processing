@@ -85,11 +85,11 @@ bool MainController::changeColorDepth(int depth){
 
 void MainController::convertToGrayscale(int method){
 
-        oldImage=imagen;
-        imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
-        imagen->exportar("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+    oldImage=imagen;
+    imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
 bool MainController::bimodalSegmentaion(int T){
@@ -106,10 +106,7 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 bool MainController::isodataSegmentation(){
-        QTextStream cout(stdout);
-//        int T=(histogram->getMax1()+histogram->getMax2())/2;
-        cout<<histogram->calculateThresholdIsodata();
-        return bimodalSegmentaion(histogram->calculateThresholdIsodata());
+    return bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
 // Getters
@@ -126,6 +123,18 @@ void MainController::newJob(){
     oldImage=0;
     displayedImage=0;
     oldDisplayedImage=0;
+
+    delete[] matrixImagenP;
+    delete[] lut;
+
+    for (int i=0; i < imagen->height; i++)
+        matrixImagenP[i]=0;
+
+    for(int i=0; i<imagen->height; i++){
+        for(int j=0; j<imagen->width; j++){
+            matrixImagenP[i][j]=0;
+        }
+    }
 }
 
 bool MainController::undo(){
