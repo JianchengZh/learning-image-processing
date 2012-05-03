@@ -78,7 +78,7 @@ void Histogram::calculateLocalMaximux(){
             }else if(i-max2>floor(posicion/i)*25){
                 max2=i;
             }
-        } 
+        }
     }
 }
 
@@ -87,12 +87,14 @@ int Histogram::calculateThresholdIsodata(){
     int u1=0,u2=0;
     QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]>0&&i<umbral)
-            u1++;
-        else if(relativeFrecuency[i]>0&&i>umbral)
-            u2++;
+        if(relativeFrecuency[i]!=0){
+            if(i<umbral)
+                u1++;
+            else
+                u2++;
+        }
     }
-    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<(u1+u2)/2;
+    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<u1<<" "<<u2<<" "<<(u1+u2)/2;
     return((u1+u2)/2);
 }
 
