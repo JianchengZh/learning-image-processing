@@ -29,7 +29,6 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->lutSize=colorDepth;
     this->imageType="PGM";
 
-
     //Lookup Table
     lut = new int [lutSize+1];
     for (int i = 0; i < lutSize+1; ++i) {

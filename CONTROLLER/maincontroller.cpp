@@ -46,6 +46,8 @@ bool MainController::loadImage(QString filename){
     }else{
         return false;
     }
+    delete[] matrixImagenP;
+    delete[] lut;
 }
 
 QImage* MainController::generateHistogram(){
@@ -124,17 +126,20 @@ void MainController::newJob(){
     displayedImage=0;
     oldDisplayedImage=0;
 
-    delete[] matrixImagenP;
-    delete[] lut;
-
-    for (int i=0; i < imagen->height; i++)
+    for (int i=0; i < imagen->height; i++){
+        delete[] matrixImagenP[i];
         matrixImagenP[i]=0;
+    }
 
     for(int i=0; i<imagen->height; i++){
         for(int j=0; j<imagen->width; j++){
+            delete[] matrixImagenP[i][j];
             matrixImagenP[i][j]=0;
         }
     }
+
+    delete[] matrixImagenP;
+    delete[] lut;
 }
 
 bool MainController::undo(){
