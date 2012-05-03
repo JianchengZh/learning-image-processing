@@ -84,25 +84,27 @@ void Histogram::calculateLocalMaximux(){
 
 int Histogram::calculateThresholdIsodata(){
     int umbral = (max1+max2)/2;
-    int umbral1=0,umbral2=0;
-    int u1=0,u2=0;
+    int numerator1=0,numerator2=0;
+    int denominator1=0,denominator2=0;
+    int u1=0,u2=0,treshold=0;
     QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
             if(i<umbral){
                 u1++;
-                umbral1+=relativeFrecuency[i];
+                numerator1+=relativeFrecuency[i]*i;
+                denominator1+=relativeFrecuency[i];
             }
             else{
                 u2++;
-                umbral2+=relativeFrecuency[i];
+                numerator2+=relativeFrecuency[i]*i;
+                denominator2+=relativeFrecuency[i];
             }
 
         }
     }
-    u1=umbral1/u1;
-    u2=umbral2/u2;
-    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<u1<<" "<<u2<<" "<<(u1+u2)/2;
+    treshold=(numerator1/(2*denominator1))+(numerator2/(2*denominator2));
+    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<(numerator1/(2*denominator1))<<" "<<(numerator2/(2*denominator2))<<" "<<treshold;
     return((u1+u2)/2);
 }
 
