@@ -33,13 +33,13 @@ protected:
     QString imageType;
     int colorDepth;
     int lutSize;
+    int height;
+    int width;
 
 public:
     Image();
 
-    // Getters
-    int height;
-    int width;
+    // Getters 
     int getRowNumber();
     int getColumnNumber();
     int getColorDensity();

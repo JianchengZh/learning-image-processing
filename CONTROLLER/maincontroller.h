@@ -37,7 +37,7 @@ private:
 
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
-    Histogram *histogram;
+    Histogram *histogram, *relativeFrecuency, **matrizHistograma;
     ImagenPGM ***matrixImagenP,*lut;
 
 public:

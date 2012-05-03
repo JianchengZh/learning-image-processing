@@ -24,9 +24,11 @@ Histogram::Histogram(ImagenPGM *imagen)
     int nColumnas=imagen->getColumnNumber();
     int nFilas=imagen->getRowNumber();
     intensidad=imagen->getColorDensity()+1;
+
     int ***matrizImagen=imagen->getMatrix();
     int totalNumberPixels = nFilas*nColumnas;
     posicion = nColumnas+nFilas;
+
     relativeFrecuency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
         relativeFrecuency[i]=0;
@@ -39,7 +41,6 @@ Histogram::Histogram(ImagenPGM *imagen)
     for (int i=0; i < intensidad; i++){
         relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
     }
-    calculateLocalMaximux();
     generateMatrix();
 }
 

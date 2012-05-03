@@ -33,6 +33,7 @@ public:
     int getMax1();
     int getMax2();
     int calculateThresholdIsodata();
+    void calculateLocalMaximux();
 
 private:
 
@@ -42,7 +43,6 @@ private:
     int max1,max2,temp1,temp2;
 
     void generateMatrix();
-    void calculateLocalMaximux();
     double findMaxRelativeFrecuency();
 
 };

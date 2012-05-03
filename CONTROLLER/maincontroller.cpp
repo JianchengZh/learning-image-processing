@@ -108,6 +108,7 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 bool MainController::isodataSegmentation(){
+    histogram->calculateLocalMaximux();
     return bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
@@ -126,20 +127,31 @@ void MainController::newJob(){
     displayedImage=0;
     oldDisplayedImage=0;
 
-    for (int i=0; i < imagen->height; i++){
+    //delete pointers image
+    for (int i=0; i < imagen->getRowNumber(); i++){
         delete[] matrixImagenP[i];
-        matrixImagenP[i]=0;
+    //    matrixImagenP[i]=0;
     }
 
-    for(int i=0; i<imagen->height; i++){
-        for(int j=0; j<imagen->width; j++){
+    for(int i=0; i<imagen->getRowNumber(); i++){
+        for(int j=0; j<imagen->getColumnNumber(); j++){
             delete[] matrixImagenP[i][j];
-            matrixImagenP[i][j]=0;
+     //       matrixImagenP[i][j]=0;
         }
     }
 
     delete[] matrixImagenP;
     delete[] lut;
+
+    //delete pointers histogram
+    delete[] relativeFrecuency;
+    for (int i=0; i <imagen->getColorDensity(); i++){
+        delete[] matrizHistograma[i];
+      //  relativeFrecuency[i]=0;
+      //  matrizHistograma[i]=0;
+    }
+
+    delete[] matrizHistograma;
 }
 
 bool MainController::undo(){
