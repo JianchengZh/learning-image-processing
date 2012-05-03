@@ -38,6 +38,8 @@ protected:
 
 public:
     Image();
+    ~Image();
+
 
     // Getters 
     int getRowNumber();

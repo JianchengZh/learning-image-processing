@@ -144,6 +144,43 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int colorD, int 
 
 }
 
+ImagenPPM::~ImagenPPM(){
+
+    delete lutR;
+    this->lutR=0;
+
+    delete lutG;
+    this->lutG=0;
+
+    delete lutB;
+    this->lutB=0;
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            delete matrizRp[i][j];
+            matrizRp[i][j]=0;
+
+            delete matrizGp[i][j];
+            matrizGp[i][j]=0;
+
+            delete matrizBp[i][j];
+            matrizBp[i][j]=0;
+        }
+
+        delete matrizRp[i];
+        matrizRp[i]=0;
+
+        delete matrizGp[i];
+        matrizGp[i]=0;
+
+        delete matrizBp[i];
+        matrizBp[i]=0;
+    }
+    delete matrizRp;
+    delete matrizGp;
+    delete matrizBp;
+}
+
 //Image processing
 Image* ImagenPPM::changeSize(int factor){
 

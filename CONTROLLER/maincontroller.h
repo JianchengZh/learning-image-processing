@@ -38,7 +38,7 @@ private:
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
     Histogram *histogram, *relativeFrecuency, **matrizHistograma;
-    ImagenPGM ***matrixImagenP,*lut;
+//    ImagenPGM ***matrixImagenP,*lut;
 
 public:
 
@@ -61,7 +61,7 @@ public:
     QImage *getQImage();
 
     // Others methods:
-    void newJob();
+//    void newJob();
     bool undo();
 
 };

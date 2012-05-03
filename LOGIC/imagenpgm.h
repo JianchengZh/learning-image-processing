@@ -53,6 +53,8 @@ public:
               int *lut,
               int lutSize);
 
+    ~ImagenPGM();
+
     //Image processing
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);

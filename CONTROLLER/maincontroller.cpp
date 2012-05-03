@@ -46,8 +46,8 @@ bool MainController::loadImage(QString filename){
     }else{
         return false;
     }
-    delete[] matrixImagenP;
-    delete[] lut;
+//    delete[] matrixImagenP;
+//    delete[] lut;
 }
 
 QImage* MainController::generateHistogram(){
@@ -121,38 +121,38 @@ QImage* MainController::getQImage(){
 }
 
 // Other Methods
-void MainController::newJob(){
-    imagen=0;
-    oldImage=0;
-    displayedImage=0;
-    oldDisplayedImage=0;
+//void MainController::newJob(){
+//    imagen=0;
+//    oldImage=0;
+//    displayedImage=0;
+//    oldDisplayedImage=0;
 
-    //delete pointers image
-    for (int i=0; i < imagen->getRowNumber(); i++){
-        delete[] matrixImagenP[i];
-    //    matrixImagenP[i]=0;
-    }
+////    //delete pointers image
+////    for (int i=0; i < imagen->getRowNumber(); i++){
+////        delete[] matrixImagenP[i];
+////    //    matrixImagenP[i]=0;
+////    }
 
-    for(int i=0; i<imagen->getRowNumber(); i++){
-        for(int j=0; j<imagen->getColumnNumber(); j++){
-            delete[] matrixImagenP[i][j];
-     //       matrixImagenP[i][j]=0;
-        }
-    }
+////    for(int i=0; i<imagen->getRowNumber(); i++){
+////        for(int j=0; j<imagen->getColumnNumber(); j++){
+////            delete[] matrixImagenP[i][j];
+////     //       matrixImagenP[i][j]=0;
+////        }
+////    }
 
-    delete[] matrixImagenP;
-    delete[] lut;
+////    delete[] matrixImagenP;
+////    delete[] lut;
 
-    //delete pointers histogram
-    delete[] relativeFrecuency;
-    for (int i=0; i <imagen->getColorDensity(); i++){
-        delete[] matrizHistograma[i];
-      //  relativeFrecuency[i]=0;
-      //  matrizHistograma[i]=0;
-    }
+////    //delete pointers histogram
+////    delete[] relativeFrecuency;
+////    for (int i=0; i <imagen->getColorDensity(); i++){
+////        delete[] matrizHistograma[i];
+////      //  relativeFrecuency[i]=0;
+////      //  matrizHistograma[i]=0;
+////    }
 
-    delete[] matrizHistograma;
-}
+////    delete[] matrizHistograma;
+//}
 
 bool MainController::undo(){
     if (oldImage!=0) {

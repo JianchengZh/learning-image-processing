@@ -86,6 +86,22 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
     this->imageType="PGM";
 }
 
+ImagenPGM::~ImagenPGM(){
+
+    delete lut;
+    this->lut=0;
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            delete matrixImagenP[i][j];
+            matrixImagenP[i][j]=0;
+        }
+        delete matrixImagenP[i];
+        matrixImagenP[i]=0;
+    }
+    delete matrixImagenP;
+}
+
 //Image processing
 Image* ImagenPGM::changeSize(int factor){
     int w=0,h=0,**enlargedImage;
@@ -164,6 +180,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
     }
 
 }
+
 Image* ImagenPGM::bimodalSegmentaion(int T){
     for (int i = 0; i < colorDepth+1; ++i) {
         if (lut[i]<T) {

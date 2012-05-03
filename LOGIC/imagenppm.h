@@ -55,6 +55,8 @@ public:
               int *lutB,
               int lutSize);
 
+    ~ImagenPPM();
+
     //Image processing
     Image* changeSize(int factor);
     Image* changeColorDepth(int bits);
