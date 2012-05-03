@@ -26,7 +26,17 @@ MainController::MainController(){
     this->oldDisplayedImage=0;
 }
 
-MainController::~MainController(){    
+MainController::~MainController(){
+
+    delete imagen;
+
+//    delete oldImage;
+
+    //delete displayedImage;
+
+    //delete oldDisplayedImage;
+
+    delete histogram;
 }
 
 // LOAD IMAGE

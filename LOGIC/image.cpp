@@ -24,7 +24,6 @@ Image::Image()
 }
 
 Image::~Image(){
-    delete this;
 }
 
 int Image::getColorDensity(){

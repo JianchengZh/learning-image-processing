@@ -22,7 +22,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
-    mainController= new MainController();
+    mainController=0;
     ui->widget_options=0;
 }
 
@@ -34,6 +34,7 @@ MainWindow::~MainWindow()
 //Buttons Events
 void MainWindow::on_pButton_LoadImage_clicked()
 {
+    mainController= new MainController();
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
     if (mainController->loadImage(filename)) {
 
@@ -122,8 +123,8 @@ void MainWindow::on_actionNew_Job_triggered()
 
     // delete widget_options
     ui->widget_options->deleteLater();
-
-   // mainController->newJob();
+    delete mainController;
+    mainController=0;
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -205,7 +206,6 @@ void MainWindow::on_actionAbout_triggered()
     about.setModal(true);
     about.exec();
 }
-
 
 // Other Methods
 void MainWindow::displayResults(QImage *result)

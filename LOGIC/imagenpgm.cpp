@@ -72,6 +72,11 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
             matrixImagenP[i][j]=&lut[matrix[i][j]];
         }
     }
+
+    for (int i=0; i < height; i++)
+        delete matrix[i];
+
+    delete matrix;
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){

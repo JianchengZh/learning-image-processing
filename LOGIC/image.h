@@ -38,7 +38,7 @@ protected:
 
 public:
     Image();
-    ~Image();
+    virtual ~Image();
 
 
     // Getters 

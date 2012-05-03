@@ -44,6 +44,19 @@ Histogram::Histogram(ImagenPGM *imagen)
     generateMatrix();
 }
 
+Histogram::~Histogram(){
+    delete relativeFrecuency;
+    relativeFrecuency=0;
+
+    for (int i=0; i < intensidad; i++){
+        delete matrizHistograma[i];
+        matrizHistograma[i]=0;
+    }
+    delete matrizHistograma;
+    matrizHistograma=0;
+
+}
+
 void Histogram::generateMatrix(){
     matrizHistograma = new int*[intensidad];
     for (int i=0; i < intensidad; i++)
@@ -84,27 +97,17 @@ void Histogram::calculateLocalMaximux(){
 
 int Histogram::calculateThresholdIsodata(){
     int umbral = (max1+max2)/2;
-    int numerator1=0,numerator2=0;
-    int denominator1=0,denominator2=0;
-    int u1=0,u2=0,treshold=0;
+    int u1=0,u2=0;
     QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<umbral){
+            if(i<umbral)
                 u1++;
-                numerator1+=relativeFrecuency[i]*i;
-                denominator1+=relativeFrecuency[i];
-            }
-            else{
+            else
                 u2++;
-                numerator2+=relativeFrecuency[i]*i;
-                denominator2+=relativeFrecuency[i];
-            }
-
         }
     }
-    treshold=(numerator1/(2*denominator1))+(numerator2/(2*denominator2));
-    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<(numerator1/(2*denominator1))<<" "<<(numerator2/(2*denominator2))<<" "<<treshold;
+    cout<<max1<<" "<<max2<<" "<<umbral<<" "<<u1<<" "<<u2<<" "<<(u1+u2)/2;
     return((u1+u2)/2);
 }
 

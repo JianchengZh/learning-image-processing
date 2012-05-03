@@ -29,6 +29,7 @@ class Histogram
 {
 public:
     Histogram(ImagenPGM *imagen);
+    ~Histogram();
     ImagenPGM *getHistogram();
     int getMax1();
     int getMax2();
