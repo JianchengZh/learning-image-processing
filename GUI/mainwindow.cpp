@@ -22,8 +22,10 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
-    mainController=0;
     ui->widget_options=0;
+    displayedImage=0;
+    histogram=0;
+    mainController= new MainController();
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +36,7 @@ MainWindow::~MainWindow()
 //Buttons Events
 void MainWindow::on_pButton_LoadImage_clicked()
 {
-    mainController= new MainController();
+
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
     if (mainController->loadImage(filename)) {
 
@@ -66,6 +68,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         QMessageBox msgBox(this);
         msgBox.setText("Sorry, but the selected file is not supported");
         msgBox.exec();
+        delete mainController;
+        mainController=0;
     }
 }
 
@@ -78,7 +82,6 @@ void MainWindow::on_pButton__AdjustImageSize_clicked()
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
-
     if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
         ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
@@ -122,9 +125,18 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
-    ui->widget_options->deleteLater();
+    delete ui->widget_options;
+    ui->widget_options=0;
+
+    delete histogram;
+    histogram=0;
+
+    delete displayedImage;
+    displayedImage=0;
+
     delete mainController;
     mainController=0;
+    mainController=new MainController();
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -140,7 +152,7 @@ void MainWindow::on_actionUndo_triggered()
         on_pButton__NormalSize_clicked();
     }else{
         QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry, but pero no se puede ir pa tras");
+        msgBox2.setText("Sorry, but there is nothing to undo");
         msgBox2.exec();
     }
 

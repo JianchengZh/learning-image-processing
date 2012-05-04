@@ -30,7 +30,10 @@ class Histogram
 public:
     Histogram(ImagenPGM *imagen);
     ~Histogram();
+
     ImagenPGM *getHistogram();
+
+    //Getters
     int getMax1();
     int getMax2();
     int calculateThresholdIsodata();

@@ -75,7 +75,6 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
 
     for (int i=0; i < height; i++)
         delete matrix[i];
-
     delete matrix;
 }
 
@@ -93,18 +92,17 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
 
 ImagenPGM::~ImagenPGM(){
 
-    delete lut;
-    this->lut=0;
-
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            delete matrixImagenP[i][j];
             matrixImagenP[i][j]=0;
         }
         delete matrixImagenP[i];
         matrixImagenP[i]=0;
     }
     delete matrixImagenP;
+
+    delete lut;
+    this->lut=0;
 }
 
 //Image processing

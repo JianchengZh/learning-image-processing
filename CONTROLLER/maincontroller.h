@@ -38,7 +38,6 @@ private:
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
     Histogram *histogram;
-    //    ImagenPGM ***matrixImagenP,*lut;
 
 public:
 
