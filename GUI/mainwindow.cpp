@@ -199,13 +199,13 @@ void MainWindow::on_actionThreshold_triggered(){
 
 void MainWindow::on_actionEqualization_triggered()
 {
-    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PPM"){
+    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PGM"){
         QMessageBox msgBox(this);
-        msgBox.setText("do you want to give the same weight to all color channels?");
+        msgBox.setText("do you want to equalizet histogram?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::Yes);
-        int method = msgBox.exec();
-        mainController->convertToGrayscale(method);
+       // int method = msgBox.exec();
+        mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
         ShowHistogram();
     }else {

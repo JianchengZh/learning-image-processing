@@ -61,6 +61,7 @@ public:
     Image* changeSize(int factor);
     Image* changeColorDepth(int bits);
     ImagenPGM* convertToGrayScale(int method);
+ //   Image *equalizateHistogram(int *newlut);
 
     // Getters
 

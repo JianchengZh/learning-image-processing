@@ -197,6 +197,18 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
     return this;
 }
 
+Image* ImagenPGM::equalizateHistogram(int *newlut){
+    lut=newlut;
+    return new ImagenPGM (identification,
+                          comment,
+                          height,
+                          width,
+                          colorDepth,
+                          matrixImagenP,
+                          lut,
+                          lutSize);
+}
+
 // Getters
 int*** ImagenPGM::getMatrix(){
     return matrixImagenP;

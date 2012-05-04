@@ -159,19 +159,29 @@ double Histogram::findMaxRelativeFrecuency(){
     return frequencies.last();
 }
 
-void Histogram::calculeEqualization(){
-    relativeEqualization=relativeFrecuency;
-    double a=0;
-    discretizedFrecuency = new double[intensidad];
+int *Histogram::calculeEqualization(){
 
-    for (int i=0; i < intensidad; i++)
+    int a=0;
+    int *discretizedFrecuency = new int[intensidad];
+    relativeEqualization = new double[intensidad];
+    QTextStream cout(stdout);
+
+    for (int i=0; i < intensidad; i++){
         discretizedFrecuency[i]=0;
-    for (int i = 1; i < intensidad; ++i)
-        relativeEqualization[i]+=relativeEqualization[i-1];
-    a=relativeEqualization[intensidad-1];
-    for (int i = 0; i < intensidad; ++i) {
-        discretizedFrecuency[i]=floor((intensidad-1*relativeEqualization[i])/a);
+        relativeEqualization[i]=0;
     }
+    relativeEqualization[0]=relativeFrecuency[0];
+    for (int i = 1; i < intensidad; ++i){
+        relativeEqualization[i]+=relativeEqualization[i-1]+relativeFrecuency[i];
+        cout<<relativeFrecuency[i]<<" "<<relativeEqualization[i]<<endl;
+    }
+    a=relativeEqualization[intensidad-1];
+    cout<<"a "<<a<<endl;
+    for (int i = 0; i < intensidad; ++i) {
+        discretizedFrecuency[i]=(int)floor((intensidad-1*relativeEqualization[i])/a);
+      //  cout<<i<<" "<<relativeFrecuency[i]<<" "<<discretizedFrecuency[i]<<endl;
+    }
+    return (discretizedFrecuency);
 }
 
 int Histogram::getMax1(){

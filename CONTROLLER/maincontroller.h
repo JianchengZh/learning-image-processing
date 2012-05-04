@@ -53,6 +53,7 @@ public:
     bool changeColorDepth(int depth);
     bool bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
+    bool equalizateHistogram();
     bool isodataSegmentation();
     bool otsuSegmentation();
 

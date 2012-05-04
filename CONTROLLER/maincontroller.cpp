@@ -30,7 +30,7 @@ MainController::~MainController(){
 
     delete imagen;
 
-//    delete oldImage;
+    //    delete oldImage;
 
     //delete displayedImage;
 
@@ -56,8 +56,8 @@ bool MainController::loadImage(QString filename){
     }else{
         return false;
     }
-//    delete[] matrixImagenP;
-//    delete[] lut;
+    //    delete[] matrixImagenP;
+    //    delete[] lut;
 }
 
 QImage* MainController::generateHistogram(){
@@ -102,6 +102,19 @@ void MainController::convertToGrayscale(int method){
     imagen->exportar("temp");
     oldDisplayedImage=displayedImage;
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+}
+
+bool MainController::equalizateHistogram(){
+    if(imagen!=0){
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->equalizateHistogram(histogram->calculeEqualization());
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool MainController::bimodalSegmentaion(int T){

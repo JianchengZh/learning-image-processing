@@ -36,11 +36,11 @@ public:
     int calculateThresholdIsodata();
     int calculateThresholdOtsu();
     void calculateTwoPeaks();
-    void calculeEqualization();
+    int* calculeEqualization();
 
 private:
 
-    double *relativeFrecuency,*relativeEqualization,*discretizedFrecuency;
+    double *relativeFrecuency,*relativeEqualization;
     int **matrizHistograma;
     int intensidad, posicion;
     int max1,max2,umbral;

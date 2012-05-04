@@ -59,6 +59,7 @@ public:
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
     Image *bimodalSegmentaion(int T);
+    Image *equalizateHistogram(int *newlut);
 
     // Getters
     int ***getMatrix();
