@@ -38,9 +38,10 @@ Histogram::Histogram(ImagenPGM *imagen)
             relativeFrecuency[*matrizImagen[i][j]]++;
         }
     }
-    for (int i=0; i < intensidad; i++){
-        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
-    }
+
+//    for (int i=0; i < intensidad; i++){
+//        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
+//    }
     generateMatrix();
 }
 
@@ -99,7 +100,6 @@ void Histogram::calculatePromedio(){
     umbral = (max1+max2)/2;
     u1=0;u2=0;w1=0;w2=0;
     n1=0;n2=0;
-    QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
             if(i<=umbral) n1+=relativeFrecuency[i];
@@ -110,7 +110,6 @@ void Histogram::calculatePromedio(){
         if(relativeFrecuency[i]!=0){
             if(i<=umbral) w1+=relativeFrecuency[i]/n1;
             else w2+=relativeFrecuency[i]/n2;
-            cout<<w1<<" "<<relativeFrecuency[i]/n1<<" "<<w2<<" "<<relativeFrecuency[i]/n2<<endl;
         }
     }
     for (int i = 0; i < intensidad; ++i) {
@@ -158,6 +157,21 @@ double Histogram::findMaxRelativeFrecuency(){
     }
     qSort(frequencies.begin(), frequencies.end());
     return frequencies.last();
+}
+
+void Histogram::calculeEqualization(){
+    relativeEqualization=relativeFrecuency;
+    double a=0;
+    discretizedFrecuency = new double[intensidad];
+
+    for (int i=0; i < intensidad; i++)
+        discretizedFrecuency[i]=0;
+    for (int i = 1; i < intensidad; ++i)
+        relativeEqualization[i]+=relativeEqualization[i-1];
+    a=relativeEqualization[intensidad-1];
+    for (int i = 0; i < intensidad; ++i) {
+        discretizedFrecuency[i]=floor((intensidad-1*relativeEqualization[i])/a);
+    }
 }
 
 int Histogram::getMax1(){

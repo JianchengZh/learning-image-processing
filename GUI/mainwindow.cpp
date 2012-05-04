@@ -197,6 +197,26 @@ void MainWindow::on_actionThreshold_triggered(){
     ui->widget_options->setVisible(true);
 }
 
+void MainWindow::on_actionEqualization_triggered()
+{
+    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PPM"){
+        QMessageBox msgBox(this);
+        msgBox.setText("do you want to give the same weight to all color channels?");
+        msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int method = msgBox.exec();
+        mainController->convertToGrayscale(method);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
+
+
 // Tomography Menu
 
 // Help Menu
@@ -224,5 +244,6 @@ void MainWindow::ShowHistogram(){
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histogram->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
+
 
 

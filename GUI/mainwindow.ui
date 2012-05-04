@@ -427,6 +427,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>Histogram</string>
     </property>
     <addaction name="actionThreshold"/>
+    <addaction name="actionEqualization"/>
    </widget>
    <widget class="QMenu" name="menuTomography">
     <property name="title">
@@ -478,6 +479,11 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionThreshold">
    <property name="text">
     <string>Threshold</string>
+   </property>
+  </action>
+  <action name="actionEqualization">
+   <property name="text">
+    <string>Equalization</string>
    </property>
   </action>
  </widget>

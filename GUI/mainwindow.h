@@ -78,15 +78,12 @@ private slots:
 
     // Histogram Menu
     void on_actionThreshold_triggered();
-
+    void on_actionEqualization_triggered();
 
     // Tomography Menu
 
     // Help Menu
     void on_actionAbout_triggered();
-
-
-
 
 private:
 
