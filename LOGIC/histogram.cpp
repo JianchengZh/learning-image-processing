@@ -97,8 +97,8 @@ void Histogram::calculateTwoPeaks(){
 
 void Histogram::calculatePromedio(){
     umbral = (max1+max2)/2;
-    u1=0,u2=0;w1=0,w2=0;
-    n1=0,n2=0;
+    u1=0;u2=0;w1=0;w2=0;
+    n1=0;n2=0;
     QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
@@ -110,7 +110,7 @@ void Histogram::calculatePromedio(){
         if(relativeFrecuency[i]!=0){
             if(i<=umbral) w1+=relativeFrecuency[i]/n1;
             else w2+=relativeFrecuency[i]/n2;
-            cout<<w1<<" "<<w2<<endl;
+            cout<<w1<<" "<<relativeFrecuency[i]/n1<<" "<<w2<<" "<<relativeFrecuency[i]/n2<<endl;
         }
     }
     for (int i = 0; i < intensidad; ++i) {
@@ -129,16 +129,16 @@ int Histogram::calculateThresholdIsodata(){
 int Histogram::calculateThresholdOtsu(){
     calculatePromedio();
     double uc = w1*u1+w2*u2;
-    double Gin=0,Gzw=n1*pow(u1-uc,2)+n2*pow(u2-uc,2);
+    double Gin=0,Gzw=w1*pow(u1-uc,2)+w2*pow(u2-uc,2);
     double g1=0,g2=0;
 
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]);
-            else g2+=pow(i-u2,2)*(relativeFrecuency[i]);
+            if(i<=umbral) g1+=pow(i-u1,2)*((relativeFrecuency[i])/n1);
+            else g2+=pow(i-u2,2)*((relativeFrecuency[i])/n2);
         }
     }
-    Gin=n1*g1+n2*g2;
+    Gin=w1*g1+w2*g2;
     QTextStream cout(stdout);
     cout<<"Gzw "<<Gzw<<endl;
     cout<<"g1 "<<g1<<endl;
