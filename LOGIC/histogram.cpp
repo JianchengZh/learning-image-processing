@@ -81,7 +81,7 @@ void Histogram::calculateTwoPeaks(){
     //look first peak
     for (int i=1; i < intensidad-1; ++i) {
         if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1])
-           if (relativeFrecuency[i]>relativeFrecuency[max1]) max1=i;
+            if (relativeFrecuency[i]>relativeFrecuency[max1]) max1=i;
     }
     //look second peak
     for (int i=1; i < intensidad-1; ++i) {
@@ -96,12 +96,10 @@ void Histogram::calculateTwoPeaks(){
 }
 
 void Histogram::calculatePromedio(){
-    int umbral = (max1+max2)/2;
-    QTextStream cout(stdout);
-    cout<<max1<<" "<<max2<<" "<<umbral<<endl;
-    u1=0,u2=0;
-    double n1=0,n2=0,w1=0,w2=0;
-
+    umbral = (max1+max2)/2;
+    u1=0,u2=0;w1=0,w2=0;
+    n1=0,n2=0;
+    QTextStream cout (stdout);
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
             if(i<=umbral) n1+=relativeFrecuency[i];
@@ -112,6 +110,7 @@ void Histogram::calculatePromedio(){
         if(relativeFrecuency[i]!=0){
             if(i<=umbral) w1+=relativeFrecuency[i]/n1;
             else w2+=relativeFrecuency[i]/n2;
+            cout<<w1<<" "<<w2<<endl;
         }
     }
     for (int i = 0; i < intensidad; ++i) {
@@ -123,10 +122,33 @@ void Histogram::calculatePromedio(){
 }
 
 int Histogram::calculateThresholdIsodata(){
-   calculatePromedio();
-   QTextStream cout(stdout);
-   cout<<(int)(u1+u2)/2;
+    calculatePromedio();
     return((int)(u1+u2)/2);
+}
+
+int Histogram::calculateThresholdOtsu(){
+    calculatePromedio();
+    double uc = w1*u1+w2*u2;
+    double Gin=0,Gzw=n1*pow(u1-uc,2)+n2*pow(u2-uc,2);
+    double g1=0,g2=0;
+
+    for (int i = 0; i < intensidad; ++i) {
+        if(relativeFrecuency[i]!=0){
+            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]);
+            else g2+=pow(i-u2,2)*(relativeFrecuency[i]);
+        }
+    }
+    Gin=n1*g1+n2*g2;
+    QTextStream cout(stdout);
+    cout<<"Gzw "<<Gzw<<endl;
+    cout<<"g1 "<<g1<<endl;
+    cout<<"g2 "<<g2<<endl;
+    cout<<"Gin "<<Gin<<endl;
+//    cout<<"w2 "<<w2<<endl;
+//    cout<<"uc "<<uc<<endl;
+//    cout<<"u2 "<<u2<<endl;
+//    cout<<"u2-uc "<<pow(u2-uc,2)<<endl;
+    return((int)Gzw/Gin);
 }
 
 double Histogram::findMaxRelativeFrecuency(){

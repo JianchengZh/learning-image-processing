@@ -122,6 +122,11 @@ bool MainController::isodataSegmentation(){
     return bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
+bool MainController::otsuSegmentation(){
+    histogram->calculateTwoPeaks();
+    return bimodalSegmentaion(histogram->calculateThresholdOtsu());
+}
+
 // Getters
 Image* MainController::getImage(){
     return imagen;

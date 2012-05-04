@@ -34,6 +34,7 @@ public:
     int getMax1();
     int getMax2();
     int calculateThresholdIsodata();
+    int calculateThresholdOtsu();
     void calculateTwoPeaks();
 
 
@@ -42,8 +43,8 @@ private:
     double *relativeFrecuency;
     int **matrizHistograma;
     int intensidad, posicion;
-    int max1,max2;
-    double u1,u2;
+    int max1,max2,umbral;
+    double u1,u2,w1,w2,n1,n2;
 
     void generateMatrix();
     double findMaxRelativeFrecuency();

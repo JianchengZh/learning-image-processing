@@ -61,3 +61,17 @@ void ThresholdQwidget::on_isodataSegmentation_clicked()
         msgBox2.exec();
     }
 }
+
+
+void ThresholdQwidget::on_otsuSegmentation_clicked()
+{
+    if(mainController->otsuSegmentation()){
+        mainwindow->displayResults(mainController->getQImage());
+        mainwindow->ShowHistogram();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}

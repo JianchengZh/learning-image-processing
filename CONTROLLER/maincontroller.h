@@ -54,6 +54,7 @@ public:
     bool bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
     bool isodataSegmentation();
+    bool otsuSegmentation();
 
 
     // Getters:

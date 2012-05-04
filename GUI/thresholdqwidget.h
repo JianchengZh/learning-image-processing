@@ -42,6 +42,10 @@ private slots:
 
     void on_isodataSegmentation_clicked();
 
+    void on_pushButton_3_clicked();
+
+    void on_otsuSegmentation_clicked();
+
 private:
     Ui::ThresholdQwidget *ui;
     MainController *mainController;
