@@ -114,6 +114,7 @@ void MainController::bimodalSegmentaion(int T){
 
 }
 
+
 void MainController::isodataSegmentation(){
     histogram->calculateLocalMaximux();
     bimodalSegmentaion(histogram->calculateThresholdIsodata());

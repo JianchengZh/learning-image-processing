@@ -37,17 +37,20 @@ public:
     int getMax1();
     int getMax2();
     int calculateThresholdIsodata();
-    void calculateLocalMaximux();
+    void calculateTwoPeaks();
+
 
 private:
 
     double *relativeFrecuency;
     int **matrizHistograma;
     int intensidad, posicion;
-    int max1,max2,temp1,temp2;
+    int max1,max2;
+    double u1,u2;
 
     void generateMatrix();
     double findMaxRelativeFrecuency();
+    void calculatePromedio();
 
 };
 #endif
