@@ -88,7 +88,7 @@ private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
-    QImage *displayedImage, *histogram;
+    QImage *displayedImage, *histogramImage;
 };
 
 #endif // MAINWINDOW_H

@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     ui->widget_options=0;
     displayedImage=0;
-    histogram=0;
+    histogramImage=0;
     mainController= new MainController();
 }
 
@@ -122,14 +122,10 @@ void MainWindow::on_actionNew_Job_triggered()
 
     //Disable QActions
     ui->actionUndo->setEnabled(false);
-
     ui->actionResize->setEnabled(false);
     ui->actionChange_Color_Depth->setEnabled(false);
-    if (mainController->getImage()->getImageType().toUpper()=="PPM") {
-        ui->actionConver_to_GrayScale->setEnabled(false);
-    }
-
-    ui->actionThreshold->setEnabled(true);
+    ui->actionConver_to_GrayScale->setEnabled(false);
+    ui->actionThreshold->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -151,8 +147,8 @@ void MainWindow::on_actionNew_Job_triggered()
     delete ui->widget_options;
     ui->widget_options=0;
 
-    delete histogram;
-    histogram=0;
+    delete histogramImage;
+    histogramImage=0;
 
     delete displayedImage;
     displayedImage=0;
@@ -258,8 +254,8 @@ void MainWindow::displayResults(QImage *result)
 
 void MainWindow::ShowHistogram(){
     if (mainController->getImage()->getImageType().toUpper()=="PGM") {
-        histogram = mainController->generateHistogram();
-        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogram->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
+        histogramImage = mainController->generateHistogram();
+        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
 
