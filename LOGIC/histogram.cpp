@@ -75,56 +75,58 @@ void Histogram::generateMatrix(){
     }
 }
 
-void Histogram::calculateLocalMaximux(){
-    max1=0;max2=0;temp1=0;temp2=0;
-    QTextStream cout (stdout);
+void Histogram::calculateTwoPeaks(){
+    max1=0;max2=0;
+    int temp1=0, temp2=0;
+    //look first peak
     for (int i=1; i < intensidad-1; ++i) {
-        //encontrar posicion
+        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1])
+           if (relativeFrecuency[i]>relativeFrecuency[max1]) max1=i;
+    }
+    //look second peak
+    for (int i=1; i < intensidad-1; ++i) {
         if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
-            temp2=temp1;
             temp1=pow(max1-i,2)*relativeFrecuency[i];
-            if (relativeFrecuency[i]>relativeFrecuency[max1]) {
-               // max2=max1;
-                max1=i;
-            }else if((relativeFrecuency[i]>relativeFrecuency[max2])&&(temp1>temp2)){
+            if (temp1>temp2){
+                temp2=temp1;
                 max2=i;
-            }/*else if(i-max2>floor(posicion/i)*25){
-                max2=i;
-            }*/
+            }
+        }
+    }
+}
+
+void Histogram::calculatePromedio(){
+    int umbral = (max1+max2)/2;
+    QTextStream cout(stdout);
+    cout<<max1<<" "<<max2<<" "<<umbral<<endl;
+    u1=0,u2=0;
+    double n1=0,n2=0,w1=0,w2=0;
+
+    for (int i = 0; i < intensidad; ++i) {
+        if(relativeFrecuency[i]!=0){
+            if(i<=umbral) n1+=relativeFrecuency[i];
+            else n2+=relativeFrecuency[i];
+        }
+    }
+    for (int i = 0; i < intensidad; ++i) {
+        if(relativeFrecuency[i]!=0){
+            if(i<=umbral) w1+=relativeFrecuency[i]/n1;
+            else w2+=relativeFrecuency[i]/n2;
+        }
+    }
+    for (int i = 0; i < intensidad; ++i) {
+        if(relativeFrecuency[i]!=0){
+            if(i<=umbral) u1+=(i*(relativeFrecuency[i]/n1))/w1;
+            else u2+=(i*(relativeFrecuency[i]/n2))/w2;
         }
     }
 }
 
 int Histogram::calculateThresholdIsodata(){
-    QTextStream cout (stdout);cout<<"que pasa ";
-    int umbral = (max1+max2)/2;
-    int u1=0,u2=0;
-    int n1=0,n2=0,w1=0,w2=0,p1=0,p2=0;
-
-    for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
-            if(i<=umbral)
-                n1+=relativeFrecuency[i];
-            else
-                n2+=relativeFrecuency[i];
-        }
-    }
-    cout<<"n1 "<<n1<<" n2 "<<n2<<" ";
-    for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
-            if(i<=umbral){
-                p1=relativeFrecuency[i]/n1;
-                w1+=p1;
-                u1+=(i*p1)/w1;
-            }else{
-                p2=relativeFrecuency[i]/n2;
-                w2+=p2;
-                u2+=(i*p2)/w2;
-            }
-        }
-    }
-    cout<<max1<<" "<<max2<<" "<<umbral<<" u1 "<<u1<<" u2 "<<u2<<" + "<<(u1+u2)/2;
-    return((u1+u2)/2);
+   calculatePromedio();
+   QTextStream cout(stdout);
+   cout<<(int)(u1+u2)/2;
+    return((int)(u1+u2)/2);
 }
 
 double Histogram::findMaxRelativeFrecuency(){

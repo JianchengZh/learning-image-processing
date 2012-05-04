@@ -118,7 +118,7 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 bool MainController::isodataSegmentation(){
-    histogram->calculateLocalMaximux();
+    histogram->calculateTwoPeaks();
     return bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
