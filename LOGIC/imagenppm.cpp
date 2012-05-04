@@ -29,17 +29,17 @@ ImagenPPM::ImagenPPM(QList<QString> lectura){
     this->lutSize=colorDepth;
     this->imageType="PPM";
 
-    matrizRp = new int**[height];
+    matrixRp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizRp[i]=new int*[width];
+        matrixRp[i]=new int*[width];
 
-    matrizGp = new int**[height];
+    matrixGp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizGp[i]=new int*[width];
+        matrixGp[i]=new int*[width];
 
-    matrizBp = new int**[height];
+    matrixBp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizBp[i]=new int*[width];
+        matrixBp[i]=new int*[width];
 
     //Lookup Table
     lutR = new int [lutSize+1];
@@ -60,9 +60,9 @@ ImagenPPM::ImagenPPM(QList<QString> lectura){
     int aux3=6;
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrizRp[i][j]=&lutR[lectura[i+j+aux1].toInt()];
-            matrizGp[i][j]=&lutG[lectura[i+j+aux2].toInt()];
-            matrizBp[i][j]=&lutB[lectura[i+j+aux3].toInt()];
+            matrixRp[i][j]=&lutR[lectura[i+j+aux1].toInt()];
+            matrixGp[i][j]=&lutG[lectura[i+j+aux2].toInt()];
+            matrixBp[i][j]=&lutB[lectura[i+j+aux3].toInt()];
             aux1=aux1+2;
             aux2=aux2+2;
             aux3=aux3+2;
@@ -98,32 +98,32 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
     }
 
     // Matriz Inicialization:
-    matrizRp = new int**[height];
+    matrixRp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizRp[i]=new int*[width];
+        matrixRp[i]=new int*[width];
 
-    matrizGp = new int**[height];
+    matrixGp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizGp[i]=new int*[width];
+        matrixGp[i]=new int*[width];
 
-    matrizBp = new int**[height];
+    matrixBp = new int**[height];
     for (int i=0; i < height; i++)
-        matrizBp[i]=new int*[width];
+        matrixBp[i]=new int*[width];
 
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrizRp[i][j]=&lutR[matrizR[i][j]];
+            matrixRp[i][j]=&lutR[matrizR[i][j]];
         }
     }
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrizGp[i][j]=&lutG[matrizG[i][j]];
+            matrixGp[i][j]=&lutG[matrizG[i][j]];
         }
     }
 
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrizBp[i][j]=&lutB[matrizB[i][j]];
+            matrixBp[i][j]=&lutB[matrizB[i][j]];
         }
     }
 }
@@ -134,37 +134,57 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int colorD, int 
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
-    this->matrizRp=matrizR;
-    this->lutR=lutR;
-    this->matrizGp=matrizG;
-    this->lutG=lutG;
-    this->matrizBp=matrizB;
-    this->lutB=lutB;
-    this->lutSize=lutSize;
 
+    //Lookup Table
+    this->lutR = new int [lutSize+1];
+    this->lutG = new int [lutSize+1];
+    this->lutB = new int [lutSize+1];
+    for (int i = 0; i < lutSize+1; ++i) {
+        this->lutR[i]=lutR[i];
+        this->lutG[i]=lutG[i];
+        this->lutB[i]=lutB[i];
+    }
+
+    // Matrix of Pointers
+    matrixRp = new int**[height];
+    matrixGp = new int**[height];
+    matrixBp = new int**[height];
+    for (int i=0; i < height; i++){
+        matrixRp[i]=new int*[width];
+        matrixGp[i]=new int*[width];
+        matrixBp[i]=new int*[width];
+    }
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            matrixRp[i][j]=&this->lutR[*matrizR[i][i]];
+            matrixGp[i][j]=&this->lutG[*matrizG[i][i]];
+            matrixBp[i][j]=&this->lutB[*matrizB[i][i]];
+        }
+    }
 }
 
 ImagenPPM::~ImagenPPM(){
 
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            matrizRp[i][j]=0;
-            matrizGp[i][j]=0;
-            matrizBp[i][j]=0;
+            matrixRp[i][j]=0;
+            matrixGp[i][j]=0;
+            matrixBp[i][j]=0;
         }
 
-        delete matrizRp[i];
-        matrizRp[i]=0;
+        delete matrixRp[i];
+        matrixRp[i]=0;
 
-        delete matrizGp[i];
-        matrizGp[i]=0;
+        delete matrixGp[i];
+        matrixGp[i]=0;
 
-        delete matrizBp[i];
-        matrizBp[i]=0;
+        delete matrixBp[i];
+        matrixBp[i]=0;
     }
-    delete matrizRp;
-    delete matrizGp;
-    delete matrizBp;
+    delete matrixRp;
+    delete matrixGp;
+    delete matrixBp;
 
     delete lutR;
     this->lutR=0;
@@ -181,66 +201,95 @@ Image* ImagenPPM::changeSize(int factor){
 
     int newwidth=0,newheight=0;
     int **enlargedR, **enlargedG, **enlargedB;
+    ImagenPPM *imageResized;
+
 
     if (factor>0) {
         newwidth = this->width*factor;
         newheight = this->height*factor;
 
+        // Initialization
         enlargedR = new int*[newheight];
-        for (int i=0; i < newheight; i++)
-            enlargedR[i]=new int[newwidth];
-
         enlargedG = new int*[newheight];
-        for (int i=0; i < newheight; i++)
-            enlargedG[i]=new int[newwidth];
-
         enlargedB = new int*[newheight];
-        for (int i=0; i < newheight; i++)
+        for (int i=0; i < newheight; i++){
+            enlargedR[i]=new int[newwidth];
+            enlargedG[i]=new int[newwidth];
             enlargedB[i]=new int[newwidth];
+        }
 
+        // Proceso de reduccion
         for (int i = 0; i <newheight; ++i) {
             for (int j = 0; j < newwidth; ++j) {
-                enlargedR[i][j]=*(matrizRp[(int)floor(i/factor)][(int)floor(j/factor)]);
-                enlargedG[i][j]=*(matrizGp[(int)floor(i/factor)][(int)floor(j/factor)]);
-                enlargedB[i][j]=*(matrizBp[(int)floor(i/factor)][(int)floor(j/factor)]);
+                enlargedR[i][j]=*(matrixRp[(int)floor(i/factor)][(int)floor(j/factor)]);
+                enlargedG[i][j]=*(matrixGp[(int)floor(i/factor)][(int)floor(j/factor)]);
+                enlargedB[i][j]=*(matrixBp[(int)floor(i/factor)][(int)floor(j/factor)]);
             }
         }
+
+        imageResized = new ImagenPPM (identification,
+                                      comment,
+                                      newwidth,
+                                      newheight,
+                                      colorDepth,
+                                      enlargedR,
+                                      enlargedG,
+                                      enlargedB);
+
+        // Elimination
+        for (int i=0; i < newheight; i++){
+            delete enlargedR[i];
+            delete enlargedG[i];
+            delete enlargedB[i];
+        }
+        delete enlargedR;
+        delete enlargedG;
+        delete enlargedB;
+
     }else {
         factor*=-1;
         newwidth = (int)ceil(this->width/factor);
         newheight = (int)ceil(this->height/factor);
 
-        // inicializacion
+        // Initialization
         enlargedR = new int*[newheight];
-        for (int i=0; i < newheight; i++)
-            enlargedR[i]=new int[newwidth];
-
         enlargedG = new int*[newheight];
-        for (int i=0; i < newheight; i++)
-            enlargedG[i]=new int[newwidth];
-
         enlargedB = new int*[newheight];
-        for (int i=0; i < newheight; i++)
+        for (int i=0; i < newheight; i++){
+            enlargedR[i]=new int[newwidth];
+            enlargedG[i]=new int[newwidth];
             enlargedB[i]=new int[newwidth];
+        }
 
         // Proceso de reduccion
         for(int i=0; i <newheight; i++){
             for(int j=0; j<newwidth; j++){
-                enlargedR[i][j]=*(matrizRp[i*factor][j*factor]);
-                enlargedG[i][j]=*(matrizGp[i*factor][j*factor]);
-                enlargedB[i][j]=*(matrizBp[i*factor][j*factor]);
+                enlargedR[i][j]=*(matrixRp[i*factor][j*factor]);
+                enlargedG[i][j]=*(matrixGp[i*factor][j*factor]);
+                enlargedB[i][j]=*(matrixBp[i*factor][j*factor]);
             }
         }
-    }
 
-    return new ImagenPPM (identification,
-                          comment,
-                          newwidth,
-                          newheight,
-                          colorDepth,
-                          enlargedR,
-                          enlargedG,
-                          enlargedB);
+        imageResized = new ImagenPPM (identification,
+                                      comment,
+                                      newwidth,
+                                      newheight,
+                                      colorDepth,
+                                      enlargedR,
+                                      enlargedG,
+                                      enlargedB);
+
+        // Elimination
+        for (int i=0; i < newheight; i++){
+            delete enlargedR[i];
+            delete enlargedG[i];
+            delete enlargedB[i];
+        }
+        delete enlargedR;
+        delete enlargedG;
+        delete enlargedB;
+    }
+    return imageResized;
 }
 
 Image* ImagenPPM::changeColorDepth(int bits){
@@ -259,11 +308,11 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               height,
                               width,
                               newColorDepth,
-                              matrizRp,
+                              matrixRp,
                               lutR,
-                              matrizGp,
+                              matrixGp,
                               lutG,
-                              matrizBp,
+                              matrixBp,
                               lutB,
                               lutSize);
 
@@ -281,11 +330,11 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               height,
                               width,
                               newColorDepth,
-                              matrizRp,
+                              matrixRp,
                               lutR,
-                              matrizGp,
+                              matrixGp,
                               lutG,
-                              matrizBp,
+                              matrixBp,
                               lutB,
                               lutSize);
     }else{
@@ -303,9 +352,9 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
             if(method==6)
-                grayScaleMatrix[i][j]=(int)(0.299*matrizRp[i][j][0]+0.587*matrizGp[i][j][0]+0.114*matrizBp[i][j][0]);
+                grayScaleMatrix[i][j]=(int)(0.299*matrixRp[i][j][0]+0.587*matrixGp[i][j][0]+0.114*matrixBp[i][j][0]);
             else
-                grayScaleMatrix[i][j]=(int)(0.33*matrizRp[i][j][0]+0.33*matrizGp[i][j][0]+0.33*matrizBp[i][j][0]);
+                grayScaleMatrix[i][j]=(int)(0.33*matrixRp[i][j][0]+0.33*matrixGp[i][j][0]+0.33*matrixBp[i][j][0]);
         }
     }
 
@@ -316,8 +365,6 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
                           colorDepth,
                           grayScaleMatrix);
 }
-
-// Getters
 
 // export
 void ImagenPPM::exportar(QString filename){
@@ -333,7 +380,7 @@ void ImagenPPM::exportar(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                fSalida<<*(matrizRp[i][j])<<endl<<*(matrizGp[i][j])<<endl<<*(matrizBp[i][j])<<endl;
+                fSalida<<*(matrixRp[i][j])<<endl<<*(matrixGp[i][j])<<endl<<*(matrixBp[i][j])<<endl;
             }
         }
     }

@@ -60,7 +60,6 @@ public:
     QImage *getQImage();
 
     // Others methods:
-    //    void newJob();
     bool undo();
 
 };

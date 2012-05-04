@@ -95,6 +95,7 @@ void MainWindow::on_pButton__NormalSize_clicked()
         ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
+
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
 }
 

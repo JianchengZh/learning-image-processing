@@ -46,23 +46,16 @@ Histogram::Histogram(ImagenPGM *imagen)
 
 Histogram::~Histogram(){
 
-
-    QTextStream (stdout) <<"al inicio del destructor"<<endl;
-
     for (int i=0; i < intensidad; i++){
-
-        QTextStream (stdout) <<"entrando al for"<<endl;
-        //        delete matrizHistograma[i];
-        //        matrizHistograma[i]=0;
-        QTextStream (stdout) <<"Saliendo del for"<<endl;
+        delete matrizHistograma[i];
+        matrizHistograma[i]=0;
     }
-    //    delete matrizHistograma;
-    //    matrizHistograma=0;
+
+    delete matrizHistograma;
+    matrizHistograma=0;
 
     delete relativeFrecuency;
     relativeFrecuency=0;
-
-    QTextStream (stdout) <<"al final de destructor"<<endl;
 }
 
 void Histogram::generateMatrix(){

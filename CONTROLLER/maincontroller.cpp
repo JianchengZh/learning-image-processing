@@ -34,8 +34,12 @@ MainController::~MainController(){
 
     delete oldImage;
     oldImage=0;
-    //    delete displayedImage;
-    //    delete oldDisplayedImage;
+
+//    delete displayedImage;
+//    displayedImage=0;
+
+    delete oldDisplayedImage;
+    oldDisplayedImage=0;
 
     delete histogram;
     histogram=0;
@@ -138,10 +142,11 @@ bool MainController::undo(){
     if (oldImage!=0) {
         imagen=oldImage;
         displayedImage=oldDisplayedImage;
+        oldImage=0;
+        oldDisplayedImage=0;
         return true;
     }else{
         return false;
     }
-
 }
 
