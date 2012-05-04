@@ -34,7 +34,7 @@ class ColorDepthQwidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit ColorDepthQwidget(QWidget *parent, MainController *controller, MainWindow *window);
+    explicit ColorDepthQwidget(QWidget *parent, MainController *controller, MainWindow *window, int ColorDensity);
     ~ColorDepthQwidget();
     
 private slots:

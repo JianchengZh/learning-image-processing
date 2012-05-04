@@ -28,15 +28,11 @@ MainController::MainController(){
 }
 
 MainController::~MainController(){
-
     delete imagen;
     imagen=0;
 
     delete oldImage;
     oldImage=0;
-
-//    delete displayedImage;
-//    displayedImage=0;
 
     delete oldDisplayedImage;
     oldDisplayedImage=0;
@@ -65,40 +61,38 @@ bool MainController::loadImage(QString filename){
 }
 
 QImage* MainController::generateHistogram(){
+
     histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
     ImagenPGM *imageHistogram=histogram->getHistogram();
     imageHistogram->exportar("histogram");
+
     delete imageHistogram;
     imageHistogram=0;
+
     return new QImage("histogram.pgm");
 }
 
 // Image Transfomations
-bool MainController::changeSize(int density){
+void MainController::changeSize(int density){
 
-    if(imagen!=0){
-        oldImage=imagen;
-        imagen=oldImage->changeSize(density);
-        imagen->exportar("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return true;
-    }else{
-        return false;
-    }
+    delete oldImage;
+    oldImage=0;
+    oldImage=imagen;
+
+    imagen=oldImage->changeSize(density);
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
-bool MainController::changeColorDepth(int depth){
-    if(imagen!=0){
+void MainController::changeColorDepth(int depth){
+
         oldImage=imagen;
         imagen=oldImage->changeColorDepth(depth);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return true;
-    }else{
-        return false;
-    }
+
 }
 
 void MainController::convertToGrayscale(int method){
@@ -110,22 +104,19 @@ void MainController::convertToGrayscale(int method){
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
-bool MainController::bimodalSegmentaion(int T){
-    if(imagen!=0){
+void MainController::bimodalSegmentaion(int T){
+
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->bimodalSegmentaion(T);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return true;
-    }else{
-        return false;
-    }
+
 }
 
-bool MainController::isodataSegmentation(){
+void MainController::isodataSegmentation(){
     histogram->calculateLocalMaximux();
-    return bimodalSegmentaion(histogram->calculateThresholdIsodata());
+    bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
 // Getters
@@ -144,6 +135,14 @@ bool MainController::undo(){
         displayedImage=oldDisplayedImage;
         oldImage=0;
         oldDisplayedImage=0;
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool MainController::isThereAnUploadedImage(){
+    if(imagen!=0){
         return true;
     }else{
         return false;

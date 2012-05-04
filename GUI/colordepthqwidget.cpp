@@ -20,13 +20,14 @@
 #include "colordepthqwidget.h"
 #include "ui_colordepthqwidget.h"
 
-ColorDepthQwidget::ColorDepthQwidget(QWidget *parent, MainController *controller, MainWindow *window) :
+ColorDepthQwidget::ColorDepthQwidget(QWidget *parent, MainController *controller, MainWindow *window, int ColorDensity) :
     QWidget(parent),
     ui(new Ui::ColorDepthQwidget)
 {
     ui->setupUi(this);
     mainController=controller;
     mainwindow=window;
+    ui->verticalSlider->setValue(ColorDensity);
 }
 
 ColorDepthQwidget::~ColorDepthQwidget()
@@ -37,7 +38,8 @@ ColorDepthQwidget::~ColorDepthQwidget()
 void ColorDepthQwidget::on_pushButton_clicked()
 {
     int depth = (int)ui->lcdNumber->value();
-    if(mainController->changeColorDepth(depth)){
+    if(mainController->isThereAnUploadedImage()){
+        mainController->changeColorDepth(depth);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{

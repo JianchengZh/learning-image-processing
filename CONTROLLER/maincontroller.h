@@ -48,11 +48,11 @@ public:
     QImage *generateHistogram();
 
     // Image Processing:
-    bool changeSize(int density);
-    bool changeColorDepth(int depth);
-    bool bimodalSegmentaion(int T);
+    void changeSize(int density);
+    void changeColorDepth(int depth);
+    void bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
-    bool isodataSegmentation();
+    void isodataSegmentation();
 
 
     // Getters:
@@ -61,6 +61,7 @@ public:
 
     // Others methods:
     bool undo();
+    bool isThereAnUploadedImage();
 
 };
 #endif // MAINCONTROLLER_H

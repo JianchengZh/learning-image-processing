@@ -45,6 +45,17 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->pButton__AdjustImageSize->setEnabled(true);
         ui->pButton__NormalSize->setEnabled(true);
 
+        //Enable QActions
+        ui->actionUndo->setEnabled(true);
+
+        ui->actionResize->setEnabled(true);
+        ui->actionChange_Color_Depth->setEnabled(true);
+        if (mainController->getImage()->getImageType().toUpper()=="PPM") {
+            ui->actionConver_to_GrayScale->setEnabled(true);
+        }
+
+        ui->actionThreshold->setEnabled(true);
+
         // Changes on labels
         ui->label_Density->setEnabled(true);
         ui->label_Dimensions->setEnabled(true);
@@ -109,6 +120,17 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
 
+    //Disable QActions
+    ui->actionUndo->setEnabled(false);
+
+    ui->actionResize->setEnabled(false);
+    ui->actionChange_Color_Depth->setEnabled(false);
+    if (mainController->getImage()->getImageType().toUpper()=="PPM") {
+        ui->actionConver_to_GrayScale->setEnabled(false);
+    }
+
+    ui->actionThreshold->setEnabled(true);
+
     // Changes on labels
     ui->label_Density->setEnabled(false);
     ui->label_Dimensions->setEnabled(false);
@@ -163,7 +185,8 @@ void MainWindow::on_actionUndo_triggered()
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
     ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
@@ -174,16 +197,17 @@ void MainWindow::on_actionResize_triggered()
 void MainWindow::on_actionChange_Color_Depth_triggered()
 {
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
-    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this);
+    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this, log2(mainController->getImage()->getColorDensity()+1));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
 void MainWindow::on_actionConver_to_GrayScale_triggered()
 {
-    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PPM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PPM"){
         QMessageBox msgBox(this);
         msgBox.setText("do you want to give the same weight to all color channels?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
@@ -203,7 +227,8 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 // Histogram Menu
 void MainWindow::on_actionThreshold_triggered(){
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
     ui->widget_options = new ThresholdQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
