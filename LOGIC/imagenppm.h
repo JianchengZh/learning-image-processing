@@ -25,7 +25,7 @@
 
 class ImagenPPM: public Image
 {
-    int ***matrizRp, ***matrizGp, ***matrizBp;
+    int ***matrixRp, ***matrixGp, ***matrixBp;
     int *lutR, *lutG, *lutB;
 
 public:
@@ -38,9 +38,9 @@ public:
               int filas,
               int columnas,
               int intensity,
-              int **matrizRp,
-              int **matrizGp,
-              int **matrizBp);
+              int **matrixRp,
+              int **matrixGp,
+              int **matrixBp);
 
     ImagenPPM(QString id,
               QString comment,

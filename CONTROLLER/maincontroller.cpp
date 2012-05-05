@@ -24,19 +24,21 @@ MainController::MainController(){
     this->oldImage=0;
     this->displayedImage=0;
     this->oldDisplayedImage=0;
+    this->histogram=0;
 }
 
 MainController::~MainController(){
-
     delete imagen;
+    imagen=0;
 
-    //    delete oldImage;
+    delete oldImage;
+    oldImage=0;
 
-    //delete displayedImage;
-
-    //delete oldDisplayedImage;
+    delete oldDisplayedImage;
+    oldDisplayedImage=0;
 
     delete histogram;
+    histogram=0;
 }
 
 // LOAD IMAGE
@@ -56,43 +58,41 @@ bool MainController::loadImage(QString filename){
     }else{
         return false;
     }
-    //    delete[] matrixImagenP;
-    //    delete[] lut;
 }
 
 QImage* MainController::generateHistogram(){
+
     histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
     ImagenPGM *imageHistogram=histogram->getHistogram();
     imageHistogram->exportar("histogram");
+
+    delete imageHistogram;
+    imageHistogram=0;
+
     return new QImage("histogram.pgm");
 }
 
 // Image Transfomations
-bool MainController::changeSize(int density){
+void MainController::changeSize(int density){
 
-    if(imagen!=0){
-        oldImage=imagen;
-        imagen=oldImage->changeSize(density);
-        imagen->exportar("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return true;
-    }else{
-        return false;
-    }
+    delete oldImage;
+    oldImage=0;
+    oldImage=imagen;
+
+    imagen=oldImage->changeSize(density);
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
-bool MainController::changeColorDepth(int depth){
-    if(imagen!=0){
+void MainController::changeColorDepth(int depth){
+
         oldImage=imagen;
         imagen=oldImage->changeColorDepth(depth);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-        return true;
-    }else{
-        return false;
-    }
+
 }
 
 void MainController::convertToGrayscale(int method){
@@ -130,66 +130,43 @@ bool MainController::bimodalSegmentaion(int T){
     }
 }
 
-bool MainController::isodataSegmentation(){
+void MainController::isodataSegmentation(){
     histogram->calculateTwoPeaks();
-    return bimodalSegmentaion(histogram->calculateThresholdIsodata());
+    bimodalSegmentaion(histogram->calculateThresholdIsodata());
 }
 
-bool MainController::otsuSegmentation(){
+void MainController::otsuSegmentation(){
     histogram->calculateTwoPeaks();
-    return bimodalSegmentaion(histogram->calculateThresholdOtsu());
+    bimodalSegmentaion(histogram->calculateThresholdOtsu());
 }
 
 // Getters
 Image* MainController::getImage(){
     return imagen;
 }
+
 QImage* MainController::getQImage(){
     return displayedImage;
 }
 
 // Other Methods
-//void MainController::newJob(){
-//    imagen=0;
-//    oldImage=0;
-//    displayedImage=0;
-//    oldDisplayedImage=0;
-
-////    //delete pointers image
-////    for (int i=0; i < imagen->getRowNumber(); i++){
-////        delete[] matrixImagenP[i];
-////    //    matrixImagenP[i]=0;
-////    }
-
-////    for(int i=0; i<imagen->getRowNumber(); i++){
-////        for(int j=0; j<imagen->getColumnNumber(); j++){
-////            delete[] matrixImagenP[i][j];
-////     //       matrixImagenP[i][j]=0;
-////        }
-////    }
-
-////    delete[] matrixImagenP;
-////    delete[] lut;
-
-////    //delete pointers histogram
-////    delete[] relativeFrecuency;
-////    for (int i=0; i <imagen->getColorDensity(); i++){
-////        delete[] matrizHistograma[i];
-////      //  relativeFrecuency[i]=0;
-////      //  matrizHistograma[i]=0;
-////    }
-
-////    delete[] matrizHistograma;
-//}
-
 bool MainController::undo(){
     if (oldImage!=0) {
         imagen=oldImage;
         displayedImage=oldDisplayedImage;
+        oldImage=0;
+        oldDisplayedImage=0;
         return true;
     }else{
         return false;
     }
+}
 
+bool MainController::isThereAnUploadedImage(){
+    if(imagen!=0){
+        return true;
+    }else{
+        return false;
+    }
 }
 

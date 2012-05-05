@@ -37,7 +37,8 @@ ResizeQwidget::~ResizeQwidget()
 void ResizeQwidget::on_pushButton_clicked()
 {
     int density = (int)ui->lcdNumber->value();
-    if(mainController->changeSize(density)){
+    if(mainController->isThereAnUploadedImage()){
+        mainController->changeSize(density);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{

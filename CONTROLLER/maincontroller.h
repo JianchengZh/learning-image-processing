@@ -38,7 +38,6 @@ private:
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
     Histogram *histogram;
-    //    ImagenPGM ***matrixImagenP,*lut;
 
 public:
 
@@ -49,22 +48,21 @@ public:
     QImage *generateHistogram();
 
     // Image Processing:
-    bool changeSize(int density);
-    bool changeColorDepth(int depth);
+    void changeSize(int density);
+    void changeColorDepth(int depth);
     bool bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
     bool equalizateHistogram();
-    bool isodataSegmentation();
-    bool otsuSegmentation();
-
+    void otsuSegmentation();
+    void isodataSegmentation();
 
     // Getters:
     Image *getImage();
     QImage *getQImage();
 
     // Others methods:
-    //    void newJob();
     bool undo();
+    bool isThereAnUploadedImage();
 
 };
 #endif // MAINCONTROLLER_H

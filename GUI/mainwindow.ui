@@ -457,26 +457,41 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionUndo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Undo</string>
    </property>
   </action>
   <action name="actionResize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Resize</string>
    </property>
   </action>
   <action name="actionChange_Color_Depth">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Change Color Depth</string>
    </property>
   </action>
   <action name="actionConver_to_GrayScale">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Conver to GrayScale</string>
    </property>
   </action>
   <action name="actionThreshold">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Threshold</string>
    </property>

@@ -46,19 +46,21 @@ Histogram::Histogram(ImagenPGM *imagen)
 }
 
 Histogram::~Histogram(){
-    delete relativeFrecuency;
-    relativeFrecuency=0;
 
     for (int i=0; i < intensidad; i++){
         delete matrizHistograma[i];
         matrizHistograma[i]=0;
     }
+
     delete matrizHistograma;
     matrizHistograma=0;
 
+    delete relativeFrecuency;
+    relativeFrecuency=0;
 }
 
 void Histogram::generateMatrix(){
+
     matrizHistograma = new int*[intensidad];
     for (int i=0; i < intensidad; i++)
         matrizHistograma[i]=new int[intensidad];

@@ -38,7 +38,8 @@ ThresholdQwidget::~ThresholdQwidget()
 void ThresholdQwidget::on_pushButton_clicked()
 {
     int threshold = (int)ui->lcdNumber->value();
-    if(mainController->bimodalSegmentaion(threshold)){
+    if(mainController->isThereAnUploadedImage()){
+        mainController->bimodalSegmentaion(threshold);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{
@@ -51,7 +52,8 @@ void ThresholdQwidget::on_pushButton_clicked()
 
 void ThresholdQwidget::on_isodataSegmentation_clicked()
 {
-    if(mainController->isodataSegmentation()){
+    if(mainController->isThereAnUploadedImage()){
+        mainController->isodataSegmentation();
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{
@@ -65,7 +67,8 @@ void ThresholdQwidget::on_isodataSegmentation_clicked()
 
 void ThresholdQwidget::on_otsuSegmentation_clicked()
 {
-    if(mainController->otsuSegmentation()){
+    if(mainController->isThereAnUploadedImage()){
+        mainController->otsuSegmentation();
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{

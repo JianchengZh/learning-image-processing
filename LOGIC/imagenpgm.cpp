@@ -72,11 +72,6 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
             matrixImagenP[i][j]=&lut[matrix[i][j]];
         }
     }
-
-    for (int i=0; i < height; i++)
-        delete matrix[i];
-
-    delete matrix;
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){
@@ -93,23 +88,28 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
 
 ImagenPGM::~ImagenPGM(){
 
-    delete lut;
-    this->lut=0;
-
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            delete matrixImagenP[i][j];
             matrixImagenP[i][j]=0;
         }
         delete matrixImagenP[i];
         matrixImagenP[i]=0;
     }
     delete matrixImagenP;
+    matrixImagenP=0;
+
+    delete lut;
+    lut=0;
 }
 
 //Image processing
 Image* ImagenPGM::changeSize(int factor){
-    int w=0,h=0,**enlargedImage;
+
+    int w=0;
+    int h=0;
+    int **enlargedImage;
+    ImagenPGM *imageResized;
+
     if (factor>0) {
         w = this->width*factor;
         h = this->height*factor;
@@ -123,6 +123,18 @@ Image* ImagenPGM::changeSize(int factor){
                 enlargedImage[i][j]=*(matrixImagenP[(int)floor(i/factor)][(int)floor(j/factor)]);
             }
         }
+        imageResized = new ImagenPGM (identification,
+                                     comment,
+                                     w,
+                                     h,
+                                     colorDepth,
+                                     enlargedImage);
+
+
+        for (int i=0; i < h; i++)
+            delete enlargedImage[i];
+        delete enlargedImage;
+
     } else {
         factor*=-1;
         w = (int)ceil(this->width/factor);
@@ -139,14 +151,20 @@ Image* ImagenPGM::changeSize(int factor){
                 enlargedImage[i][j]=*(matrixImagenP[i*factor][j*factor]);
             }
         }
-    }
 
-    return new ImagenPGM (identification,
-                          comment,
-                          w,
-                          h,
-                          colorDepth,
-                          enlargedImage);
+        imageResized = new ImagenPGM (identification,
+                                     comment,
+                                     w,
+                                     h,
+                                     colorDepth,
+                                     enlargedImage);
+
+        for (int i=0; i < h; i++)
+            delete enlargedImage[i];
+        delete enlargedImage;
+
+    }
+    return imageResized;
 }
 
 Image* ImagenPGM::changeColorDepth(int bits){

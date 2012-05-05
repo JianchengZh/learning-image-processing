@@ -22,8 +22,10 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
-    mainController=0;
     ui->widget_options=0;
+    displayedImage=0;
+    histogramImage=0;
+    mainController= new MainController();
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +36,7 @@ MainWindow::~MainWindow()
 //Buttons Events
 void MainWindow::on_pButton_LoadImage_clicked()
 {
-    mainController= new MainController();
+
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
     if (mainController->loadImage(filename)) {
 
@@ -42,6 +44,17 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->pButton_LoadImage->setEnabled(false);
         ui->pButton__AdjustImageSize->setEnabled(true);
         ui->pButton__NormalSize->setEnabled(true);
+
+        //Enable QActions
+        ui->actionUndo->setEnabled(true);
+
+        ui->actionResize->setEnabled(true);
+        ui->actionChange_Color_Depth->setEnabled(true);
+        if (mainController->getImage()->getImageType().toUpper()=="PPM") {
+            ui->actionConver_to_GrayScale->setEnabled(true);
+        }
+
+        ui->actionThreshold->setEnabled(true);
 
         // Changes on labels
         ui->label_Density->setEnabled(true);
@@ -66,6 +79,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         QMessageBox msgBox(this);
         msgBox.setText("Sorry, but the selected file is not supported");
         msgBox.exec();
+        delete mainController;
+        mainController=0;
     }
 }
 
@@ -78,7 +93,6 @@ void MainWindow::on_pButton__AdjustImageSize_clicked()
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
-
     if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
         ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
@@ -92,6 +106,7 @@ void MainWindow::on_pButton__NormalSize_clicked()
         ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
+
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
 }
 
@@ -104,6 +119,13 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->pButton_LoadImage->setEnabled(true);
     ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
+
+    //Disable QActions
+    ui->actionUndo->setEnabled(false);
+    ui->actionResize->setEnabled(false);
+    ui->actionChange_Color_Depth->setEnabled(false);
+    ui->actionConver_to_GrayScale->setEnabled(false);
+    ui->actionThreshold->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -122,9 +144,18 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
-    ui->widget_options->deleteLater();
+    delete ui->widget_options;
+    ui->widget_options=0;
+
+    delete histogramImage;
+    histogramImage=0;
+
+    delete displayedImage;
+    displayedImage=0;
+
     delete mainController;
     mainController=0;
+    mainController=new MainController();
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -140,7 +171,7 @@ void MainWindow::on_actionUndo_triggered()
         on_pButton__NormalSize_clicked();
     }else{
         QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry, but pero no se puede ir pa tras");
+        msgBox2.setText("Sorry, but there is nothing to undo");
         msgBox2.exec();
     }
 
@@ -150,7 +181,8 @@ void MainWindow::on_actionUndo_triggered()
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
     ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
@@ -161,16 +193,17 @@ void MainWindow::on_actionResize_triggered()
 void MainWindow::on_actionChange_Color_Depth_triggered()
 {
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
-    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this);
+    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this, log2(mainController->getImage()->getColorDensity()+1));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
 void MainWindow::on_actionConver_to_GrayScale_triggered()
 {
-    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PPM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PPM"){
         QMessageBox msgBox(this);
         msgBox.setText("do you want to give the same weight to all color channels?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
@@ -190,7 +223,8 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 // Histogram Menu
 void MainWindow::on_actionThreshold_triggered(){
     if (ui->widget_options!=0) {
-        ui->widget_options->deleteLater();
+        delete ui->widget_options;
+        ui->widget_options=0;
     }
     ui->widget_options = new ThresholdQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
@@ -199,7 +233,7 @@ void MainWindow::on_actionThreshold_triggered(){
 
 void MainWindow::on_actionEqualization_triggered()
 {
-    if(mainController->getImage()!=0  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         QMessageBox msgBox(this);
         msgBox.setText("do you want to equalizet histogram?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
@@ -240,8 +274,8 @@ void MainWindow::displayResults(QImage *result)
 
 void MainWindow::ShowHistogram(){
     if (mainController->getImage()->getImageType().toUpper()=="PGM") {
-        histogram = mainController->generateHistogram();
-        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogram->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
+        histogramImage = mainController->generateHistogram();
+        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
 
