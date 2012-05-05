@@ -26,7 +26,7 @@ Histogram::Histogram(ImagenPGM *imagen)
     intensidad=imagen->getColorDensity()+1;
 
     int ***matrizImagen=imagen->getMatrix();
-    int totalNumberPixels = nFilas*nColumnas;
+//    int totalNumberPixels = nFilas*nColumnas;
     posicion = nColumnas+nFilas;
 
     relativeFrecuency= new double[intensidad];
@@ -39,9 +39,9 @@ Histogram::Histogram(ImagenPGM *imagen)
         }
     }
 
-//    for (int i=0; i < intensidad; i++){
-//        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
-//    }
+    //    for (int i=0; i < intensidad; i++){
+    //        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
+    //    }
     generateMatrix();
 }
 
@@ -100,24 +100,23 @@ void Histogram::calculateTwoPeaks(){
 
 void Histogram::calculatePromedio(){
     umbral = (max1+max2)/2;
-    u1=0;u2=0;w1=0;w2=0;
-    n1=0;n2=0;
+    u1=0;u2=0;w1=0;w2=0;n=0;
+
+    for (int i = 0; i < intensidad; ++i)
+        if(relativeFrecuency[i]!=0)
+            n+=relativeFrecuency[i];
+
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<=umbral) n1+=relativeFrecuency[i];
-            else n2+=relativeFrecuency[i];
+            if(i<=umbral) w1+=relativeFrecuency[i]/n;
+            else w2+=relativeFrecuency[i]/n;
         }
     }
+
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<=umbral) w1+=relativeFrecuency[i]/n1;
-            else w2+=relativeFrecuency[i]/n2;
-        }
-    }
-    for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
-            if(i<=umbral) u1+=(i*(relativeFrecuency[i]/n1))/w1;
-            else u2+=(i*(relativeFrecuency[i]/n2))/w2;
+            if(i<=umbral) u1+=(i*(relativeFrecuency[i]/n))/w1;
+            else u2+=(i*(relativeFrecuency[i]/n))/w2;
         }
     }
 }
@@ -129,27 +128,19 @@ int Histogram::calculateThresholdIsodata(){
 
 int Histogram::calculateThresholdOtsu(){
     calculatePromedio();
-    double uc = w1*u1+w2*u2;
-    double Gin=0,Gzw=w1*pow(u1-uc,2)+w2*pow(u2-uc,2);
-    double g1=0,g2=0;
+    double uc = (w1*u1)+(w2*u2);
+//    double Gin=0,Gzw=(w1*pow(u1-uc,2))+(w2*pow(u2-uc,2));
+//    double g1=0,g2=0;
 
-    for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
-            if(i<=umbral) g1+=pow(i-u1,2)*((relativeFrecuency[i])/n1);
-            else g2+=pow(i-u2,2)*((relativeFrecuency[i])/n2);
-        }
-    }
-    Gin=w1*g1+w2*g2;
-    QTextStream cout(stdout);
-    cout<<"Gzw "<<Gzw<<endl;
-    cout<<"g1 "<<g1<<endl;
-    cout<<"g2 "<<g2<<endl;
-    cout<<"Gin "<<Gin<<endl;
-//    cout<<"w2 "<<w2<<endl;
-//    cout<<"uc "<<uc<<endl;
-//    cout<<"u2 "<<u2<<endl;
-//    cout<<"u2-uc "<<pow(u2-uc,2)<<endl;
-    return((int)Gzw/Gin);
+//    for (int i = 0; i < intensidad; ++i) {
+//        if(relativeFrecuency[i]!=0){
+//            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]/n);
+//            else g2+=pow(i-u2,2)*(relativeFrecuency[i]/n);
+//        }
+//    }
+//    Gin=w1*g1+w2*g2;
+
+    return((int)uc);
 }
 
 double Histogram::findMaxRelativeFrecuency(){
