@@ -47,7 +47,7 @@ private:
     int **matrizHistograma;
     int intensidad, posicion;
     int max1,max2,umbral;
-    double u1,u2,w1,w2,n1,n2;
+    double u1,u2,w1,w2,n;
 
     void generateMatrix();
     double findMaxRelativeFrecuency();

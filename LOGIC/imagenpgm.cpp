@@ -99,7 +99,7 @@ ImagenPGM::~ImagenPGM(){
     matrixImagenP=0;
 
     delete lut;
-    lut=0;
+    this->lut=0;
 }
 
 //Image processing
@@ -124,11 +124,11 @@ Image* ImagenPGM::changeSize(int factor){
             }
         }
         imageResized = new ImagenPGM (identification,
-                                     comment,
-                                     w,
-                                     h,
-                                     colorDepth,
-                                     enlargedImage);
+                                      comment,
+                                      w,
+                                      h,
+                                      colorDepth,
+                                      enlargedImage);
 
 
         for (int i=0; i < h; i++)
@@ -153,11 +153,11 @@ Image* ImagenPGM::changeSize(int factor){
         }
 
         imageResized = new ImagenPGM (identification,
-                                     comment,
-                                     w,
-                                     h,
-                                     colorDepth,
-                                     enlargedImage);
+                                      comment,
+                                      w,
+                                      h,
+                                      colorDepth,
+                                      enlargedImage);
 
         for (int i=0; i < h; i++)
             delete enlargedImage[i];
@@ -168,10 +168,10 @@ Image* ImagenPGM::changeSize(int factor){
 }
 
 Image* ImagenPGM::changeColorDepth(int bits){
-
     if((int)(pow(2,bits)-1)<colorDepth){
         int newColorDepth=(int)(pow(2,bits)-1);
         int divisor = (colorDepth+1)/(newColorDepth+1);
+
         for(int i=0; i<lutSize; i++){
             lut[i]=lut[i]/divisor;
         }
@@ -183,7 +183,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
                               matrixImagenP,
                               lut,
                               lutSize);
-
+        delete lut;lut=0;
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
         int newColorDepth=(int)(pow(2,bits)-1);
         //int divisor = (newColorDepth+1)/(colorDepth+1);
@@ -198,6 +198,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
                               matrixImagenP,
                               lut,
                               lutSize);
+        delete lut;lut=0;
     }else{
         return this;
     }
