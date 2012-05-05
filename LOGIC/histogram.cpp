@@ -164,7 +164,6 @@ int *Histogram::calculeEqualization(){
     int a=0;
     int *discretizedFrecuency = new int[intensidad];
     relativeEqualization = new double[intensidad];
-    QTextStream cout(stdout);
 
     for (int i=0; i < intensidad; i++){
         discretizedFrecuency[i]=0;
@@ -173,10 +172,8 @@ int *Histogram::calculeEqualization(){
     relativeEqualization[0]=relativeFrecuency[0];
     for (int i = 1; i < intensidad; ++i){
         relativeEqualization[i]+=relativeEqualization[i-1]+relativeFrecuency[i];
-    //    cout<<relativeFrecuency[i]<<" "<<relativeEqualization[i]<<endl;
     }
     a=relativeEqualization[intensidad-1];
-    cout<<"a "<<a<<endl;
     double redondeo=0;
     for (int i = 0; i < intensidad; ++i) {
         redondeo=((intensidad-1)*relativeEqualization[i])/a;
@@ -185,7 +182,6 @@ int *Histogram::calculeEqualization(){
             discretizedFrecuency[i]=ceil(((intensidad-1)*relativeEqualization[i])/a);
         else
             discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
-        cout<<i<<" "<<relativeFrecuency[i]<<" "<<(double)((intensidad-1)*relativeEqualization[i])/a<<" "<<redondeo<<" "<<discretizedFrecuency[i]<<endl;
     }
     return (discretizedFrecuency);
 }

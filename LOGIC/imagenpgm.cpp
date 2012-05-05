@@ -198,7 +198,9 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
 }
 
 Image* ImagenPGM::equalizateHistogram(int *newlut){
-    lut=newlut;
+    for(int i=0; i<lutSize; i++){
+        lut[i]=newlut[i];
+    }
     return new ImagenPGM (identification,
                           comment,
                           height,
