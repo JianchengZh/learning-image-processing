@@ -293,7 +293,6 @@ Image* ImagenPPM::changeSize(int factor){
 }
 
 Image* ImagenPPM::changeColorDepth(int bits){
-
     if((int)(pow(2,bits)-1)<colorDepth){
 
         int newColorDepth=(int)(pow(2,bits)-1);
@@ -315,6 +314,9 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               matrixBp,
                               lutB,
                               lutSize);
+        delete lutR; this->lutR=0;
+        delete lutG; this->lutG=0;
+        delete lutB; this->lutB=0;
 
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
 
@@ -337,10 +339,12 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               matrixBp,
                               lutB,
                               lutSize);
+        delete lutR; this->lutR=0;
+        delete lutG; this->lutG=0;
+        delete lutB; this->lutB=0;
     }else{
         return this;
     }
-
 }
 
 ImagenPGM* ImagenPPM::convertToGrayScale(int method){

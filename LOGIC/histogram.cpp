@@ -57,6 +57,9 @@ Histogram::~Histogram(){
 
     delete relativeFrecuency;
     relativeFrecuency=0;
+
+    delete relativeEqualization;
+    relativeEqualization=0;
 }
 
 void Histogram::generateMatrix(){
