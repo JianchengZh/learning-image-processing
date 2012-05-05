@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     LOGIC/image.cpp \
     GUI/resizeqwidget.cpp \
     GUI/colordepthqwidget.cpp \
-    GUI/thresholdqwidget.cpp
+    GUI/thresholdqwidget.cpp \
+    LOGIC/imagendcm.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     LOGIC/image.h \
     GUI/resizeqwidget.h \
     GUI/colordepthqwidget.h \
-    GUI/thresholdqwidget.h
+    GUI/thresholdqwidget.h \
+    LOGIC/imagendcm.h
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -43,9 +45,9 @@ FORMS    += \
     GUI/colordepthqwidget.ui \
     GUI/thresholdqwidget.ui
 
-#QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
+QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 
-#unix:!macx:!symbian: LIBS += -ldcmimgle
-#unix:!macx:!symbian: LIBS += -ldcmdata
-#unix:!macx:!symbian: LIBS += -loflog
-#unix:!macx:!symbian: LIBS += -lofstd
+unix:!macx:!symbian: LIBS += -ldcmimgle
+unix:!macx:!symbian: LIBS += -ldcmdata
+unix:!macx:!symbian: LIBS += -loflog
+unix:!macx:!symbian: LIBS += -lofstd
