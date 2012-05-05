@@ -173,13 +173,19 @@ int *Histogram::calculeEqualization(){
     relativeEqualization[0]=relativeFrecuency[0];
     for (int i = 1; i < intensidad; ++i){
         relativeEqualization[i]+=relativeEqualization[i-1]+relativeFrecuency[i];
-        cout<<relativeFrecuency[i]<<" "<<relativeEqualization[i]<<endl;
+    //    cout<<relativeFrecuency[i]<<" "<<relativeEqualization[i]<<endl;
     }
     a=relativeEqualization[intensidad-1];
     cout<<"a "<<a<<endl;
+    double redondeo=0;
     for (int i = 0; i < intensidad; ++i) {
-        discretizedFrecuency[i]=(int)floor((intensidad-1*relativeEqualization[i])/a);
-      //  cout<<i<<" "<<relativeFrecuency[i]<<" "<<discretizedFrecuency[i]<<endl;
+        redondeo=((intensidad-1)*relativeEqualization[i])/a;
+        redondeo=fmod(redondeo,floor(redondeo));
+        if(redondeo>0.5)
+            discretizedFrecuency[i]=ceil(((intensidad-1)*relativeEqualization[i])/a);
+        else
+            discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
+        cout<<i<<" "<<relativeFrecuency[i]<<" "<<(double)((intensidad-1)*relativeEqualization[i])/a<<" "<<redondeo<<" "<<discretizedFrecuency[i]<<endl;
     }
     return (discretizedFrecuency);
 }
