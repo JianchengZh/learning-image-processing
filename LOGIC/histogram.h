@@ -38,13 +38,13 @@ public:
 
 private:
 
-    double *relativeFrecuency,*relativeEqualization;
+    double *colorFrequency;
     int **matrizHistograma;
-    int intensidad, posicion;
+    int intensidad;
     double u1,u2,w1,w2,n;
 
     void    generateMatrix();
-    double  findMaxRelativeFrecuency();
+    double  findMaxFrecuency();
     void    calculatePromedio();
 
 };

@@ -26,22 +26,17 @@ Histogram::Histogram(ImagenPGM *imagen)
     intensidad=imagen->getColorDensity()+1;
 
     int ***matrizImagen=imagen->getMatrix();
-    //    int totalNumberPixels = nFilas*nColumnas;
-    posicion = nColumnas+nFilas;
 
-    relativeFrecuency= new double[intensidad];
+    colorFrequency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
-        relativeFrecuency[i]=0;
+        colorFrequency[i]=0;
 
     for(int i=0; i<nFilas; i++){
         for(int j=0; j<nColumnas; j++){
-            relativeFrecuency[*matrizImagen[i][j]]++;
+            colorFrequency[*matrizImagen[i][j]]++;
         }
     }
 
-    //    for (int i=0; i < intensidad; i++){
-    //        relativeFrecuency[i]=(relativeFrecuency[i]/totalNumberPixels)*100;
-    //    }
     generateMatrix();
 }
 
@@ -55,8 +50,8 @@ Histogram::~Histogram(){
     delete matrizHistograma;
     matrizHistograma=0;
 
-    delete relativeFrecuency;
-    relativeFrecuency=0;
+    delete colorFrequency;
+    colorFrequency=0;
 }
 
 void Histogram::generateMatrix(){
@@ -65,11 +60,11 @@ void Histogram::generateMatrix(){
     for (int i=0; i < intensidad; i++)
         matrizHistograma[i]=new int[intensidad];
 
-    double maxFreq=findMaxRelativeFrecuency();
+    double maxFreq=findMaxFrecuency();
 
     for(int i=0; i<intensidad; i++){
         for(int j=0; j<intensidad; j++){
-            if(intensidad-i<=((relativeFrecuency[j]*intensidad)/maxFreq)){
+            if(intensidad-i<=((colorFrequency[j]*intensidad)/maxFreq)){
                 matrizHistograma[i][j]=0;
             }else{
                 matrizHistograma[i][j]=1;
@@ -86,13 +81,13 @@ int Histogram::ThresholdingByTwoPeaks(){
 
     //look first peak
     for (int i=1; i < intensidad-1; ++i) {
-        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1])
-            if (relativeFrecuency[i]>relativeFrecuency[max1]) max1=i;
+        if(colorFrequency[i]>colorFrequency[i-1]&&colorFrequency[i]>colorFrequency[i+1])
+            if (colorFrequency[i]>colorFrequency[max1]) max1=i;
     }
     //look second peak
     for (int i=1; i < intensidad-1; ++i) {
-        if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1]){
-            temp1=pow(max1-i,2)*relativeFrecuency[i];
+        if(colorFrequency[i]>colorFrequency[i-1]&&colorFrequency[i]>colorFrequency[i+1]){
+            temp1=pow(max1-i,2)*colorFrequency[i];
             if (temp1>temp2){
                 temp2=temp1;
                 max2=i;
@@ -110,24 +105,24 @@ void Histogram::calculatePromedio(){
     u1=0;u2=0;w1=0;w2=0;n=0;
 
     for (int i = 0; i < intensidad; ++i)
-        if(relativeFrecuency[i]!=0)
-            n+=relativeFrecuency[i];
+        if(colorFrequency[i]!=0)
+            n+=colorFrequency[i];
 
     for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
+        if(colorFrequency[i]!=0){
             if(i<=threshold)
-                w1+=relativeFrecuency[i]/n;
+                w1+=colorFrequency[i]/n;
             else
-                w2+=relativeFrecuency[i]/n;
+                w2+=colorFrequency[i]/n;
         }
     }
 
     for (int i = 0; i < intensidad; ++i) {
-        if(relativeFrecuency[i]!=0){
+        if(colorFrequency[i]!=0){
             if(i<=threshold)
-                u1+=(i*(relativeFrecuency[i]/n))/w1;
+                u1+=(i*(colorFrequency[i]/n))/w1;
             else
-                u2+=(i*(relativeFrecuency[i]/n))/w2;
+                u2+=(i*(colorFrequency[i]/n))/w2;
         }
     }
 
@@ -156,10 +151,10 @@ int Histogram::ThresholdingByOtsu(){
     return((int)uc);
 }
 
-double Histogram::findMaxRelativeFrecuency(){
+double Histogram::findMaxFrecuency(){
     QList<double> frequencies;
     for (int i=0; i<intensidad; i++){
-        frequencies.append(relativeFrecuency[i]);
+        frequencies.append(colorFrequency[i]);
     }
     qSort(frequencies.begin(), frequencies.end());
     return frequencies.last();
@@ -169,16 +164,18 @@ int *Histogram::calculateEqualization(){
 
     int a=0;
     int *discretizedFrecuency = new int[intensidad];
-    relativeEqualization = new double[intensidad];
+    double *relativeEqualization = new double[intensidad];
 
     for (int i=0; i < intensidad; i++){
         discretizedFrecuency[i]=0;
         relativeEqualization[i]=0;
     }
-    relativeEqualization[0]=relativeFrecuency[0];
+
+    relativeEqualization[0]=colorFrequency[0];
     for (int i = 1; i < intensidad; ++i){
-        relativeEqualization[i]+=relativeEqualization[i-1]+relativeFrecuency[i];
+        relativeEqualization[i]+=relativeEqualization[i-1]+colorFrequency[i];
     }
+
     a=relativeEqualization[intensidad-1];
     double redondeo=0;
     for (int i = 0; i < intensidad; ++i) {
@@ -189,6 +186,9 @@ int *Histogram::calculateEqualization(){
         else
             discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
     }
+
+    delete relativeEqualization; relativeEqualization=0;
+
     return discretizedFrecuency;
 }
 
