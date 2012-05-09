@@ -25,6 +25,7 @@ MainController::MainController(){
     this->displayedImage=0;
     this->oldDisplayedImage=0;
     this->histogram=0;
+    this->oldHistogram=0;
 }
 
 MainController::~MainController(){
@@ -52,6 +53,7 @@ bool MainController::loadImage(QString filename){
             imagen = new ImagenPPM(archivo.getImageContents());
         }else{
             imagen = new ImagenPGM(archivo.getImageContents());
+            histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
         }
         displayedImage=new QImage(filename);
         return true;
@@ -60,9 +62,8 @@ bool MainController::loadImage(QString filename){
     }
 }
 
-QImage* MainController::generateHistogram(){
+QImage* MainController::getHistogramImage(){
 
-    histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
     ImagenPGM *imageHistogram=histogram->getHistogram();
     imageHistogram->exportar("histogram");
 
@@ -132,13 +133,13 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 void MainController::isodataSegmentation(){
-    histogram->calculateTwoPeaks();
-    bimodalSegmentaion(histogram->calculateThresholdIsodata());
+    histogram->ThresholdingByTwoPeaks();
+    bimodalSegmentaion(histogram->ThresholdingByIsodata());
 }
 
 void MainController::otsuSegmentation(){
-    histogram->calculateTwoPeaks();
-    bimodalSegmentaion(histogram->calculateThresholdOtsu());
+    histogram->ThresholdingByTwoPeaks();
+    bimodalSegmentaion(histogram->ThresholdingByOtsu());
 }
 
 // Getters
@@ -155,8 +156,10 @@ bool MainController::undo(){
     if (oldImage!=0) {
         imagen=oldImage;
         displayedImage=oldDisplayedImage;
+        histogram=oldHistogram;
         oldImage=0;
         oldDisplayedImage=0;
+        oldHistogram=0;
         return true;
     }else{
         return false;

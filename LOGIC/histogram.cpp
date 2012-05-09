@@ -57,9 +57,6 @@ Histogram::~Histogram(){
 
     delete relativeFrecuency;
     relativeFrecuency=0;
-
-    delete relativeEqualization;
-    relativeEqualization=0;
 }
 
 void Histogram::generateMatrix(){
@@ -81,9 +78,12 @@ void Histogram::generateMatrix(){
     }
 }
 
-void Histogram::calculateTwoPeaks(){
-    max1=0;max2=0;
-    int temp1=0, temp2=0;
+int Histogram::ThresholdingByTwoPeaks(){
+    int max1=0;
+    int max2=0;
+    int temp1=0;
+    int temp2=0;
+
     //look first peak
     for (int i=1; i < intensidad-1; ++i) {
         if(relativeFrecuency[i]>relativeFrecuency[i-1]&&relativeFrecuency[i]>relativeFrecuency[i+1])
@@ -99,10 +99,14 @@ void Histogram::calculateTwoPeaks(){
             }
         }
     }
+
+    return (max1+max2)/2;
 }
 
 void Histogram::calculatePromedio(){
-    umbral = (max1+max2)/2;
+
+    int threshold = ThresholdingByTwoPeaks();
+
     u1=0;u2=0;w1=0;w2=0;n=0;
 
     for (int i = 0; i < intensidad; ++i)
@@ -111,25 +115,31 @@ void Histogram::calculatePromedio(){
 
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<=umbral) w1+=relativeFrecuency[i]/n;
-            else w2+=relativeFrecuency[i]/n;
+            if(i<=threshold)
+                w1+=relativeFrecuency[i]/n;
+            else
+                w2+=relativeFrecuency[i]/n;
         }
     }
 
     for (int i = 0; i < intensidad; ++i) {
         if(relativeFrecuency[i]!=0){
-            if(i<=umbral) u1+=(i*(relativeFrecuency[i]/n))/w1;
-            else u2+=(i*(relativeFrecuency[i]/n))/w2;
+            if(i<=threshold)
+                u1+=(i*(relativeFrecuency[i]/n))/w1;
+            else
+                u2+=(i*(relativeFrecuency[i]/n))/w2;
         }
     }
+
 }
 
-int Histogram::calculateThresholdIsodata(){
+int Histogram::ThresholdingByIsodata(){
     calculatePromedio();
     return((int)(u1+u2)/2);
 }
 
-int Histogram::calculateThresholdOtsu(){
+int Histogram::ThresholdingByOtsu(){
+
     calculatePromedio();
     double uc = (w1*u1)+(w2*u2);
     //    double Gin=0,Gzw=(w1*pow(u1-uc,2))+(w2*pow(u2-uc,2));
@@ -180,14 +190,6 @@ int *Histogram::calculeEqualization(){
             discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
     }
     return (discretizedFrecuency);
-}
-
-int Histogram::getMax1(){
-    return max1;
-}
-
-int Histogram::getMax2(){
-    return max2;
 }
 
 ImagenPGM* Histogram::getHistogram(){

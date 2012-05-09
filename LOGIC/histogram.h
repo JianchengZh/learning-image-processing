@@ -22,36 +22,30 @@
 
 #include "imagenpgm.h"
 
-//
-
-//
 class Histogram
 {
 public:
     Histogram(ImagenPGM *imagen);
     ~Histogram();
 
-    ImagenPGM *getHistogram();
+    int ThresholdingByIsodata();
+    int ThresholdingByOtsu();
+    int ThresholdingByTwoPeaks();
+    int* calculeEqualization();
 
     //Getters
-    int getMax1();
-    int getMax2();
-    int calculateThresholdIsodata();
-    int calculateThresholdOtsu();
-    void calculateTwoPeaks();
-    int* calculeEqualization();
+    ImagenPGM *getHistogram();
 
 private:
 
     double *relativeFrecuency,*relativeEqualization;
     int **matrizHistograma;
     int intensidad, posicion;
-    int max1,max2,umbral;
     double u1,u2,w1,w2,n;
 
-    void generateMatrix();
-    double findMaxRelativeFrecuency();
-    void calculatePromedio();
+    void    generateMatrix();
+    double  findMaxRelativeFrecuency();
+    void    calculatePromedio();
 
 };
 #endif

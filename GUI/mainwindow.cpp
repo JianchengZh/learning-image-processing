@@ -275,7 +275,7 @@ void MainWindow::displayResults(QImage *result)
 
 void MainWindow::ShowHistogram(){
     if (mainController->getImage()->getImageType().toUpper()=="PGM") {
-        histogramImage = mainController->generateHistogram();
+        histogramImage = mainController->getHistogramImage();
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }

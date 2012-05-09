@@ -37,7 +37,7 @@ private:
 
     Image *imagen, *oldImage;
     QImage *displayedImage, *oldDisplayedImage;
-    Histogram *histogram;
+    Histogram *histogram, *oldHistogram;
 
 public:
 
@@ -45,7 +45,7 @@ public:
     ~MainController();
 
     bool loadImage(QString filename);
-    QImage *generateHistogram();
+
 
     // Image Processing:
     void changeSize(int density);
@@ -59,6 +59,7 @@ public:
     // Getters:
     Image *getImage();
     QImage *getQImage();
+    QImage *getHistogramImage();
 
     // Others methods:
     bool undo();
