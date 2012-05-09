@@ -26,7 +26,7 @@ Histogram::Histogram(ImagenPGM *imagen)
     intensidad=imagen->getColorDensity()+1;
 
     int ***matrizImagen=imagen->getMatrix();
-//    int totalNumberPixels = nFilas*nColumnas;
+    //    int totalNumberPixels = nFilas*nColumnas;
     posicion = nColumnas+nFilas;
 
     relativeFrecuency= new double[intensidad];
@@ -132,16 +132,16 @@ int Histogram::calculateThresholdIsodata(){
 int Histogram::calculateThresholdOtsu(){
     calculatePromedio();
     double uc = (w1*u1)+(w2*u2);
-//    double Gin=0,Gzw=(w1*pow(u1-uc,2))+(w2*pow(u2-uc,2));
-//    double g1=0,g2=0;
+    //    double Gin=0,Gzw=(w1*pow(u1-uc,2))+(w2*pow(u2-uc,2));
+    //    double g1=0,g2=0;
 
-//    for (int i = 0; i < intensidad; ++i) {
-//        if(relativeFrecuency[i]!=0){
-//            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]/n);
-//            else g2+=pow(i-u2,2)*(relativeFrecuency[i]/n);
-//        }
-//    }
-//    Gin=w1*g1+w2*g2;
+    //    for (int i = 0; i < intensidad; ++i) {
+    //        if(relativeFrecuency[i]!=0){
+    //            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]/n);
+    //            else g2+=pow(i-u2,2)*(relativeFrecuency[i]/n);
+    //        }
+    //    }
+    //    Gin=w1*g1+w2*g2;
 
     return((int)uc);
 }

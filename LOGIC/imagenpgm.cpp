@@ -21,6 +21,7 @@
 
 //Constructors
 ImagenPGM::ImagenPGM(QList<QString> lectura){
+
     this->identification=lectura.at(0);
     this->comment=lectura.at(1);
     this->width=lectura.at(2).section(' ',0,0).toInt();
@@ -31,9 +32,8 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
 
     //Lookup Table
     lut = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i) {
+    for (int i = 0; i < lutSize+1; ++i)
         lut[i]=i;
-    }
 
     matrixImagenP = new int**[height];
     for (int i=0; i < height; i++)
@@ -74,16 +74,31 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){
+ImagenPGM::ImagenPGM(QString id, QString comment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){
+
     this->identification=id;
-    this->comment=coment;
-    this->height=h;
+    this->comment=comment;
     this->width=w;
+    this->height=h;
     this->colorDepth=colorD;
-    this->matrixImagenP=matrixP;
-    this->lut=lut;
     this->lutSize=lutSize;
     this->imageType="PGM";
+
+    //Lookup Table
+    this->lut = new int [lutSize+1];
+    for (int i = 0; i < lutSize+1; ++i)
+        this->lut[i]=lut[i];
+
+    // Matrix of Pointers
+    matrixImagenP = new int**[height];
+
+    for (int i=0; i < height; i++)
+        matrixImagenP[i]=new int*[width];
+
+    for(int i=0; i<height; i++)
+        for(int j=0; j<width; j++)
+            matrixImagenP[i][j]=&this->lut[*matrixP[i][j]];
+
 }
 
 ImagenPGM::~ImagenPGM(){
@@ -198,7 +213,8 @@ Image* ImagenPGM::changeColorDepth(int bits){
                               matrixImagenP,
                               lut,
                               lutSize);
-        delete lut;lut=0;
+        delete lut;
+        lut=0;
     }else{
         return this;
     }
