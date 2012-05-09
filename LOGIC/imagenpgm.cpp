@@ -232,17 +232,14 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
     return this;
 }
 
-Image* ImagenPGM::equalizateHistogram(int *newlut){
-    for(int i=0; i<lutSize; i++){
-        lut[i]=newlut[i];
-    }
+Image* ImagenPGM::histogramEqualization(int *newlut){
     return new ImagenPGM (identification,
                           comment,
                           height,
                           width,
                           colorDepth,
                           matrixImagenP,
-                          lut,
+                          newlut,
                           lutSize);
 }
 

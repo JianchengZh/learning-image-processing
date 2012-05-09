@@ -109,7 +109,7 @@ void MainController::convertToGrayscale(int method){
 bool MainController::equalizateHistogram(){
     if(imagen!=0){
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->equalizateHistogram(histogram->calculeEqualization());
+        imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(histogram->calculeEqualization());
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
