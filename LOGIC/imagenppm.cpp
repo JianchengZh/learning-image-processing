@@ -331,30 +331,33 @@ Image* ImagenPPM::changeColorDepth(int bits){
 
 ImagenPGM* ImagenPPM::convertToGrayScale(int method){
 
+    ImagenPGM *result;
+
     int **grayScaleMatrix = new int*[height];
     for (int i=0; i < height; i++)
         grayScaleMatrix[i]=new int[width];
 
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
-            if(method==6)
+            if(method==16384)
                 grayScaleMatrix[i][j]=(int)(0.299*matrixRp[i][j][0]+0.587*matrixGp[i][j][0]+0.114*matrixBp[i][j][0]);
             else
                 grayScaleMatrix[i][j]=(int)(0.33*matrixRp[i][j][0]+0.33*matrixGp[i][j][0]+0.33*matrixBp[i][j][0]);
         }
     }
 
-    return new ImagenPGM ("P2",
-                          comment,
-                          height,
-                          width,
-                          colorDepth,
-                          grayScaleMatrix);
+    result = new ImagenPGM ("P2",
+                            comment,
+                            height,
+                            width,
+                            colorDepth,
+                            grayScaleMatrix);
 
     for (int i=0; i < height; i++)
         delete grayScaleMatrix[i];
-
     delete grayScaleMatrix;
+
+    return result;
 
 }
 

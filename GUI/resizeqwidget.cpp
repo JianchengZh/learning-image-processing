@@ -41,6 +41,7 @@ void ResizeQwidget::on_pushButton_clicked()
         mainController->changeSize(density);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
+        ui->verticalSlider->setValue(0);
     }else{
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");

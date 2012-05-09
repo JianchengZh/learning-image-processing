@@ -53,7 +53,7 @@ bool MainController::loadImage(QString filename){
             imagen = new ImagenPPM(archivo.getImageContents());
         }else{
             imagen = new ImagenPGM(archivo.getImageContents());
-            histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
+
         }
         displayedImage=new QImage(filename);
         return true;
@@ -64,6 +64,7 @@ bool MainController::loadImage(QString filename){
 
 QImage* MainController::getHistogramImage(){
 
+    histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
     ImagenPGM *imageHistogram=histogram->getHistogram();
     imageHistogram->exportar("histogram");
 
@@ -98,7 +99,7 @@ void MainController::changeColorDepth(int depth){
 }
 
 void MainController::convertToGrayscale(int method){
-
+    delete oldImage;
     oldImage=imagen;
     imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
     imagen->exportar("temp");

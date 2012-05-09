@@ -188,7 +188,6 @@ int *Histogram::calculateEqualization(){
     }
 
     delete relativeEqualization; relativeEqualization=0;
-
     return discretizedFrecuency;
 }
 
