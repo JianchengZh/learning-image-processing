@@ -165,7 +165,7 @@ double Histogram::findMaxRelativeFrecuency(){
     return frequencies.last();
 }
 
-int *Histogram::calculeEqualization(){
+int *Histogram::calculateEqualization(){
 
     int a=0;
     int *discretizedFrecuency = new int[intensidad];
@@ -189,7 +189,7 @@ int *Histogram::calculeEqualization(){
         else
             discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
     }
-    return (discretizedFrecuency);
+    return discretizedFrecuency;
 }
 
 ImagenPGM* Histogram::getHistogram(){

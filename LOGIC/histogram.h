@@ -31,7 +31,7 @@ public:
     int ThresholdingByIsodata();
     int ThresholdingByOtsu();
     int ThresholdingByTwoPeaks();
-    int* calculeEqualization();
+    int* calculateEqualization();
 
     //Getters
     ImagenPGM *getHistogram();
