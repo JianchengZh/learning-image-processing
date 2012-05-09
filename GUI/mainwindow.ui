@@ -452,6 +452,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionNew_Job">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>New Job</string>
    </property>

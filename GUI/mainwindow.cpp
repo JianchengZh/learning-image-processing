@@ -46,8 +46,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->pButton__NormalSize->setEnabled(true);
 
         //Enable QActions
+        ui->actionNew_Job->setEnabled(true);
         ui->actionUndo->setEnabled(true);
-
         ui->actionResize->setEnabled(true);
         ui->actionChange_Color_Depth->setEnabled(true);
         if (mainController->getImage()->getImageType().toUpper()=="PPM") {
@@ -121,6 +121,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->pButton__NormalSize->setEnabled(false);
 
     //Disable QActions
+    ui->actionNew_Job->setEnabled(false);
     ui->actionUndo->setEnabled(false);
     ui->actionResize->setEnabled(false);
     ui->actionChange_Color_Depth->setEnabled(false);
