@@ -27,6 +27,7 @@
 // Project include
 #include "LOGIC/imagenpgm.h"
 #include "LOGIC/imagenppm.h"
+#include "LOGIC/imagendcm.h"
 #include "LOGIC/image.h"
 #include "LOGIC/histogram.h"
 #include "DATA_ACCESS/imagefile.h"

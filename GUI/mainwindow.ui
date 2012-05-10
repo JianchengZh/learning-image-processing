@@ -416,11 +416,27 @@ background-color: rgb(255, 255, 255);</string>
    </widget>
    <widget class="QMenu" name="menuPreprocessing">
     <property name="title">
-     <string>Preprocessing</string>
+     <string>Global Transformations</string>
     </property>
     <addaction name="actionResize"/>
     <addaction name="actionChange_Color_Depth"/>
     <addaction name="actionConver_to_GrayScale"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd"/>
+    <addaction name="actionSubstract"/>
+    <addaction name="actionMultiply"/>
+    <addaction name="actionDivide"/>
+    <addaction name="separator"/>
+    <addaction name="actionMax"/>
+    <addaction name="actionMin"/>
+    <addaction name="separator"/>
+    <addaction name="actionAnd"/>
+    <addaction name="actionOR"/>
+    <addaction name="actionXOR"/>
+    <addaction name="actionNOT"/>
+    <addaction name="separator"/>
+    <addaction name="actionTranslation"/>
+    <addaction name="actionReflection"/>
    </widget>
    <widget class="QMenu" name="menuHistogram">
     <property name="title">
@@ -431,7 +447,7 @@ background-color: rgb(255, 255, 255);</string>
    </widget>
    <widget class="QMenu" name="menuTomography">
     <property name="title">
-     <string>Tomography</string>
+     <string>DICOM</string>
     </property>
    </widget>
    <addaction name="menuFile"/>
@@ -500,8 +516,107 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionEqualization">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Equalization</string>
+   </property>
+  </action>
+  <action name="actionAdd">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </action>
+  <action name="actionSubstract">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Subtract</string>
+   </property>
+  </action>
+  <action name="actionMultiply">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Multiply</string>
+   </property>
+  </action>
+  <action name="actionDivide">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Divide</string>
+   </property>
+  </action>
+  <action name="actionMax">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Max</string>
+   </property>
+  </action>
+  <action name="actionMin">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Min</string>
+   </property>
+  </action>
+  <action name="actionAnd">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>AND</string>
+   </property>
+  </action>
+  <action name="actionOR">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>OR</string>
+   </property>
+  </action>
+  <action name="actionXOR">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>XOR</string>
+   </property>
+  </action>
+  <action name="actionNOT">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>NOT</string>
+   </property>
+  </action>
+  <action name="actionTranslation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Translation</string>
+   </property>
+  </action>
+  <action name="actionReflection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Reflection</string>
    </property>
   </action>
  </widget>

@@ -52,6 +52,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->actionChange_Color_Depth->setEnabled(true);
         if (mainController->getImage()->getImageType().toUpper()=="PPM") {
             ui->actionConver_to_GrayScale->setEnabled(true);
+            ui->actionEqualization->setEnabled(true);
         }
 
         ui->actionThreshold->setEnabled(true);
@@ -67,13 +68,14 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
-        // Set Image to label_Imagen
-        displayedImage=mainController->getQImage();
+        if (mainController->getImage()->getImageType()!="DCM") {
+            // Set Image to label_Imagen
+            displayedImage=mainController->getQImage();
+            // Display Image in Original Size
+            on_pButton__NormalSize_clicked();
+            ShowHistogram();
+        }
 
-        // Display Image in Original Size
-        on_pButton__NormalSize_clicked();
-
-        ShowHistogram();
 
     } else {
         QMessageBox msgBox(this);
@@ -239,7 +241,7 @@ void MainWindow::on_actionEqualization_triggered()
         msgBox.setText("do you want to equalizet histogram?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::Yes);
-       // int method = msgBox.exec();
+        // int method = msgBox.exec();
         mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
         ShowHistogram();
