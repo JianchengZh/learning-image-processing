@@ -251,7 +251,7 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
             lut[i]=colorDepth;
         }
     }
-    return this;
+    return new ImagenPGM(identification, comment, height, width, colorDepth, matrixImagenP, lut, lutSize);
 }
 
 Image* ImagenPGM::histogramEqualization(int *newlut){

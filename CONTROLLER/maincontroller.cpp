@@ -142,6 +142,7 @@ bool MainController::add(QString filename, double alpha){
 
 bool MainController::equalizateHistogram(){
     if(imagen!=0){
+        delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(histogram->calculateEqualization());
         imagen->exportar("temp");
@@ -155,6 +156,7 @@ bool MainController::equalizateHistogram(){
 
 bool MainController::bimodalSegmentaion(int T){
     if(imagen!=0){
+        delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->bimodalSegmentaion(T);
         imagen->exportar("temp");
