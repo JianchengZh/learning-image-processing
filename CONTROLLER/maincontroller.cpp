@@ -46,30 +46,32 @@ MainController::~MainController(){
 bool MainController::loadImage(QString filename){
 
     if (filename.contains(".")) {
-          QString imageType = filename.right(3).toUpper();
+        QString imageType = filename.right(3).toUpper();
 
-          if (imageType=="PPM") {
-              ImageFile archivo(filename);
-              archivo.readImageContents();
-              imagen = new ImagenPPM(archivo.getImageContents());
-              displayedImage=new QImage(filename);
-              return true;
+        if (imageType=="PPM") {
+            ImageFile archivo(filename);
+            archivo.readImageContents();
+            imagen = new ImagenPPM(archivo.getImageContents());
+            displayedImage=new QImage(filename);
+            return true;
 
-          } else if(imageType == "PGM"){
-              ImageFile archivo(filename);
-              archivo.readImageContents();
-              imagen = new ImagenPGM(archivo.getImageContents());
-              displayedImage=new QImage(filename);
-              return true;
+        } else if(imageType == "PGM"){
+            ImageFile archivo(filename);
+            archivo.readImageContents();
+            imagen = new ImagenPGM(archivo.getImageContents());
+            displayedImage=new QImage(filename);
+            return true;
 
-          } else{
-              imagen = new ImagenDCM(filename.toStdString().c_str());
-              return true;
-          }
+        } else{
+            imagen = new ImagenDCM(filename.toStdString().c_str());
+            return true;
+        }
 
-    } else {
-         imagen = new ImagenDCM(filename.toStdString().c_str());
-         return true;
+    } else if(!filename.isEmpty()) {
+        imagen = new ImagenDCM(filename.toStdString().c_str());
+        return true;
+    }else{
+        return false;
     }
 }
 

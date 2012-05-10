@@ -27,6 +27,7 @@
 #include <QPixmap>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QErrorMessage>
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"

@@ -229,18 +229,24 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 
 void MainWindow::on_actionAdd_triggered()
 {
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
-
     if(filename.right(3).toUpper()=="PGM"){
         bool ok;
-        double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),
-                                           tr("Alpha:"), 0.5, 0, 1, 1, &ok);
-
+        double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
         if (ok){
-            mainController->add(filename, alpha);
-            displayResults(mainController->getQImage());
-            ShowHistogram();
+            if (mainController->add(filename, alpha)) {
+                displayResults(mainController->getQImage());
+                ShowHistogram();
+            } else {
+                erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+            }
+
+        }else{
+            erroMessageDialog->showMessage("No se ha ingresado ningun valor para Alpha");
         }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
     }
 }
 
