@@ -42,8 +42,8 @@ public:
 
 
     // Getters 
-    int getRowNumber();
-    int getColumnNumber();
+    int getHeight();
+    int getWidth();
     int getColorDensity();
     QString getImageType();
 

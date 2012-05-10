@@ -66,8 +66,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_ImageType->setEnabled(true);
 
         // Set text on Labels with image info
-        ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getColumnNumber())+"P"+
-                                           "  H: "+QString::number(mainController->getImage()->getRowNumber())+"P");
+        ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
+                                           "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
         ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
@@ -290,8 +290,8 @@ void MainWindow::displayResults(QImage *result)
 {
     displayedImage=result;
     on_pButton__NormalSize_clicked();
-    ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getColumnNumber())+"P"+
-                                       "  H: "+QString::number(mainController->getImage()->getRowNumber())+"P");
+    ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
+                                       "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
     ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 }

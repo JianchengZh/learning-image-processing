@@ -21,8 +21,8 @@
 
 Histogram::Histogram(ImagenPGM *imagen)
 {
-    int nColumnas=imagen->getColumnNumber();
-    int nFilas=imagen->getRowNumber();
+    int nColumnas=imagen->getWidth();
+    int nFilas=imagen->getHeight();
     intensidad=imagen->getColorDensity()+1;
 
     int ***matrizImagen=imagen->getMatrix();

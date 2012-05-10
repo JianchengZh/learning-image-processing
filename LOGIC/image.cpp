@@ -30,11 +30,11 @@ int Image::getColorDensity(){
     return this->colorDepth;
 }
 
-int Image::getColumnNumber(){
+int Image::getWidth(){
     return this->width;
 }
 
-int Image::getRowNumber(){
+int Image::getHeight(){
     return this->height;
 }
 
