@@ -117,7 +117,7 @@ ImagenPGM::~ImagenPGM(){
     this->lut=0;
 }
 
-//Image processing
+//Global Transformations
 Image* ImagenPGM::changeSize(int factor){
 
     int w=0;
@@ -218,6 +218,29 @@ Image* ImagenPGM::changeColorDepth(int bits){
         return this;
     }
 
+}
+
+Image* ImagenPGM::add(ImagenPGM *image, double alpha){
+
+    int **additionMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        additionMatrix[i]=new int[width];
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            additionMatrix[i][j]=alpha*(*matrixImagenP[i][j])+(1-alpha)*(*image->getMatrix()[i][j]);
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,additionMatrix);
+
+
+    for (int i=0; i < height; i++)
+        delete additionMatrix[i];
+
+    delete additionMatrix;
+
+    return result;
 }
 
 Image* ImagenPGM::bimodalSegmentaion(int T){

@@ -55,9 +55,16 @@ public:
 
     ~ImagenPGM();
 
-    //Image processing
+    //Global Transformations
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
+
+    Image *add(ImagenPGM *image, double alpha);
+//    Image *subtract(ImagenPGM *image);
+//    Image *multiply(ImagenPGM *image);
+//    Image *divide(ImagenPGM *image);
+
+
     Image *bimodalSegmentaion(int T);
     Image *histogramEqualization(int *newlut);
 

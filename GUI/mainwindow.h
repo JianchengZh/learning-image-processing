@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QPixmap>
 #include <QMessageBox>
+#include <QInputDialog>
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
@@ -71,10 +72,12 @@ private slots:
     // Edit Menu
     void on_actionUndo_triggered();
 
-    // Preprocessing Menu
+    // Global Transformations
     void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
+
+    void on_actionAdd_triggered();
 
     // Histogram Menu
     void on_actionThreshold_triggered();

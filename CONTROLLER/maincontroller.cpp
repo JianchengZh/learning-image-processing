@@ -118,6 +118,18 @@ void MainController::convertToGrayscale(int method){
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
+bool MainController::add(QString filename, double alpha){
+    delete oldImage;
+    oldImage=imagen;
+    ImageFile archivo(filename);
+    archivo.readImageContents();
+    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    imagen=static_cast<ImagenPGM*>(oldImage)->add(image,alpha);
+    imagen->exportar("temp");
+    oldDisplayedImage=displayedImage;
+    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+}
+
 bool MainController::equalizateHistogram(){
     if(imagen!=0){
         oldImage=imagen;

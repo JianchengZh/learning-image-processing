@@ -48,11 +48,13 @@ public:
     bool loadImage(QString filename);
 
 
-    // Image Processing:
+    // Global Transformations
     void changeSize(int density);
     void changeColorDepth(int depth);
-    bool bimodalSegmentaion(int T);
     void convertToGrayscale(int method);
+    bool add(QString filename, double alpha);
+
+    bool bimodalSegmentaion(int T);
     bool equalizateHistogram();
     void otsuSegmentation();
     void isodataSegmentation();

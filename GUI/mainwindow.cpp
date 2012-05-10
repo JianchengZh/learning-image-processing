@@ -54,6 +54,9 @@ void MainWindow::on_pButton_LoadImage_clicked()
             ui->actionConver_to_GrayScale->setEnabled(true);
             ui->actionEqualization->setEnabled(true);
         }
+        if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+            ui->actionAdd->setEnabled(true);
+        }
 
         ui->actionThreshold->setEnabled(true);
 
@@ -129,6 +132,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionChange_Color_Depth->setEnabled(false);
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
+    ui->actionAdd->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -180,7 +184,7 @@ void MainWindow::on_actionUndo_triggered()
 
 }
 
-// Preprocessing Menu
+// Global Transfomations
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
@@ -220,6 +224,23 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
         msgBox2.setText("Sorry,Operation not valid");
         msgBox2.setWindowTitle("ERROR");
         msgBox2.exec();
+    }
+}
+
+void MainWindow::on_actionAdd_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+
+    if(filename.right(3).toUpper()=="PGM"){
+        bool ok;
+        double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),
+                                           tr("Alpha:"), 0.5, 0, 1, 1, &ok);
+
+        if (ok){
+            mainController->add(filename, alpha);
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
     }
 }
 
@@ -281,6 +302,3 @@ void MainWindow::ShowHistogram(){
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
-
-
-
