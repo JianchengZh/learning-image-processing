@@ -182,22 +182,22 @@ Image* ImagenPGM::changeSize(int factor){
 }
 
 Image* ImagenPGM::changeColorDepth(int bits){
-  //  QTextStream cout(stdout);
+    //  QTextStream cout(stdout);
 
     int newColorDepth=(int)(pow(2,bits)-1);
     //cout<<newColorDepth;
 
-//    double *lutemp = new double[lutSize+1];
-//    for (int i = 0; i < lutSize; ++i) {
-//        lutemp[i]=0;
-//    }
+    //    double *lutemp = new double[lutSize+1];
+    //    for (int i = 0; i < lutSize; ++i) {
+    //        lutemp[i]=0;
+    //    }
     if(newColorDepth<colorDepth){
         int divisor = (colorDepth+1)/(newColorDepth+1);
-      //  cout<<" "<<divisor<<endl;
+        //  cout<<" "<<divisor<<endl;
         for(int i=0; i<lutSize+1; i++){
-         //   cout<<" "<<lut[i];
+            //   cout<<" "<<lut[i];
             lut[i]=lut[i]/divisor;
-          //  cout<<" "<<lut[i]<<endl;
+            //  cout<<" "<<lut[i]<<endl;
         }
         return new ImagenPGM (identification,
                               comment,
@@ -252,15 +252,20 @@ Image* ImagenPGM::add(ImagenPGM *image, double alpha){
     return result;
 }
 
-Image* ImagenPGM::subtract(ImagenPGM *image, double alpha){
+Image* ImagenPGM::subtract(ImagenPGM *image){
 
     int **subtractMatrix = new int*[height];
     for (int i=0; i < height; i++)
         subtractMatrix[i]=new int[width];
-
+    int rest = 0;
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            subtractMatrix[i][j]=alpha*(*matrixImagenP[i][j])-(1-alpha)*(*image->getMatrix()[i][j]);
+            rest=(*matrixImagenP[i][j])-(*image->getMatrix()[i][j]);
+            if (rest>=0) {
+                subtractMatrix[i][j]=rest;
+            } else {
+                subtractMatrix[i][j]=colorDepth+1+rest;
+            }
         }
     }
 
@@ -271,6 +276,58 @@ Image* ImagenPGM::subtract(ImagenPGM *image, double alpha){
         delete subtractMatrix[i];
 
     delete subtractMatrix;
+
+    return result;
+}
+
+Image* ImagenPGM::multiply(ImagenPGM *image){
+
+    int **multiplyMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        multiplyMatrix[i]=new int[width];
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            multiplyMatrix[i][j]=((*matrixImagenP[i][j])*(*image->getMatrix()[i][j]))/colorDepth;
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,multiplyMatrix);
+
+
+    for (int i=0; i < height; i++)
+        delete multiplyMatrix[i];
+
+    delete multiplyMatrix;
+
+    return result;
+}
+
+Image* ImagenPGM::divide(ImagenPGM *image){
+
+    int **divideMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        divideMatrix[i]=new int[width];
+    QTextStream cout (stdout);
+    int div = 0;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            div=((colorDepth+1)*(*matrixImagenP[i][j]))/((*image->getMatrix()[i][j])+1);
+//            if (div<colorDepth+1) {
+                divideMatrix[i][j]=div;
+//            } else {
+//                divideMatrix[i][j]=colorDepth;
+//            }
+            cout<<divideMatrix[i][j]<<" ";
+        }cout<<endl;
+    }
+
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,divideMatrix);
+
+
+    for (int i=0; i < height; i++)
+        delete divideMatrix[i];
+
+    delete divideMatrix;
 
     return result;
 }

@@ -57,6 +57,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         if (mainController->getImage()->getImageType().toUpper()=="PGM") {
             ui->actionAdd->setEnabled(true);
             ui->actionSubstract->setEnabled(true);
+            ui->actionMultiply->setEnabled(true);
+            ui->actionDivide->setEnabled(true);
             ui->actionThreshold->setEnabled(true);
             ui->actionEqualization->setEnabled(true);
         }
@@ -135,6 +137,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionThreshold->setEnabled(false);
     ui->actionAdd->setEnabled(false);
     ui->actionSubstract->setEnabled(false);
+    ui->actionMultiply->setEnabled(false);
+    ui->actionDivide->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -258,18 +262,43 @@ void MainWindow::on_actionSubstract_triggered()
     QErrorMessage *erroMessageDialog = new QErrorMessage(this);
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
     if(filename.right(3).toUpper()=="PGM"){
-        bool ok;
-        double alpha = QInputDialog::getDouble(this, tr("Res of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
-        if (ok){
-            if (mainController->subtract(filename, alpha)) {
-                displayResults(mainController->getQImage());
-                ShowHistogram();
-            } else {
-                erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
-            }
+        if (mainController->subtract(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
 
-        }else{
-            erroMessageDialog->showMessage("No se ha ingresado ningun valor para Alpha");
+void MainWindow::on_actionMultiply_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->multiply(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionDivide_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->divide(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
         }
     }else{
         erroMessageDialog->showMessage("Formato de imagen no apropiado");

@@ -140,7 +140,7 @@ bool MainController::add(QString filename, double alpha){
 
 }
 
-bool MainController::subtract(QString filename, double alpha){
+bool MainController::subtract(QString filename){
 
     ImageFile archivo(filename);
     archivo.readImageContents();
@@ -149,7 +149,47 @@ bool MainController::subtract(QString filename, double alpha){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image,alpha);
+        imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+bool MainController::multiply(QString filename){
+
+    ImageFile archivo(filename);
+    archivo.readImageContents();
+    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
+        imagen->exportar("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+bool MainController::divide(QString filename){
+
+    ImageFile archivo(filename);
+    archivo.readImageContents();
+    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
         imagen->exportar("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());

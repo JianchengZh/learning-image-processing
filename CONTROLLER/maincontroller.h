@@ -53,7 +53,9 @@ public:
     void changeColorDepth(int depth);
     void convertToGrayscale(int method);
     bool add(QString filename, double alpha);
-    bool subtract(QString filename, double alpha);
+    bool subtract(QString filename);
+    bool multiply(QString filename);
+    bool divide(QString filename);
 
     bool bimodalSegmentaion(int T);
     bool equalizateHistogram();
