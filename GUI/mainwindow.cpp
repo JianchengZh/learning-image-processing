@@ -56,9 +56,10 @@ void MainWindow::on_pButton_LoadImage_clicked()
         }
         if (mainController->getImage()->getImageType().toUpper()=="PGM") {
             ui->actionAdd->setEnabled(true);
+            ui->actionSubstract->setEnabled(true);
+            ui->actionThreshold->setEnabled(true);
+            ui->actionEqualization->setEnabled(true);
         }
-
-        ui->actionThreshold->setEnabled(true);
 
         // Changes on labels
         ui->label_Density->setEnabled(true);
@@ -133,6 +134,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
     ui->actionAdd->setEnabled(false);
+    ui->actionSubstract->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -175,6 +177,7 @@ void MainWindow::on_actionUndo_triggered()
 {
     if (mainController->undo()) {
         displayedImage=mainController->getQImage();
+        ShowHistogram();
         on_pButton__NormalSize_clicked();
     }else{
         QMessageBox msgBox2(this);
@@ -236,6 +239,29 @@ void MainWindow::on_actionAdd_triggered()
         double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
         if (ok){
             if (mainController->add(filename, alpha)) {
+                displayResults(mainController->getQImage());
+                ShowHistogram();
+            } else {
+                erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+            }
+
+        }else{
+            erroMessageDialog->showMessage("No se ha ingresado ningun valor para Alpha");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionSubstract_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        bool ok;
+        double alpha = QInputDialog::getDouble(this, tr("Res of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
+        if (ok){
+            if (mainController->subtract(filename, alpha)) {
                 displayResults(mainController->getQImage());
                 ShowHistogram();
             } else {

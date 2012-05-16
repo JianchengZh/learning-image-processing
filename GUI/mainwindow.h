@@ -79,6 +79,7 @@ private slots:
     void on_actionConver_to_GrayScale_triggered();
 
     void on_actionAdd_triggered();
+    void on_actionSubstract_triggered();
 
     // Histogram Menu
     void on_actionThreshold_triggered();

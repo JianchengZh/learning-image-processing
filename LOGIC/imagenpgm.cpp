@@ -182,12 +182,22 @@ Image* ImagenPGM::changeSize(int factor){
 }
 
 Image* ImagenPGM::changeColorDepth(int bits){
-    if((int)(pow(2,bits)-1)<colorDepth){
-        int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (colorDepth+1)/(newColorDepth+1);
+  //  QTextStream cout(stdout);
 
-        for(int i=0; i<lutSize; i++){
+    int newColorDepth=(int)(pow(2,bits)-1);
+    //cout<<newColorDepth;
+
+//    double *lutemp = new double[lutSize+1];
+//    for (int i = 0; i < lutSize; ++i) {
+//        lutemp[i]=0;
+//    }
+    if(newColorDepth<colorDepth){
+        int divisor = (colorDepth+1)/(newColorDepth+1);
+      //  cout<<" "<<divisor<<endl;
+        for(int i=0; i<lutSize+1; i++){
+         //   cout<<" "<<lut[i];
             lut[i]=lut[i]/divisor;
+          //  cout<<" "<<lut[i]<<endl;
         }
         return new ImagenPGM (identification,
                               comment,
@@ -198,12 +208,12 @@ Image* ImagenPGM::changeColorDepth(int bits){
                               lut,
                               lutSize);
         delete lut;lut=0;
-    }else if ((int)(pow(2,bits)-1)>colorDepth) {
-        int newColorDepth=(int)(pow(2,bits)-1);
-        //int divisor = (newColorDepth+1)/(colorDepth+1);
-        for(int i=0; i<lutSize; i++){
-            lut[i]=lut[i]*newColorDepth;
+    }else if (newColorDepth>colorDepth) {
+        int divisor = (newColorDepth+1)/(colorDepth+1);
+        for(int i=0; i<lutSize+1; i++){
+            lut[i]=(lut[i]*divisor)-1;
         }
+        //cout<<" "<<divisor<<endl;
         return new ImagenPGM (identification,
                               comment,
                               height,
@@ -212,8 +222,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
                               matrixImagenP,
                               lut,
                               lutSize);
-        delete lut;
-        lut=0;
+        delete lut;lut=0;
     }else{
         return this;
     }
@@ -239,6 +248,29 @@ Image* ImagenPGM::add(ImagenPGM *image, double alpha){
         delete additionMatrix[i];
 
     delete additionMatrix;
+
+    return result;
+}
+
+Image* ImagenPGM::subtract(ImagenPGM *image, double alpha){
+
+    int **subtractMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        subtractMatrix[i]=new int[width];
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            subtractMatrix[i][j]=alpha*(*matrixImagenP[i][j])-(1-alpha)*(*image->getMatrix()[i][j]);
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,subtractMatrix);
+
+
+    for (int i=0; i < height; i++)
+        delete subtractMatrix[i];
+
+    delete subtractMatrix;
 
     return result;
 }
