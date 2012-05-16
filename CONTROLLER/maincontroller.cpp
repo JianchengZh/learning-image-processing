@@ -120,7 +120,7 @@ void MainController::convertToGrayscale(int method){
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
-bool MainController::add(QString filename, double alpha){
+bool MainController::average(QString filename, double alpha){
 
     ImageFile archivo(filename);
     archivo.readImageContents();
@@ -129,7 +129,7 @@ bool MainController::add(QString filename, double alpha){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->add(image,alpha);
+        imagen=static_cast<ImagenPGM*>(oldImage)->average(image,alpha);
         imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
@@ -138,6 +138,25 @@ bool MainController::add(QString filename, double alpha){
         return false;
     }
 
+}
+
+bool MainController::add(QString filename){
+
+    ImageFile archivo(filename);
+    archivo.readImageContents();
+    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->add(image);
+        imagen->saveImage("temp");
+        oldDisplayedImage=displayedImage;
+        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool MainController::subtract(QString filename){
@@ -157,7 +176,6 @@ bool MainController::subtract(QString filename){
     } else {
         return false;
     }
-
 }
 
 bool MainController::multiply(QString filename){

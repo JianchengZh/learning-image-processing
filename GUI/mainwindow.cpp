@@ -56,6 +56,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
             ui->actionEqualization->setEnabled(true);
         }
         if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+            ui->actionWeight_Average->setEnabled(true);
             ui->actionAdd->setEnabled(true);
             ui->actionSubstract->setEnabled(true);
             ui->actionMultiply->setEnabled(true);
@@ -136,6 +137,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionChange_Color_Depth->setEnabled(false);
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
+    ui->actionWeight_Average->setEnabled(false);
     ui->actionAdd->setEnabled(false);
     ui->actionSubstract->setEnabled(false);
     ui->actionMultiply->setEnabled(false);
@@ -248,7 +250,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
     }
 }
 
-void MainWindow::on_actionAdd_triggered()
+void MainWindow::on_actionWeight_Average_triggered()
 {
     QErrorMessage *erroMessageDialog = new QErrorMessage(this);
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -256,7 +258,7 @@ void MainWindow::on_actionAdd_triggered()
         bool ok;
         double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
         if (ok){
-            if (mainController->add(filename, alpha)) {
+            if (mainController->average(filename, alpha)) {
                 displayResults(mainController->getQImage());
                 ShowHistogram();
             } else {
@@ -265,6 +267,22 @@ void MainWindow::on_actionAdd_triggered()
 
         }else{
             erroMessageDialog->showMessage("No se ha ingresado ningun valor para Alpha");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionAdd_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->add(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
         }
     }else{
         erroMessageDialog->showMessage("Formato de imagen no apropiado");

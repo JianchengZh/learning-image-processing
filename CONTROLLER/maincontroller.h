@@ -52,7 +52,8 @@ public:
     void changeSize(int density);
     void changeColorDepth(int depth);
     void convertToGrayscale(int method);
-    bool add(QString filename, double alpha);
+    bool average(QString filename, double alpha);
+    bool add(QString filename);
     bool subtract(QString filename);
     bool multiply(QString filename);
     bool divide(QString filename);

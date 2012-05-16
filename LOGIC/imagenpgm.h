@@ -59,7 +59,8 @@ public:
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
-    Image *add(ImagenPGM *image, double alpha);
+    Image *average(ImagenPGM *image, double alpha);
+    Image *add(ImagenPGM *image);
     Image *subtract(ImagenPGM *image);
     Image *multiply(ImagenPGM *image);
     Image *divide(ImagenPGM *image);

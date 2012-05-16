@@ -229,25 +229,53 @@ Image* ImagenPGM::changeColorDepth(int bits){
 
 }
 
-Image* ImagenPGM::add(ImagenPGM *image, double alpha){
+Image* ImagenPGM::average(ImagenPGM *image, double alpha){
 
-    int **additionMatrix = new int*[height];
+    int **averageMatrix = new int*[height];
     for (int i=0; i < height; i++)
-        additionMatrix[i]=new int[width];
+        averageMatrix[i]=new int[width];
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            additionMatrix[i][j]=alpha*(*matrixImagenP[i][j])+(1-alpha)*(*image->getMatrix()[i][j]);
+            averageMatrix[i][j]=alpha*(*matrixImagenP[i][j])+(1-alpha)*(*image->getMatrix()[i][j]);
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,additionMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,averageMatrix);
 
 
     for (int i=0; i < height; i++)
-        delete additionMatrix[i];
+        delete averageMatrix[i];
 
-    delete additionMatrix;
+    delete averageMatrix;
+
+    return result;
+}
+
+Image* ImagenPGM::add(ImagenPGM *image){
+
+    int **addMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        addMatrix[i]=new int[width];
+    int sum = 0;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            sum=(*matrixImagenP[i][j])+(*image->getMatrix()[i][j]);
+            if (sum<=colorDepth) {
+                addMatrix[i][j]=sum;
+            } else {
+                addMatrix[i][j]=colorDepth;
+            }
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,addMatrix);
+
+
+    for (int i=0; i < height; i++)
+        delete addMatrix[i];
+
+    delete addMatrix;
 
     return result;
 }

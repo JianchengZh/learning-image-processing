@@ -79,6 +79,7 @@ private slots:
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
 
+    void on_actionWeight_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
     void on_actionMultiply_triggered();

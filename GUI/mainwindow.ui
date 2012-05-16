@@ -424,6 +424,7 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionConver_to_GrayScale"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
+    <addaction name="actionWeight_Average"/>
     <addaction name="actionAdd"/>
     <addaction name="actionSubstract"/>
     <addaction name="actionMultiply"/>
@@ -624,6 +625,14 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionWeight_Average">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Weight Average</string>
    </property>
   </action>
  </widget>
