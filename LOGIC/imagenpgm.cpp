@@ -27,12 +27,11 @@ ImagenPGM::ImagenPGM(QList<QString> lectura){
     this->width=lectura.at(2).section(' ',0,0).toInt();
     this->height=lectura.at(2).section(' ',1,1).toInt();
     this->colorDepth=lectura.at(3).toInt();
-    this->lutSize=colorDepth;
     this->imageType="PGM";
 
     //Lookup Table
-    lut = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i)
+    lut = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i)
         lut[i]=i;
 
     matrixImagenP = new int**[height];
@@ -54,12 +53,11 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
     this->height=h;
     this->width=w;
     this->colorDepth=colorD;
-    this->lutSize=colorD;
     this->imageType="PGM";
 
     //Lookup Table
-    lut = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i) {
+    lut = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i) {
         lut[i]=i;
     }
 
@@ -74,39 +72,38 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString comment, int h, int w, int colorD, int ***matrixP, int *lut, int lutSize){
+ImagenPGM::ImagenPGM(QString id, QString comment, int h, int w, int colorD, int ***matrixP, int *lut){
 
+    QTextStream (stdout) << "E. Al inicio del constructor de la nueva imagen"<<endl;
     this->identification=id;
     this->comment=comment;
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
-    this->lutSize=lutSize;
     this->imageType="PGM";
 
     //Lookup Table
-    this->lut = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i)
-        this->lut[i]=lut[i];
+    this->lut = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i)
+        this->lut[i]=i;
+    QTextStream (stdout) << "E1. lookup table ok"<<endl;
 
     // Matrix of Pointers
     matrixImagenP = new int**[height];
-
     for (int i=0; i < height; i++)
         matrixImagenP[i]=new int*[width];
+    QTextStream (stdout) << "E2. Matriz inicializacion - ok"<<endl;
 
+    QTextStream (stdout) << "F. Antes de llenar la matriz"<<endl;
     for(int i=0; i<height; i++)
         for(int j=0; j<width; j++)
             matrixImagenP[i][j]=&this->lut[*matrixP[i][j]];
 
+    QTextStream (stdout) << "G. Al final del constructor"<<endl;
 }
 
 ImagenPGM::~ImagenPGM(){
-
     for(int i=0; i<height; i++){
-        for(int j=0; j<width; j++){
-            matrixImagenP[i][j]=0;
-        }
         delete matrixImagenP[i];
         matrixImagenP[i]=0;
     }
@@ -182,40 +179,54 @@ Image* ImagenPGM::changeSize(int factor){
 }
 
 Image* ImagenPGM::changeColorDepth(int bits){
+
+    QTextStream (stdout) << "C. Al inicio del metodo changeColorDepth en ImagenPGM"<<endl;
     if((int)(pow(2,bits)-1)<colorDepth){
+
         int newColorDepth=(int)(pow(2,bits)-1);
         int divisor = (colorDepth+1)/(newColorDepth+1);
 
-        for(int i=0; i<lutSize; i++){
+        QTextStream (stdout) << "Divisor "<<divisor<<endl;
+        for(int i=0; i<colorDepth+1; i++){
             lut[i]=lut[i]/divisor;
+            QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
         }
+
+        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Reduccion"<<endl;
         return new ImagenPGM (identification,
                               comment,
                               height,
                               width,
                               newColorDepth,
                               matrixImagenP,
-                              lut,
-                              lutSize);
-        delete lut;lut=0;
+                              lut);
+
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
+
         int newColorDepth=(int)(pow(2,bits)-1);
-        //int divisor = (newColorDepth+1)/(colorDepth+1);
-        for(int i=0; i<lutSize; i++){
-            lut[i]=lut[i]*newColorDepth;
+        int divisor = (newColorDepth+1)/(colorDepth+1);
+        for(int i=0; i<colorDepth+1; i++){
+            lut[i]=lut[i]*divisor;
+            QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
         }
+
+        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Aumento"<<endl;
         return new ImagenPGM (identification,
                               comment,
                               height,
                               width,
                               newColorDepth,
                               matrixImagenP,
-                              lut,
-                              lutSize);
-        delete lut;
-        lut=0;
+                              lut);
     }else{
-        return this;
+        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - IGUAL"<<endl;
+        return new ImagenPGM(identification,
+                             comment,
+                             height,
+                             width,
+                             colorDepth,
+                             matrixImagenP,
+                             lut);
     }
 
 }
@@ -251,7 +262,7 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
             lut[i]=colorDepth;
         }
     }
-    return new ImagenPGM(identification, comment, height, width, colorDepth, matrixImagenP, lut, lutSize);
+    return new ImagenPGM(identification, comment, height, width, colorDepth, matrixImagenP, lut);
 
 }
 
@@ -262,8 +273,7 @@ Image* ImagenPGM::histogramEqualization(int *newlut){
                           width,
                           colorDepth,
                           matrixImagenP,
-                          newlut,
-                          lutSize);
+                          newlut);
 }
 
 // Getters

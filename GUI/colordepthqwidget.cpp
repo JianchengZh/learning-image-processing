@@ -39,9 +39,10 @@ void ColorDepthQwidget::on_pushButton_clicked()
 {
     int depth = (int)ui->lcdNumber->value();
     if(mainController->isThereAnUploadedImage()){
+        QTextStream (stdout) << "CAMBIANDO DE "<<(log2(mainController->getImage()->getColorDensity()+1))<<" A: "<<depth<<endl;
         mainController->changeColorDepth(depth);
         mainwindow->displayResults(mainController->getQImage());
-        mainwindow->ShowHistogram();
+//        mainwindow->ShowHistogram();
     }else{
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");

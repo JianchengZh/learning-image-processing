@@ -52,8 +52,7 @@ public:
               int ***matrizG,
               int *lutG,
               int ***matrizB,
-              int *lutB,
-              int lutSize);
+              int *lutB);
 
     ~ImagenPPM();
 

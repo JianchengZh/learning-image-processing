@@ -23,14 +23,16 @@
 #include "dcmtk/dcmdata/dcfilefo.h"
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "LOGIC/image.h"
+#include <QFile>
 #include <QTextStream>
 #include <math.h>
 
 
 class ImagenDCM : public Image{
 
-    DcmFileFormat *dfile;
     DicomImage *dicomImage;
+    int ***matrixImagenP;
+    int *lut;
 
 public:
 

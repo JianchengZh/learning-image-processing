@@ -77,7 +77,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
             displayedImage=mainController->getQImage();
             // Display Image in Original Size
             on_pButton__NormalSize_clicked();
-            ShowHistogram();
+//            ShowHistogram();
         }
 
 
@@ -232,7 +232,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
         int method = msgBox.exec();
         mainController->convertToGrayscale(method);
         displayResults(mainController->getQImage());
-        ShowHistogram();
+//        ShowHistogram();
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");
@@ -251,7 +251,7 @@ void MainWindow::on_actionAdd_triggered()
         if (ok){
             if (mainController->add(filename, alpha)) {
                 displayResults(mainController->getQImage());
-                ShowHistogram();
+//                ShowHistogram();
             } else {
                 erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
             }
@@ -285,7 +285,7 @@ void MainWindow::on_actionEqualization_triggered()
         // int method = msgBox.exec();
         mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
-        ShowHistogram();
+//        ShowHistogram();
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");

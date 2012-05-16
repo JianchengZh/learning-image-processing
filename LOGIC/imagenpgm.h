@@ -50,8 +50,7 @@ public:
               int w,
               int colorD,
               int ***matriz,
-              int *lut,
-              int lutSize);
+              int *lut);
 
     ~ImagenPGM();
 

@@ -27,7 +27,6 @@ ImagenPPM::ImagenPPM(QList<QString> lectura){
     this->width=lectura.at(2).section(' ',0,0).toInt();
     this->height=lectura.at(2).section(' ',1,1).toInt();
     this->colorDepth=lectura.at(3).toInt();
-    this->lutSize=colorDepth;
     this->imageType="PPM";
 
     matrixRp = new int**[height];
@@ -40,10 +39,10 @@ ImagenPPM::ImagenPPM(QList<QString> lectura){
     }
 
     //Lookup Table
-    lutR = new int [lutSize+1];
-    lutG = new int [lutSize+1];
-    lutB = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i) {
+    lutR = new int [colorDepth+1];
+    lutG = new int [colorDepth+1];
+    lutB = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i) {
         lutR[i]=i;
         lutG[i]=i;
         lutB[i]=i;
@@ -74,14 +73,13 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
     this->height=h;
     this->width=w;
     this->colorDepth=depth;
-    this->lutSize=colorDepth;
     this->imageType="PPM";
 
     //Lookup Table
-    lutR = new int [lutSize+1];
-    lutG = new int [lutSize+1];
-    lutB = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i) {
+    lutR = new int [colorDepth+1];
+    lutG = new int [colorDepth+1];
+    lutB = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i) {
         lutR[i]=i;
         lutG[i]=i;
         lutB[i]=i;
@@ -107,20 +105,19 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
 
 }
 
-ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int colorD, int ***matrizR, int *lutR, int ***matrizG, int *lutG, int ***matrizB, int *lutB, int lutSize){
+ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int colorD, int ***matrizR, int *lutR, int ***matrizG, int *lutG, int ***matrizB, int *lutB){
     this->identification=id;
     this->comment=comment;
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
-    this->lutSize=lutSize;
     this->imageType="PPM";
 
     //Lookup Table
-    this->lutR = new int [lutSize+1];
-    this->lutG = new int [lutSize+1];
-    this->lutB = new int [lutSize+1];
-    for (int i = 0; i < lutSize+1; ++i) {
+    this->lutR = new int [colorDepth+1];
+    this->lutG = new int [colorDepth+1];
+    this->lutB = new int [colorDepth+1];
+    for (int i = 0; i < colorDepth+1; ++i) {
         this->lutR[i]=lutR[i];
         this->lutG[i]=lutG[i];
         this->lutB[i]=lutB[i];
@@ -284,7 +281,7 @@ Image* ImagenPPM::changeColorDepth(int bits){
 
         int newColorDepth=(int)(pow(2,bits)-1);
         int divisor = (colorDepth+1)/(newColorDepth+1);
-        for(int i=0; i<lutSize; i++){
+        for(int i=0; i<colorDepth+1; i++){
             lutR[i]=lutR[i]/divisor;
             lutG[i]=lutG[i]/divisor;
             lutB[i]=lutB[i]/divisor;
@@ -299,14 +296,13 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               matrixGp,
                               lutG,
                               matrixBp,
-                              lutB,
-                              lutSize);
+                              lutB);
 
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
 
         int newColorDepth=(int)(pow(2,bits)-1);
         int divisor = (newColorDepth+1)/(colorDepth+1);
-        for(int i=0; i<lutSize; i++){
+        for(int i=0; i<colorDepth+1; i++){
             lutR[i]=lutR[i]*divisor;
             lutG[i]=lutG[i]*divisor;
             lutB[i]=lutB[i]*divisor;
@@ -321,8 +317,7 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               matrixGp,
                               lutG,
                               matrixBp,
-                              lutB,
-                              lutSize);
+                              lutB);
 
     }else{
         return this;

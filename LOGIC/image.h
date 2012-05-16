@@ -32,7 +32,6 @@ protected:
     QString comment;
     QString imageType;
     int colorDepth;
-    int lutSize;
     int height;
     int width;
 
