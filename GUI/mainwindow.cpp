@@ -186,9 +186,9 @@ void MainWindow::on_actionUndo_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-                                tr("Save Image"),
-                                                    "$HOME",
-                                tr("All Files (*);;Text Files (*.txt)"));
+                                                    tr("Save Image"),
+                                                    QString(getenv("HOME")),
+                                                    tr("Image Files (*)"));
     if (!fileName.isEmpty())
         mainController->saveImage(fileName);
 }
