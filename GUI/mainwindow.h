@@ -68,6 +68,7 @@ private slots:
 
     // File Menu
     void on_actionNew_Job_triggered();
+    void on_actionSave_triggered();
     void on_actionExit_triggered();
 
     // Edit Menu

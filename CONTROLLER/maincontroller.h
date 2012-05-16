@@ -70,6 +70,7 @@ public:
     // Others methods:
     bool undo();
     bool isThereAnUploadedImage();
+    void saveImage(QString filename);
 
 };
 #endif // MAINCONTROLLER_H

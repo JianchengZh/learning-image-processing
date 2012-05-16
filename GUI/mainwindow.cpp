@@ -50,6 +50,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->actionUndo->setEnabled(true);
         ui->actionResize->setEnabled(true);
         ui->actionChange_Color_Depth->setEnabled(true);
+        ui->actionSave->setEnabled(true);
         if (mainController->getImage()->getImageType().toUpper()=="PPM") {
             ui->actionConver_to_GrayScale->setEnabled(true);
             ui->actionEqualization->setEnabled(true);
@@ -139,6 +140,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionSubstract->setEnabled(false);
     ui->actionMultiply->setEnabled(false);
     ui->actionDivide->setEnabled(false);
+    ui->actionSave->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -171,10 +173,7 @@ void MainWindow::on_actionNew_Job_triggered()
     mainController=new MainController();
 }
 
-void MainWindow::on_actionExit_triggered()
-{
-    this->close();
-}
+
 
 // Edit Menu
 void MainWindow::on_actionUndo_triggered()
@@ -189,6 +188,21 @@ void MainWindow::on_actionUndo_triggered()
         msgBox2.exec();
     }
 
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Image"),
+                                                    QString(getenv("HOME")),
+                                                    tr("Image Files (*)"));
+    if (!fileName.isEmpty())
+        mainController->saveImage(fileName);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
 }
 
 // Global Transfomations
@@ -363,3 +377,4 @@ void MainWindow::ShowHistogram(){
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
     }
 }
+

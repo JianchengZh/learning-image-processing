@@ -48,7 +48,7 @@ public:
     QString getImageType();
 
     // export
-    virtual void exportar(QString filename) =0;
+    virtual void saveImage(QString filename) =0;
 
     // Image transformations
     virtual Image *changeSize(int factor)=0;

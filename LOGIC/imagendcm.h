@@ -39,7 +39,7 @@ public:
     Image *changeColorDepth(int bits);
 
     // export
-    void exportar(QString filename);
+    void saveImage(QString filename);
 };
 
 #endif // IMAGENDCM_H

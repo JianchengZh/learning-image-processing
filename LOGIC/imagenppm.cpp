@@ -362,7 +362,7 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
 }
 
 // export
-void ImagenPPM::exportar(QString filename){
+void ImagenPPM::saveImage(QString filename){
 
     QFile temp(filename+"."+imageType.toLower());
     if(temp.open(QFile::WriteOnly)){

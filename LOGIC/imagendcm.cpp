@@ -41,7 +41,7 @@ Image* ImagenDCM::changeColorDepth(int bits){
 }
 
 // export
-void ImagenDCM::exportar(QString filename){
+void ImagenDCM::saveImage(QString filename){
 
 }
 

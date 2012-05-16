@@ -79,7 +79,7 @@ QImage* MainController::getHistogramImage(){
 
     histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
     ImagenPGM *imageHistogram=histogram->getHistogram();
-    imageHistogram->exportar("histogram");
+    imageHistogram->saveImage("histogram");
 
     delete imageHistogram;
     imageHistogram=0;
@@ -94,7 +94,7 @@ void MainController::changeSize(int density){
     oldImage=0;
     oldImage=imagen;
     imagen=oldImage->changeSize(density);
-    imagen->exportar("temp");
+    imagen->saveImage("temp");
     oldDisplayedImage=displayedImage;
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
@@ -105,7 +105,7 @@ void MainController::changeColorDepth(int depth){
     oldImage=0;
     oldImage=imagen;
     imagen=oldImage->changeColorDepth(depth);
-    imagen->exportar("temp");
+    imagen->saveImage("temp");
     oldDisplayedImage=displayedImage;
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 
@@ -115,7 +115,7 @@ void MainController::convertToGrayscale(int method){
     delete oldImage;
     oldImage=imagen;
     imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
-    imagen->exportar("temp");
+    imagen->saveImage("temp");
     oldDisplayedImage=displayedImage;
     displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
@@ -130,7 +130,7 @@ bool MainController::add(QString filename, double alpha){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->add(image,alpha);
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -150,7 +150,7 @@ bool MainController::subtract(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -170,7 +170,7 @@ bool MainController::multiply(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -190,7 +190,7 @@ bool MainController::divide(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -205,7 +205,7 @@ bool MainController::equalizateHistogram(){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(histogram->calculateEqualization());
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -219,7 +219,7 @@ bool MainController::bimodalSegmentaion(int T){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->bimodalSegmentaion(T);
-        imagen->exportar("temp");
+        imagen->saveImage("temp");
         oldDisplayedImage=displayedImage;
         displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
@@ -268,5 +268,9 @@ bool MainController::isThereAnUploadedImage(){
     }else{
         return false;
     }
+}
+
+void MainController::saveImage(QString filename){
+    imagen->saveImage(filename);
 }
 
