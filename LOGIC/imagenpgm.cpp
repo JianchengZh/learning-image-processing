@@ -272,7 +272,7 @@ int*** ImagenPGM::getMatrix(){
 }
 
 // export
-void ImagenPGM::exportar(QString filename){
+void ImagenPGM::saveImage(QString filename){
 
     QFile temp(filename+"."+imageType.toLower());
     if(temp.open(QFile::WriteOnly)){

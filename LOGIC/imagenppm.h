@@ -66,7 +66,7 @@ public:
     // Getters
 
     // export
-    void exportar(QString filename);
+    void saveImage(QString filename);
 };
 
 #endif // IMAGENPPGM_H

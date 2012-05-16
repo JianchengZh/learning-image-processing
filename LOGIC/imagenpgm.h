@@ -72,7 +72,7 @@ public:
     int ***getMatrix();
 
     // export
-    void exportar(QString filename);
+    void saveImage(QString filename);
 
 
 };
