@@ -34,17 +34,22 @@ protected:
     int colorDepth;
     int height;
     int width;
+    bool status;
 
 public:
     Image();
     virtual ~Image();
 
 
-    // Getters 
+    // Getters
+    QString getImageType();
+    bool getStatus();
+    QString getId();
+    QString getComment();
     int getHeight();
     int getWidth();
-    int getColorDensity();
-    QString getImageType();
+    int getColorDepth();
+
 
     // export
     virtual void saveImage(QString filename) =0;

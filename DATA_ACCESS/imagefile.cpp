@@ -24,24 +24,49 @@ ImageFile::ImageFile(QString filename) : QFile(filename)
     supportedFormats << "ppm" << "pgm";
 }
 
-bool ImageFile::readImageContents()
+bool ImageFile::read()
 {
-    if(supportedFormats.contains(fileName().right(3).toLower())){
+    if(supportedFormats.contains(fileName().section(".",-1))){
+
         if (this->open(QIODevice::ReadOnly)){
+
             QTextStream lector(this);
-            int i=0;
             while (!lector.atEnd())
             {
-                lectura.insert(i, lector.readLine());
-                i++;
+                QString line = lector.readLine();
+                if(!line.startsWith("#")){
+                    lectura<<line;
+                }
             }
-            return true;
+            readingProcess();
+            return true; //ojo cambiar ahora
         }
         else{
             return false;
         }
     }else{
         return false;
+    }
+}
+
+void ImageFile::readingProcess(){
+
+    this->id=lectura.at(0);
+    this->width=lectura.at(1).section(' ',0,0).toInt();
+    this->height=lectura.at(1).section(' ',1,1).toInt();
+
+    if (id =="P2") {
+        this->matrix = new int[width*height];
+    } else {
+        this->matrix = new int[3*width*height];
+    }
+    int i=0;
+    for (int z = 3; z < lectura.length(); ++z) {
+        QStringList lineSplit = lectura.at(z).split(" ");
+        foreach (QString pixel, lineSplit) {
+            matrix[i]=pixel.toInt();
+            i++;
+        }
     }
 }
 
@@ -55,4 +80,20 @@ void ImageFile::printImageContents()
 QList<QString> ImageFile::getImageContents()
 {
     return lectura;
+}
+//GETTERS
+QString ImageFile::getId(){
+    return this->id;
+}
+int ImageFile::getWidth(){
+    return this->width;
+}
+int ImageFile::getHeight(){
+    return this->height;
+}
+int ImageFile::getColorDepth(){
+    this->colorDepth;
+}
+int* ImageFile::getMatrix(){
+    this->matrix;
 }

@@ -27,7 +27,7 @@ ThresholdQwidget::ThresholdQwidget(QWidget *parent, MainController *controller, 
     ui->setupUi(this);
     mainwindow=window;
     mainController=controller;
-    ui->verticalSlider->setMaximum(mainController->getImage()->getColorDensity());
+    ui->verticalSlider->setMaximum(mainController->getImage()->getColorDepth());
 }
 
 ThresholdQwidget::~ThresholdQwidget()

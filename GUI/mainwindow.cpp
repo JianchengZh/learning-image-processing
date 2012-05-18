@@ -73,7 +73,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
         // Set text on Labels with image info
         ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
                                            "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
-        ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
+        ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
         if (mainController->getImage()->getImageType()!="DCM") {
@@ -226,7 +226,7 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this, log2(mainController->getImage()->getColorDensity()+1));
+    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this, log2(mainController->getImage()->getColorDepth()+1));
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
 }
@@ -385,7 +385,7 @@ void MainWindow::displayResults(QImage *result)
     on_pButton__NormalSize_clicked();
     ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
                                        "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
-    ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDensity()+1))+" Bits");
+    ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
     ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 }
 

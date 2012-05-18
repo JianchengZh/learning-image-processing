@@ -45,38 +45,36 @@ MainController::~MainController(){
 // LOAD IMAGE
 bool MainController::loadImage(QString filename){
 
-    if (filename.contains(".")) {
-        QString imageType = filename.right(3).toUpper();
+    QString fileExtension = filename.section(".",-1);
 
-        if (imageType=="PPM") {
-            ImageFile archivo(filename);
-            archivo.readImageContents();
-            imagen = new ImagenPPM(archivo.getImageContents());
-            displayedImage=new QImage(filename);
-            return true;
+    if(fileExtension.toUpper() == "PGM" || fileExtension.toUpper() == "PPM"){
+        ImageFile imageFile(filename);
+        if (imageFile.read()){
 
-        } else if(imageType == "PGM"){
-            ImageFile archivo(filename);
-            archivo.readImageContents();
-            imagen = new ImagenPGM(archivo.getImageContents());
-            displayedImage=new QImage(filename);
-            return true;
+            if (fileExtension.toUpper() == "PGM") {
+                imagen = new ImagenPGM(filename);
+                displayedImage=new QImage(filename);
+                return true;
 
-        } else{
-            imagen = new ImagenDCM(filename.toStdString().c_str());
-            QTextStream cout (stdout);
-            imagen->saveImage("DCM2PGM");
-            cout<<"HOLA"<<endl;
-            displayedImage=new QImage("DCM2PGM.pgm");
+            } else if (fileExtension.toUpper() == "PPM"){
+                imagen = new ImagenPPM(imageFile.getImageContents());
+                displayedImage=new QImage(filename);
+                return true;
+            }
+        } else {
+            return false;
+        }
+    } else{
+
+        imagen = new ImagenDCM(filename.toStdString().c_str());
+        if (imagen!=NULL) {
             return true;
+        } else {
+            return false;
         }
 
-    } else if(!filename.isEmpty()) {
-        imagen = new ImagenDCM(filename.toStdString().c_str());
-        return true;
-    }else{
-        return false;
     }
+    return false;
 }
 
 QImage* MainController::getHistogramImage(){
@@ -131,7 +129,7 @@ void MainController::convertToGrayscale(int method){
 bool MainController::average(QString filename, double alpha){
 
     ImageFile archivo(filename);
-    archivo.readImageContents();
+    archivo.read();
     ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
@@ -151,7 +149,7 @@ bool MainController::average(QString filename, double alpha){
 bool MainController::add(QString filename){
 
     ImageFile archivo(filename);
-    archivo.readImageContents();
+    archivo.read();
     ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
@@ -170,7 +168,7 @@ bool MainController::add(QString filename){
 bool MainController::subtract(QString filename){
 
     ImageFile archivo(filename);
-    archivo.readImageContents();
+    archivo.read();
     ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
@@ -189,7 +187,7 @@ bool MainController::subtract(QString filename){
 bool MainController::multiply(QString filename){
 
     ImageFile archivo(filename);
-    archivo.readImageContents();
+    archivo.read();
     ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
@@ -209,7 +207,7 @@ bool MainController::multiply(QString filename){
 bool MainController::divide(QString filename){
 
     ImageFile archivo(filename);
-    archivo.readImageContents();
+    archivo.read();
     ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {

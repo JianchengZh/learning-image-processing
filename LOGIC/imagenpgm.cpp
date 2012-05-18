@@ -20,31 +20,39 @@
 #include "imagenpgm.h"
 
 //Constructors
-ImagenPGM::ImagenPGM(QList<QString> lectura){
+ImagenPGM::ImagenPGM(QString filename){
 
-    this->identification=lectura.at(0);
-    this->comment=lectura.at(1);
-    this->width=lectura.at(2).section(' ',0,0).toInt();
-    this->height=lectura.at(2).section(' ',1,1).toInt();
-    this->colorDepth=lectura.at(3).toInt();
-    this->imageType="PGM";
+    ImageFile imageFile(filename);
+    if (imageFile.read()) {
 
-    //Lookup Table
-    lut = new int [colorDepth+1];
-    for (int i = 0; i < colorDepth+1; ++i)
-        lut[i]=i;
+        this->identification=imageFile.getId();
+        this->comment="#";
+        this->width=imageFile.getWidth();
+        this->height=imageFile.getHeight();
+        this->colorDepth=imageFile.getColorDepth();
+        this->imageType="PGM";
 
-    matrixImagenP = new int**[height];
-    for (int i=0; i < height; i++)
-        matrixImagenP[i]=new int*[width];
+        int *matrix=imageFile.getMatrix();
 
-    int aux=4;
-    for(int i=0; i<height; i++){
-        for(int j=0; j<width; j++){
-            matrixImagenP[i][j]=&lut[lectura[i+j+aux].toInt()];
+        //Lookup Table
+        lut = new int [colorDepth+1];
+        for (int i = 0; i < colorDepth+1; ++i)
+            lut[i]=i;
+
+        matrixImagenP = new int**[height];
+        for (int i=0; i < height; i++)
+            matrixImagenP[i]=new int*[width];
+
+
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++){
+                matrixImagenP[i][j]=&lut[matrix[i+j]];
+            }
         }
-        aux=aux+width-1;
+    } else {
+
     }
+
 }
 
 ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int **matrix){
@@ -232,6 +240,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
     }
 
 }
+
 Image* ImagenPGM::average(ImagenPGM *image, double alpha){
 
     int **averageMatrix = new int*[height];
@@ -342,11 +351,11 @@ Image* ImagenPGM::divide(ImagenPGM *image){
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             div=((colorDepth+1)*(*matrixImagenP[i][j]))/((*image->getMatrix()[i][j])+1);
-//            if (div<colorDepth+1) {
-                divideMatrix[i][j]=div;
-//            } else {
-//                divideMatrix[i][j]=colorDepth;
-//            }
+            //            if (div<colorDepth+1) {
+            divideMatrix[i][j]=div;
+            //            } else {
+            //                divideMatrix[i][j]=colorDepth;
+            //            }
             cout<<divideMatrix[i][j]<<" ";
         }cout<<endl;
     }
@@ -403,8 +412,9 @@ void ImagenPGM::saveImage(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                fSalida<<*matrixImagenP[i][j]<<endl;
+                fSalida<<*matrixImagenP[i][j]<<" ";
             }
+            fSalida<<endl;
         }
     }
 }

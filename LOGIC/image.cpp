@@ -26,18 +26,30 @@ Image::Image()
 Image::~Image(){
 }
 
-int Image::getColorDensity(){
-    return this->colorDepth;
+QString Image::getImageType(){
+    return this->imageType;
 }
 
-int Image::getWidth(){
-    return this->width;
+bool Image::getStatus(){
+    return this->status;
+}
+
+QString Image::getId(){
+    return this->identification;
+}
+
+QString Image::getComment(){
+    return this->comment;
 }
 
 int Image::getHeight(){
     return this->height;
 }
 
-QString Image::getImageType(){
-    return this->imageType;
+int Image::getWidth(){
+    return this->width;
+}
+
+int Image::getColorDepth(){
+    return this->colorDepth
 }

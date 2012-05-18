@@ -39,7 +39,7 @@ void ColorDepthQwidget::on_pushButton_clicked()
 {
     int depth = (int)ui->lcdNumber->value();
     if(mainController->isThereAnUploadedImage()){
-        QTextStream (stdout) << "CAMBIANDO DE "<<(log2(mainController->getImage()->getColorDensity()+1))<<" A: "<<depth<<endl;
+        QTextStream (stdout) << "CAMBIANDO DE "<<(log2(mainController->getImage()->getColorDepth()+1))<<" A: "<<depth<<endl;
         mainController->changeColorDepth(depth);
         mainwindow->displayResults(mainController->getQImage());
 //        mainwindow->ShowHistogram();

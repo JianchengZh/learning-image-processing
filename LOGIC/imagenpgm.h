@@ -24,6 +24,7 @@
 #include <QFile>
 #include <math.h>
 #include <QTextStream>
+#include <DATA_ACCESS/imagefile.h>
 #include "image.h"
 
 
@@ -35,7 +36,7 @@ class ImagenPGM: public Image{
 public:
 
     //Constructors
-    ImagenPGM(QList<QString> lectura);
+    ImagenPGM(QString filename);
 
     ImagenPGM(QString identification,
               QString coment,

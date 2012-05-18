@@ -23,7 +23,7 @@ Histogram::Histogram(ImagenPGM *imagen)
 {
     int nColumnas=imagen->getWidth();
     int nFilas=imagen->getHeight();
-    intensidad=imagen->getColorDensity()+1;
+    intensidad=imagen->getColorDepth()+1;
 
     int ***matrizImagen=imagen->getMatrix();
 
