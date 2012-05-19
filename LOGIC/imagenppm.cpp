@@ -58,9 +58,8 @@ ImagenPPM::ImagenPPM(QString filename){
                 matrixRp[i][j]=&lutR[matrix[(i*width*3)+(j*3)]];
                 matrixGp[i][j]=&lutG[matrix[(i*width*3)+(j*3)+1]];
                 matrixBp[i][j]=&lutB[matrix[(i*width*3)+(j*3)+2]];
-                QTextStream (stdout)<<*matrixRp[i][j]<<" "<<*matrixGp[i][j]<<" "<<*matrixBp[i][j]<<"    ";
             }
-            QTextStream (stdout) <<""<<endl;
+
         }
         status=true;
     } else {
