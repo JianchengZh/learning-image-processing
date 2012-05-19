@@ -47,32 +47,28 @@ bool MainController::loadImage(QString filename){
 
     QString fileExtension = filename.section(".",-1);
 
-    if(fileExtension.toUpper() == "PGM" || fileExtension.toUpper() == "PPM"){
-        ImageFile imageFile(filename);
-        if (imageFile.readFile()){
-
-            if (fileExtension.toUpper() == "PGM") {
-                imagen = new ImagenPGM(filename);
-                displayedImage=new QImage(filename);
-                return true;
-
-            } else if (fileExtension.toUpper() == "PPM"){
-                imagen = new ImagenPPM(imageFile.getImageContents());
-                displayedImage=new QImage(filename);
-                return true;
-            }
-        } else {
-            return false;
+    if (fileExtension.toUpper() == "PGM") {
+        imagen = new ImagenPGM(filename);
+        if (imagen->getStatus()) {
+            displayedImage=new QImage(filename);
+            return true;
         }
-    } else{
 
+    } else if (fileExtension.toUpper() == "PPM"){
+        imagen = new ImagenPPM(filename);
+        if (imagen->getStatus()) {
+            displayedImage=new QImage(filename);
+            return true;
+        }
+    }
+
+    else{
         imagen = new ImagenDCM(filename.toStdString().c_str());
         if (imagen!=NULL) {
             return true;
         } else {
             return false;
         }
-
     }
     return false;
 }

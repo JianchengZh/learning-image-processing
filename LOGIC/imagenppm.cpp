@@ -20,49 +20,51 @@
 #include "imagenppm.h"
 
 //Constructors
-ImagenPPM::ImagenPPM(QList<QString> lectura){
+ImagenPPM::ImagenPPM(QString filename){
 
-    this->identification=lectura.at(0);
-    this->comment=lectura.at(1);
-    this->width=lectura.at(2).section(' ',0,0).toInt();
-    this->height=lectura.at(2).section(' ',1,1).toInt();
-    this->colorDepth=lectura.at(3).toInt();
-    this->imageType="PPM";
+    ImageFile imageFile(filename);
+    if (imageFile.readFile()) {
 
-    matrixRp = new int**[height];
-    matrixGp = new int**[height];
-    matrixBp = new int**[height];
-    for (int i=0; i < height; i++){
-        matrixRp[i]=new int*[width];
-        matrixGp[i]=new int*[width];
-        matrixBp[i]=new int*[width];
-    }
+        this->identification=imageFile.getId();
+        this->comment="#";
+        this->width=imageFile.getWidth();
+        this->height=imageFile.getHeight();
+        this->colorDepth=imageFile.getColorDepth();
+        this->imageType="PPM";
 
-    //Lookup Table
-    lutR = new int [colorDepth+1];
-    lutG = new int [colorDepth+1];
-    lutB = new int [colorDepth+1];
-    for (int i = 0; i < colorDepth+1; ++i) {
-        lutR[i]=i;
-        lutG[i]=i;
-        lutB[i]=i;
-    }
+        int *matrix=imageFile.getMatrix();
 
-    int aux1=4;
-    int aux2=5;
-    int aux3=6;
-    for(int i=0; i<height; i++){
-        for(int j=0; j<width; j++){
-            matrixRp[i][j]=&lutR[lectura[i+j+aux1].toInt()];
-            matrixGp[i][j]=&lutG[lectura[i+j+aux2].toInt()];
-            matrixBp[i][j]=&lutB[lectura[i+j+aux3].toInt()];
-            aux1=aux1+2;
-            aux2=aux2+2;
-            aux3=aux3+2;
+        matrixRp = new int**[height];
+        matrixGp = new int**[height];
+        matrixBp = new int**[height];
+        for (int i=0; i < height; i++){
+            matrixRp[i]=new int*[width];
+            matrixGp[i]=new int*[width];
+            matrixBp[i]=new int*[width];
         }
-        aux1=aux1+width-1;
-        aux2=aux2+width-1;
-        aux3=aux3+width-1;
+
+        //Lookup Table
+        lutR = new int [colorDepth+1];
+        lutG = new int [colorDepth+1];
+        lutB = new int [colorDepth+1];
+        for (int i = 0; i < colorDepth+1; ++i) {
+            lutR[i]=i;
+            lutG[i]=i;
+            lutB[i]=i;
+        }
+
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++){
+                matrixRp[i][j]=&lutR[matrix[(i*width*3)+(j*3)]];
+                matrixGp[i][j]=&lutG[matrix[(i*width*3)+(j*3)+1]];
+                matrixBp[i][j]=&lutB[matrix[(i*width*3)+(j*3)+2]];
+                QTextStream (stdout)<<*matrixRp[i][j]<<" "<<*matrixGp[i][j]<<" "<<*matrixBp[i][j]<<"    ";
+            }
+            QTextStream (stdout) <<""<<endl;
+        }
+        status=true;
+    } else {
+        status=false;
     }
 }
 
@@ -359,7 +361,11 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
 // export
 void ImagenPPM::saveImage(QString filename){
 
-    QFile temp(filename+"."+imageType.toLower());
+    if (!filename.contains(".ppm")) {
+        filename=filename+".ppm";
+    }
+
+    QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
 
@@ -370,143 +376,9 @@ void ImagenPPM::saveImage(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                fSalida<<*(matrixRp[i][j])<<endl<<*(matrixGp[i][j])<<endl<<*(matrixBp[i][j])<<endl;
+                fSalida<<*(matrixRp[i][j])<<" "<<*(matrixGp[i][j])<<" "<<*(matrixBp[i][j])<<"    ";
             }
+            fSalida<<endl;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//ImagenPPM* ImagenPPM::reducirTamano(){
-
-//    int r=2;
-//    int nColumnasReducida=width/r;
-//    int nFilasReducida=height/r;
-
-//    // inicializacion
-//    int **reducidaR = new int*[nFilasReducida];
-//    for (int i=0; i < nFilasReducida; i++)
-//        reducidaR[i]=new int[nColumnasReducida];
-
-//    int **reducidaG = new int*[nFilasReducida];
-//    for (int i=0; i < nFilasReducida; i++)
-//        reducidaG[i]=new int[nColumnasReducida];
-
-//    int **reducidaB = new int*[nFilasReducida];
-//    for (int i=0; i < nFilasReducida; i++)
-//        reducidaB[i]=new int[nColumnasReducida];
-
-//    // Proceso de reduccion
-//    for(int i=0; i<nFilasReducida; i++){
-//        for(int j=0; j<nColumnasReducida; j++){
-//            reducidaR[i][j]=matrizR[i*r][j*r];
-//            reducidaG[i][j]=matrizG[i*r][j*r];
-//            reducidaB[i][j]=matrizB[i*r][j*r];
-//        }
-//    }
-
-//    // creacion de nueva imagen reducida
-
-//    return new ImagenPPM (identification,
-//                          comment,
-//                          nFilasReducida,
-//                          nColumnasReducida,
-//                          colorDensity,
-//                          reducidaR,
-//                          reducidaG,
-//                          reducidaB);
-//}
-
-//ImagenPPM* ImagenPPM::reducirIntensidad(int bits){
-
-//    int intensidadNueva=(int)(pow(2,bits)-1);
-
-//    int **IntensidadR = new int*[height];
-//    for (int i=0; i < height; i++)
-//        IntensidadR[i]=new int[width];
-
-//    int **IntensidadG = new int*[height];
-//    for (int i=0; i < height; i++)
-//        IntensidadG[i]=new int[width];
-
-//    int **IntensidadB = new int*[height];
-//    for (int i=0; i < height; i++)
-//        IntensidadB[i]=new int[width];
-
-//    int divisor = (colorDensity+1)/(intensidadNueva+1);
-
-//    for(int i=0; i<height; i++){
-//        for(int j=0; j<width; j++){
-
-//            IntensidadR[i][j]=floor(matrizR[i][j]/divisor);
-//            IntensidadG[i][j]=floor(matrizG[i][j]/divisor);
-//            IntensidadB[i][j]=floor(matrizB[i][j]/divisor);
-
-//        }
-//    }
-
-//    // creacion de nueva imagen intensidad reducida
-
-//    return new ImagenPPM (identification,
-//                          comment,
-//                          height,
-//                          width,
-//                          intensidadNueva,
-//                          IntensidadR,
-//                          IntensidadG,
-//                          IntensidadB);
-
-//}
-
-//ImagenPGM* ImagenPPM::convertirGris(int opcion){
-
-//    int **matrizPGM = new int*[height];
-//    for (int i=0; i < height; i++)
-//        matrizPGM[i]=new int[width];
-
-//    for(int i=0; i<height; i++){
-//        for(int j=0; j<width; j++){
-//            if(opcion==1)
-//                matrizPGM[i][j]=(int)(0.299*matrizR[i][j]+0.587*matrizG[i][j]+0.114*matrizB[i][j]);
-//            else
-//                matrizPGM[i][j]=(int)(0.33*matrizR[i][j]+0.33*matrizG[i][j]+0.33*matrizB[i][j]);
-//        }
-//    }
-
-//    ImagenPGM *resultado = new ImagenPGM ("P2",
-//                                          comment,
-//                                          height,
-//                                          width,
-//                                          colorDensity,
-//                                          matrizPGM);
-//    return resultado;
-//}

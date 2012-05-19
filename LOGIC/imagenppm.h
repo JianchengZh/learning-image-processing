@@ -31,7 +31,7 @@ class ImagenPPM: public Image
 public:
 
     //Constructors
-    ImagenPPM(QList<QString> lectura);
+    ImagenPPM(QString filename);
 
     ImagenPPM(QString id,
               QString comment,
