@@ -408,6 +408,25 @@ QImage* ImagenPGM::getQImage(){
     }
     return qImage;
 }
+//Histogram
+QImage *ImagenPGM::getHistogramImage(){
+
+    int **matrix = new int*[height];
+    for (int i=0; i < height; i++)
+        matrix[i]=new int[width];
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            matrix[i][j]=*matrixImagenP[i][j];
+        }
+    }
+    histogram = new Histogram(height, width, colorDepth, matrix);
+    return histogram->getHistogram();
+}
+
+Histogram* ImagenPGM::getHistogram(){
+    return histogram;
+}
 
 // export
 void ImagenPGM::saveImage(QString filename){

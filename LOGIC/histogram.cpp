@@ -19,13 +19,11 @@
 
 #include "histogram.h"
 
-Histogram::Histogram(ImagenPGM *imagen)
+Histogram::Histogram(int height, int width, int colorD, int **matrix)
 {
-    int nColumnas=imagen->getWidth();
-    int nFilas=imagen->getHeight();
-    intensidad=imagen->getColorDepth()+1;
-
-    int ***matrizImagen=imagen->getMatrix();
+    int nColumnas=width;
+    int nFilas=height;
+    intensidad=colorD+1;
 
     colorFrequency= new double[intensidad];
     for (int i=0; i < intensidad; i++)
@@ -33,7 +31,7 @@ Histogram::Histogram(ImagenPGM *imagen)
 
     for(int i=0; i<nFilas; i++){
         for(int j=0; j<nColumnas; j++){
-            colorFrequency[*matrizImagen[i][j]]++;
+            colorFrequency[matrix[i][j]]++;
         }
     }
 
@@ -67,7 +65,7 @@ void Histogram::generateMatrix(){
             if(intensidad-i<=((colorFrequency[j]*intensidad)/maxFreq)){
                 matrizHistograma[i][j]=0;
             }else{
-                matrizHistograma[i][j]=1;
+                matrizHistograma[i][j]=255;
             }
         }
     }
@@ -191,6 +189,13 @@ int *Histogram::calculateEqualization(){
     return discretizedFrecuency;
 }
 
-ImagenPGM* Histogram::getHistogram(){
-    return new ImagenPGM ("P2","#Histogram", intensidad, intensidad, 1, matrizHistograma);
+QImage *Histogram::getHistogram(){
+
+    qImage = new QImage(intensidad, intensidad, QImage::Format_RGB32);
+    for (int i = 0; i < intensidad; ++i) {
+        for (int j = 0; j < intensidad; ++j) {
+            qImage->setPixel(j,i,qRgb(matrizHistograma[i][j],matrizHistograma[i][j],matrizHistograma[i][j]));
+        }
+    }
+    return qImage;
 }

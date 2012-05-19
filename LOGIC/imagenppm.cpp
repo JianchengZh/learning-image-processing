@@ -368,6 +368,26 @@ QImage* ImagenPPM::getQImage(){
     return qImage;
 }
 
+//Histogram
+QImage* ImagenPPM::getHistogramImage(){
+
+    int **matrix = new int*[height];
+    for (int i=0; i < height; i++)
+        matrix[i]=new int[width];
+
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+            matrix[i][j]=(int)(0.33*matrixRp[i][j][0]+0.33*matrixGp[i][j][0]+0.33*matrixBp[i][j][0]);
+        }
+    }
+    histogram = new Histogram(height, width, colorDepth, matrix);
+    return histogram->getHistogram();
+}
+
+Histogram* ImagenPPM::getHistogram(){
+    return histogram;
+}
+
 // export
 void ImagenPPM::saveImage(QString filename){
 

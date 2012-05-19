@@ -42,6 +42,10 @@ public:
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
+    //Histogram
+    QImage *getHistogramImage();
+    Histogram *getHistogram();
+
     // export
     void saveImage(QString filename);
 

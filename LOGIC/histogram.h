@@ -20,12 +20,13 @@
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 
-#include "imagenpgm.h"
+#include <QImage>
+#include "math.h"
 
 class Histogram
 {
 public:
-    Histogram(ImagenPGM *imagen);
+    Histogram(int height, int width, int colorD, int **matrix);
     ~Histogram();
 
     int ThresholdingByIsodata();
@@ -34,7 +35,7 @@ public:
     int* calculateEqualization();
 
     //Getters
-    ImagenPGM *getHistogram();
+    QImage *getHistogram();
 
 private:
 
@@ -42,6 +43,7 @@ private:
     int **matrizHistograma;
     int intensidad;
     double u1,u2,w1,w2,n;
+    QImage *qImage;
 
     void    generateMatrix();
     double  findMaxFrecuency();

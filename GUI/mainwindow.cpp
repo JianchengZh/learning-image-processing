@@ -76,13 +76,12 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
-        //        if (mainController->getImage()->getImageType()!="DCM") {
         // Set Image to label_Imagen
         displayedImage=mainController->getQImage();
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
-        //            ShowHistogram();
-        //        }
+
+        ShowHistogram();
 
 
     } else {

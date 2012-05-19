@@ -37,8 +37,6 @@ class MainController
 private:
 
     Image *imagen, *oldImage;
-    QImage *displayedImage, *oldDisplayedImage;
-    Histogram *histogram, *oldHistogram;
 
 public:
 

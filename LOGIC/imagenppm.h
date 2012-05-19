@@ -69,6 +69,10 @@ public:
     // GUI Display
     QImage *getQImage();
 
+    //Histogram
+    QImage *getHistogramImage();
+    Histogram *getHistogram();
+
     // export
     void saveImage(QString filename);
 };

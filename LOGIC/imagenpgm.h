@@ -29,7 +29,6 @@
 #include <DATA_ACCESS/imagefile.h>
 #include "image.h"
 
-
 class ImagenPGM: public Image{
 
     int ***matrixImagenP;
@@ -76,6 +75,10 @@ public:
 
     // GUI Display
     QImage *getQImage();
+
+    //Histogram
+    QImage *getHistogramImage();
+    Histogram *getHistogram();
 
     // export
     void saveImage(QString filename);

@@ -22,10 +22,7 @@
 MainController::MainController(){
     this->imagen=0;
     this->oldImage=0;
-    this->displayedImage=0;
-    this->oldDisplayedImage=0;
-    this->histogram=0;
-    this->oldHistogram=0;
+
 }
 
 MainController::~MainController(){
@@ -35,11 +32,6 @@ MainController::~MainController(){
     delete oldImage;
     oldImage=0;
 
-    delete oldDisplayedImage;
-    oldDisplayedImage=0;
-
-    delete histogram;
-    histogram=0;
 }
 
 // LOAD IMAGE
@@ -50,14 +42,12 @@ bool MainController::loadImage(QString filename){
     if (fileExtension.toUpper() == "PGM") {
         imagen = new ImagenPGM(filename);
         if (imagen->getStatus()) {
-            displayedImage=imagen->getQImage();
             return true;
         }
 
     } else if (fileExtension.toUpper() == "PPM"){
         imagen = new ImagenPPM(filename);
         if (imagen->getStatus()) {
-            displayedImage=imagen->getQImage();
             return true;
         }
     }
@@ -65,7 +55,6 @@ bool MainController::loadImage(QString filename){
     else{
         imagen = new ImagenDCM(filename.toStdString().c_str());
         if (imagen!=NULL) {
-            displayedImage=imagen->getQImage();
             return true;
         } else {
             return false;
@@ -75,15 +64,7 @@ bool MainController::loadImage(QString filename){
 }
 
 QImage* MainController::getHistogramImage(){
-
-    histogram = new Histogram (static_cast<ImagenPGM*>(imagen));
-    ImagenPGM *imageHistogram=histogram->getHistogram();
-    imageHistogram->saveImage("histogram");
-
-    delete imageHistogram;
-    imageHistogram=0;
-
-    return new QImage("histogram.pgm");
+    return imagen->getHistogramImage();
 }
 
 // Image Transfomations
@@ -93,9 +74,6 @@ void MainController::changeSize(int density){
     oldImage=0;
     oldImage=imagen;
     imagen=oldImage->changeSize(density);
-    imagen->saveImage("temp");
-    oldDisplayedImage=displayedImage;
-    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
 void MainController::changeColorDepth(int depth){
@@ -109,18 +87,12 @@ void MainController::changeColorDepth(int depth){
     imagen=oldImage->changeColorDepth(depth);
     imagen->saveImage("temp");
     cout<<"H. Dentro de changeColorDepth - en controlador, despues de exportar "<<endl;
-    oldDisplayedImage=displayedImage;
-    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
-
 }
 
 void MainController::convertToGrayscale(int method){
     delete oldImage;
     oldImage=imagen;
     imagen=static_cast<ImagenPPM*>(oldImage)->convertToGrayScale(method);
-    imagen->saveImage("temp");
-    oldDisplayedImage=displayedImage;
-    displayedImage=new QImage("temp."+imagen->getImageType().toLower());
 }
 
 bool MainController::average(QString filename, double alpha){
@@ -131,9 +103,6 @@ bool MainController::average(QString filename, double alpha){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->average(image,alpha);
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     } else {
         return false;
@@ -149,9 +118,6 @@ bool MainController::add(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->add(image);
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     } else {
         return false;
@@ -166,9 +132,6 @@ bool MainController::subtract(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     } else {
         return false;
@@ -183,9 +146,6 @@ bool MainController::multiply(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     } else {
         return false;
@@ -202,8 +162,6 @@ bool MainController::divide(QString filename){
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
         imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     } else {
         return false;
@@ -214,10 +172,7 @@ bool MainController::equalizateHistogram(){
     if(imagen!=0){
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(histogram->calculateEqualization());
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
+        imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(oldImage->getHistogram()->calculateEqualization());
         return true;
     }else{
         return false;
@@ -229,9 +184,6 @@ bool MainController::bimodalSegmentaion(int T){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->bimodalSegmentaion(T);
-        imagen->saveImage("temp");
-        oldDisplayedImage=displayedImage;
-        displayedImage=new QImage("temp."+imagen->getImageType().toLower());
         return true;
     }else{
         return false;
@@ -239,13 +191,13 @@ bool MainController::bimodalSegmentaion(int T){
 }
 
 void MainController::isodataSegmentation(){
-    histogram->ThresholdingByTwoPeaks();
-    bimodalSegmentaion(histogram->ThresholdingByIsodata());
+    imagen->getHistogram()->ThresholdingByTwoPeaks();
+    bimodalSegmentaion(imagen->getHistogram()->ThresholdingByIsodata());
 }
 
 void MainController::otsuSegmentation(){
-    histogram->ThresholdingByTwoPeaks();
-    bimodalSegmentaion(histogram->ThresholdingByOtsu());
+    imagen->getHistogram()->ThresholdingByTwoPeaks();
+    bimodalSegmentaion(imagen->getHistogram()->ThresholdingByOtsu());
 }
 
 // Getters
@@ -254,18 +206,14 @@ Image* MainController::getImage(){
 }
 
 QImage* MainController::getQImage(){
-    return displayedImage;
+    return imagen->getQImage();
 }
 
 // Other Methods
 bool MainController::undo(){
     if (oldImage!=0) {
         imagen=oldImage;
-        displayedImage=oldDisplayedImage;
-        histogram=oldHistogram;
         oldImage=0;
-        oldDisplayedImage=0;
-        oldHistogram=0;
         return true;
     }else{
         return false;

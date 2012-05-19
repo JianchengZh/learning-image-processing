@@ -22,6 +22,7 @@
 
 #include <QString>
 #include <QTextStream>
+#include "histogram.h"
 
 class Image
 {
@@ -36,6 +37,7 @@ protected:
     int width;
     bool status;
     QImage *qImage;
+    Histogram *histogram;
 
 public:
     Image();
@@ -50,7 +52,9 @@ public:
     int getHeight();
     int getWidth();
     int getColorDepth();
-    virtual QImage* getQImage()=0;
+    virtual QImage *getQImage()=0;
+    virtual Histogram *getHistogram()=0;
+    virtual QImage *getHistogramImage()=0;
 
 
     // export
