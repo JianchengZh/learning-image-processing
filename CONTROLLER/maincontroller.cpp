@@ -231,4 +231,3 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
-

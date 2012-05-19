@@ -213,9 +213,8 @@ Image* ImagenPGM::changeColorDepth(int bits){
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
 
         int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (newColorDepth+1)/(colorDepth+1);
         for(int i=0; i<colorDepth+1; i++){
-            lut[i]=lut[i]*divisor;
+            lut[i]=floor((newColorDepth/colorDepth)*lut[i]);
             QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
         }
 
@@ -400,10 +399,20 @@ int*** ImagenPGM::getMatrix(){
 
 // GUI Display
 QImage* ImagenPGM::getQImage(){
-    qImage = new QImage(width, height, QImage::Format_RGB32);
+
+    QVector<QRgb> colorTable;
+    int aux;
+    for (int i = 0; i < colorDepth+1; ++i) {
+        aux = floor((255/colorDepth)*i);
+        colorTable.append(qRgb(aux,aux,aux));
+    }
+
+    qImage = new QImage(width, height, QImage::Format_Indexed8);
+    qImage->setColorTable(colorTable);
+
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            qImage->setPixel(j,i,qRgb(*matrixImagenP[i][j],*matrixImagenP[i][j],*matrixImagenP[i][j]));
+            qImage->setPixel(j,i,*matrixImagenP[i][j]);
         }
     }
     return qImage;
@@ -425,7 +434,12 @@ QImage *ImagenPGM::getHistogramImage(){
 }
 
 Histogram* ImagenPGM::getHistogram(){
+    if(histogram!=NULL){
     return histogram;
+    }else {
+
+    }
+
 }
 
 // export

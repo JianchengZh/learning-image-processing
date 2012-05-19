@@ -39,18 +39,17 @@ class ImagenDCM : public Image{
 public:
 
     ImagenDCM(const char *fileName);
+
+    // Virtual Methods
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
-    //Histogram
+    // GETTERS:
+    // Releted to Histogram
     QImage *getHistogramImage();
-    Histogram *getHistogram();
 
-    // export
+    // Export
     void saveImage(QString filename);
-
-    // GUI Display
-    QImage *getQImage();
 };
 
 #endif // IMAGENDCM_H

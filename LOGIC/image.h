@@ -43,19 +43,23 @@ public:
     Image();
     virtual ~Image();
 
-
-    // Getters
-    QString getImageType();
-    bool getStatus();
+    // GETTERS:
     QString getId();
+    QString getImageType();
     QString getComment();
+
+    int getColorDepth();
     int getHeight();
     int getWidth();
-    int getColorDepth();
-    virtual QImage *getQImage()=0;
-    virtual Histogram *getHistogram()=0;
-    virtual QImage *getHistogramImage()=0;
 
+    bool getStatus();
+
+    QImage *getQImage();
+    Histogram *getHistogram();
+
+
+    // Virtual Methods
+    virtual QImage *getHistogramImage()=0;
 
     // export
     virtual void saveImage(QString filename) =0;

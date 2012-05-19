@@ -365,8 +365,6 @@ void MainWindow::on_actionEqualization_triggered()
         msgBox2.exec();
     }
 }
-
-
 // Tomography Menu
 
 // Help Menu
@@ -389,9 +387,6 @@ void MainWindow::displayResults(QImage *result)
 }
 
 void MainWindow::ShowHistogram(){
-    if (mainController->getImage()->getImageType().toUpper()=="PGM") {
         histogramImage = mainController->getHistogramImage();
         ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
-    }
 }
-
