@@ -50,14 +50,14 @@ bool MainController::loadImage(QString filename){
     if (fileExtension.toUpper() == "PGM") {
         imagen = new ImagenPGM(filename);
         if (imagen->getStatus()) {
-            displayedImage=new QImage(filename);
+            displayedImage=imagen->getQImage();
             return true;
         }
 
     } else if (fileExtension.toUpper() == "PPM"){
         imagen = new ImagenPPM(filename);
         if (imagen->getStatus()) {
-            displayedImage=new QImage(filename);
+            displayedImage=imagen->getQImage();
             return true;
         }
     }
@@ -65,6 +65,7 @@ bool MainController::loadImage(QString filename){
     else{
         imagen = new ImagenDCM(filename.toStdString().c_str());
         if (imagen!=NULL) {
+            displayedImage=imagen->getQImage();
             return true;
         } else {
             return false;

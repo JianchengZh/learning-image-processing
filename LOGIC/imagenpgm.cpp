@@ -43,13 +43,10 @@ ImagenPGM::ImagenPGM(QString filename){
         for (int i=0; i < height; i++)
             matrixImagenP[i]=new int*[width];
 
-
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
                 matrixImagenP[i][j]=&lut[matrix[(i*width)+j]];
-                QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
             }
-            QTextStream (stdout) <<""<<endl;
         }
         status=true;
     } else {
@@ -399,6 +396,17 @@ Image* ImagenPGM::histogramEqualization(int *newlut){
 // Getters
 int*** ImagenPGM::getMatrix(){
     return matrixImagenP;
+}
+
+// GUI Display
+QImage* ImagenPGM::getQImage(){
+    qImage = new QImage(width, height, QImage::Format_RGB32);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            qImage->setPixel(j,i,qRgb(*matrixImagenP[i][j],*matrixImagenP[i][j],*matrixImagenP[i][j]));
+        }
+    }
+    return qImage;
 }
 
 // export

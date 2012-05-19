@@ -24,6 +24,8 @@
 #include <QFile>
 #include <math.h>
 #include <QTextStream>
+#include <QImage>
+#include <QRgb>
 #include <DATA_ACCESS/imagefile.h>
 #include "image.h"
 
@@ -59,11 +61,11 @@ public:
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
-    Image *average(ImagenPGM *image, double alpha);
-    Image *add(ImagenPGM *image);
-    Image *subtract(ImagenPGM *image);
-    Image *multiply(ImagenPGM *image);
-    Image *divide(ImagenPGM *image);
+    Image *average(ImagenPGM *qImage, double alpha);
+    Image *add(ImagenPGM *qImage);
+    Image *subtract(ImagenPGM *qImage);
+    Image *multiply(ImagenPGM *qImage);
+    Image *divide(ImagenPGM *qImage);
 
 
     Image *bimodalSegmentaion(int T);
@@ -71,6 +73,9 @@ public:
 
     // Getters
     int ***getMatrix();
+
+    // GUI Display
+    QImage *getQImage();
 
     // export
     void saveImage(QString filename);

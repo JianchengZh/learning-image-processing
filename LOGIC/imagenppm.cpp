@@ -357,6 +357,17 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
 
 }
 
+// GUI Display
+QImage* ImagenPPM::getQImage(){
+    qImage = new QImage(width, height, QImage::Format_RGB32);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            qImage->setPixel(j,i,qRgb(*matrixRp[i][j],*matrixGp[i][j],*matrixBp[i][j]));
+        }
+    }
+    return qImage;
+}
+
 // export
 void ImagenPPM::saveImage(QString filename){
 

@@ -35,6 +35,7 @@ protected:
     int height;
     int width;
     bool status;
+    QImage *qImage;
 
 public:
     Image();
@@ -49,6 +50,7 @@ public:
     int getHeight();
     int getWidth();
     int getColorDepth();
+    virtual QImage* getQImage()=0;
 
 
     // export

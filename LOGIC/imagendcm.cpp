@@ -23,20 +23,30 @@ ImagenDCM::ImagenDCM(const char *fileName){
 
     dicomImage = new DicomImage(fileName);
 
-    this->identification="DCM";
-    this->comment="";
-    this->imageType="DCM";
-    this->colorDepth=pow(dicomImage->getDepth(),2)-1;
-    this->height=dicomImage->getWidth();
-    this->width=dicomImage->getHeight();
-
     QTextStream cout(stdout);
-    cout <<dicomImage->getDepth()<<endl;
     if (dicomImage != NULL)
     {
         if (dicomImage->getStatus() == EIS_Normal)
         {
-            Uint8 *pixelData = (Uint8 *)(dicomImage->getOutputData());
+            this->identification="DCM";
+            this->comment="";
+            this->imageType="DCM";
+            this->colorDepth=pow(2,dicomImage->getDepth()-1)-1;
+            this->height=dicomImage->getWidth();
+            this->width=dicomImage->getHeight();
+
+            //Display information about image
+
+
+            cout <<"DICOM depth: "<<dicomImage->getDepth()<<endl;
+            cout <<"Color Depth: "<<colorDepth<<endl;
+            cout<< "frameCount: "<<dicomImage->getFrameCount()<<endl;
+            double min, max;
+            dicomImage->getMinMaxValues(min, max);
+            cout<<"Min Value: "<<min<<endl;
+            cout<<"Max Value: "<<max<<endl;
+
+            int16_t *pixelData = (int16_t *)(dicomImage->getOutputData(16));
             if (pixelData != NULL)
             {
                 //Lookup Table
@@ -48,19 +58,16 @@ ImagenDCM::ImagenDCM(const char *fileName){
                 for (int i=0; i < height; i++)
                     matrixImagenP[i]=new int*[width];
 
-                for (int i = 0; i < 400; ++i) {
-                    cout<<pixelData[i]<<endl;
+                for(int i=0; i<height; i++){
+                    for(int j=0; j<width; j++){
+                        matrixImagenP[i][j]=&lut[pixelData[(i*width)+j]];
+                        //                        QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
+                    }
+                    //                    QTextStream (stdout) <<""<<endl;
                 }
-
-//                for(int i=0; i<height; i++){
-//                    for(int j=0; j<width; j++){
-//                        matrixImagenP[i][j]=&lut[pixelData[i+j]];
-//                        cout<<" matrixImagenP["<<i<<"]["<<j<<"] "<< *matrixImagenP[i][j]<<endl;
-//                    }
-//                }
             }
         } else
-            cout << "Error: cannot load DICOM image (" << DicomImage::getString(dicomImage->getStatus()) << ")" << endl;
+            status=false;
     }
     cout<<"TERMINE"<<endl;
 }
@@ -74,15 +81,27 @@ Image* ImagenDCM::changeColorDepth(int bits){
     return this;
 }
 
+// GUI Display
+QImage* ImagenDCM::getQImage(){
+    qImage = new QImage(width, height, QImage::Format_RGB32);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            qImage->setPixel(j,i,qRgb(*matrixImagenP[i][j],*matrixImagenP[i][j],*matrixImagenP[i][j]));
+        }
+    }
+    return qImage;
+}
+
 // export
 void ImagenDCM::saveImage(QString filename){
 
-    QTextStream cout(stdout);
+    if (!filename.contains(".pgm")) {
+        filename=filename.section(".",0,0)+".pgm";
+    }
+    QTextStream (stdout) <<"filename:"<<filename<<endl;
     this->imageType="PGM";
     this->identification="P2";
-
-    cout<<"VOY POR AQUI"<<endl;
-    QFile temp(filename+"."+imageType.toLower());
+    QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
 
@@ -93,8 +112,9 @@ void ImagenDCM::saveImage(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                fSalida<<*matrixImagenP[i][j]<<endl;
+                fSalida<<*matrixImagenP[i][j]<<" ";
             }
+            fSalida<<endl;
         }
     }
 }

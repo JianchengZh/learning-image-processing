@@ -22,6 +22,8 @@
 
 #include "imagenpgm.h"
 #include "image.h"
+#include <QImage>
+#include <QRgb>
 
 class ImagenPPM: public Image
 {
@@ -60,9 +62,12 @@ public:
     Image* changeSize(int factor);
     Image* changeColorDepth(int bits);
     ImagenPGM* convertToGrayScale(int method);
- //   Image *equalizateHistogram(int *newlut);
+    //   Image *equalizateHistogram(int *newlut);
 
     // Getters
+
+    // GUI Display
+    QImage *getQImage();
 
     // export
     void saveImage(QString filename);

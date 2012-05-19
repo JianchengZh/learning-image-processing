@@ -26,6 +26,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <math.h>
+#include <QImage>
+#include <QRgb>
 
 
 class ImagenDCM : public Image{
@@ -42,6 +44,9 @@ public:
 
     // export
     void saveImage(QString filename);
+
+    // GUI Display
+    QImage *getQImage();
 };
 
 #endif // IMAGENDCM_H
