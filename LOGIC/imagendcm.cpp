@@ -31,11 +31,12 @@ ImagenDCM::ImagenDCM(const char *fileName){
     this->width=dicomImage->getHeight();
 
     QTextStream cout(stdout);
+    cout <<dicomImage->getDepth()<<endl;
     if (dicomImage != NULL)
     {
         if (dicomImage->getStatus() == EIS_Normal)
         {
-            Uint8 *pixelData = (Uint8 *)(dicomImage->getOutputData(8 /* bits per sample */));
+            Uint8 *pixelData = (Uint8 *)(dicomImage->getOutputData());
             if (pixelData != NULL)
             {
                 //Lookup Table
@@ -47,12 +48,16 @@ ImagenDCM::ImagenDCM(const char *fileName){
                 for (int i=0; i < height; i++)
                     matrixImagenP[i]=new int*[width];
 
-                for(int i=0; i<height; i++){
-                    for(int j=0; j<width; j++){
-                        matrixImagenP[i][j]=&lut[pixelData[i+j]];
-                        //                        cout<<" matrixImagenP["<<i<<"]["<<j<<"] "<< *matrixImagenP[i][j]<<endl;
-                    }
+                for (int i = 0; i < 400; ++i) {
+                    cout<<pixelData[i]<<endl;
                 }
+
+//                for(int i=0; i<height; i++){
+//                    for(int j=0; j<width; j++){
+//                        matrixImagenP[i][j]=&lut[pixelData[i+j]];
+//                        cout<<" matrixImagenP["<<i<<"]["<<j<<"] "<< *matrixImagenP[i][j]<<endl;
+//                    }
+//                }
             }
         } else
             cout << "Error: cannot load DICOM image (" << DicomImage::getString(dicomImage->getStatus()) << ")" << endl;
