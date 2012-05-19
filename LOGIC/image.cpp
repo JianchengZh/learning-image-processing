@@ -51,5 +51,5 @@ int Image::getWidth(){
 }
 
 int Image::getColorDepth(){
-    return this->colorDepth
+    return this->colorDepth;
 }

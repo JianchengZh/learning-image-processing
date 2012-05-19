@@ -49,7 +49,7 @@ bool MainController::loadImage(QString filename){
 
     if(fileExtension.toUpper() == "PGM" || fileExtension.toUpper() == "PPM"){
         ImageFile imageFile(filename);
-        if (imageFile.read()){
+        if (imageFile.readFile()){
 
             if (fileExtension.toUpper() == "PGM") {
                 imagen = new ImagenPGM(filename);
@@ -128,9 +128,7 @@ void MainController::convertToGrayscale(int method){
 
 bool MainController::average(QString filename, double alpha){
 
-    ImageFile archivo(filename);
-    archivo.read();
-    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    ImagenPGM *image = new ImagenPGM(filename);
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
@@ -148,9 +146,7 @@ bool MainController::average(QString filename, double alpha){
 
 bool MainController::add(QString filename){
 
-    ImageFile archivo(filename);
-    archivo.read();
-    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    ImagenPGM *image = new ImagenPGM(filename);
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
@@ -167,9 +163,7 @@ bool MainController::add(QString filename){
 
 bool MainController::subtract(QString filename){
 
-    ImageFile archivo(filename);
-    archivo.read();
-    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    ImagenPGM *image = new ImagenPGM(filename);
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
@@ -186,9 +180,7 @@ bool MainController::subtract(QString filename){
 
 bool MainController::multiply(QString filename){
 
-    ImageFile archivo(filename);
-    archivo.read();
-    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    ImagenPGM *image = new ImagenPGM(filename);
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
@@ -206,9 +198,7 @@ bool MainController::multiply(QString filename){
 
 bool MainController::divide(QString filename){
 
-    ImageFile archivo(filename);
-    archivo.read();
-    ImagenPGM *image = new ImagenPGM(archivo.getImageContents());
+    ImagenPGM *image = new ImagenPGM(filename);
 
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;

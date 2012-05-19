@@ -24,7 +24,7 @@ ImageFile::ImageFile(QString filename) : QFile(filename)
     supportedFormats << "ppm" << "pgm";
 }
 
-bool ImageFile::read()
+bool ImageFile::readFile()
 {
     if(supportedFormats.contains(fileName().section(".",-1))){
 
@@ -54,6 +54,7 @@ void ImageFile::readingProcess(){
     this->id=lectura.at(0);
     this->width=lectura.at(1).section(' ',0,0).toInt();
     this->height=lectura.at(1).section(' ',1,1).toInt();
+    this->colorDepth=lectura.at(2).toInt();
 
     if (id =="P2") {
         this->matrix = new int[width*height];
@@ -64,8 +65,10 @@ void ImageFile::readingProcess(){
     for (int z = 3; z < lectura.length(); ++z) {
         QStringList lineSplit = lectura.at(z).split(" ");
         foreach (QString pixel, lineSplit) {
-            matrix[i]=pixel.toInt();
-            i++;
+            if (!pixel.isEmpty()) {
+                matrix[i]=(pixel+"     ").toInt();
+                i++;
+            }
         }
     }
 }
@@ -92,8 +95,8 @@ int ImageFile::getHeight(){
     return this->height;
 }
 int ImageFile::getColorDepth(){
-    this->colorDepth;
+    return this->colorDepth;
 }
 int* ImageFile::getMatrix(){
-    this->matrix;
+    return this->matrix;
 }

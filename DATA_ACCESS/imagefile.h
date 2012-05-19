@@ -24,7 +24,6 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
-#include <QList>
 
 class ImageFile: public QFile
 {
@@ -40,7 +39,7 @@ private:
 
 public:
     ImageFile(QString fileName);
-    bool read();
+    bool readFile();
     void readingProcess();
     void printImageContents();
     QList<QString> getImageContents();

@@ -23,7 +23,7 @@
 ImagenPGM::ImagenPGM(QString filename){
 
     ImageFile imageFile(filename);
-    if (imageFile.read()) {
+    if (imageFile.readFile()) {
 
         this->identification=imageFile.getId();
         this->comment="#";
@@ -46,11 +46,14 @@ ImagenPGM::ImagenPGM(QString filename){
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                matrixImagenP[i][j]=&lut[matrix[i+j]];
+                matrixImagenP[i][j]=&lut[matrix[(i*width)+j]];
+                QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
             }
+            QTextStream (stdout) <<""<<endl;
         }
+        status=true;
     } else {
-
+        status=false;
     }
 
 }
@@ -401,7 +404,11 @@ int*** ImagenPGM::getMatrix(){
 // export
 void ImagenPGM::saveImage(QString filename){
 
-    QFile temp(filename+"."+imageType.toLower());
+    if (!filename.contains(".pgm")) {
+        filename=filename+".pgm";
+    }
+
+    QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
 
