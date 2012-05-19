@@ -76,13 +76,13 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
         ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
 
-        if (mainController->getImage()->getImageType()!="DCM") {
-            // Set Image to label_Imagen
-            displayedImage=mainController->getQImage();
-            // Display Image in Original Size
-            on_pButton__NormalSize_clicked();
-//            ShowHistogram();
-        }
+        //        if (mainController->getImage()->getImageType()!="DCM") {
+        // Set Image to label_Imagen
+        displayedImage=mainController->getQImage();
+        // Display Image in Original Size
+        on_pButton__NormalSize_clicked();
+        //            ShowHistogram();
+        //        }
 
 
     } else {
@@ -241,7 +241,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
         int method = msgBox.exec();
         mainController->convertToGrayscale(method);
         displayResults(mainController->getQImage());
-//        ShowHistogram();
+        //        ShowHistogram();
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");
@@ -260,7 +260,7 @@ void MainWindow::on_actionWeight_Average_triggered()
         if (ok){
             if (mainController->average(filename, alpha)) {
                 displayResults(mainController->getQImage());
-//                ShowHistogram();
+                //                ShowHistogram();
             } else {
                 erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
             }
@@ -358,7 +358,7 @@ void MainWindow::on_actionEqualization_triggered()
         // int method = msgBox.exec();
         mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
-//        ShowHistogram();
+        //        ShowHistogram();
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");

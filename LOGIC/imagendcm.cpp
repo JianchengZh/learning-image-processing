@@ -46,7 +46,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
             cout<<"Min Value: "<<min<<endl;
             cout<<"Max Value: "<<max<<endl;
 
-            int16_t *pixelData = (int16_t *)(dicomImage->getOutputData(16));
+            Uint8 *pixelData = (Uint8 *)(dicomImage->getOutputData(16));
             if (pixelData != NULL)
             {
                 //Lookup Table
@@ -61,9 +61,9 @@ ImagenDCM::ImagenDCM(const char *fileName){
                 for(int i=0; i<height; i++){
                     for(int j=0; j<width; j++){
                         matrixImagenP[i][j]=&lut[pixelData[(i*width)+j]];
-                        //                        QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
+                        QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
                     }
-                    //                    QTextStream (stdout) <<""<<endl;
+                    QTextStream (stdout) <<""<<endl;
                 }
             }
         } else
