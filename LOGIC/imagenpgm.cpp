@@ -47,6 +47,9 @@ ImagenPGM::ImagenPGM(QString filename){
                 matrixImagenP[i][j]=&lut[matrix[(i*width)+j]];
             }
         }
+
+        generateHistogram();
+        generateQImage();
         status=true;
     } else {
         status=false;
@@ -60,6 +63,7 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
     this->width=w;
     this->colorDepth=colorD;
     this->imageType="PGM";
+    this->status=true;
 
     //Lookup Table
     lut = new int [colorDepth+1];
@@ -76,6 +80,8 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
             matrixImagenP[i][j]=&lut[matrix[i][j]];
         }
     }
+    generateHistogram();
+    generateQImage();
 }
 
 ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *lut){
@@ -86,6 +92,7 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *
     this->height=h;
     this->colorDepth=colorD;
     this->imageType="PGM";
+    this->status=true;
 
     //Lookup Table
     this->lut = new int [colorDepth+1];
@@ -103,6 +110,9 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *
     for(int i=0; i<height; i++)
         for(int j=0; j<width; j++)
             matrixImagenP[i][j]=&this->lut[*matrixP[i][j]];
+
+    generateHistogram();
+    generateQImage();
 
     QTextStream (stdout) << "G. Al final del constructor"<<endl;
 }

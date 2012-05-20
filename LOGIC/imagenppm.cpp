@@ -60,6 +60,8 @@ ImagenPPM::ImagenPPM(QString filename){
             }
 
         }
+        generateHistogram();
+        generateQImage();
         status=true;
     } else {
         status=false;
@@ -73,6 +75,7 @@ ImagenPPM::ImagenPPM(QString id, int h, int w, int depth, int **matrizR, int **m
     this->width=w;
     this->colorDepth=depth;
     this->imageType="PPM";
+    this->status=true;
 
     //Lookup Table
     lutR = new int [colorDepth+1];
@@ -101,15 +104,17 @@ ImagenPPM::ImagenPPM(QString id, int h, int w, int depth, int **matrizR, int **m
             matrixBp[i][j]=&lutB[matrizB[i][j]];
         }
     }
+    generateHistogram();
+    generateQImage();
 
 }
-
 ImagenPPM::ImagenPPM(QString id, int h, int w, int colorD, int ***matrizR, int *lutR, int ***matrizG, int *lutG, int ***matrizB, int *lutB){
     this->identification=id;
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
     this->imageType="PPM";
+    this->status=true;
 
     //Lookup Table
     this->lutR = new int [colorDepth+1];
@@ -138,6 +143,8 @@ ImagenPPM::ImagenPPM(QString id, int h, int w, int colorD, int ***matrizR, int *
             matrixBp[i][j]=&this->lutB[*matrizB[i][j]];
         }
     }
+    generateHistogram();
+    generateQImage();
 }
 
 ImagenPPM::~ImagenPPM(){

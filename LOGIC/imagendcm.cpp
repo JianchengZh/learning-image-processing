@@ -121,7 +121,6 @@ void ImagenDCM::saveImage(QString filename){
         fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
-
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
                 fSalida<<*matrixImagenP[i][j]<<" ";
