@@ -26,7 +26,6 @@ ImagenPPM::ImagenPPM(QString filename){
     if (imageFile.readFile()) {
 
         this->identification=imageFile.getId();
-        this->comment="#";
         this->width=imageFile.getWidth();
         this->height=imageFile.getHeight();
         this->colorDepth=imageFile.getColorDepth();
@@ -67,10 +66,9 @@ ImagenPPM::ImagenPPM(QString filename){
     }
 }
 
-ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int **matrizR, int **matrizG, int **matrizB)
+ImagenPPM::ImagenPPM(QString id, int h, int w, int depth, int **matrizR, int **matrizG, int **matrizB)
 {
     this->identification=id;
-    this->comment=comment;
     this->height=h;
     this->width=w;
     this->colorDepth=depth;
@@ -106,9 +104,8 @@ ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int depth, int *
 
 }
 
-ImagenPPM::ImagenPPM(QString id, QString comment, int h, int w, int colorD, int ***matrizR, int *lutR, int ***matrizG, int *lutG, int ***matrizB, int *lutB){
+ImagenPPM::ImagenPPM(QString id, int h, int w, int colorD, int ***matrizR, int *lutR, int ***matrizG, int *lutG, int ***matrizB, int *lutB){
     this->identification=id;
-    this->comment=comment;
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
@@ -212,7 +209,6 @@ Image* ImagenPPM::changeSize(int factor){
         }
 
         imageResized = new ImagenPPM (identification,
-                                      comment,
                                       newwidth,
                                       newheight,
                                       colorDepth,
@@ -255,7 +251,6 @@ Image* ImagenPPM::changeSize(int factor){
         }
 
         imageResized = new ImagenPPM (identification,
-                                      comment,
                                       newwidth,
                                       newheight,
                                       colorDepth,
@@ -288,7 +283,6 @@ Image* ImagenPPM::changeColorDepth(int bits){
             lutB[i]=lutB[i]/divisor;
         }
         return new ImagenPPM (identification,
-                              comment,
                               height,
                               width,
                               newColorDepth,
@@ -309,7 +303,6 @@ Image* ImagenPPM::changeColorDepth(int bits){
             lutB[i]=lutB[i]*divisor;
         }
         return new ImagenPPM (identification,
-                              comment,
                               height,
                               width,
                               newColorDepth,
@@ -343,7 +336,6 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
     }
 
     result = new ImagenPGM ("P2",
-                            comment,
                             height,
                             width,
                             colorDepth,
@@ -358,18 +350,17 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
 }
 
 // GUI Display
-QImage* ImagenPPM::getQImage(){
+void ImagenPPM::generateQImage(){
     qImage = new QImage(width, height, QImage::Format_RGB32);
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             qImage->setPixel(j,i,qRgb(*matrixRp[i][j],*matrixGp[i][j],*matrixBp[i][j]));
         }
     }
-    return qImage;
 }
 
 //Histogram
-QImage* ImagenPPM::getHistogramImage(){
+void ImagenPPM::generateHistogram(){
 
     int **matrix = new int*[height];
     for (int i=0; i < height; i++)
@@ -381,11 +372,6 @@ QImage* ImagenPPM::getHistogramImage(){
         }
     }
     histogram = new Histogram(height, width, colorDepth, matrix);
-    return histogram->getHistogram();
-}
-
-Histogram* ImagenPPM::getHistogram(){
-    return histogram;
 }
 
 // export
@@ -400,7 +386,7 @@ void ImagenPPM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<comment<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 

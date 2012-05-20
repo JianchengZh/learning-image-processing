@@ -30,22 +30,22 @@ class ImagenPPM: public Image
     int ***matrixRp, ***matrixGp, ***matrixBp;
     int *lutR, *lutG, *lutB;
 
+    void generateHistogram();
+    void generateQImage();
 public:
 
     //Constructors
     ImagenPPM(QString filename);
 
     ImagenPPM(QString id,
-              QString comment,
-              int filas,
-              int columnas,
-              int intensity,
-              int **matrixRp,
-              int **matrixGp,
-              int **matrixBp);
+              int h,
+              int w,
+              int depth,
+              int **matrizR,
+              int **matrizG,
+              int **matrizB);
 
     ImagenPPM(QString id,
-              QString comment,
               int h,
               int w,
               int colorD,
@@ -66,14 +66,7 @@ public:
 
     // Getters
 
-    // GUI Display
-    QImage *getQImage();
-
-    //Histogram
-    QImage *getHistogramImage();
-    Histogram *getHistogram();
-
-    // export
+    // Export
     void saveImage(QString filename);
 };
 

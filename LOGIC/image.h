@@ -30,7 +30,6 @@ class Image
 protected:
 
     QString identification;
-    QString comment;
     QString imageType;
     int colorDepth;
     int height;
@@ -39,14 +38,16 @@ protected:
     QImage *qImage;
     Histogram *histogram;
 
+    virtual void generateHistogram()=0;
+    virtual void generateQImage()=0;
+
 public:
     Image();
     virtual ~Image();
 
     // GETTERS:
-    QString getId();
+    QString getIdentification();
     QString getImageType();
-    QString getComment();
 
     int getColorDepth();
     int getHeight();
@@ -54,13 +55,12 @@ public:
 
     bool getStatus();
 
-    QImage *getQImage();
     Histogram *getHistogram();
 
+    QImage *getQImage();
+    QImage *getHistogramImage();
 
     // Virtual Methods
-    virtual QImage *getHistogramImage()=0;
-
     // export
     virtual void saveImage(QString filename) =0;
 

@@ -36,19 +36,20 @@ class ImagenDCM : public Image{
     int ***matrixImagenP;
     int *lut;
 
+    void generateHistogram();
+    void generateQImage();
+
 public:
 
     ImagenDCM(const char *fileName);
 
-    // Virtual Methods
+    // VIRTUAL METHODS
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
     // GETTERS:
-    // Releted to Histogram
-    QImage *getHistogramImage();
 
-    // Export
+    // SAVE IMAGE
     void saveImage(QString filename);
 };
 

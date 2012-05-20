@@ -29,7 +29,6 @@ ImagenDCM::ImagenDCM(const char *fileName){
         if (dicomImage->getStatus() == EIS_Normal)
         {
             this->identification="DCM";
-            this->comment="";
             this->imageType="DCM";
             this->colorDepth=pow(2,dicomImage->getDepth()-1)-1;
             this->height=dicomImage->getWidth();
@@ -82,19 +81,17 @@ Image* ImagenDCM::changeColorDepth(int bits){
 }
 
 // GUI Display
-QImage* ImagenDCM::getQImage(){
+void ImagenDCM::generateQImage(){
     qImage = new QImage(width, height, QImage::Format_RGB32);
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             qImage->setPixel(j,i,qRgb(*matrixImagenP[i][j],*matrixImagenP[i][j],*matrixImagenP[i][j]));
         }
     }
-    return qImage;
 }
 
 //Histogram
-QImage* ImagenDCM::getHistogramImage(){
-
+void ImagenDCM::generateHistogram(){
     int **matrix = new int*[height];
     for (int i=0; i < height; i++)
         matrix[i]=new int[width];
@@ -105,11 +102,6 @@ QImage* ImagenDCM::getHistogramImage(){
         }
     }
     histogram = new Histogram(height, width, colorDepth, matrix);
-    return histogram->getHistogram();
-}
-
-Histogram* ImagenDCM::getHistogram(){
-    return histogram;
 }
 
 // export
@@ -126,7 +118,7 @@ void ImagenDCM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<comment<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 

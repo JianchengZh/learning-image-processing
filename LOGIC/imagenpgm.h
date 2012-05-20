@@ -34,24 +34,25 @@ class ImagenPGM: public Image{
     int ***matrixImagenP;
     int *lut;
 
+    void generateHistogram();
+    void generateQImage();
+
 public:
 
     //Constructors
     ImagenPGM(QString filename);
 
     ImagenPGM(QString identification,
-              QString coment,
               int h,
               int w,
               int colorD,
               int **matrix);
 
     ImagenPGM(QString identification,
-              QString coment,
               int h,
               int w,
               int colorD,
-              int ***matriz,
+              int ***matrixP,
               int *lut);
 
     ~ImagenPGM();
@@ -66,24 +67,14 @@ public:
     Image *multiply(ImagenPGM *qImage);
     Image *divide(ImagenPGM *qImage);
 
-
     Image *bimodalSegmentaion(int T);
     Image *histogramEqualization(int *newlut);
 
     // Getters
     int ***getMatrix();
 
-    // GUI Display
-    QImage *getQImage();
-
-    //Histogram
-    QImage *getHistogramImage();
-    Histogram *getHistogram();
-
     // export
     void saveImage(QString filename);
-
-
 };
 
 #endif // IMAGENPGM_H

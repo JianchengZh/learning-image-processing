@@ -26,7 +26,6 @@ ImagenPGM::ImagenPGM(QString filename){
     if (imageFile.readFile()) {
 
         this->identification=imageFile.getId();
-        this->comment="#";
         this->width=imageFile.getWidth();
         this->height=imageFile.getHeight();
         this->colorDepth=imageFile.getColorDepth();
@@ -55,9 +54,8 @@ ImagenPGM::ImagenPGM(QString filename){
 
 }
 
-ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int **matrix){
+ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
     this->identification=id;
-    this->comment=coment;
     this->height=h;
     this->width=w;
     this->colorDepth=colorD;
@@ -80,11 +78,10 @@ ImagenPGM::ImagenPGM(QString id, QString coment, int h, int w, int colorD, int *
     }
 }
 
-ImagenPGM::ImagenPGM(QString id, QString comment, int h, int w, int colorD, int ***matrixP, int *lut){
+ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *lut){
 
     QTextStream (stdout) << "E. Al inicio del constructor de la nueva imagen"<<endl;
     this->identification=id;
-    this->comment=comment;
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
@@ -144,7 +141,6 @@ Image* ImagenPGM::changeSize(int factor){
             }
         }
         resizedImage = new ImagenPGM (identification,
-                                      comment,
                                       w,
                                       h,
                                       colorDepth,
@@ -172,7 +168,6 @@ Image* ImagenPGM::changeSize(int factor){
         }
 
         resizedImage = new ImagenPGM (identification,
-                                      comment,
                                       w,
                                       h,
                                       colorDepth,
@@ -203,7 +198,6 @@ Image* ImagenPGM::changeColorDepth(int bits){
 
         QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Reduccion"<<endl;
         return new ImagenPGM (identification,
-                              comment,
                               height,
                               width,
                               newColorDepth,
@@ -221,7 +215,6 @@ Image* ImagenPGM::changeColorDepth(int bits){
         QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Aumento"<<endl;
 
         return new ImagenPGM (identification,
-                              comment,
                               height,
                               width,
                               newColorDepth,
@@ -230,7 +223,6 @@ Image* ImagenPGM::changeColorDepth(int bits){
     }else{
         QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - IGUAL"<<endl;
         return new ImagenPGM(identification,
-                             comment,
                              height,
                              width,
                              colorDepth,
@@ -252,7 +244,7 @@ Image* ImagenPGM::average(ImagenPGM *image, double alpha){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,averageMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,averageMatrix);
 
     for (int i=0; i < height; i++)
         delete averageMatrix[i];
@@ -279,7 +271,7 @@ Image* ImagenPGM::add(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,addMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,addMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -307,7 +299,7 @@ Image* ImagenPGM::subtract(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,subtractMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,subtractMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -329,7 +321,7 @@ Image* ImagenPGM::multiply(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,multiplyMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,multiplyMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -359,7 +351,7 @@ Image* ImagenPGM::divide(ImagenPGM *image){
         }cout<<endl;
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,comment,height,width,colorDepth,divideMatrix);
+    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,divideMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -378,13 +370,12 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
             lut[i]=colorDepth;
         }
     }
-    return new ImagenPGM(identification, comment, height, width, colorDepth, matrixImagenP, lut);
+    return new ImagenPGM(identification, height, width, colorDepth, matrixImagenP, lut);
 
 }
 
 Image* ImagenPGM::histogramEqualization(int *newlut){
     return new ImagenPGM (identification,
-                          comment,
                           height,
                           width,
                           colorDepth,
@@ -398,8 +389,7 @@ int*** ImagenPGM::getMatrix(){
 }
 
 // GUI Display
-QImage* ImagenPGM::getQImage(){
-
+void ImagenPGM::generateQImage(){
     QVector<QRgb> colorTable;
     int aux;
     for (int i = 0; i < colorDepth+1; ++i) {
@@ -415,10 +405,10 @@ QImage* ImagenPGM::getQImage(){
             qImage->setPixel(j,i,*matrixImagenP[i][j]);
         }
     }
-    return qImage;
 }
-//Histogram
-QImage *ImagenPGM::getHistogramImage(){
+
+// Histogram
+void ImagenPGM::generateHistogram(){
 
     int **matrix = new int*[height];
     for (int i=0; i < height; i++)
@@ -430,19 +420,10 @@ QImage *ImagenPGM::getHistogramImage(){
         }
     }
     histogram = new Histogram(height, width, colorDepth, matrix);
-    return histogram->getHistogram();
-}
-
-Histogram* ImagenPGM::getHistogram(){
-    if(histogram!=NULL){
-    return histogram;
-    }else {
-
-    }
 
 }
 
-// export
+// Export
 void ImagenPGM::saveImage(QString filename){
 
     if (!filename.contains(".pgm")) {
@@ -454,7 +435,7 @@ void ImagenPGM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<comment<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 

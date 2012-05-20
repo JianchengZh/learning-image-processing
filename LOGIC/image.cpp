@@ -26,20 +26,12 @@ Image::Image()
 Image::~Image(){
 }
 
-QString Image::getImageType(){
-    return this->imageType;
-}
-
-bool Image::getStatus(){
-    return this->status;
-}
-
-QString Image::getId(){
+QString Image::getIdentification(){
     return this->identification;
 }
 
-QString Image::getComment(){
-    return this->comment;
+QString Image::getImageType(){
+    return this->imageType;
 }
 
 int Image::getHeight(){
@@ -53,3 +45,20 @@ int Image::getWidth(){
 int Image::getColorDepth(){
     return this->colorDepth;
 }
+
+bool Image::getStatus(){
+    return this->status;
+}
+
+Histogram* Image::getHistogram(){
+    return this->histogram;
+}
+
+QImage* Image::getQImage(){
+    return this->qImage;
+}
+
+QImage* Image::getHistogramImage(){
+    return this->histogram->getHistogram();
+}
+
