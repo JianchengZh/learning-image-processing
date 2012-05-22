@@ -61,6 +61,9 @@ public:
     void otsuSegmentation();
     void isodataSegmentation();
 
+    // DICOM
+    void applyWindowLevel(int window, int level);
+
     // Getters:
     Image *getImage();
     QImage *getQImage();

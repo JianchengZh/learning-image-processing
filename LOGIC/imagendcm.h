@@ -35,13 +35,19 @@ class ImagenDCM : public Image{
     DicomImage *dicomImage;
     int ***matrixImagenP;
     int *lut;
+    int lutSize;
+    double minDensity, maxDensity;
 
     void generateHistogram();
     void generateQImage();
+    int getDensity(int x, int y);
+    int appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept);
 
 public:
 
     ImagenDCM(const char *fileName);
+
+    void applyWindowLevel(int window, int level);
 
     // VIRTUAL METHODS
     Image *changeSize(int factor);

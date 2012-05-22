@@ -452,6 +452,7 @@ background-color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>DICOM</string>
     </property>
+    <addaction name="actionWindow_Level"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -633,6 +634,11 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Weight Average</string>
+   </property>
+  </action>
+  <action name="actionWindow_Level">
+   <property name="text">
+    <string>Window - Level</string>
    </property>
   </action>
  </widget>

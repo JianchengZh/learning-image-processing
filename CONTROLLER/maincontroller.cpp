@@ -54,10 +54,8 @@ bool MainController::loadImage(QString filename){
 
     else{
         imagen = new ImagenDCM(filename.toStdString().c_str());
-        if (imagen!=NULL) {
+        if (imagen->getStatus()) {
             return true;
-        } else {
-            return false;
         }
     }
     return false;
@@ -199,6 +197,14 @@ void MainController::otsuSegmentation(){
     imagen->getHistogram()->ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen->getHistogram()->ThresholdingByOtsu());
 }
+
+
+// DICOM
+void MainController::applyWindowLevel(int window, int level){
+
+    static_cast<ImagenDCM*>(imagen)->applyWindowLevel(window,level);
+}
+
 
 // Getters
 Image* MainController::getImage(){

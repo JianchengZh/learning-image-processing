@@ -38,6 +38,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
 {
 
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+
     if (mainController->loadImage(filename)) {
 
         // Changes on PushButtons:
@@ -51,10 +52,12 @@ void MainWindow::on_pButton_LoadImage_clicked()
         ui->actionResize->setEnabled(true);
         ui->actionChange_Color_Depth->setEnabled(true);
         ui->actionSave->setEnabled(true);
+
         if (mainController->getImage()->getImageType().toUpper()=="PPM") {
             ui->actionConver_to_GrayScale->setEnabled(true);
             ui->actionEqualization->setEnabled(true);
         }
+
         if (mainController->getImage()->getImageType().toUpper()=="PGM") {
             ui->actionWeight_Average->setEnabled(true);
             ui->actionAdd->setEnabled(true);
@@ -78,10 +81,10 @@ void MainWindow::on_pButton_LoadImage_clicked()
 
         // Set Image to label_Imagen
         displayedImage=mainController->getQImage();
+
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
-
-        ShowHistogram();
+        //        ShowHistogram();
 
 
     } else {
@@ -365,7 +368,18 @@ void MainWindow::on_actionEqualization_triggered()
         msgBox2.exec();
     }
 }
-// Tomography Menu
+
+// DICOM Menu
+void MainWindow::on_actionWindow_Level_triggered()
+{
+        if (ui->widget_options!=0) {
+            delete ui->widget_options;
+            ui->widget_options=0;
+        }
+        ui->widget_options = new WindowLevelQWidget(ui->centralWidget, mainController, this);
+        ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+        ui->widget_options->setVisible(true);
+}
 
 // Help Menu
 void MainWindow::on_actionAbout_triggered()
@@ -387,6 +401,8 @@ void MainWindow::displayResults(QImage *result)
 }
 
 void MainWindow::ShowHistogram(){
-        histogramImage = mainController->getHistogramImage();
-        ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
+    histogramImage = mainController->getHistogramImage();
+    ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
+
+

@@ -35,10 +35,12 @@
 #include "GUI/resizeqwidget.h"
 #include "GUI/colordepthqwidget.h"
 #include "GUI/thresholdqwidget.h"
+#include "GUI/windowlevelqwidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
 class ThresholdQwidget;
+class WindowLevelQWidget;
 
 namespace Ui {
 class MainWindow;
@@ -89,10 +91,12 @@ private slots:
     void on_actionThreshold_triggered();
     void on_actionEqualization_triggered();
 
-    // Tomography Menu
+    // DICOM Menu
+    void on_actionWindow_Level_triggered();
 
     // Help Menu
     void on_actionAbout_triggered();
+
 
 private:
 
