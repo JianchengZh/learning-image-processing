@@ -146,6 +146,10 @@ void ImagenDCM::applyWindowLevel(int window, int level){
     double max = level + floor(window/2);
     double newPixelValue, pixelValue;
 
+    for (int i = 0; i < lutSize; ++i){
+        lut[i]=i-abs(minDensity);
+    }
+
     QTextStream cout (stdout);
     cout<<"Min Value: "<<min<<endl;
     cout<<"Max Value: "<<max<<endl;

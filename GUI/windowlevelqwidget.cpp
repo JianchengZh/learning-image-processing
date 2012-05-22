@@ -44,7 +44,13 @@ void WindowLevelQWidget::on_comboBoxPresets_currentIndexChanged(const QString &a
     }
 }
 
-void WindowLevelQWidget::on_pushButton_clicked()
+void WindowLevelQWidget::on_verticalSliderLevel_valueChanged(int value)
+{
+    mainController->applyWindowLevel(ui->verticalSliderWindow->value(), ui->verticalSliderLevel->value());
+    mainwindow->displayResults(mainController->getQImage());
+}
+
+void WindowLevelQWidget::on_verticalSliderWindow_valueChanged(int value)
 {
     mainController->applyWindowLevel(ui->verticalSliderWindow->value(), ui->verticalSliderLevel->value());
     mainwindow->displayResults(mainController->getQImage());

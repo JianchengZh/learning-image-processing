@@ -22,7 +22,9 @@ public:
 private slots:
     void on_comboBoxPresets_currentIndexChanged(const QString &arg1);
 
-    void on_pushButton_clicked();
+    void on_verticalSliderLevel_valueChanged(int value);
+
+    void on_verticalSliderWindow_valueChanged(int value);
 
 private:
     Ui::WindowLevelQWidget *ui;

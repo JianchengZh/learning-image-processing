@@ -40,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
+     <y>90</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -49,7 +49,7 @@
     <enum>Qt::StrongFocus</enum>
    </property>
    <property name="minimum">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="maximum">
     <number>4314</number>
@@ -76,32 +76,11 @@
     <number>150</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>290</y>
-     <width>151</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-   <property name="default">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelWindow">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
+     <y>50</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -124,7 +103,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>140</y>
      <width>51</width>
      <height>41</height>
     </rect>
@@ -147,7 +126,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>160</y>
+     <y>180</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -184,7 +163,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>240</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -207,7 +186,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
+     <y>280</y>
      <width>251</width>
      <height>31</height>
     </rect>
@@ -252,7 +231,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>30</y>
+     <y>50</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -275,7 +254,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>120</y>
+     <y>140</y>
      <width>71</width>
      <height>41</height>
     </rect>
