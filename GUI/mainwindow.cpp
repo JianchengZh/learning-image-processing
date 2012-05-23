@@ -66,6 +66,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
             ui->actionDivide->setEnabled(true);
             ui->actionThreshold->setEnabled(true);
             ui->actionEqualization->setEnabled(true);
+            ui->actionMean->setEnabled(true);
         }
 
         // Changes on labels
@@ -145,6 +146,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMultiply->setEnabled(false);
     ui->actionDivide->setEnabled(false);
     ui->actionSave->setEnabled(false);
+    ui->actionMean->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
