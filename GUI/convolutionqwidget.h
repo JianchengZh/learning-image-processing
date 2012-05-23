@@ -25,6 +25,7 @@ private:
     Ui::ConvolutionQwidget *ui;
     MainController *mainController;
     MainWindow *mainwindow;
+    int kernelSize;
 };
 
 #endif // CONVOLUTIONQWIDGET_H
