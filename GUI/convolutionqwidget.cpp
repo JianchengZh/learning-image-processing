@@ -14,3 +14,8 @@ ConvolutionQwidget::~ConvolutionQwidget()
 {
     delete ui;
 }
+
+void ConvolutionQwidget::on_spinBox_valueChanged(int arg1)
+{
+
+}

@@ -66,36 +66,6 @@
      <height>192</height>
     </rect>
    </property>
-   <row>
-    <property name="text">
-     <string>New Row</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>New Row</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>New Row</string>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>New Column</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>New Column</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>New Column</string>
-    </property>
-   </column>
   </widget>
   <widget class="QSpinBox" name="spinBox">
    <property name="geometry">
@@ -107,7 +77,7 @@
     </rect>
    </property>
    <property name="minimum">
-    <number>1</number>
+    <number>3</number>
    </property>
    <property name="maximum">
     <number>9</number>
@@ -116,7 +86,7 @@
     <number>2</number>
    </property>
    <property name="value">
-    <number>2</number>
+    <number>3</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

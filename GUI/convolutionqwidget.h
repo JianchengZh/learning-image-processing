@@ -18,6 +18,9 @@ public:
     explicit ConvolutionQwidget(QWidget *parent, MainController *controller, MainWindow *window);
     ~ConvolutionQwidget();
     
+private slots:
+    void on_spinBox_valueChanged(int arg1);
+
 private:
     Ui::ConvolutionQwidget *ui;
     MainController *mainController;
