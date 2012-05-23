@@ -193,54 +193,13 @@ Image* ImagenPGM::changeSize(int factor){
 
 Image* ImagenPGM::changeColorDepth(int bits){
 
-    QTextStream (stdout) << "C. Al inicio del metodo changeColorDepth en ImagenPGM"<<endl;
-
-    if((int)(pow(2,bits)-1)<colorDepth){
-
-        double newColorDepth=(int)(pow(2,bits)-1);
-        double aux;
-        for(int i=0; i<colorDepth+1; i++){
-            //                        lut[i]=lut[i]/divisor;
-            aux=floor((newColorDepth/colorDepth)*lut[i]);
-            QTextStream (stdout) <<"aux:"<<aux<<endl;
-            lut[i]=aux;
-            QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
-        }
-
-        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Reduccion"<<endl;
-        return new ImagenPGM (identification,
-                              height,
-                              width,
-                              newColorDepth,
-                              matrixImagenP,
-                              lut);
-
-    }else if ((int)(pow(2,bits)-1)>colorDepth) {
-
-        int newColorDepth=(int)(pow(2,bits)-1);
-        for(int i=0; i<colorDepth+1; i++){
-            lut[i]=floor((newColorDepth/colorDepth)*lut[i]);
-            QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
-        }
-
-        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - Aumento"<<endl;
-
-        return new ImagenPGM (identification,
-                              height,
-                              width,
-                              newColorDepth,
-                              matrixImagenP,
-                              lut);
-    }else{
-        QTextStream (stdout) << "D. Antes de salir del metodo changeColorDepth en Imagen PGM - IGUAL"<<endl;
-        return new ImagenPGM(identification,
-                             height,
-                             width,
-                             colorDepth,
-                             matrixImagenP,
-                             lut);
+    double newColorDepth=(int)(pow(2,bits)-1);
+    double aux;
+    for(int i=0; i<colorDepth+1; i++){
+        aux=qRound((newColorDepth/colorDepth)*lut[i]);
+        lut[i]=aux;
     }
-
+    return new ImagenPGM (identification, height, width, newColorDepth, matrixImagenP, lut);
 }
 
 Image* ImagenPGM::average(ImagenPGM *image, double alpha){
