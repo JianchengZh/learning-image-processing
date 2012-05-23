@@ -280,14 +280,15 @@ Image* ImagenPPM::changeSize(int factor){
 
 Image* ImagenPPM::changeColorDepth(int bits){
 
-    if((int)(pow(2,bits)-1)<colorDepth){
-
-        int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (colorDepth+1)/(newColorDepth+1);
-        for(int i=0; i<colorDepth+1; i++){
-            lutR[i]=lutR[i]/divisor;
-            lutG[i]=lutG[i]/divisor;
-            lutB[i]=lutB[i]/divisor;
+    double newColorDepth=(int)(pow(2,bits)-1);
+    double auxR, auxG, auxB;
+    for(int i=0; i<colorDepth+1; i++){
+        auxR=qRound((newColorDepth/colorDepth)*lutR[i]);
+        auxG=qRound((newColorDepth/colorDepth)*lutG[i]);
+        auxB=qRound((newColorDepth/colorDepth)*lutB[i]);
+            lutR[i]=auxR;
+            lutG[i]=auxG;
+            lutB[i]=auxB;
         }
         return new ImagenPPM (identification,
                               height,
@@ -300,28 +301,6 @@ Image* ImagenPPM::changeColorDepth(int bits){
                               matrixBp,
                               lutB);
 
-    }else if ((int)(pow(2,bits)-1)>colorDepth) {
-
-        int newColorDepth=(int)(pow(2,bits)-1);
-        for(int i=0; i<colorDepth+1; i++){
-            lutR[i]=floor((newColorDepth/colorDepth)*lutR[i]);
-            lutG[i]=floor((newColorDepth/colorDepth)*lutG[i]);
-            lutB[i]=floor((newColorDepth/colorDepth)*lutB[i]);
-        }
-        return new ImagenPPM (identification,
-                              height,
-                              width,
-                              newColorDepth,
-                              matrixRp,
-                              lutR,
-                              matrixGp,
-                              lutG,
-                              matrixBp,
-                              lutB);
-
-    }else{
-        return this;
-    }
 }
 
 ImagenPGM* ImagenPPM::convertToGrayScale(int method){
