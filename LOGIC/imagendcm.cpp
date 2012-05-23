@@ -23,7 +23,6 @@ ImagenDCM::ImagenDCM(const char *fileName){
 
     dicomImage = new DicomImage(fileName);
 
-    QTextStream cout(stdout);
     if (dicomImage != NULL)
     {
         if (dicomImage->getStatus() == EIS_Normal)
@@ -34,49 +33,36 @@ ImagenDCM::ImagenDCM(const char *fileName){
             this->height=dicomImage->getWidth();
             this->width=dicomImage->getHeight();
 
-            //Display information about image
-
-            cout <<"DICOM depth: "<<dicomImage->getDepth()<<endl;
-            cout <<"Color Depth: "<<colorDepth<<endl;
-            cout<< "frameCount: "<<dicomImage->getFrameCount()<<endl;
-
             dicomImage->getMinMaxValues(minDensity, maxDensity);
-
-            cout<<"Min Value: "<<minDensity<<endl;
-            cout<<"Max Value: "<<maxDensity<<endl;
 
             //Lookup Table
             lutSize=abs(minDensity)+abs(maxDensity)+1;
-            QTextStream (stdout)<<"lut size"<<lutSize<<endl;
 
             lut = new int [lutSize];
             for (int i = 0; i < lutSize; ++i){
                 lut[i]=i-abs(minDensity);
-                QTextStream (stdout)<<"LUT["<<i<<"]: "<<lut[i]<<endl;
             }
 
             matrixImagenP = new int**[height];
             for (int i=0; i < height; i++)
                 matrixImagenP[i]=new int*[width];
 
-            QTextStream (stdout)<<"Matriz Inicializada"<<endl;
-
             for(int i=0; i<height; i++){
                 for(int j=0; j<width; j++){
                     matrixImagenP[i][j]=&lut[getDensity(j,i)+abs(minDensity)];
-                    //                    QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
                 }
-                //                QTextStream (stdout) <<""<<endl;
+
             }
+
             applyWindowLevel(400,40);
-            //            generateHistogram();
+            generateHistogram();
             generateQImage();
-            saveImage("temp");
+
             status = true;
         } else
             status=false;
     }
-    cout<<"TERMINE"<<endl;
+
 }
 
 
@@ -150,19 +136,14 @@ void ImagenDCM::applyWindowLevel(int window, int level){
         lut[i]=i-abs(minDensity);
     }
 
-    QTextStream cout (stdout);
-    cout<<"Min Value: "<<min<<endl;
-    cout<<"Max Value: "<<max<<endl;
-
     for (int i = 0; i < lutSize; ++i){
 
         if (lut[i]>=min && lut[i]<=max) {
-            cout<<"idex: "<<i<<"   value: "<<lut[i]<<" esta dentro de la ventana"<<endl;
+
             pixelValue=lut[i];
             newPixelValue= (pixelValue-min)*(255/(max-min));
             lut[i]=newPixelValue;
-            cout<<"newPixelValue: "<<newPixelValue<<endl;
-            cout<<"LUT["<<i<<"]: "<<lut[i]<<endl;
+
         } else{
             if(lut[i]>max){
                 lut[i]=255;
@@ -170,13 +151,11 @@ void ImagenDCM::applyWindowLevel(int window, int level){
                 lut[i]=0;
             }
         }
-        cout<<"LUT["<<i<<"]: "<<lut[i]<<endl;
     }
-
     generateQImage();
 }
 
-int ImagenDCM::appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept){
+int ImagenDCM::appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept){ // Not it use!
     return (pixelValue * rescaleSlope) + rescaleIntercept;
 }
 
@@ -219,7 +198,7 @@ void ImagenDCM::generateHistogram(){
             matrix[i][j]=*matrixImagenP[i][j];
         }
     }
-    histogram = new Histogram(height, width, colorDepth, matrix);
+    histogram = new Histogram(height, width, 255, matrix);
 }
 
 // export
@@ -228,7 +207,7 @@ void ImagenDCM::saveImage(QString filename){
     if (!filename.contains(".pgm")) {
         filename=filename.section(".",0,0)+".pgm";
     }
-    QTextStream (stdout) <<"filename:"<<filename<<endl;
+
     this->imageType="PGM";
     this->identification="P2";
     QFile temp(filename);
