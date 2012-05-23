@@ -454,10 +454,17 @@ background-color: rgb(255, 255, 255);</string>
     </property>
     <addaction name="actionWindow_Level"/>
    </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <addaction name="actionMean"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
    <addaction name="menuHistogram"/>
+   <addaction name="menuFilters"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -639,6 +646,14 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionWindow_Level">
    <property name="text">
     <string>Window - Level</string>
+   </property>
+  </action>
+  <action name="actionMean">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Mean</string>
    </property>
   </action>
  </widget>

@@ -57,9 +57,12 @@ public:
     bool divide(QString filename);
 
     bool bimodalSegmentaion(int T);
-    bool equalizateHistogram();
+    void equalizateHistogram();
     void otsuSegmentation();
     void isodataSegmentation();
+
+    //Filter
+    void meanFilter(int size);
 
     // DICOM
     void applyWindowLevel(int window, int level);

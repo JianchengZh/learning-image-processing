@@ -36,6 +36,8 @@ class ImagenPGM: public Image{
 
     void generateHistogram();
     void generateQImage();
+    void applyKernel(int** kernel,int size);
+    void applyKerneltoPixel(int i,int j,int ** kernel,int size);
 
 public:
 
@@ -69,6 +71,9 @@ public:
 
     Image *bimodalSegmentaion(int T);
     Image *histogramEqualization(int *newlut);
+
+    //Filters
+    Image *meanFilter(int kernelSize);
 
     // Getters
     int ***getMatrix();

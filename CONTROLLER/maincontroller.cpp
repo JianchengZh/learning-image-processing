@@ -166,15 +166,10 @@ bool MainController::divide(QString filename){
     }
 }
 
-bool MainController::equalizateHistogram(){
-    if(imagen!=0){
+void MainController::equalizateHistogram(){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->histogramEqualization(oldImage->getHistogram()->calculateEqualization());
-        return true;
-    }else{
-        return false;
-    }
 }
 
 bool MainController::bimodalSegmentaion(int T){
@@ -196,6 +191,13 @@ void MainController::isodataSegmentation(){
 void MainController::otsuSegmentation(){
     imagen->getHistogram()->ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen->getHistogram()->ThresholdingByOtsu());
+}
+
+//Filter
+void MainController::meanFilter(int size){
+        delete oldImage;
+        oldImage=imagen;
+        imagen=static_cast<ImagenPGM*>(oldImage)->meanFilter(size);
 }
 
 

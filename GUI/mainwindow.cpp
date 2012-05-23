@@ -353,14 +353,9 @@ void MainWindow::on_actionThreshold_triggered(){
 void MainWindow::on_actionEqualization_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
-        QMessageBox msgBox(this);
-        msgBox.setText("do you want to equalizet histogram?");
-        msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::Yes);
-        // int method = msgBox.exec();
         mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
-        //        ShowHistogram();
+        ShowHistogram();
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");
@@ -406,3 +401,17 @@ void MainWindow::ShowHistogram(){
 }
 
 
+
+void MainWindow::on_actionMean_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        mainController->meanFilter(3);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}

@@ -135,17 +135,6 @@ int Histogram::ThresholdingByOtsu(){
 
     calculatePromedio();
     double uc = (w1*u1)+(w2*u2);
-    //    double Gin=0,Gzw=(w1*pow(u1-uc,2))+(w2*pow(u2-uc,2));
-    //    double g1=0,g2=0;
-
-    //    for (int i = 0; i < intensidad; ++i) {
-    //        if(relativeFrecuency[i]!=0){
-    //            if(i<=umbral) g1+=pow(i-u1,2)*(relativeFrecuency[i]/n);
-    //            else g2+=pow(i-u2,2)*(relativeFrecuency[i]/n);
-    //        }
-    //    }
-    //    Gin=w1*g1+w2*g2;
-
     return((int)uc);
 }
 
@@ -175,14 +164,8 @@ int *Histogram::calculateEqualization(){
     }
 
     a=relativeEqualization[intensidad-1];
-    double redondeo=0;
     for (int i = 0; i < intensidad; ++i) {
-        redondeo=((intensidad-1)*relativeEqualization[i])/a;
-        redondeo=fmod(redondeo,floor(redondeo));
-        if(redondeo>0.5)
-            discretizedFrecuency[i]=ceil(((intensidad-1)*relativeEqualization[i])/a);
-        else
-            discretizedFrecuency[i]=floor(((intensidad-1)*relativeEqualization[i])/a);
+        discretizedFrecuency[i]=qRound(((intensidad-1)*relativeEqualization[i])/a);
     }
 
     delete relativeEqualization; relativeEqualization=0;

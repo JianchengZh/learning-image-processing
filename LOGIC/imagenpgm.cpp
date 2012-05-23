@@ -386,12 +386,17 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
 }
 
 Image* ImagenPGM::histogramEqualization(int *newlut){
+
+    for (int i = 0; i < colorDepth+1; ++i) {
+        lut[i]=newlut[i];
+    }
+
     return new ImagenPGM (identification,
                           height,
                           width,
                           colorDepth,
                           matrixImagenP,
-                          newlut);
+                          lut);
 }
 
 // Getters
@@ -431,6 +436,47 @@ void ImagenPGM::generateHistogram(){
         }
     }
     histogram = new Histogram(height, width, colorDepth, matrix);
+
+}
+
+// Filters
+void ImagenPGM::applyKernel(int **kernel,int size){
+    int inicial_position=floor(size/2);
+    for (int i = inicial_position; i < height-inicial_position; ++i) {
+        for (int j = inicial_position; j < width-inicial_position; ++j) {
+            applyKerneltoPixel(i,j,kernel,size);
+        }
+    }
+}
+
+void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel,int size){
+    int ii=0,jj=0,newPixel=0;
+    for (int x = 0; x < size; ++x) {
+        ii=(floor(size/2)*-1)+x+i;
+        for (int y = 0; y < size; ++y) {
+            jj=(floor(size/2)*-1)+y+j;
+            newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
+        }
+    }
+    matrixImagenP[i][j]=&lut[qRound(newPixel/pow(size,2))];
+}
+
+Image *ImagenPGM::meanFilter(int kernelSize){
+
+
+    int **kernel = new int*[kernelSize];
+    for (int i = 0; i < kernelSize; ++i)
+        kernel[i]=new int[kernelSize];
+
+    for (int i = 0; i < kernelSize; ++i) {
+        for (int j = 0; j < kernelSize; ++j) {
+            kernel[i][j]=1;
+
+        }
+    }
+
+    applyKernel(kernel, kernelSize);
+    return new ImagenPGM (identification, height, width, colorDepth, matrixImagenP, lut);
 
 }
 
