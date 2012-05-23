@@ -36,10 +36,12 @@
 #include "GUI/colordepthqwidget.h"
 #include "GUI/thresholdqwidget.h"
 #include "GUI/windowlevelqwidget.h"
+#include "GUI/convolutionqwidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
 class ThresholdQwidget;
+class ConvolutionQwidget;
 class WindowLevelQWidget;
 
 namespace Ui {
@@ -91,14 +93,15 @@ private slots:
     void on_actionThreshold_triggered();
     void on_actionEqualization_triggered();
 
+    //Filter
+    void on_actionMean_triggered();
+    void on_actionConvolution_triggered();
+
     // DICOM Menu
     void on_actionWindow_Level_triggered();
 
     // Help Menu
     void on_actionAbout_triggered();
-
-
-    void on_actionMean_triggered();
 
 private:
 

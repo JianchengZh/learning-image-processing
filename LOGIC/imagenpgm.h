@@ -74,6 +74,7 @@ public:
 
     //Filters
     Image *meanFilter(int kernelSize);
+    Image *convolutionFilter(int **kernel,int size);
 
     // Getters
     int ***getMatrix();

@@ -415,8 +415,6 @@ void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel,int size){
 }
 
 Image *ImagenPGM::meanFilter(int kernelSize){
-
-
     int **kernel = new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i)
         kernel[i]=new int[kernelSize];
@@ -431,6 +429,10 @@ Image *ImagenPGM::meanFilter(int kernelSize){
     applyKernel(kernel, kernelSize);
     return new ImagenPGM (identification, height, width, colorDepth, matrixImagenP, lut);
 
+}
+
+Image *ImagenPGM::convolutionFilter(int **kernel, int size){
+    applyKernel(kernel,size);
 }
 
 // Export
