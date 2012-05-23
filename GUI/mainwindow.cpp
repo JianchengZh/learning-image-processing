@@ -366,6 +366,38 @@ void MainWindow::on_actionEqualization_triggered()
     }
 }
 
+//Filter
+
+void MainWindow::on_actionMean_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+
+        QStringList items;
+        items << tr("3X3") << tr("5X5") << tr("9x9");
+
+        bool ok;
+        QString item = QInputDialog::getItem(this, tr("Select Ker"),
+                                             tr("Kernel Size:"), items, 0, false, &ok);
+        if (ok && !item.isEmpty()){
+            if(item=="3X3"){
+                mainController->meanFilter(3);
+            }else if(item=="5x5"){
+                mainController->meanFilter(5);
+            }else{
+                mainController->meanFilter(9);
+            }
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
+
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
+
 // DICOM Menu
 void MainWindow::on_actionWindow_Level_triggered()
 {
@@ -402,30 +434,3 @@ void MainWindow::ShowHistogram(){
     ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
 
-void MainWindow::on_actionMean_triggered()
-{
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
-
-        QStringList items;
-        items << tr("3X3") << tr("5X5");
-
-        bool ok;
-        QString item = QInputDialog::getItem(this, tr("Select Ker"),
-                                             tr("Kernel Size:"), items, 0, false, &ok);
-        if (ok && !item.isEmpty()){
-            if(item=="3X3"){
-                mainController->meanFilter(3);
-            }else{
-                mainController->meanFilter(5);
-            }
-            displayResults(mainController->getQImage());
-            ShowHistogram();
-        }
-
-    }else {
-        QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry,Operation not valid");
-        msgBox2.setWindowTitle("ERROR");
-        msgBox2.exec();
-    }
-}
