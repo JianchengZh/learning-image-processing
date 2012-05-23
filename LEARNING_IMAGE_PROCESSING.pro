@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     GUI/colordepthqwidget.cpp \
     GUI/thresholdqwidget.cpp \
     LOGIC/imagendcm.cpp \
-    GUI/windowlevelqwidget.cpp
+    GUI/windowlevelqwidget.cpp \
+    GUI/convolutionqwidget.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS  += \
     GUI/colordepthqwidget.h \
     GUI/thresholdqwidget.h \
     LOGIC/imagendcm.h \
-    GUI/windowlevelqwidget.h
+    GUI/windowlevelqwidget.h \
+    GUI/convolutionqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -46,7 +48,8 @@ FORMS    += \
     GUI/resizeqwidget.ui \
     GUI/colordepthqwidget.ui \
     GUI/thresholdqwidget.ui \
-    GUI/windowlevelqwidget.ui
+    GUI/windowlevelqwidget.ui \
+    GUI/convolutionqwidget.ui
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 
