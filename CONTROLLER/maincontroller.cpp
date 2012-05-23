@@ -200,6 +200,11 @@ void MainController::meanFilter(int size){
         imagen=static_cast<ImagenPGM*>(oldImage)->meanFilter(size);
 }
 
+void MainController::convolutionFilter(int **kernel, int size){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
+}
 
 // DICOM
 void MainController::applyWindowLevel(int window, int level){

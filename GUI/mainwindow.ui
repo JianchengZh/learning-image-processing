@@ -459,6 +459,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>Filters</string>
     </property>
     <addaction name="actionMean"/>
+    <addaction name="actionConvolution"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -654,6 +655,11 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Mean</string>
+   </property>
+  </action>
+  <action name="actionConvolution">
+   <property name="text">
+    <string>Convolution</string>
    </property>
   </action>
  </widget>
