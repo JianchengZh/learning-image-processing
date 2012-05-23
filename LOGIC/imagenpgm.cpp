@@ -86,7 +86,6 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
 
 ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *lut){
 
-    QTextStream (stdout) << "E. Al inicio del constructor de la nueva imagen"<<endl;
     this->identification=id;
     this->width=w;
     this->height=h;
@@ -98,23 +97,18 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *
     this->lut = new int [colorDepth+1];
     for (int i = 0; i < colorDepth+1; ++i)
         this->lut[i]=i;
-    QTextStream (stdout) << "E1. lookup table ok"<<endl;
 
     // Matrix of Pointers
     matrixImagenP = new int**[height];
     for (int i=0; i < height; i++)
         matrixImagenP[i]=new int*[width];
-    QTextStream (stdout) << "E2. Matriz inicializacion - ok"<<endl;
 
-    QTextStream (stdout) << "F. Antes de llenar la matriz"<<endl;
     for(int i=0; i<height; i++)
         for(int j=0; j<width; j++)
             matrixImagenP[i][j]=&this->lut[*matrixP[i][j]];
 
     generateHistogram();
     generateQImage();
-
-    QTextStream (stdout) << "G. Al final del constructor"<<endl;
 }
 
 ImagenPGM::~ImagenPGM(){
