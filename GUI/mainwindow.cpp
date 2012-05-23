@@ -84,7 +84,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
 
         // Display Image in Original Size
         on_pButton__NormalSize_clicked();
-        //        ShowHistogram();
+        ShowHistogram();
 
 
     } else {
@@ -372,13 +372,13 @@ void MainWindow::on_actionEqualization_triggered()
 // DICOM Menu
 void MainWindow::on_actionWindow_Level_triggered()
 {
-        if (ui->widget_options!=0) {
-            delete ui->widget_options;
-            ui->widget_options=0;
-        }
-        ui->widget_options = new WindowLevelQWidget(ui->centralWidget, mainController, this);
-        ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
-        ui->widget_options->setVisible(true);
+    if (ui->widget_options!=0) {
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ui->widget_options = new WindowLevelQWidget(ui->centralWidget, mainController, this);
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
 }
 
 // Help Menu

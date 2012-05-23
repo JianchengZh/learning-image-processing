@@ -303,11 +303,10 @@ Image* ImagenPPM::changeColorDepth(int bits){
     }else if ((int)(pow(2,bits)-1)>colorDepth) {
 
         int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (newColorDepth+1)/(colorDepth+1);
         for(int i=0; i<colorDepth+1; i++){
-            lutR[i]=lutR[i]*divisor;
-            lutG[i]=lutG[i]*divisor;
-            lutB[i]=lutB[i]*divisor;
+            lutR[i]=floor((newColorDepth/colorDepth)*lutR[i]);
+            lutG[i]=floor((newColorDepth/colorDepth)*lutG[i]);
+            lutB[i]=floor((newColorDepth/colorDepth)*lutB[i]);
         }
         return new ImagenPPM (identification,
                               height,

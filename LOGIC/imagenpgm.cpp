@@ -197,12 +197,13 @@ Image* ImagenPGM::changeColorDepth(int bits){
 
     if((int)(pow(2,bits)-1)<colorDepth){
 
-        int newColorDepth=(int)(pow(2,bits)-1);
-        int divisor = (colorDepth+1)/(newColorDepth+1);
-
-        QTextStream (stdout) << "Divisor "<<divisor<<endl;
+        double newColorDepth=(int)(pow(2,bits)-1);
+        double aux;
         for(int i=0; i<colorDepth+1; i++){
-            lut[i]=lut[i]/divisor;
+            //                        lut[i]=lut[i]/divisor;
+            aux=floor((newColorDepth/colorDepth)*lut[i]);
+            QTextStream (stdout) <<"aux:"<<aux<<endl;
+            lut[i]=aux;
             QTextStream (stdout) << "lut["<<i<<"]"<<lut[i]<<endl;
         }
 
