@@ -402,14 +402,26 @@ void MainWindow::ShowHistogram(){
     ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
 
-
-
 void MainWindow::on_actionMean_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
-        mainController->meanFilter(3);
-        displayResults(mainController->getQImage());
-        ShowHistogram();
+
+        QStringList items;
+        items << tr("3X3") << tr("5X5");
+
+        bool ok;
+        QString item = QInputDialog::getItem(this, tr("Select Ker"),
+                                             tr("Kernel Size:"), items, 0, false, &ok);
+        if (ok && !item.isEmpty()){
+            if(item=="3X3"){
+                mainController->meanFilter(3);
+            }else{
+                mainController->meanFilter(5);
+            }
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
+
     }else {
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");
