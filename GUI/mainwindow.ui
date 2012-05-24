@@ -645,6 +645,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionWindow_Level">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Window - Level</string>
    </property>
@@ -658,6 +661,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionConvolution">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Convolution</string>
    </property>

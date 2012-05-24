@@ -67,7 +67,12 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionThreshold->setEnabled(true);
                 ui->actionEqualization->setEnabled(true);
                 ui->actionMean->setEnabled(true);
+                ui->actionConvolution->setEnabled(true);
             }
+            if(mainController->getImage()->getImageType().toUpper()=="DCM"){
+                ui->actionWindow_Level->setEnabled(true);
+            }
+
 
             // Changes on labels
             ui->label_Density->setEnabled(true);
@@ -148,6 +153,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionDivide->setEnabled(false);
     ui->actionSave->setEnabled(false);
     ui->actionMean->setEnabled(false);
+    ui->actionConvolution->setEnabled(false);
+    ui->actionWindow_Level->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);

@@ -203,7 +203,6 @@ void MainController::meanFilter(int size){
 void MainController::convolutionFilter(int **kernel, int size){
     delete oldImage;
     oldImage=imagen;
-    QTextStream (stdout)<<"Entre al controlador"<<endl;
     imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
 }
 
