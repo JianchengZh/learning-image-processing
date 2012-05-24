@@ -25,7 +25,10 @@ private:
     Ui::ConvolutionQwidget *ui;
     MainController *mainController;
     MainWindow *mainwindow;
+    QLineEdit ***qLineEditMatrix;
     int kernelSize;
+
+    void deleteTable();
 };
 
 #endif // CONVOLUTIONQWIDGET_H
