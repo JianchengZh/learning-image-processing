@@ -421,10 +421,15 @@ void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int
         for (int y = 0; y < kernelSize; ++y) {
             jj=(floor(kernelSize/2)*-1)+y+j;
             newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
-            QTextStream (stdout) <<"newPixel: "<<newPixel;
+            //QTextStream (stdout) <<"newPixel: "<<newPixel;
         }
     }
-    matrix[i][j]=qRound(newPixel/pow(kernelSize,2));
+    if(qRound(newPixel/pow(kernelSize,2))>=0&&qRound(newPixel/pow(kernelSize,2))<256)
+        matrix[i][j]=qRound(newPixel/pow(kernelSize,2));
+    else if (qRound(newPixel/pow(kernelSize,2))<0)
+        matrix[i][j]=0;
+    else
+        matrix[i][j]=255;
 }
 
 Image* ImagenPGM::meanFilter(int kernelSize){
