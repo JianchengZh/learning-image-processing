@@ -421,6 +421,7 @@ void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int
         for (int y = 0; y < kernelSize; ++y) {
             jj=(floor(kernelSize/2)*-1)+y+j;
             newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
+            QTextStream (stdout) <<"newPixel: "<<newPixel;
         }
     }
     matrix[i][j]=qRound(newPixel/pow(kernelSize,2));
