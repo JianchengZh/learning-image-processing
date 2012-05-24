@@ -432,7 +432,9 @@ Image *ImagenPGM::meanFilter(int kernelSize){
 }
 
 Image *ImagenPGM::convolutionFilter(int **kernel, int size){
+
     applyKernel(kernel,size);
+    return new ImagenPGM (identification, height, width, colorDepth, matrixImagenP, lut);
 }
 
 // Export

@@ -8,16 +8,23 @@ ConvolutionQwidget::ConvolutionQwidget(QWidget *parent, MainController *controll
     ui->setupUi(this);
     mainwindow=window;
     mainController=controller;
+    qLineEditMatrix=NULL;
     on_spinBox_valueChanged(3);
+
 }
 
 ConvolutionQwidget::~ConvolutionQwidget()
 {
+    deleteTable();
     delete ui;
 }
 
 void ConvolutionQwidget::on_spinBox_valueChanged(int arg1)
 {
+    if (qLineEditMatrix != NULL) {
+        deleteTable();
+    }
+
     kernelSize = arg1;
     double widthLineEdit = 30;
     double heightLineEdit = 25;
@@ -27,24 +34,56 @@ void ConvolutionQwidget::on_spinBox_valueChanged(int arg1)
     int initialY = (ui->widgetTable->height() - heightTable) / 2;
     int x;
 
-    QLineEdit ***lineEditKernel = new QLineEdit**[kernelSize];
+    qLineEditMatrix = new QLineEdit**[kernelSize];
 
     for (int i = 0; i < kernelSize; ++i) {
-        lineEditKernel[i]= new QLineEdit*[kernelSize];
+        qLineEditMatrix[i]= new QLineEdit*[kernelSize];
     }
 
-    QTextStream (stdout)<<"voy por aqui"<<endl;
     QFont font;
     font.setPointSize(10);
     for (int i = 0; i < kernelSize; ++i) {
         int x=initialX;
         for (int j = 0; j < kernelSize; ++j) {
-            lineEditKernel[i][j] = new QLineEdit(ui->widgetTable);
-            lineEditKernel[i][j]->setGeometry(QRect(x, initialY, widthLineEdit, heightLineEdit));
-            lineEditKernel[i][j]->setFont(font);
-            lineEditKernel[i][j]->setVisible(true);
+            qLineEditMatrix[i][j] = new QLineEdit(ui->widgetTable);
+            qLineEditMatrix[i][j]->setGeometry(QRect(x, initialY, widthLineEdit, heightLineEdit));
+            qLineEditMatrix[i][j]->setFont(font);
+            qLineEditMatrix[i][j]->setVisible(true);
             x += widthLineEdit + 3;
         }
         initialY += heightLineEdit + 3;
     }
+}
+
+void ConvolutionQwidget::deleteTable(){
+
+    for (int i = 0; i < kernelSize; ++i) {
+        for (int j = 0; j < kernelSize; ++j) {
+            delete qLineEditMatrix[i][j];
+            qLineEditMatrix[i][j]=0;
+        }
+        delete qLineEditMatrix[i];
+        qLineEditMatrix[i]=0;
+    }
+    delete qLineEditMatrix;
+    qLineEditMatrix=0;
+}
+
+void ConvolutionQwidget::on_pushButton_clicked(){
+
+    int **kernel = new int*[kernelSize];
+
+    for (int i = 0; i < kernelSize; ++i) {
+        kernel[i]=new int[kernelSize];
+    }
+
+
+    for (int i = 0; i < kernelSize; ++i) {
+        for (int j = 0; j < kernelSize; ++j) {
+            kernel[i][j]=qLineEditMatrix[i][j]->text().toInt();
+            QTextStream (stdout) <<kernel[i][j]<<" ";
+        }
+        QTextStream (stdout) <<""<<endl;
+    }
+
 }
