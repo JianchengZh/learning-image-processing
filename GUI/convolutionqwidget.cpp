@@ -77,13 +77,12 @@ void ConvolutionQwidget::on_pushButton_clicked(){
         kernel[i]=new int[kernelSize];
     }
 
-
     for (int i = 0; i < kernelSize; ++i) {
         for (int j = 0; j < kernelSize; ++j) {
             kernel[i][j]=qLineEditMatrix[i][j]->text().toInt();
-            QTextStream (stdout) <<kernel[i][j]<<" ";
         }
-        QTextStream (stdout) <<""<<endl;
     }
 
+    mainController->convolutionFilter(kernel, kernelSize);
+    mainwindow->displayResults(mainController->getQImage());
 }

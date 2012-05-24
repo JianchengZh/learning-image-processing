@@ -37,63 +37,64 @@ MainWindow::~MainWindow()
 void MainWindow::on_pButton_LoadImage_clicked()
 {
 
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if (!fileName.isEmpty()){
+        if (mainController->loadImage(fileName)) {
 
-    if (mainController->loadImage(filename)) {
+            // Changes on PushButtons:
+            ui->pButton_LoadImage->setEnabled(false);
+            ui->pButton__AdjustImageSize->setEnabled(true);
+            ui->pButton__NormalSize->setEnabled(true);
 
-        // Changes on PushButtons:
-        ui->pButton_LoadImage->setEnabled(false);
-        ui->pButton__AdjustImageSize->setEnabled(true);
-        ui->pButton__NormalSize->setEnabled(true);
+            //Enable QActions
+            ui->actionNew_Job->setEnabled(true);
+            ui->actionUndo->setEnabled(true);
+            ui->actionResize->setEnabled(true);
+            ui->actionChange_Color_Depth->setEnabled(true);
+            ui->actionSave->setEnabled(true);
 
-        //Enable QActions
-        ui->actionNew_Job->setEnabled(true);
-        ui->actionUndo->setEnabled(true);
-        ui->actionResize->setEnabled(true);
-        ui->actionChange_Color_Depth->setEnabled(true);
-        ui->actionSave->setEnabled(true);
+            if (mainController->getImage()->getImageType().toUpper()=="PPM") {
+                ui->actionConver_to_GrayScale->setEnabled(true);
+                ui->actionEqualization->setEnabled(true);
+            }
 
-        if (mainController->getImage()->getImageType().toUpper()=="PPM") {
-            ui->actionConver_to_GrayScale->setEnabled(true);
-            ui->actionEqualization->setEnabled(true);
+            if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+                ui->actionWeight_Average->setEnabled(true);
+                ui->actionAdd->setEnabled(true);
+                ui->actionSubstract->setEnabled(true);
+                ui->actionMultiply->setEnabled(true);
+                ui->actionDivide->setEnabled(true);
+                ui->actionThreshold->setEnabled(true);
+                ui->actionEqualization->setEnabled(true);
+                ui->actionMean->setEnabled(true);
+            }
+
+            // Changes on labels
+            ui->label_Density->setEnabled(true);
+            ui->label_Dimensions->setEnabled(true);
+            ui->label_ImageType->setEnabled(true);
+
+            // Set text on Labels with image info
+            ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
+                                               "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
+            ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
+            ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
+
+            // Set Image to label_Imagen
+            displayedImage=mainController->getQImage();
+
+            // Display Image in Original Size
+            on_pButton__NormalSize_clicked();
+            ShowHistogram();
+
+
+        } else {
+            QMessageBox msgBox(this);
+            msgBox.setText("Sorry, but the selected file is not supported");
+            msgBox.exec();
+            delete mainController;
+            mainController=0;
         }
-
-        if (mainController->getImage()->getImageType().toUpper()=="PGM") {
-            ui->actionWeight_Average->setEnabled(true);
-            ui->actionAdd->setEnabled(true);
-            ui->actionSubstract->setEnabled(true);
-            ui->actionMultiply->setEnabled(true);
-            ui->actionDivide->setEnabled(true);
-            ui->actionThreshold->setEnabled(true);
-            ui->actionEqualization->setEnabled(true);
-            ui->actionMean->setEnabled(true);
-        }
-
-        // Changes on labels
-        ui->label_Density->setEnabled(true);
-        ui->label_Dimensions->setEnabled(true);
-        ui->label_ImageType->setEnabled(true);
-
-        // Set text on Labels with image info
-        ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
-                                           "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
-        ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
-        ui->label_ImageTypeValue->setText(mainController->getImage()->getImageType());
-
-        // Set Image to label_Imagen
-        displayedImage=mainController->getQImage();
-
-        // Display Image in Original Size
-        on_pButton__NormalSize_clicked();
-        ShowHistogram();
-
-
-    } else {
-        QMessageBox msgBox(this);
-        msgBox.setText("Sorry, but the selected file is not supported");
-        msgBox.exec();
-        delete mainController;
-        mainController=0;
     }
 }
 
