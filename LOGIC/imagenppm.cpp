@@ -320,11 +320,7 @@ ImagenPGM* ImagenPPM::convertToGrayScale(int method){
         }
     }
 
-    result = new ImagenPGM ("P2",
-                            height,
-                            width,
-                            colorDepth,
-                            grayScaleMatrix);
+    result = new ImagenPGM (height, width, colorDepth, grayScaleMatrix);
 
     for (int i=0; i < height; i++)
         delete grayScaleMatrix[i];

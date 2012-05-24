@@ -57,8 +57,8 @@ ImagenPGM::ImagenPGM(QString filename){
 
 }
 
-ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
-    this->identification=id;
+ImagenPGM::ImagenPGM(int h, int w, int colorD, int **matrix){
+    this->identification="P2";
     this->height=h;
     this->width=w;
     this->colorDepth=colorD;
@@ -75,18 +75,21 @@ ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int **matrix){
     for (int i=0; i < height; i++)
         matrixImagenP[i]=new int*[width];
 
+    QTextStream (stdout) <<"entro al constructor: matrix cero cero="<<matrix[0][0]<<endl;
+
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
             matrixImagenP[i][j]=&lut[matrix[i][j]];
+            QTextStream (stdout) <<"matrixImagenP["<<i<<"]["<<j<<"]: "<<*matrixImagenP[i][j]<<endl;
         }
     }
     generateHistogram();
     generateQImage();
 }
 
-ImagenPGM::ImagenPGM(QString id, int h, int w, int colorD, int ***matrixP, int *lut){
+ImagenPGM::ImagenPGM(int h, int w, int colorD, int ***matrixP, int *lut){
 
-    this->identification=id;
+    this->identification="P2";
     this->width=w;
     this->height=h;
     this->colorDepth=colorD;
@@ -144,11 +147,7 @@ Image* ImagenPGM::changeSize(int factor){
                 resizedMatrix[i][j]=*(matrixImagenP[(int)floor(i/factor)][(int)floor(j/factor)]);
             }
         }
-        resizedImage = new ImagenPGM (identification,
-                                      w,
-                                      h,
-                                      colorDepth,
-                                      resizedMatrix);
+        resizedImage = new ImagenPGM (w, h, colorDepth, resizedMatrix);
 
         for (int i=0; i < h; i++)
             delete resizedMatrix[i];
@@ -171,11 +170,7 @@ Image* ImagenPGM::changeSize(int factor){
             }
         }
 
-        resizedImage = new ImagenPGM (identification,
-                                      w,
-                                      h,
-                                      colorDepth,
-                                      resizedMatrix);
+        resizedImage = new ImagenPGM (w, h, colorDepth, resizedMatrix);
 
         for (int i=0; i < h; i++)
             delete resizedMatrix[i];
@@ -193,7 +188,7 @@ Image* ImagenPGM::changeColorDepth(int bits){
         aux=qRound((newColorDepth/colorDepth)*lut[i]);
         lut[i]=aux;
     }
-    return new ImagenPGM (identification, height, width, newColorDepth, matrixImagenP, lut);
+    return new ImagenPGM (height, width, newColorDepth, matrixImagenP, lut);
 }
 
 Image* ImagenPGM::average(ImagenPGM *image, double alpha){
@@ -208,7 +203,7 @@ Image* ImagenPGM::average(ImagenPGM *image, double alpha){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,averageMatrix);
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, averageMatrix);
 
     for (int i=0; i < height; i++)
         delete averageMatrix[i];
@@ -235,7 +230,7 @@ Image* ImagenPGM::add(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,addMatrix);
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, addMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -263,7 +258,7 @@ Image* ImagenPGM::subtract(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,subtractMatrix);
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, subtractMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -285,7 +280,7 @@ Image* ImagenPGM::multiply(ImagenPGM *image){
         }
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,multiplyMatrix);
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, multiplyMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -315,7 +310,7 @@ Image* ImagenPGM::divide(ImagenPGM *image){
         }cout<<endl;
     }
 
-    ImagenPGM *result = new ImagenPGM(identification,height,width,colorDepth,divideMatrix);
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, divideMatrix);
 
 
     for (int i=0; i < height; i++)
@@ -334,7 +329,7 @@ Image* ImagenPGM::bimodalSegmentaion(int T){
             lut[i]=colorDepth;
         }
     }
-    return new ImagenPGM(identification, height, width, colorDepth, matrixImagenP, lut);
+    return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
 
 }
 
@@ -344,12 +339,7 @@ Image* ImagenPGM::histogramEqualization(int *newlut){
         lut[i]=newlut[i];
     }
 
-    return new ImagenPGM (identification,
-                          height,
-                          width,
-                          colorDepth,
-                          matrixImagenP,
-                          lut);
+    return new ImagenPGM (height, width, colorDepth, matrixImagenP, lut);
 }
 
 // Getters
@@ -393,48 +383,79 @@ void ImagenPGM::generateHistogram(){
 }
 
 // Filters
-void ImagenPGM::applyKernel(int **kernel,int size){
-    int inicial_position=floor(size/2);
-    for (int i = inicial_position; i < height-inicial_position; ++i) {
-        for (int j = inicial_position; j < width-inicial_position; ++j) {
-            applyKerneltoPixel(i,j,kernel,size);
+Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
+
+    QTextStream cout (stdout);
+
+    int newWidth = width -2*floor(kernelSize/2);
+    int newHeight = height -2*floor(kernelSize/2);
+
+    //    cout<<"newWidth: "<<newWidth<<endl;
+    //    cout<<"newHeight: "<<newHeight<<endl;
+
+    int** resultMatrix = new int*[newHeight];
+    for (int i = 0; i < newHeight; ++i) {
+        resultMatrix[i] = new int[newWidth];
+    }
+
+    int inicial_position=floor(kernelSize/2);
+    for (int i = inicial_position; i <= newHeight; ++i) {
+        for (int j = inicial_position; j <= newWidth; ++j) {
+            applyKerneltoPixel(i,j,kernel,kernelSize,resultMatrix);
         }
     }
+
+    ImagenPGM *imageResult = new ImagenPGM (newHeight, newWidth, colorDepth, resultMatrix);
+
+        for (int i = 0; i < newHeight; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+                cout<<"eliminando ok el: "<<i<<endl;
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+
+    return imageResult;
 }
 
-void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel,int size){
+void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int **matrix){
+
+    int fix = floor(kernelSize/2);
     int ii=0,jj=0,newPixel=0;
-    for (int x = 0; x < size; ++x) {
-        ii=(floor(size/2)*-1)+x+i;
-        for (int y = 0; y < size; ++y) {
-            jj=(floor(size/2)*-1)+y+j;
+    for (int x = 0; x < kernelSize; ++x) {
+        ii=(floor(kernelSize/2)*-1)+x+i;
+        for (int y = 0; y < kernelSize; ++y) {
+            jj=(floor(kernelSize/2)*-1)+y+j;
             newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
         }
     }
-    matrixImagenP[i][j]=&lut[qRound(newPixel/pow(size,2))];
+    matrix[i-fix][j-fix]=qRound(newPixel/pow(kernelSize,2));
+    if (i<20) {
+        QTextStream (stdout) <<"matrix["<<i<<"]["<<j<<"]"<<matrix[i][j]<<" ";
+    }
+
 }
 
-Image *ImagenPGM::meanFilter(int kernelSize){
-    int **kernel = new int*[kernelSize];
-    for (int i = 0; i < kernelSize; ++i)
+Image* ImagenPGM::meanFilter(int kernelSize){
+
+    int **kernel= new int*[kernelSize];
+    for (int i = 0; i < kernelSize; ++i) {
         kernel[i]=new int[kernelSize];
+    }
 
     for (int i = 0; i < kernelSize; ++i) {
         for (int j = 0; j < kernelSize; ++j) {
             kernel[i][j]=1;
-
         }
     }
-
-    applyKernel(kernel, kernelSize);
-    return new ImagenPGM (identification, height, width, colorDepth, matrixImagenP, lut);
-
+    return applyKernel(kernel, kernelSize);
 }
 
 Image *ImagenPGM::convolutionFilter(int **kernel, int size){
 
     applyKernel(kernel,size);
-    return new ImagenPGM (identification, height, width, colorDepth, matrixImagenP, lut);
+    return new ImagenPGM (height, width, colorDepth, matrixImagenP, lut);
 }
 
 // Export

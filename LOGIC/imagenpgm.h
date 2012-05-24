@@ -36,22 +36,20 @@ class ImagenPGM: public Image{
 
     void generateHistogram();
     void generateQImage();
-    void applyKernel(int** kernel,int size);
-    void applyKerneltoPixel(int i,int j,int ** kernel,int size);
+    Image* applyKernel(int** kernel,int kernelSize);
+    void applyKerneltoPixel(int i,int j,int **kernel, int size, int **matrix);
 
 public:
 
     //Constructors
     ImagenPGM(QString filename);
 
-    ImagenPGM(QString identification,
-              int h,
+    ImagenPGM(int h,
               int w,
               int colorD,
               int **matrix);
 
-    ImagenPGM(QString identification,
-              int h,
+    ImagenPGM(int h,
               int w,
               int colorD,
               int ***matrixP,
