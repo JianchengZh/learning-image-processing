@@ -75,12 +75,9 @@ ImagenPGM::ImagenPGM(int h, int w, int colorD, int **matrix){
     for (int i=0; i < height; i++)
         matrixImagenP[i]=new int*[width];
 
-    QTextStream (stdout) <<"entro al constructor: matrix cero cero="<<matrix[0][0]<<endl;
-
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
             matrixImagenP[i][j]=&lut[matrix[i][j]];
-            QTextStream (stdout) <<"matrixImagenP["<<i<<"]["<<j<<"]: "<<*matrixImagenP[i][j]<<endl;
         }
     }
     generateHistogram();
@@ -385,14 +382,6 @@ void ImagenPGM::generateHistogram(){
 // Filters
 Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
 
-   // QTextStream cout (stdout);
-
-    //int newWidth = width -2*floor(kernelSize/2);
-   // int newHeight = height -2*floor(kernelSize/2);
-
-        //cout<<"newWidth: "<<newWidth<<" "<<floor(kernelSize/2)<<endl;
-       // cout<<"newHeight: "<<newHeight<<endl;
-
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
         resultMatrix[i] = new int[width];
@@ -403,8 +392,6 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
             resultMatrix[i][j]=*matrixImagenP[i][j];
         }
     }
-
-
 
     int inicial_position=floor(kernelSize/2);
     for (int i = inicial_position; i < height-inicial_position; ++i) {
@@ -418,7 +405,6 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
         for (int i = 0; i < height; ++i) {
             delete resultMatrix[i];
             resultMatrix[i]=0;
-            //    cout<<"eliminando ok el: "<<i<<endl;
         }
 
     delete resultMatrix;
@@ -429,7 +415,6 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
 
 void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int **matrix){
 
-   // int fix = floor(kernelSize/2);
     int ii=0,jj=0,newPixel=0;
     for (int x = 0; x < kernelSize; ++x) {
         ii=(floor(kernelSize/2)*-1)+x+i;
@@ -439,10 +424,6 @@ void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int
         }
     }
     matrix[i][j]=qRound(newPixel/pow(kernelSize,2));
-    if (i<20) {
- //       QTextStream (stdout) <<"matrix["<<i<<"]["<<j<<"]"<<matrix[i][j]<<" ";
-    }
-
 }
 
 Image* ImagenPGM::meanFilter(int kernelSize){
@@ -461,9 +442,7 @@ Image* ImagenPGM::meanFilter(int kernelSize){
 }
 
 Image *ImagenPGM::convolutionFilter(int **kernel, int size){
-
-    applyKernel(kernel,size);
-    return new ImagenPGM (height, width, colorDepth, matrixImagenP, lut);
+    return applyKernel(kernel,size);
 }
 
 // Export
