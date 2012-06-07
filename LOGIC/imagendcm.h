@@ -42,6 +42,7 @@ class ImagenDCM : public Image{
     void generateQImage();
     int getDensity(int x, int y);
     int appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept);
+    int pixelWindowLevel(int pixelValue, int window, int center);
 
 public:
 

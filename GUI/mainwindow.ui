@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>UNIVALLE.jpg</normaloff>UNIVALLE.jpg</iconset>
+    <normaloff>UNIVALLE.ppm</normaloff>UNIVALLE.ppm</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">

@@ -50,7 +50,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
             lut = new int [lutSize];
             for (int i = 0; i < lutSize; ++i){
                 lut[i]=i-abs(minDensity);
-                QTextStream (stdout)<<"LUT["<<i<<"]: "<<lut[i]<<endl;
+//                QTextStream (stdout)<<"LUT["<<i<<"]: "<<lut[i]<<endl;
             }
 
             matrixImagenP = new int**[height];
@@ -60,9 +60,9 @@ ImagenDCM::ImagenDCM(const char *fileName){
             for(int i=0; i<height; i++){
                 for(int j=0; j<width; j++){
                     matrixImagenP[i][j]=&lut[getDensity(j,i)+abs(minDensity)];
-                    QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
+//                    QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
                 }
-                QTextStream (stdout) <<""<<endl;
+//                QTextStream (stdout) <<""<<endl;
             }
 
             applyWindowLevel(400,40);
@@ -139,31 +139,31 @@ int ImagenDCM::getDensity(int x, int y)
 
 void ImagenDCM::applyWindowLevel(int window, int level){
 
-    double min = level - ceil(window/2);
-    double max = level + floor(window/2);
-    double newPixelValue, pixelValue;
-
+    // Reset the lut Table;
     for (int i = 0; i < lutSize; ++i){
         lut[i]=i-abs(minDensity);
     }
 
     for (int i = 0; i < lutSize; ++i){
-
-        if (lut[i]>=min && lut[i]<=max) {
-
-            pixelValue=lut[i];
-            newPixelValue= (pixelValue-min)*(255/(max-min));
-            lut[i]=newPixelValue;
-
-        } else{
-            if(lut[i]>max){
-                lut[i]=255;
-            } else{
-                lut[i]=0;
-            }
-        }
+        lut[i]=pixelWindowLevel(lut[i], window, level);
     }
     generateQImage();
+}
+
+int ImagenDCM::pixelWindowLevel(int pixelValue, int window, int center){
+
+    double ymin = 0;
+    double ymax = 255;
+    double y;
+
+    if(pixelValue <= center - 0.5 - (window-1)/2)
+        y = ymin;
+    else if (pixelValue > center - 0.5 + (window-1)/2)
+        y = ymax;
+    else
+        y = ((pixelValue - (center - 0.5)) / (window-1) + 0.5) * (ymax - ymin)+ ymin;
+
+    return y;
 }
 
 int ImagenDCM::appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept){ // Not it use!
