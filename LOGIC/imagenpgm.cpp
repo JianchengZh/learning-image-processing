@@ -380,7 +380,7 @@ void ImagenPGM::generateHistogram(){
 }
 
 // Filters
-Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
+Image* ImagenPGM::applyKernel(int **kernel, int kernelSizeX, int kernelSizeY){
 
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
@@ -393,10 +393,10 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
         }
     }
 
-    int inicial_position=floor(kernelSize/2);
+    int inicial_position=floor(kernelSizeX/2);
     for (int i = inicial_position; i < height-inicial_position; ++i) {
         for (int j = inicial_position; j < width-inicial_position; ++j) {
-            applyKerneltoPixel(i,j,kernel,kernelSize,resultMatrix);
+            applyKerneltoPixel(i,j,kernel,kernelSizeX,kernelSizeY,resultMatrix);
         }
     }
 
@@ -413,20 +413,22 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSize){
     return imageResult;
 }
 
-void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSize, int **matrix){
+void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix){
 
-    int ii=0,jj=0,newPixel=0;
-    for (int x = 0; x < kernelSize; ++x) {
-        ii=(floor(kernelSize/2)*-1)+x+i;
-        for (int y = 0; y < kernelSize; ++y) {
-            jj=(floor(kernelSize/2)*-1)+y+j;
+    int ii=0,jj=0,newPixel=0,div=0;
+    for (int x = 0; x < kernelSizeX; ++x) {
+        ii=(floor(kernelSizeX/2)*-1)+x+i;
+        for (int y = 0; y < kernelSizeY; ++y) {
+            jj=(floor(kernelSizeY/2)*-1)+y+j;
             newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
+            div+=abs(kernel[x][y]);
             //QTextStream (stdout) <<"newPixel: "<<newPixel;
         }
     }
-    if(qRound(newPixel/pow(kernelSize,2))>=0&&qRound(newPixel/pow(kernelSize,2))<256)
-        matrix[i][j]=qRound(newPixel/pow(kernelSize,2));
-    else if (qRound(newPixel/pow(kernelSize,2))<0)
+    int cond=qRound(newPixel/div);
+    if(cond>=0&&cond<256)
+        matrix[i][j]=cond;
+    else if (cond<0)
         matrix[i][j]=0;
     else
         matrix[i][j]=255;
@@ -444,11 +446,11 @@ Image* ImagenPGM::meanFilter(int kernelSize){
             kernel[i][j]=1;
         }
     }
-    return applyKernel(kernel, kernelSize);
+    return applyKernel(kernel, kernelSize,kernelSize);
 }
 
 Image *ImagenPGM::convolutionFilter(int **kernel, int size){
-    return applyKernel(kernel,size);
+    return applyKernel(kernel,size,size);
 }
 
 // Export

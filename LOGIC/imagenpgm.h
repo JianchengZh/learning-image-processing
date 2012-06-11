@@ -36,8 +36,8 @@ class ImagenPGM: public Image{
 
     void generateHistogram();
     void generateQImage();
-    Image* applyKernel(int** kernel,int kernelSize);
-    void applyKerneltoPixel(int i,int j,int **kernel, int size, int **matrix);
+    Image* applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
+    void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
 
 public:
 
