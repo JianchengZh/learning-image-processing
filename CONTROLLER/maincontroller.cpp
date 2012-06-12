@@ -206,12 +206,17 @@ void MainController::convolutionFilter(int **kernel, int size){
     imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
 }
 
+void MainController::gaussianaFilter(int sigma, int size){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(sigma,size);
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 
     static_cast<ImagenDCM*>(imagen)->applyWindowLevel(window,level);
 }
-
 
 // Getters
 Image* MainController::getImage(){

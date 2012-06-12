@@ -453,6 +453,27 @@ Image *ImagenPGM::convolutionFilter(int **kernel, int size){
     return applyKernel(kernel,size,size);
 }
 
+Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
+   // int kernelSize = (2*r) + 1;
+    double g=0,gmin=2*3.1416*pow(sigma,2);
+
+    int **kernel= new int*[kernelSize];
+    for (int i = 0; i < kernelSize; ++i) {
+        kernel[i]=new int[kernelSize];
+    }
+    QTextStream cout (stdout);
+    cout<< kernelSize <<" "<<gmin<<" "<<sigma<<endl;
+    for (int i = 0; i < kernelSize; ++i) {
+        for (int j = 0; j < kernelSize; ++j) {
+            g=exp(-1*((pow(i,2)+pow(j,2))/(2*pow(sigma,2))));
+            if (g<gmin) {gmin=g;}
+            kernel[i][j]=round(g*gmin);
+            cout<<g<<" "<<gmin<<" "<<round(g*gmin)<<" | ";
+        }cout<<endl;
+    }
+    return applyKernel(kernel,kernelSize,kernelSize);
+}
+
 // Export
 void ImagenPGM::saveImage(QString filename){
 

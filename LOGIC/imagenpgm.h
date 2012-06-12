@@ -73,6 +73,7 @@ public:
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
+    Image *gaussianaFilter(int sigma, int kernelSize);
 
     // Getters
     int ***getMatrix();

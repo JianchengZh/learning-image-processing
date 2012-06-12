@@ -64,6 +64,7 @@ public:
     //Filter
     void meanFilter(int size);
     void convolutionFilter(int **kernel, int size);
+    void gaussianaFilter(int sigma, int size);
 
     // DICOM
     void applyWindowLevel(int window, int level);

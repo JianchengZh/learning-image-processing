@@ -460,6 +460,7 @@ background-color: rgb(255, 255, 255);</string>
     </property>
     <addaction name="actionMean"/>
     <addaction name="actionConvolution"/>
+    <addaction name="actionGaussiana"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -666,6 +667,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Convolution</string>
+   </property>
+  </action>
+  <action name="actionGaussiana">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Gaussiana</string>
    </property>
   </action>
  </widget>

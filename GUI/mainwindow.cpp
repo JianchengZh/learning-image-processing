@@ -68,6 +68,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionEqualization->setEnabled(true);
                 ui->actionMean->setEnabled(true);
                 ui->actionConvolution->setEnabled(true);
+                ui->actionGaussiana->setEnabled(true);
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -154,6 +155,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionSave->setEnabled(false);
     ui->actionMean->setEnabled(false);
     ui->actionConvolution->setEnabled(false);
+    ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
 
     // Changes on labels
@@ -415,6 +417,37 @@ void MainWindow::on_actionConvolution_triggered()
     ui->widget_options = new ConvolutionQwidget(ui->centralWidget, mainController, this);
     ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
     ui->widget_options->setVisible(true);
+}
+
+
+void MainWindow::on_actionGaussiana_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+
+        QStringList items;
+        items << tr("3X3") << tr("5X5") << tr("9x9");
+
+        bool ok;
+        QString item = QInputDialog::getItem(this, tr("Select Ker"),
+                                             tr("Kernel Size:"), items, 0, false, &ok);
+        if (ok && !item.isEmpty()){
+            if(item=="3X3"){
+                mainController->gaussianaFilter(1.0,3);
+            }else if(item=="5x5"){
+                mainController->gaussianaFilter(1.0,5);
+            }else{
+                mainController->gaussianaFilter(1.0,5);
+            }
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
+
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }
 
 // DICOM Menu
