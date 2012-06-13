@@ -453,3 +453,13 @@ void MainWindow::ShowHistogram(){
     ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
 
+
+void MainWindow::on_pushButton_clicked()
+{
+    QPainter painter(displayedImage);
+    painter.setPen(Qt::black);
+    painter.drawLine(10,10,50,50);
+    on_pButton__NormalSize_clicked();
+
+}
+

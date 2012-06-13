@@ -25,9 +25,11 @@
 #include <QFileDialog>
 #include <QApplication>
 #include <QPixmap>
+#include <QPainter>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QErrorMessage>
+#include <QPoint>
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
@@ -102,6 +104,8 @@ private slots:
 
     // Help Menu
     void on_actionAbout_triggered();
+
+    void on_pushButton_clicked();
 
 private:
 
