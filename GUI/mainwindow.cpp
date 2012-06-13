@@ -33,7 +33,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Buttons Events
+//**********************************************************
+//**********************************************************
+// Buttons Events
+//**********************************************************
+//**********************************************************
 void MainWindow::on_pButton_LoadImage_clicked()
 {
 
@@ -136,9 +140,15 @@ void MainWindow::on_pButton__NormalSize_clicked()
     originalPixmap=*ui->label_Imagen->pixmap();
 }
 
+//**********************************************************
+//**********************************************************
 // MenuBar Events
+//**********************************************************
+//**********************************************************
 
+//**********************************************************
 // File Menu
+//**********************************************************
 void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
@@ -199,23 +209,6 @@ void MainWindow::on_actionNew_Job_triggered()
     mainController=new MainController();
 }
 
-
-
-// Edit Menu
-void MainWindow::on_actionUndo_triggered()
-{
-    if (mainController->undo()) {
-        displayedImage=mainController->getQImage();
-        ShowHistogram();
-        on_pButton__NormalSize_clicked();
-    }else{
-        QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry, but there is nothing to undo");
-        msgBox2.exec();
-    }
-
-}
-
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
@@ -231,7 +224,26 @@ void MainWindow::on_actionExit_triggered()
     this->close();
 }
 
-// Global Transfomations
+//**********************************************************
+// Edit Menu
+//**********************************************************
+void MainWindow::on_actionUndo_triggered()
+{
+    if (mainController->undo()) {
+        displayedImage=mainController->getQImage();
+        ShowHistogram();
+        on_pButton__NormalSize_clicked();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry, but there is nothing to undo");
+        msgBox2.exec();
+    }
+
+}
+
+//**********************************************************
+// Global Transfomations Menu
+//**********************************************************
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
@@ -361,8 +373,11 @@ void MainWindow::on_actionDivide_triggered()
     }
 }
 
+//**********************************************************
 // Histogram Menu
-void MainWindow::on_actionThreshold_triggered(){
+//**********************************************************
+void MainWindow::on_actionThreshold_triggered()
+{
     if (ui->widget_options!=0) {
         delete ui->widget_options;
         ui->widget_options=0;
@@ -386,8 +401,9 @@ void MainWindow::on_actionEqualization_triggered()
     }
 }
 
-//Filter
-
+//**********************************************************
+// Filters Menu
+//**********************************************************
 void MainWindow::on_actionMean_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
@@ -429,7 +445,6 @@ void MainWindow::on_actionConvolution_triggered()
     ui->widget_options->setVisible(true);
 }
 
-
 void MainWindow::on_actionGaussiana_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
@@ -460,14 +475,45 @@ void MainWindow::on_actionGaussiana_triggered()
     }
 }
 
-//Edge Detection Menu
+void MainWindow::on_actionNoise_Cleaning_Line_triggered()
+{
+
+}
+
+void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
+{
+
+}
+
+//**********************************************************
+// Contrast Menu
+//**********************************************************
+void MainWindow::on_actionGamma_Correction_triggered()
+{
+
+}
+
+void MainWindow::on_actionStretching_triggered()
+{
+
+}
+
+//**********************************************************
+// Edge Detection Menu
+//**********************************************************
 void MainWindow::on_actionSobel_triggered()
 {
 
 }
 
+void MainWindow::on_actionCanny_triggered()
+{
 
+}
+
+//**********************************************************
 // DICOM Menu
+//**********************************************************
 void MainWindow::on_actionWindow_Level_triggered()
 {
     if (ui->widget_options!=0) {
@@ -479,7 +525,9 @@ void MainWindow::on_actionWindow_Level_triggered()
     ui->widget_options->setVisible(true);
 }
 
+//**********************************************************
 // Help Menu
+//**********************************************************
 void MainWindow::on_actionAbout_triggered()
 {
     DialogAbout about(this);
@@ -487,7 +535,11 @@ void MainWindow::on_actionAbout_triggered()
     about.exec();
 }
 
+//**********************************************************
+//**********************************************************
 // Other Methods
+//**********************************************************
+//**********************************************************
 void MainWindow::displayResults(QImage *result)
 {
     displayedImage=result;
@@ -515,7 +567,6 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
     ui->label_Imagen->setPixmap(pixmap);
 }
 
-
 void MainWindow::on_label_Imagen_eraseLine()
 {
     ui->label_Imagen->setPixmap(originalPixmap);
@@ -526,7 +577,7 @@ void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
     ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
 }
 
-void MainWindow::on_actionNoise_Cleaning_Line_triggered()
-{
 
-}
+
+
+

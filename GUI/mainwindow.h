@@ -65,10 +65,8 @@ public:
 
 private slots:
 
-    // Load Image
+    // Buttons Events
     void on_pButton_LoadImage_clicked();
-
-    // Events for changing the image size on the main screen
     void on_pButton__AdjustImageSize_clicked();
     void on_pButton__NormalSize_clicked();
 
@@ -82,11 +80,10 @@ private slots:
     // Edit Menu
     void on_actionUndo_triggered();
 
-    // Global Transformations
+    // Global Transformations Menu
     void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
-
     void on_actionWeight_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
@@ -97,13 +94,20 @@ private slots:
     void on_actionThreshold_triggered();
     void on_actionEqualization_triggered();
 
-    //Filter
+    //Filters Menu
     void on_actionMean_triggered();
     void on_actionConvolution_triggered();
     void on_actionGaussiana_triggered();
+    void on_actionNoise_Cleaning_Line_triggered();
+    void on_actionNoise_Cleaning_Pixel_triggered();
 
-    //Edge Detection
+    // Contrast Menu
+    void on_actionGamma_Correction_triggered();
+    void on_actionStretching_triggered();
+
+    // Edge Detection Menu
     void on_actionSobel_triggered();
+    void on_actionCanny_triggered();
 
     // DICOM Menu
     void on_actionWindow_Level_triggered();
@@ -111,13 +115,10 @@ private slots:
     // Help Menu
     void on_actionAbout_triggered();
 
+    // Other Methods
     void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
-
     void on_label_Imagen_eraseLine();
-
     void on_label_Imagen_mousePosition(const QPoint position);
-
-    void on_actionNoise_Cleaning_Line_triggered();
 
 private:
 
