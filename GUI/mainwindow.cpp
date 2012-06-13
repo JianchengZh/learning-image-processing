@@ -116,14 +116,6 @@ void MainWindow::on_pButton_LoadImage_clicked()
     }
 }
 
-//void MainWindow::on_pButton__AdjustImageSize_clicked()
-//{
-//    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-//    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
-//    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
-//    originalPixmap=*ui->label_Imagen->pixmap();
-//}
-
 void MainWindow::on_pButton__NormalSize_clicked()
 {
     // if width and height of the image are bigger than the display Area
@@ -154,7 +146,8 @@ void MainWindow::on_pButton__NormalSize_clicked()
     }
 
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
-    originalPixmap=*ui->label_Imagen->pixmap();
+    pixmapLabelImagen=*ui->label_Imagen->pixmap();
+
 }
 
 //**********************************************************
@@ -585,10 +578,53 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
 
 void MainWindow::on_label_Imagen_eraseLine()
 {
-    ui->label_Imagen->setPixmap(originalPixmap);
+    ui->label_Imagen->setPixmap(pixmapLabelImagen);
 }
 
 void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
     ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+}
+
+void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
+{
+    if (ui->label_Imagen->pixmap()!=0) {
+
+        double newWidth= ui->label_Imagen->pixmap()->width()*(1+(factor/100));
+        double newHeight= ui->label_Imagen->pixmap()->height()*(1+(factor/100));;
+        QPixmap scaledPixmap = ui->label_Imagen->pixmap()->scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+
+        // if width and height of the image are bigger than the display Area
+        if(scaledPixmap.width()>ui->scrollAreaWidgetContents->width() && scaledPixmap.height()>ui->scrollAreaWidgetContents->height()){
+            ui->label_Imagen->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
+        }
+
+        // if just the width is bigger than the display area
+        else if (scaledPixmap.width()>ui->scrollAreaWidgetContents->width()) {
+            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
+            ui->label_Imagen->setGeometry(QRect(0, yPos, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), ui->scrollAreaWidgetContents->height()));
+        }
+
+        // if just the height is bigger than the display area
+        else if (scaledPixmap.height()>ui->scrollAreaWidgetContents->height()) {
+            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
+            ui->label_Imagen->setGeometry(QRect(xPos, 0, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), scaledPixmap.height()));
+        }
+
+        // if any of the cases above
+        else{
+            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
+            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
+            ui->label_Imagen->setGeometry(QRect(xPos, yPos, scaledPixmap.width(), displayedImage->height()));
+        }
+
+        ui->label_Imagen->setPixmap(scaledPixmap);
+        pixmapLabelImagen=*ui->label_Imagen->pixmap();
+    }
+    else{
+        ui->horizontalSlider_zoom->setValue(0);
+    }
 }

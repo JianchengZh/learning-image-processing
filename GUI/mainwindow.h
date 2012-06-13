@@ -124,13 +124,14 @@ private slots:
     void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
+    void on_horizontalSlider_zoom_sliderMoved(int factor);
 
 private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
-    QPixmap originalPixmap;
+    QPixmap pixmapLabelImagen;
 };
 
 #endif // MAINWINDOW_H
