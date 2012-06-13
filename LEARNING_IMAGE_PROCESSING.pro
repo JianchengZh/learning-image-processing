@@ -25,6 +25,7 @@ SOURCES += main.cpp\
     LOGIC/imagendcm.cpp \
     GUI/windowlevelqwidget.cpp \
     GUI/convolutionqwidget.cpp \
+    GUI/customqlabel.cpp \
     GUI/sobelqwidget.cpp
 
 HEADERS  += \
@@ -42,6 +43,7 @@ HEADERS  += \
     LOGIC/imagendcm.h \
     GUI/windowlevelqwidget.h \
     GUI/convolutionqwidget.h \
+    GUI/customqlabel.h \
     GUI/sobelqwidget.h
 
 FORMS    += \
@@ -53,6 +55,7 @@ FORMS    += \
     GUI/windowlevelqwidget.ui \
     GUI/convolutionqwidget.ui \
     GUI/sobelqwidget.ui
+    
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 
@@ -60,3 +63,6 @@ unix:!macx:!symbian: LIBS += -ldcmimgle
 unix:!macx:!symbian: LIBS += -ldcmdata
 unix:!macx:!symbian: LIBS += -loflog
 unix:!macx:!symbian: LIBS += -lofstd
+
+OTHER_FILES += \
+    GUI/UNIVALLE.ppm

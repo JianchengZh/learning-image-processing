@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1050</width>
-    <height>645</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1050</width>
-    <height>615</height>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1050</width>
-    <height>645</height>
+    <height>650</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -94,21 +94,6 @@
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QPushButton" name="pButton__AdjustImageSize">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Adjust Image Size</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <widget class="QPushButton" name="pButton__NormalSize">
        <property name="enabled">
@@ -314,9 +299,9 @@ background-color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="label_Univalle">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>270</x>
       <y>10</y>
-      <width>481</width>
+      <width>471</width>
       <height>31</height>
      </rect>
     </property>
@@ -364,7 +349,10 @@ background-color: rgb(255, 255, 255);</string>
        <height>550</height>
       </rect>
      </property>
-     <widget class="QLabel" name="label_Imagen">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <widget class="CustomQLabel" name="label_Imagen">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -384,6 +372,19 @@ background-color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_position">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -485,8 +486,8 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFilters"/>
    <addaction name="menuContrast"/>
    <addaction name="menuTomography"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuEdge_Detector"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -751,6 +752,21 @@ background-color: rgb(255, 255, 255);</string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CustomQLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">GUI/customqlabel.h</header>
+   <slots>
+    <signal>drawLine(QPoint,QPoint)</signal>
+    <signal>eraseLine()</signal>
+    <signal>mousePosition(QPoint)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
+ <slots>
+  <slot>drawLine(QPoint,QPoint)</slot>
+ </slots>
 </ui>
