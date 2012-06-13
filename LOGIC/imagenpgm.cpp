@@ -483,9 +483,8 @@ int* ImagenPGM::kernelGaussiana(int size){
     vectorActual = new int [size];
     vectorAux = new int [size];
     for (int i = 0; i < size; ++i) {
-        if(i==0){vectorActual[i]=1;}
         for (int j = 0; j <=i; ++j) {
-            if(i==j){vectorAux[j]=vectorActual[i-j];}
+            if(i==j){vectorAux[j]=1;}
             else if(j!=0){vectorAux[j]+=vectorActual[i-j];}
         }
         for (int r = 0; r <= i; ++r) {
@@ -502,11 +501,6 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
    // double g=0,gmin=2*3.1416*pow(sigma,2);
     QTextStream cout (stdout);
     int *vectorKernel=kernelGaussiana(kernelSize);
-
-    for (int i = 0; i < kernelSize; ++i) {
-        cout << vectorKernel[i]<<" ";
-    }cout<<endl<<endl;
-
 
     int **kernel= new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i) {
