@@ -25,7 +25,7 @@ SOURCES += main.cpp\
     LOGIC/imagendcm.cpp \
     GUI/windowlevelqwidget.cpp \
     GUI/convolutionqwidget.cpp \
-    GUI/customqlabel.cpp
+    GUI/customqlabel.cpp \
     GUI/sobelqwidget.cpp
 
 HEADERS  += \
@@ -43,7 +43,7 @@ HEADERS  += \
     LOGIC/imagendcm.h \
     GUI/windowlevelqwidget.h \
     GUI/convolutionqwidget.h \
-    GUI/customqlabel.h
+    GUI/customqlabel.h \
     GUI/sobelqwidget.h
 
 FORMS    += \

@@ -501,8 +501,8 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFilters"/>
    <addaction name="menuContrast"/>
    <addaction name="menuTomography"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuEdge_Detector"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionExit">
    <property name="text">

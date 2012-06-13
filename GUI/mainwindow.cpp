@@ -119,16 +119,16 @@ void MainWindow::on_pButton__AdjustImageSize_clicked()
 void MainWindow::on_pButton__NormalSize_clicked()
 {
     if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
-//        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+        //        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
     }else if (displayedImage->width()>ui->label_Imagen->width()) {
-//        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
+        //        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
     }else if (displayedImage->height()>ui->label_Imagen->height()) {
-//        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
+        //        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
     }else{
-//        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+        //        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
     ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
@@ -163,10 +163,10 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConvolution->setEnabled(false);
     ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
-    ui->actionNoise_Cleaning_Line-setEnabled(false);
-    ui->actionNoise_Cleaning_Pixel-setEnabled(false);
-    ui->actionStretching-setEnabled(false);
-    ui->actionGamma_Correction-setEnabled(false);
+    ui->actionNoise_Cleaning_Line->setEnabled(false);
+    ui->actionNoise_Cleaning_Pixel->setEnabled(false);
+    ui->actionStretching->setEnabled(false);
+    ui->actionGamma_Correction->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -524,4 +524,9 @@ void MainWindow::on_label_Imagen_eraseLine()
 void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
     ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+}
+
+void MainWindow::on_actionNoise_Cleaning_Line_triggered()
+{
+
 }

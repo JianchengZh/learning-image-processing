@@ -117,6 +117,8 @@ private slots:
 
     void on_label_Imagen_mousePosition(const QPoint position);
 
+    void on_actionNoise_Cleaning_Line_triggered();
+
 private:
 
     Ui::MainWindow *ui;
