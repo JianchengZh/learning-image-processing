@@ -450,6 +450,13 @@ void MainWindow::on_actionGaussiana_triggered()
     }
 }
 
+//Edge Detection Menu
+void MainWindow::on_actionSobel_triggered()
+{
+
+}
+
+
 // DICOM Menu
 void MainWindow::on_actionWindow_Level_triggered()
 {

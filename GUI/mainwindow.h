@@ -98,13 +98,14 @@ private slots:
     void on_actionConvolution_triggered();
     void on_actionGaussiana_triggered();
 
+    //Edge Detection
+    void on_actionSobel_triggered();
+
     // DICOM Menu
     void on_actionWindow_Level_triggered();
 
     // Help Menu
     void on_actionAbout_triggered();
-
-
 
 private:
 

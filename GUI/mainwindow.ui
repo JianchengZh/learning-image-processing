@@ -462,6 +462,13 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionConvolution"/>
     <addaction name="actionGaussiana"/>
    </widget>
+   <widget class="QMenu" name="menuEdge_Detector">
+    <property name="title">
+     <string>Edge Detection</string>
+    </property>
+    <addaction name="actionSobel"/>
+    <addaction name="actionCanny"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
@@ -469,6 +476,7 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFilters"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuEdge_Detector"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -675,6 +683,16 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Gaussiana</string>
+   </property>
+  </action>
+  <action name="actionSobel">
+   <property name="text">
+    <string>Sobel</string>
+   </property>
+  </action>
+  <action name="actionCanny">
+   <property name="text">
+    <string>Canny</string>
    </property>
   </action>
  </widget>
