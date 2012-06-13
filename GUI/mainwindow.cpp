@@ -566,7 +566,7 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
     qDebug()<<"Coordenadas: X2= "<<end.x()<<" Y2= "<<end.y();
     QPixmap pixmap (*ui->label_Imagen->pixmap());
     QPainter painter(&pixmap);
-    QPen pen(Qt::green, 3, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
+    QPen pen(Qt::black, 2, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
     painter.drawLine(start.x(),start.y(),end.x(),end.y());
     ui->label_Imagen->setPixmap(pixmap);

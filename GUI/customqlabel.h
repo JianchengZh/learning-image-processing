@@ -51,6 +51,7 @@ signals:
 
 private:
     QPoint startPoint, endPoint;
+    bool lineDrawing;
 };
 
 #endif // CUSTOMQLABEL_H
