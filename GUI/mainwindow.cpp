@@ -52,7 +52,6 @@ void MainWindow::on_pButton_LoadImage_clicked()
 
             // Changes on PushButtons:
             ui->pButton_LoadImage->setEnabled(false);
-            ui->pButton__AdjustImageSize->setEnabled(true);
             ui->pButton__NormalSize->setEnabled(true);
 
             //Enable QActions
@@ -117,30 +116,43 @@ void MainWindow::on_pButton_LoadImage_clicked()
     }
 }
 
-void MainWindow::on_pButton__AdjustImageSize_clicked()
-{
-    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
-    originalPixmap=*ui->label_Imagen->pixmap();
-}
+//void MainWindow::on_pButton__AdjustImageSize_clicked()
+//{
+//    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+//    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
+//    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
+//    originalPixmap=*ui->label_Imagen->pixmap();
+//}
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
-    if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
-        //        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+    // if width and height of the image are bigger than the display Area
+    if(displayedImage->width()>ui->scrollAreaWidgetContents->width() && displayedImage->height()>ui->scrollAreaWidgetContents->height()){
+        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-    }else if (displayedImage->width()>ui->label_Imagen->width()) {
-        //        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
-    }else if (displayedImage->height()>ui->label_Imagen->height()) {
-        //        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
-    }else{
-        //        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
-    ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+
+    // if just the width is bigger than the display area
+    else if (displayedImage->width()>ui->scrollAreaWidgetContents->width()) {
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(0, yPos, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
+    }
+
+    // if just the height is bigger than the display area
+    else if (displayedImage->height()>ui->scrollAreaWidgetContents->height()) {
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, 0, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
+    }
+
+    // if any of the cases above
+    else{
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, yPos, displayedImage->width(), displayedImage->height()));
+    }
+
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
     originalPixmap=*ui->label_Imagen->pixmap();
 }
@@ -158,7 +170,6 @@ void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
     ui->pButton_LoadImage->setEnabled(true);
-    ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
 
     //Disable QActions
@@ -581,8 +592,3 @@ void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
     ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
 }
-
-
-
-
-

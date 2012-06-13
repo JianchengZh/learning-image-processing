@@ -95,21 +95,6 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QPushButton" name="pButton__AdjustImageSize">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Adjust Image Size</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="pButton__NormalSize">
        <property name="enabled">
         <bool>false</bool>

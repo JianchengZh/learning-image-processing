@@ -72,7 +72,7 @@ private slots:
 
     // Buttons Events
     void on_pButton_LoadImage_clicked();
-    void on_pButton__AdjustImageSize_clicked();
+//    void on_pButton__AdjustImageSize_clicked();
     void on_pButton__NormalSize_clicked();
 
     // MenuBar Events
