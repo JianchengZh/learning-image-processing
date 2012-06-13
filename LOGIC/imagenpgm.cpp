@@ -533,6 +533,104 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
     return applyKernel(createKernelFilter(vectorActual,kernelSize),kernelSize,kernelSize);
 }
 
+Image* ImagenPGM::noiseCleaningLine(int delta){
+    int** resultMatrix = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrix[i] = new int[width];
+        for (int j = 0; j < width; ++j) {
+            resultMatrix[i][j]=*matrixImagenP[i][j];
+        }
+    }
+    for(int i =1; i< height-1; i++){
+        for(int j =1; j< width-1; j++){
+            int test=*matrixImagenP[i][j], neighbors,sum=0;
+            sum+=*matrixImagenP[i][j-1];
+            sum+=*matrixImagenP[i][j-2];
+            sum+=*matrixImagenP[i][j+1];
+            sum+=*matrixImagenP[i][j+2];
+            neighbors = sum/4.0;
+
+            if(fabs(test - neighbors) > delta){
+                resultMatrix[i][j]=neighbors;
+            }else{
+                resultMatrix[i][j]=test;
+            }
+            int cond=resultMatrix[i][j];
+            if(cond>=0&&cond<256)
+                resultMatrix[i][j]=cond;
+            else if (cond<0)
+                resultMatrix[i][j]=0;
+            else
+                resultMatrix[i][j]=255;
+        }
+    }
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
+
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+
+    return imageResult;
+
+}
+
+
+Image* ImagenPGM::noiseCleaningPixel(int delta){
+    int** resultMatrix = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrix[i] = new int[width];
+        for (int j = 0; j < width; ++j) {
+            resultMatrix[i][j]=*matrixImagenP[i][j];
+        }
+    }
+
+    for(int i =1; i< height-1; i++){
+        for(int j =1; j< width-1; j++){
+            int test=*matrixImagenP[i][j], neighbors,sum=0;
+            sum+=*matrixImagenP[i-1][j-1];
+            sum+=*matrixImagenP[i-1][j];
+            sum+=*matrixImagenP[i-1][j+1];
+            sum+=*matrixImagenP[i][j-1];
+            sum+=*matrixImagenP[i][j+1];
+            sum+=*matrixImagenP[i+1][j-1];
+            sum+=*matrixImagenP[i+1][j];
+            sum+=*matrixImagenP[i+1][j+1];
+            neighbors = qRound(sum/8.0);
+
+            if(fabs(test - neighbors) > delta){
+                resultMatrix[i][j]=neighbors;
+            }else{
+                resultMatrix[i][j]=test;
+            }
+            int cond=resultMatrix[i][j];
+            if(cond>=0&&cond<256)
+                resultMatrix[i][j]=cond;
+            else if (cond<0)
+                resultMatrix[i][j]=0;
+            else
+                resultMatrix[i][j]=255;
+        }
+    }
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
+
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+
+    return imageResult;
+}
+
+
 int** ImagenPGM::createKernelFilter(int* vectorKernel, int kernelSize){
    // int kernelSize = (2*r) + 1;
    // double g=0,gmin=2*3.1416*pow(sigma,2);

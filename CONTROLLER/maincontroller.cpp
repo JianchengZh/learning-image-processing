@@ -228,6 +228,18 @@ void MainController::gaussianaFilter(int sigma, int size){
     imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(sigma,size);
 }
 
+void MainController::noiseCleaningLine(int delta){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningLine(delta);
+}
+
+void MainController::noiseCleaningPixel(int delta){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningPixel(delta);
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 

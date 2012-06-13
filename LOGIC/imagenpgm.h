@@ -79,7 +79,8 @@ public:
     Image *convolutionFilter(int **kernel,int size);
     int **createKernelFilter(int *vectorKernel, int kernelSize);
     Image *gaussianaFilter(int sigma, int kernelSize);
-
+    Image *noiseCleaningPixel(int delta);
+    Image *noiseCleaningLine(int delta);
     // Getters
     int ***getMatrix();
 
