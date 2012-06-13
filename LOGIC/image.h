@@ -23,6 +23,9 @@
 #include <QString>
 #include <QTextStream>
 #include "histogram.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 class Image
 {
