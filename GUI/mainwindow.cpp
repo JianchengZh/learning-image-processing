@@ -108,25 +108,27 @@ void MainWindow::on_pButton__AdjustImageSize_clicked()
     ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
     ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
+    originalPixmap=*ui->label_Imagen->pixmap();
 }
 
 void MainWindow::on_pButton__NormalSize_clicked()
 {
     if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
-        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+//        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
     }else if (displayedImage->width()>ui->label_Imagen->width()) {
-        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
+//        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
     }else if (displayedImage->height()>ui->label_Imagen->height()) {
-        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
+//        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
     }else{
-        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+//        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
     }
-
+    ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
+    originalPixmap=*ui->label_Imagen->pixmap();
 }
 
 // MenuBar Events
@@ -453,13 +455,20 @@ void MainWindow::ShowHistogram(){
     ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
 {
-    QPainter painter(displayedImage);
-    painter.setPen(Qt::black);
-    painter.drawLine(10,10,50,50);
-    on_pButton__NormalSize_clicked();
-
+    qDebug()<<"Coordenadas: X1= "<<start.x()<<" Y1= "<<start.y();
+    qDebug()<<"Coordenadas: X2= "<<end.x()<<" Y2= "<<end.y();
+    QPixmap pixmap (*ui->label_Imagen->pixmap());
+    QPainter painter(&pixmap);
+    QPen pen(Qt::green, 3, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen);
+    painter.drawLine(start.x(),start.y(),end.x(),end.y());
+    ui->label_Imagen->setPixmap(pixmap);
 }
 
+
+void MainWindow::on_label_Imagen_eraseLine()
+{
+    ui->label_Imagen->setPixmap(originalPixmap);
+}

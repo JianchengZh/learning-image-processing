@@ -314,9 +314,9 @@ background-color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="label_Univalle">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>270</x>
       <y>10</y>
-      <width>291</width>
+      <width>471</width>
       <height>31</height>
      </rect>
     </property>
@@ -364,7 +364,10 @@ background-color: rgb(255, 255, 255);</string>
        <height>550</height>
       </rect>
      </property>
-     <widget class="QLabel" name="label_Imagen">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <widget class="CustomQLabel" name="label_Imagen">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -384,19 +387,6 @@ background-color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>10</y>
-      <width>97</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>DrawLine</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -683,6 +673,17 @@ background-color: rgb(255, 255, 255);</string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CustomQLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">GUI/customqlabel.h</header>
+   <slots>
+    <signal>drawLine(QPoint,QPoint)</signal>
+    <signal>eraseLine()</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <slots>

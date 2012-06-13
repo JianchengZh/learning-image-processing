@@ -30,6 +30,8 @@
 #include <QInputDialog>
 #include <QErrorMessage>
 #include <QPoint>
+#include <QDebug>
+
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
@@ -105,13 +107,16 @@ private slots:
     // Help Menu
     void on_actionAbout_triggered();
 
-    void on_pushButton_clicked();
+    void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
+
+    void on_label_Imagen_eraseLine();
 
 private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
+    QPixmap originalPixmap;
 };
 
 #endif // MAINWINDOW_H
