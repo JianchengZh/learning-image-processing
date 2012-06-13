@@ -23,6 +23,7 @@ public slots:
 signals:
     void drawLine(QPoint start, QPoint end);
     void eraseLine();
+    void mousePosition(QPoint position);
 
 private:
     QPoint startPoint, endPoint;

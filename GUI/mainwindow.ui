@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1050</width>
-    <height>645</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1050</width>
-    <height>615</height>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1050</width>
-    <height>645</height>
+    <height>650</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -388,6 +388,19 @@ background-color: rgb(255, 255, 255);</string>
      </widget>
     </widget>
    </widget>
+   <widget class="QLabel" name="label_position">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -681,6 +694,7 @@ background-color: rgb(255, 255, 255);</string>
    <slots>
     <signal>drawLine(QPoint,QPoint)</signal>
     <signal>eraseLine()</signal>
+    <signal>mousePosition(QPoint)</signal>
    </slots>
   </customwidget>
  </customwidgets>

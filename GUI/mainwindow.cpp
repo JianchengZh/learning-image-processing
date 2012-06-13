@@ -472,3 +472,8 @@ void MainWindow::on_label_Imagen_eraseLine()
 {
     ui->label_Imagen->setPixmap(originalPixmap);
 }
+
+void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
+{
+    ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+}

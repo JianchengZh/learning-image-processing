@@ -111,6 +111,8 @@ private slots:
 
     void on_label_Imagen_eraseLine();
 
+    void on_label_Imagen_mousePosition(const QPoint position);
+
 private:
 
     Ui::MainWindow *ui;
