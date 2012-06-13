@@ -36,8 +36,8 @@ class ImagenPGM: public Image{
 
     void generateHistogram();
     void generateQImage();
-    Image* applyKernel(int** kernel,int kernelSize);
-    void applyKerneltoPixel(int i,int j,int **kernel, int size, int **matrix);
+    Image* applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
+    void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
 
 public:
 
@@ -70,10 +70,17 @@ public:
     Image *bimodalSegmentaion(int T);
     Image *histogramEqualization(int *newlut);
 
+    //Contrast
+    Image *gammaCorrection(double r);
+    Image *contrastStretching();
+
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
-
+    int **createKernelFilter(int *vectorKernel, int kernelSize);
+    Image *gaussianaFilter(int sigma, int kernelSize);
+    Image *noiseCleaningPixel(int delta);
+    Image *noiseCleaningLine(int delta);
     // Getters
     int ***getMatrix();
 

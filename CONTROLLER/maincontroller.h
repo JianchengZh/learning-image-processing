@@ -61,9 +61,16 @@ public:
     void otsuSegmentation();
     void isodataSegmentation();
 
+    //contrast
+    void gammaCorrection(double r);
+    void contrastStretching();
+
     //Filter
     void meanFilter(int size);
     void convolutionFilter(int **kernel, int size);
+    void gaussianaFilter(int sigma, int size);
+    void noiseCleaningPixel(int delta);
+    void noiseCleaningLine(int delta);
 
     // DICOM
     void applyWindowLevel(int window, int level);

@@ -52,8 +52,10 @@ bool ImageFile::readFile()
 void ImageFile::readingProcess(){
 
     this->id=lectura.at(0);
-    this->width=lectura.at(1).section(' ',0,0).toInt();
-    this->height=lectura.at(1).section(' ',1,1).toInt();
+    //Habia problemas con varios espacios entre los valores de ancho y alto ejemplo: 250    250, generan fallo de segmentacion
+    QStringList lineSplit = lectura.at(1).split(QRegExp("\\s+"));
+    this->width=lineSplit.at(0).toInt();
+    this->height=lineSplit.at(1).toInt();
     this->colorDepth=lectura.at(2).toInt();
 
     if (id =="P2") {
@@ -63,14 +65,16 @@ void ImageFile::readingProcess(){
     }
     int i=0;
     for (int z = 3; z < lectura.length(); ++z) {
-        QStringList lineSplit = lectura.at(z).split(" ");
+        lineSplit = lectura.at(z).split(QRegExp("\\s+"));
         foreach (QString pixel, lineSplit) {
             if (!pixel.isEmpty()) {
                 matrix[i]=(pixel+"     ").toInt();
+
                 i++;
             }
         }
     }
+
 }
 
 void ImageFile::printImageContents()

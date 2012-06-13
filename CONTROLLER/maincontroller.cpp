@@ -41,6 +41,7 @@ bool MainController::loadImage(QString filename){
 
     if (fileExtension.toUpper() == "PGM") {
         imagen = new ImagenPGM(filename);
+
         if (imagen->getStatus()) {
             return true;
         }
@@ -72,6 +73,21 @@ void MainController::changeSize(int density){
     oldImage=0;
     oldImage=imagen;
     imagen=oldImage->changeSize(density);
+}
+
+//Contrast
+void MainController::gammaCorrection(double r){
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+    imagen = static_cast<ImagenPGM*>(oldImage)->gammaCorrection(r);
+}
+
+void MainController::contrastStretching(){
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+    imagen = static_cast<ImagenPGM*>(oldImage)->contrastStretching();
 }
 
 void MainController::changeColorDepth(int depth){
@@ -206,12 +222,29 @@ void MainController::convolutionFilter(int **kernel, int size){
     imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
 }
 
+void MainController::gaussianaFilter(int sigma, int size){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(sigma,size);
+}
+
+void MainController::noiseCleaningLine(int delta){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningLine(delta);
+}
+
+void MainController::noiseCleaningPixel(int delta){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningPixel(delta);
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 
     static_cast<ImagenDCM*>(imagen)->applyWindowLevel(window,level);
 }
-
 
 // Getters
 Image* MainController::getImage(){

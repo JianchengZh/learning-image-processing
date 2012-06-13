@@ -36,6 +36,7 @@ public:
 
     //Getters
     QImage *getHistogram();
+    double *getColorFrequency();
 
 private:
 
@@ -44,6 +45,7 @@ private:
     int intensidad;
     double u1,u2,w1,w2,n;
     QImage *qImage;
+
 
     void    generateMatrix();
     double  findMaxFrecuency();

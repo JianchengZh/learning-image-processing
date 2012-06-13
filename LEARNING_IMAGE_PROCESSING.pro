@@ -26,6 +26,7 @@ SOURCES += main.cpp\
     GUI/windowlevelqwidget.cpp \
     GUI/convolutionqwidget.cpp \
     GUI/customqlabel.cpp
+    GUI/sobelqwidget.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -43,6 +44,7 @@ HEADERS  += \
     GUI/windowlevelqwidget.h \
     GUI/convolutionqwidget.h \
     GUI/customqlabel.h
+    GUI/sobelqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -51,7 +53,9 @@ FORMS    += \
     GUI/colordepthqwidget.ui \
     GUI/thresholdqwidget.ui \
     GUI/windowlevelqwidget.ui \
-    GUI/convolutionqwidget.ui
+    GUI/convolutionqwidget.ui \
+    GUI/sobelqwidget.ui
+    
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
 
