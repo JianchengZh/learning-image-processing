@@ -461,6 +461,8 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionMean"/>
     <addaction name="actionConvolution"/>
     <addaction name="actionGaussiana"/>
+    <addaction name="actionNoise_Cleaning_Line"/>
+    <addaction name="actionNoise_Cleaning_Pixel"/>
    </widget>
    <widget class="QMenu" name="menuEdge_Detector">
     <property name="title">
@@ -469,11 +471,19 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionSobel"/>
     <addaction name="actionCanny"/>
    </widget>
+   <widget class="QMenu" name="menuContrast">
+    <property name="title">
+     <string>Contrast</string>
+    </property>
+    <addaction name="actionGamma_Correction"/>
+    <addaction name="actionStretching"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
    <addaction name="menuHistogram"/>
    <addaction name="menuFilters"/>
+   <addaction name="menuContrast"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
    <addaction name="menuEdge_Detector"/>
@@ -481,6 +491,9 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -495,6 +508,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>New Job</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionUndo">
    <property name="enabled">
@@ -502,6 +518,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionResize">
@@ -644,6 +663,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionWeight_Average">
    <property name="enabled">
@@ -693,6 +715,38 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionCanny">
    <property name="text">
     <string>Canny</string>
+   </property>
+  </action>
+  <action name="actionNoise_Cleaning_Line">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Noise Cleaning Line</string>
+   </property>
+  </action>
+  <action name="actionNoise_Cleaning_Pixel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Noise Cleaning Pixel</string>
+   </property>
+  </action>
+  <action name="actionGamma_Correction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Gamma Correction</string>
+   </property>
+  </action>
+  <action name="actionStretching">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Stretching</string>
    </property>
   </action>
  </widget>

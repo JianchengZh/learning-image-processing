@@ -69,6 +69,10 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionMean->setEnabled(true);
                 ui->actionConvolution->setEnabled(true);
                 ui->actionGaussiana->setEnabled(true);
+                ui->actionStretching->setEnabled(true);
+                ui->actionGamma_Correction->setEnabled(true);
+                ui->actionNoise_Cleaning_Pixel->setEnabled(true);
+                ui->actionNoise_Cleaning_Line->setEnabled(true);
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -157,6 +161,10 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConvolution->setEnabled(false);
     ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
+    ui->actionNoise_Cleaning_Line-setEnabled(false);
+    ui->actionNoise_Cleaning_Pixel-setEnabled(false);
+    ui->actionStretching-setEnabled(false);
+    ui->actionGamma_Correction-setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
