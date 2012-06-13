@@ -513,11 +513,11 @@ Image *ImagenPGM::convolutionFilter(int **kernel, int size){
     return applyKernel(kernel,size,size);
 }
 
-int* ImagenPGM::kernelGaussiana(int size){
+Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
     int *vectorActual, *vectorAux;
-    vectorActual = new int [size];
-    vectorAux = new int [size];
-    for (int i = 0; i < size; ++i) {
+    vectorActual = new int [kernelSize];
+    vectorAux = new int [kernelSize];
+    for (int i = 0; i < kernelSize; ++i) {
         for (int j = 0; j <=i; ++j) {
             if(i==j){vectorAux[j]=1;}
             else if(j!=0){vectorAux[j]+=vectorActual[i-j];}
@@ -526,16 +526,18 @@ int* ImagenPGM::kernelGaussiana(int size){
             vectorActual[r]=vectorAux[r];
         }
     }
+
     delete vectorAux;
     vectorAux=0;
-    return vectorActual;
+    //return vectorActual;
+    return applyKernel(createKernelFilter(vectorActual,kernelSize),kernelSize,kernelSize);
 }
 
-Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
+int** ImagenPGM::createKernelFilter(int* vectorKernel, int kernelSize){
    // int kernelSize = (2*r) + 1;
    // double g=0,gmin=2*3.1416*pow(sigma,2);
-    QTextStream cout (stdout);
-    int *vectorKernel=kernelGaussiana(kernelSize);
+  //  QTextStream cout (stdout);
+  //  int *vectorKernel=kernelGaussiana(kernelSize);
 
     int **kernel= new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i) {
@@ -549,10 +551,10 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
           //  if (g<gmin) {gmin=g;}
           //  kernel[i][j]=round(g*gmin);
             kernel[i][j]=vectorKernel[i]*vectorKernel[j];
-            cout<<kernel[i][j]<<" ";
-        }cout<<endl;
+        //    cout<<kernel[i][j]<<" ";
+        }//cout<<endl;
     }
-    return applyKernel(kernel,kernelSize,kernelSize);
+    return kernel;
 }
 
 // Export

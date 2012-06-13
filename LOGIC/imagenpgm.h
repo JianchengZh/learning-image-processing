@@ -77,8 +77,8 @@ public:
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
+    int **createKernelFilter(int *vectorKernel, int kernelSize);
     Image *gaussianaFilter(int sigma, int kernelSize);
-    int *kernelGaussiana(int size);
 
     // Getters
     int ***getMatrix();
