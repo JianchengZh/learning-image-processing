@@ -362,7 +362,40 @@ void ImagenPPM::saveImage(QString filename){
         filename=filename+".ppm";
     }
 
-    QFile temp(filename);
+    ofstream fSalida(filename.toStdString().c_str(), ios::out|ios::binary);
+   if(!identification.compare("P3")){
+       fSalida<<identification.toStdString()<<endl;
+       fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+       fSalida<<width<<" "<<height<<endl;
+       fSalida<<colorDepth<<endl;
+
+       for(int i=0; i<height; i++){
+           for(int j=0; j<width; j++){
+               fSalida<<*(matrixRp[i][j])<<" "<<*(matrixGp[i][j])<<" "<<*(matrixBp[i][j])<<"    ";
+           }
+           fSalida<<endl;
+       }
+
+
+
+   }else if(!identification.compare("P6")){
+       fSalida<<identification.toStdString()<<endl;
+       fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+       fSalida<<width<<" "<<height<<endl;
+       fSalida<<colorDepth<<endl;
+
+       for(int i=0; i<height; i++){
+           for(int j=0; j<width; j++){
+               fSalida.put((unsigned char)*matrixRp[i][j]);
+               fSalida.put((unsigned char)*matrixGp[i][j]);
+               fSalida.put((unsigned char)*matrixBp[i][j]);
+           }
+       }
+
+   }
+   fSalida.close();
+
+    /*QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
 
@@ -377,5 +410,5 @@ void ImagenPPM::saveImage(QString filename){
             }
             fSalida<<endl;
         }
-    }
+    }*/
 }

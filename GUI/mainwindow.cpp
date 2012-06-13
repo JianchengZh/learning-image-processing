@@ -182,10 +182,11 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConvolution->setEnabled(false);
     ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
-    ui->actionNoise_Cleaning_Line->setEnabled(false);
-    ui->actionNoise_Cleaning_Pixel->setEnabled(false);
-    ui->actionStretching->setEnabled(false);
-    ui->actionGamma_Correction->setEnabled(false);
+    //ui->actionNoise_Cleaning_Line-setEnabled(false);
+    //ui->actionNoise_Cleaning_Pixel-setEnabled(false);
+    //ui->actionStretching-setEnabled(false);
+    //ui->actionGamma_Correction-setEnabled(false);
+
 
     // Changes on labels
     ui->label_Density->setEnabled(false);

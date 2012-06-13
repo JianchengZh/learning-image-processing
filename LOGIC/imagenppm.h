@@ -29,6 +29,7 @@
 #include "image.h"
 #include <QImage>
 #include <QRgb>
+using namespace std;
 
 class ImagenPPM: public Image
 {
