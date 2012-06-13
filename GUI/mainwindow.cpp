@@ -383,13 +383,13 @@ void MainWindow::on_actionMean_triggered()
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
 
         QStringList items;
-        items << tr("3X3") << tr("5X5") << tr("9x9");
+        items << tr("3x3") << tr("5x5") << tr("9x9");
 
         bool ok;
         QString item = QInputDialog::getItem(this, tr("Select Ker"),
                                              tr("Kernel Size:"), items, 0, false, &ok);
         if (ok && !item.isEmpty()){
-            if(item=="3X3"){
+            if(item=="3x3"){
                 mainController->meanFilter(3);
             }else if(item=="5x5"){
                 mainController->meanFilter(5);
@@ -425,18 +425,18 @@ void MainWindow::on_actionGaussiana_triggered()
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
 
         QStringList items;
-        items << tr("3X3") << tr("5X5") << tr("9x9");
+        items << tr("3x3") << tr("5x5") << tr("9x9");
 
         bool ok;
         QString item = QInputDialog::getItem(this, tr("Select Ker"),
                                              tr("Kernel Size:"), items, 0, false, &ok);
         if (ok && !item.isEmpty()){
-            if(item=="3X3"){
+            if(item=="3x3"){
                 mainController->gaussianaFilter(1.0,3);
             }else if(item=="5x5"){
                 mainController->gaussianaFilter(1.0,5);
             }else{
-                mainController->gaussianaFilter(1.0,5);
+                mainController->gaussianaFilter(1.0,9);
             }
             displayResults(mainController->getQImage());
             ShowHistogram();
