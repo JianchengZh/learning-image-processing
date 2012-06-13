@@ -182,3 +182,8 @@ QImage *Histogram::getHistogram(){
     }
     return qImage;
 }
+
+double * Histogram::getColorFrequency()
+{
+    return this->colorFrequency;
+}

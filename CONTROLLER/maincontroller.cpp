@@ -83,6 +83,13 @@ void MainController::gammaCorrection(double r){
     imagen = static_cast<ImagenPGM*>(oldImage)->gammaCorrection(r);
 }
 
+void MainController::contrastStretching(){
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+    imagen = static_cast<ImagenPGM*>(oldImage)->contrastStretching();
+}
+
 void MainController::changeColorDepth(int depth){
     QTextStream cout (stdout);
 

@@ -57,8 +57,6 @@ void ImageFile::readingProcess(){
     this->width=lineSplit.at(0).toInt();
     this->height=lineSplit.at(1).toInt();
     this->colorDepth=lectura.at(2).toInt();
-      QTextStream (stdout) <<"Lei el archivo "<< lineSplit.at(0) << "\n";
-       QTextStream (stdout) <<"Lei el archivo "<< lineSplit.at(1) << "\n";
 
     if (id =="P2") {
         this->matrix = new int[width*height];
@@ -67,14 +65,16 @@ void ImageFile::readingProcess(){
     }
     int i=0;
     for (int z = 3; z < lectura.length(); ++z) {
-        lineSplit = lectura.at(z).split(" ");
+        lineSplit = lectura.at(z).split(QRegExp("\\s+"));
         foreach (QString pixel, lineSplit) {
             if (!pixel.isEmpty()) {
                 matrix[i]=(pixel+"     ").toInt();
+
                 i++;
             }
         }
     }
+
 }
 
 void ImageFile::printImageContents()

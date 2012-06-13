@@ -125,9 +125,8 @@ ImagenPGM::~ImagenPGM(){
 }
 
 //Contrast
+Image *ImagenPGM::gammaCorrection(double r){
 
-Image *ImagenPGM::gammaCorrection(double r)
-{
     if(r<0 || r>3){
         QTextStream (stdout) <<"Error : se encuentra en un rango es invalido! \n";
         return 0;
@@ -142,8 +141,44 @@ Image *ImagenPGM::gammaCorrection(double r)
         lut[i]= round(aux);
     }
 
-    return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);;
+    return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
 }
+
+ Image *ImagenPGM::contrastStretching(){
+
+
+     this->generateHistogram();
+     double *colorFrecuency = this->getHistogram()->getColorFrequency();
+
+
+     int minValue = 0;
+     int maxValue = colorDepth;
+
+
+
+     for(int i=0; i<colorDepth+1; i++)
+         if(colorFrecuency[i]!=0){
+             minValue=i;
+             break;
+         }
+
+     for(int i=colorDepth; i>=0; i--)
+         if(colorFrecuency[i]!=0){
+             maxValue=i;
+             break;
+         }
+      QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
+     for(int i=0; i<colorDepth+1; i++){
+
+          lut[i]=(i-minValue)*colorDepth/(maxValue-minValue);
+        QTextStream (stdout) <<"valor streching  "<< i <<" "<< lut[i] << "\n";
+     }
+
+     return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
+
+
+
+ }
 
 
 

@@ -63,6 +63,7 @@ public:
 
     //contrast
     void gammaCorrection(double r);
+    void contrastStretching();
 
     //Filter
     void meanFilter(int size);
