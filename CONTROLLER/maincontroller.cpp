@@ -41,6 +41,7 @@ bool MainController::loadImage(QString filename){
 
     if (fileExtension.toUpper() == "PGM") {
         imagen = new ImagenPGM(filename);
+
         if (imagen->getStatus()) {
             return true;
         }
@@ -72,6 +73,14 @@ void MainController::changeSize(int density){
     oldImage=0;
     oldImage=imagen;
     imagen=oldImage->changeSize(density);
+}
+
+//Contrast
+void MainController::gammaCorrection(double r){
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+    imagen = static_cast<ImagenPGM*>(oldImage)->gammaCorrection(r);
 }
 
 void MainController::changeColorDepth(int depth){

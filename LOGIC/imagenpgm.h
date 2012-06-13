@@ -70,6 +70,10 @@ public:
     Image *bimodalSegmentaion(int T);
     Image *histogramEqualization(int *newlut);
 
+    //Contrast
+    Image *gammaCorrection(double r);
+    Image *contrastStretching();
+
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);

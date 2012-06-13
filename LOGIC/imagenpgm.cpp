@@ -25,6 +25,7 @@ ImagenPGM::ImagenPGM(QString filename){
     ImageFile imageFile(filename);
     if (imageFile.readFile()) {
 
+
         this->identification=imageFile.getId();
         this->width=imageFile.getWidth();
         this->height=imageFile.getHeight();
@@ -122,6 +123,30 @@ ImagenPGM::~ImagenPGM(){
     delete lut;
     this->lut=0;
 }
+
+//Contrast
+
+Image *ImagenPGM::gammaCorrection(double r)
+{
+    if(r<0 || r>3){
+        QTextStream (stdout) <<"Error : se encuentra en un rango es invalido! \n";
+        return 0;
+    }
+
+    if(r==1)
+        return this;
+
+    double aux = 0;
+    for(int i=0; i<colorDepth+1; i++){
+        aux = colorDepth *pow((double)lut[i]/(double)colorDepth,r);
+        lut[i]= round(aux);
+    }
+
+    return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);;
+}
+
+
+
 
 //Global Transformations
 Image* ImagenPGM::changeSize(int factor){

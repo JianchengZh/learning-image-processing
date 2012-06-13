@@ -61,6 +61,9 @@ public:
     void otsuSegmentation();
     void isodataSegmentation();
 
+    //contrast
+    void gammaCorrection(double r);
+
     //Filter
     void meanFilter(int size);
     void convolutionFilter(int **kernel, int size);
