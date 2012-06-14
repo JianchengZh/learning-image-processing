@@ -167,11 +167,11 @@ Image *ImagenPGM::gammaCorrection(double r){
              maxValue=i;
              break;
          }
-      QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
+      //QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
      for(int i=0; i<colorDepth+1; i++){
 
           lut[i]=(i-minValue)*colorDepth/(maxValue-minValue);
-        QTextStream (stdout) <<"valor streching  "<< i <<" "<< lut[i] << "\n";
+        //QTextStream (stdout) <<"valor streching  "<< i <<" "<< lut[i] << "\n";
      }
 
      return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
@@ -180,6 +180,28 @@ Image *ImagenPGM::gammaCorrection(double r){
 
  }
 
+//Segmentation
+
+Image *ImagenPGM::kmeans(int clusters, int iterations){
+
+    Image* image2;
+
+    int centroid[clusters];
+    srand(time(NULL));
+    //extraer aleatoriamente centroides para cada clase de la imagen
+    for(int i=0; i < clusters; i++) {
+        centroid[i] = *matrixImagenP[rand()%(width-1)][rand()%(height-1)];
+    }
+
+    image2 = clasify(centroid, clusters,iterations);
+
+}
+
+Image *ImagenPGM::clasify(int* centroid, int size , int iterations){
+
+
+
+}
 
 
 

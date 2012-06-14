@@ -45,6 +45,7 @@ class ImagenPGM: public Image{
     void generateQImage();
     Image* applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
     void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
+    Image *clasify(int* centroid, int size , int iterations);
 
 public:
 
@@ -80,6 +81,9 @@ public:
     //Contrast
     Image *gammaCorrection(double r);
     Image *contrastStretching();
+
+    //Segmentation
+    Image *kmeans(int clusters, int iterations);
 
     //Filters
     Image *meanFilter(int kernelSize);
