@@ -180,7 +180,7 @@ bool ImageFile::readFileImage()
             }
         }
 
-        cout << "Bien: ¡La imagen se leyo correctamente" << endl;
+        //cout << "Bien: ¡La imagen se leyo correctamente" << endl;
     }else if(!this->id.compare("P3")){	//Si la imagen es a color
 
         //Se le dan tamaño a las matrices RGB
@@ -224,7 +224,7 @@ bool ImageFile::readFileImage()
 
         }
 
-        cout << "Bien: ¡La imagen se leyo correctamente" << endl;
+        //cout << "Bien: ¡La imagen se leyo correctamente" << endl;
 
     }else if(!this->id.compare("P5")){
 
@@ -241,7 +241,7 @@ bool ImageFile::readFileImage()
             }
 
 
-        cout << "Bien: ¡La imagen se leyo correctamente " << this->id.toStdString()<< endl;
+        //cout << "Bien: ¡La imagen se leyo correctamente " << this->id.toStdString()<< endl;
 
     }else if(!this->id.compare("P6")){
 
@@ -273,7 +273,7 @@ bool ImageFile::readFileImage()
 
 
 
-        cout << "Bien: ¡La imagen se leyo correctamente p6" << this->id.toStdString()<< endl;
+        //cout << "Bien: ¡La imagen se leyo correctamente p6" << this->id.toStdString()<< endl;
 
     }
 

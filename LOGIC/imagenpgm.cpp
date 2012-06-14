@@ -794,25 +794,19 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
                 gradientDegree[i][j]=degree;//solo para guardar los valores reales
                 gradientDegreeDiscret[i][j]=this->discretDegree(degree);
 
-
             }
         }
     }
 
-    QTextStream (stdout) <<"release! \n";
-
     //Non Maximum Suppression
     nonMaximumSuppression(edgeNonMaximumSuppression,gradientDegreeDiscret,gradientMagnitude);
-    QTextStream (stdout) <<"maximum! \n";
 
     //hysteresis
     hysteresis(edgeHysteresis,edgeNonMaximumSuppression,gradientDegreeDiscret, thresholdHigh, thresholdsDown);
-    QTextStream (stdout) <<"hysterisis! \n";
 
 
     /*********************************************/
     ImagenPGM *imageResult = new ImagenPGM (height, width, 1, edgeHysteresis); //OJO SE CAMBIO EL NIVEL DEL COLOR
-    QTextStream (stdout) <<"result! \n";
 
         for (int i = 0; i < height; ++i) {
             delete resultMatrix[i];
