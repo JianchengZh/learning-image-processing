@@ -40,12 +40,15 @@ class ImagenPGM: public Image{
 
     int ***matrixImagenP;
     int *lut;
+    int** resultMatrixI;
+    int** resultMatrixJ;
 
     void generateHistogram();
     void generateQImage();
-    Image* applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
+    int **applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
     void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
     Image *clasify(int* centroid, int size , int iterations);
+    int **matrizMagnitud(int umbral);
 
 public:
 
@@ -87,14 +90,14 @@ public:
 
     //Filters
     Image *meanFilter(int kernelSize);
-    Image *convolutionFilter(int **kernel,int size);
+    Image *convolutionFilter(int **kernel,int kernelSize);
     int **createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize);
     Image *gaussianaFilter(int sigma, int kernelSize);
     Image *noiseCleaningPixel(int delta);
     Image *noiseCleaningLine(int delta);
 
     //Edge Detection
-    Image *edgeDetectionSobel(int position);
+    Image *edgeDetectionSobel(int position, int umbral);
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 private:
     int discretDegree(double value);

@@ -247,10 +247,10 @@ void MainController::noiseCleaningPixel(int delta){
 
 //edge Detection
 
-void MainController::edgeDetectionSobel(int position){
+void MainController::edgeDetectionSobel(int position,int umbral){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectionSobel(position);
+    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectionSobel(position,umbral);
 }
 
 void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){

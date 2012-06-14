@@ -462,7 +462,7 @@ void ImagenPGM::generateHistogram(){
 }
 
 // Filters
-Image* ImagenPGM::applyKernel(int **kernel, int kernelSizeX, int kernelSizeY){
+int** ImagenPGM::applyKernel(int **kernel, int kernelSizeX, int kernelSizeY){
 
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
@@ -482,17 +482,18 @@ Image* ImagenPGM::applyKernel(int **kernel, int kernelSizeX, int kernelSizeY){
         }
     }
 
-    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
-
+ //   ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
+/*
         for (int i = 0; i < height; ++i) {
             delete resultMatrix[i];
             resultMatrix[i]=0;
         }
 
     delete resultMatrix;
-    resultMatrix=0;
+    resultMatrix=0;*/
 
-    return imageResult;
+    //return imageResult;
+    return resultMatrix;
 }
 
 void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix){
@@ -529,11 +530,15 @@ Image* ImagenPGM::meanFilter(int kernelSize){
             kernel[i][j]=1;
         }
     }
-    return applyKernel(kernel, kernelSize,kernelSize);
+  //  return applyKernel(kernel, kernelSize,kernelSize);
+   ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(kernel, kernelSize,kernelSize));
+   return imageResult;
 }
 
-Image *ImagenPGM::convolutionFilter(int **kernel, int size){
-    return applyKernel(kernel,size,size);
+Image *ImagenPGM::convolutionFilter(int **kernel, int kernelSize){
+    //return applyKernel(kernel,size,size);
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(kernel, kernelSize,kernelSize));
+    return imageResult;
 }
 
 Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
@@ -553,7 +558,9 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
     delete vectorAux;
     vectorAux=0;
     //return vectorActual;
-    return applyKernel(createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize);
+  //  return applyKernel(createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize);
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize));
+    return imageResult;
 }
 
 Image* ImagenPGM::noiseCleaningLine(int delta){
@@ -670,29 +677,59 @@ int** ImagenPGM::createKernelFilter(int* vectorKerneli,int* vectorKernelj, int k
 
 //Edge Detection
 
-Image* ImagenPGM::edgeDetectionSobel(int position){
+Image* ImagenPGM::edgeDetectionSobel(int position,int umbral){
     int kernelSize=3;
     int *vectorKerneli=new int[kernelSize];
     int *vectorKernelj=new int[kernelSize];
     vectorKerneli[0]=1; vectorKerneli[1]=0; vectorKerneli[2]=-1;
     vectorKernelj[0]=1; vectorKernelj[1]=2; vectorKernelj[2]=1;
+    ImagenPGM *imageResult;
 
-    int **kernel= new int*[kernelSize];
-    for (int i = 0; i < kernelSize; ++i) {
-        kernel[i]=new int[kernelSize];
+    resultMatrixI = new int*[height];
+    resultMatrixJ = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrixI[i] = new int[width];
+        resultMatrixJ[i] = new int[width];
     }
     meanFilter(kernelSize);
-    if(position==0)
-        kernel=createKernelFilter(vectorKernelj,vectorKerneli,kernelSize);
-    else if(position==1)
-        kernel=createKernelFilter(vectorKerneli,vectorKernelj,kernelSize);
-    else{
-       // edgeDetectionSobel(0);
-       // edgeDetectionSobel(1);
+    resultMatrixI=applyKernel(createKernelFilter(vectorKernelj,vectorKerneli,kernelSize),kernelSize,kernelSize);
+    resultMatrixJ=applyKernel(createKernelFilter(vectorKerneli,vectorKernelj,kernelSize),kernelSize,kernelSize);
+
+    if(position==0){
+        imageResult = new ImagenPGM (height, width, colorDepth,resultMatrixI);
+    }else if(position==1){
+        imageResult = new ImagenPGM (height, width, colorDepth,resultMatrixJ);
+    }else if(position==2){
+        imageResult = new ImagenPGM (height, width, colorDepth,matrizMagnitud(umbral));
     }
 
-    return applyKernel(kernel,kernelSize,kernelSize);
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrixI[i];resultMatrixI[i]=0;
+        delete resultMatrixJ[i];resultMatrixJ[i]=0;
+    }
+
+    delete resultMatrixI;resultMatrixI=0;
+    delete resultMatrixJ;resultMatrixJ=0;
+
+    return imageResult;
 }
+
+int** ImagenPGM::matrizMagnitud(int umbral){
+    int** resultMatrixGradiente = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrixGradiente[i] = new int[width];
+    }
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            resultMatrixGradiente[i][j]=sqrt(pow(resultMatrixI[i][j],2)+pow(resultMatrixJ[i][j],2));
+            if(resultMatrixGradiente[i][j]>umbral)
+                resultMatrixGradiente[i][j]=255;
+            cout<<resultMatrixGradiente[i][j]<<" ";
+        }cout<<endl;
+    }
+    return resultMatrixGradiente;
+}
+
 
 /**
     El detector de bordes basado en Canny:

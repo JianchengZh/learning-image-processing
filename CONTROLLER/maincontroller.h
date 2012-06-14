@@ -78,7 +78,7 @@ public:
     void noiseCleaningLine(int delta);
 
     //Edge Detection
-    void edgeDetectionSobel(int position);
+    void edgeDetectionSobel(int position, int umbral);
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
 
     // DICOM
