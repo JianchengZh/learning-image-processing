@@ -33,11 +33,15 @@
 #include <math.h>
 #include <QImage>
 #include <QRgb>
+#include <QDebug>
+#include <QPoint>
 
 
 class ImagenDCM : public Image{
 
     DicomImage *dicomImage;
+    DcmFileFormat fileformat;
+    OFCondition statusDcmFileFormat;
     int ***matrixImagenP;
     int *lut;
     int lutSize;
@@ -51,6 +55,7 @@ class ImagenDCM : public Image{
 
 public:
 
+    int measureDistance(QPoint start, QPoint end);
     ImagenDCM(const char *fileName);
 
     void applyWindowLevel(int window, int level);

@@ -22,6 +22,7 @@
 ImagenDCM::ImagenDCM(const char *fileName){
 
     dicomImage = new DicomImage(fileName);
+    statusDcmFileFormat = fileformat.loadFile(fileName);
 
     if (dicomImage != NULL)
     {
@@ -33,15 +34,15 @@ ImagenDCM::ImagenDCM(const char *fileName){
             this->height=dicomImage->getWidth();
             this->width=dicomImage->getHeight();
 
-            QTextStream cout (stdout);
-            cout <<"DICOM depth: "<<dicomImage->getDepth()<<endl;
-            cout <<"Color Depth: "<<colorDepth<<endl;
-            cout<< "frameCount: "<<dicomImage->getFrameCount()<<endl;
+
+            qDebug() <<"DICOM depth: "<<dicomImage->getDepth();
+            qDebug() <<"Color Depth: "<<colorDepth;
+            qDebug()<< "frameCount: "<<dicomImage->getFrameCount();
 
             dicomImage->getMinMaxValues(minDensity, maxDensity);
 
-            cout<<"Min Value: "<<minDensity<<endl;
-            cout<<"Max Value: "<<maxDensity<<endl;
+            qDebug()<<"Min Value: "<<minDensity;
+            qDebug()<<"Max Value: "<<maxDensity;
 
             //Lookup Table
             lutSize=abs(minDensity)+abs(maxDensity)+1;
@@ -50,7 +51,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
             lut = new int [lutSize];
             for (int i = 0; i < lutSize; ++i){
                 lut[i]=i-abs(minDensity);
-//                QTextStream (stdout)<<"LUT["<<i<<"]: "<<lut[i]<<endl;
+//                qDebug()<<"LUT["<<i<<"]: "<<lut[i];
             }
 
             matrixImagenP = new int**[height];
@@ -60,9 +61,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
             for(int i=0; i<height; i++){
                 for(int j=0; j<width; j++){
                     matrixImagenP[i][j]=&lut[getDensity(j,i)+abs(minDensity)];
-//                    QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
                 }
-//                QTextStream (stdout) <<""<<endl;
             }
 
             applyWindowLevel(400,40);
