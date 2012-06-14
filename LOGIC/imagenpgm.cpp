@@ -513,11 +513,11 @@ Image *ImagenPGM::convolutionFilter(int **kernel, int size){
     return applyKernel(kernel,size,size);
 }
 
-int* ImagenPGM::kernelGaussiana(int size){
+Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
     int *vectorActual, *vectorAux;
-    vectorActual = new int [size];
-    vectorAux = new int [size];
-    for (int i = 0; i < size; ++i) {
+    vectorActual = new int [kernelSize];
+    vectorAux = new int [kernelSize];
+    for (int i = 0; i < kernelSize; ++i) {
         for (int j = 0; j <=i; ++j) {
             if(i==j){vectorAux[j]=1;}
             else if(j!=0){vectorAux[j]+=vectorActual[i-j];}
@@ -526,16 +526,116 @@ int* ImagenPGM::kernelGaussiana(int size){
             vectorActual[r]=vectorAux[r];
         }
     }
+
     delete vectorAux;
     vectorAux=0;
-    return vectorActual;
+    //return vectorActual;
+    return applyKernel(createKernelFilter(vectorActual,kernelSize),kernelSize,kernelSize);
 }
 
-Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
+Image* ImagenPGM::noiseCleaningLine(int delta){
+    int** resultMatrix = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrix[i] = new int[width];
+        for (int j = 0; j < width; ++j) {
+            resultMatrix[i][j]=*matrixImagenP[i][j];
+        }
+    }
+    for(int i =1; i< height-1; i++){
+        for(int j =1; j< width-1; j++){
+            int test=*matrixImagenP[i][j], neighbors,sum=0;
+            sum+=*matrixImagenP[i][j-1];
+            sum+=*matrixImagenP[i][j-2];
+            sum+=*matrixImagenP[i][j+1];
+            sum+=*matrixImagenP[i][j+2];
+            neighbors = sum/4.0;
+
+            if(fabs(test - neighbors) > delta){
+                resultMatrix[i][j]=neighbors;
+            }else{
+                resultMatrix[i][j]=test;
+            }
+            int cond=resultMatrix[i][j];
+            if(cond>=0&&cond<256)
+                resultMatrix[i][j]=cond;
+            else if (cond<0)
+                resultMatrix[i][j]=0;
+            else
+                resultMatrix[i][j]=255;
+        }
+    }
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
+
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+
+    return imageResult;
+
+}
+
+
+Image* ImagenPGM::noiseCleaningPixel(int delta){
+    int** resultMatrix = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrix[i] = new int[width];
+        for (int j = 0; j < width; ++j) {
+            resultMatrix[i][j]=*matrixImagenP[i][j];
+        }
+    }
+
+    for(int i =1; i< height-1; i++){
+        for(int j =1; j< width-1; j++){
+            int test=*matrixImagenP[i][j], neighbors,sum=0;
+            sum+=*matrixImagenP[i-1][j-1];
+            sum+=*matrixImagenP[i-1][j];
+            sum+=*matrixImagenP[i-1][j+1];
+            sum+=*matrixImagenP[i][j-1];
+            sum+=*matrixImagenP[i][j+1];
+            sum+=*matrixImagenP[i+1][j-1];
+            sum+=*matrixImagenP[i+1][j];
+            sum+=*matrixImagenP[i+1][j+1];
+            neighbors = qRound(sum/8.0);
+
+            if(fabs(test - neighbors) > delta){
+                resultMatrix[i][j]=neighbors;
+            }else{
+                resultMatrix[i][j]=test;
+            }
+            int cond=resultMatrix[i][j];
+            if(cond>=0&&cond<256)
+                resultMatrix[i][j]=cond;
+            else if (cond<0)
+                resultMatrix[i][j]=0;
+            else
+                resultMatrix[i][j]=255;
+        }
+    }
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
+
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+
+    return imageResult;
+}
+
+
+int** ImagenPGM::createKernelFilter(int* vectorKernel, int kernelSize){
    // int kernelSize = (2*r) + 1;
    // double g=0,gmin=2*3.1416*pow(sigma,2);
-    QTextStream cout (stdout);
-    int *vectorKernel=kernelGaussiana(kernelSize);
+  //  QTextStream cout (stdout);
+  //  int *vectorKernel=kernelGaussiana(kernelSize);
 
     int **kernel= new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i) {
@@ -549,10 +649,309 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
           //  if (g<gmin) {gmin=g;}
           //  kernel[i][j]=round(g*gmin);
             kernel[i][j]=vectorKernel[i]*vectorKernel[j];
-            cout<<kernel[i][j]<<" ";
-        }cout<<endl;
+        //    cout<<kernel[i][j]<<" ";
+        }//cout<<endl;
     }
-    return applyKernel(kernel,kernelSize,kernelSize);
+    return kernel;
+}
+
+//Edge
+/**
+    El detector de bordes basado en Canny:
+    * Primero se aplica un filtro gaussiano a la imagen.
+    * (No implementado) calculo de los thresholds alto y bajo automaticamente (por ahora se piden estos valores)
+    * Luego calculamos los componenetes X y Y del gradiente usando los operadores de Sobel.
+      Se calcula la magnitud de dichos componentes y el grado o angulo que forman.
+      La magnitud del gradiente deberia ser un double para que no se pierdan valores.
+      El grado DEBE de ser un double para que este pueda luego ser discretizado en valores enteros y angulos precisos.
+    * Se aplica Non Maximum Suppression a la magnitud del gradiente. Tambien deberia de ser double si la magnitud lo es.
+    * Se aplica hysteresis a la matriz con el non maximum Suppression, usando dos thresholds y
+      se sigue el borde solo tomando en cuenta el pixel que este 90° en contra de las manecillas del reloj.
+      El resultado es 0 si es un borde y 1 si no es un borde;
+*/
+Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
+    int** resultMatrix = new int*[height];
+    int** dx = new int*[height];
+    int** dy = new int*[height];
+    int** gradientMagnitude = new int*[height];
+    double** gradientDegree = new double*[height];
+    int** gradientDegreeDiscret = new int*[height];
+    double** edgeNonMaximumSuppression = new double*[height];
+    int** edgeHysteresis = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrix[i] = new int[width];
+        dx[i] = new int[width];
+        dy[i] = new int[width];
+        gradientMagnitude[i] = new int[width];
+        gradientDegree[i] = new double[width];
+        gradientDegreeDiscret[i] = new int[width];
+        edgeNonMaximumSuppression[i] = new double[width];
+        edgeHysteresis[i] = new int[width];
+        for (int j = 0; j < width; ++j) {
+            resultMatrix[i][j]= dx[i][j] = dy[i][j]=gradientMagnitude[i][j]=gradientDegreeDiscret[i][j]=
+                    *matrixImagenP[i][j];
+            edgeNonMaximumSuppression[i][j]=gradientDegree[i][j]=(double)*matrixImagenP[i][j];
+            edgeHysteresis[i][j]=1;
+        }
+    }
+
+    /*********************************************/
+    //Filtro Gaussiano
+    //gaussianaFilter(1,1);
+
+    //Calculo del Gradiente (magnitud y angulo)
+
+    //Non Maximum Suppression
+    nonMaximumSuppression(edgeNonMaximumSuppression,gradientDegreeDiscret,gradientMagnitude);
+
+    //hysteresis
+    hysteresis(edgeHysteresis,edgeNonMaximumSuppression,gradientDegreeDiscret, thresholdHigh, thresholdsDown);
+
+
+    /*********************************************/
+    ImagenPGM *imageResult = new ImagenPGM (height, width, 1, edgeHysteresis); //OJO SE CAMBIO EL NIVEL DEL COLOR
+
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrix[i];
+            resultMatrix[i]=0;
+            delete dx[i];
+            dx[i]=0;
+            delete dy[i];
+            dy[i]=0;
+            delete gradientMagnitude[i];
+            gradientMagnitude[i]=0;
+            delete gradientDegree[i];
+            gradientDegree[i]=0;
+            delete gradientDegreeDiscret[i];
+            gradientDegreeDiscret[i]=0;
+            delete edgeNonMaximumSuppression[i];
+            edgeNonMaximumSuppression[i]=0;
+            delete edgeHysteresis[i];
+            edgeHysteresis[i]=0;
+
+        }
+
+    delete resultMatrix;
+    resultMatrix=0;
+    delete dx;
+    dx=0;
+    delete dy;
+    dy=0;
+    delete gradientMagnitude;
+    gradientMagnitude=0;
+    delete gradientDegree;
+    gradientDegree=0;
+    delete gradientDegreeDiscret;
+    gradientDegreeDiscret=0;
+
+    delete edgeNonMaximumSuppression;
+    edgeNonMaximumSuppression=0;
+    delete edgeHysteresis;
+    edgeHysteresis=0;
+
+    return imageResult;
+
+}
+
+/**
+    Discretiza los valores del angulo para indicar los angulos posibles que son 8.
+*/
+int ImagenPGM::discretDegree(double value){
+    double degree = value * 180 / PI;
+
+    if(degree<0){
+        degree = 360 + degree;
+    }
+
+    if(degree >= 22.5 && degree < 67.5 ){//45   1   - direccion 1
+        return 1;
+        //return 45*PI/180;
+    }else if(degree >= 67.5 && degree < 112.5 ){//90   2    - direccion 2
+        return 2;
+        //return 90*PI/180;
+    }else if(degree >= 112.5 && degree < 157.5 ){//135  3    - direccion 3
+        return 3;
+        //return 135*PI/180;
+    }else if(degree >= 157.5 && degree < 202.5 ){//180   4    - direccion 0
+        return 4;
+        //return 135*PI/180;
+    }else if(degree >= 202.5 && degree < 247.5 ){//225   5    - direccion 1
+        return 5;
+        //return 135*PI/180;
+    }else if(degree >= 247.5 && degree < 292.5 ){//270   6   - direccion 2
+        return 6;
+        //return 135*PI/180;
+    }else if(degree >= 292.5 && degree < 337.5 ){//315   7   - direccion 3
+        return 7;
+        //return 135*PI/180;
+    }else if((degree >= 337.5 && degree < 360) || (degree>=0 && degree < 22.5) ){//0   0    - direccion 0
+        return 0;
+        //return 135*PI/180;
+    }
+
+    //cerr << "no entro discret" << endl;
+    return -1;
+
+}
+
+/**
+    Se suprimen los valores que sean menores a los dos vecinos que indique la dirección del gradiente, de lo contrario se deja el valor de la magnitud
+*/
+
+void ImagenPGM::nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, int**gradientMagnitude){
+
+    for(int i = 0 ; i< height;i++ ){
+        for(int j = 0 ; j< width;j++ ){
+
+            int orientation = (int)gradientOrientationDiscret[i][j];
+            double valueGradient = gradientMagnitude[i][j];
+            edgeNonMaximumSuppression[i][j]=gradientMagnitude[i][j];
+            switch(orientation){
+            case 0:
+            case 4:
+                if(i==0){
+                    if(valueGradient <= gradientMagnitude[i+1][j]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+
+                }else if(i==height-1){
+                    if(valueGradient <= gradientMagnitude[i-1][j]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }else{
+                    if(valueGradient <= gradientMagnitude[i+1][j] || valueGradient <= gradientMagnitude[i-1][j]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }
+                break;
+            case 3:
+            case 7:
+                if((i == height-1) && (j==0)){
+                    if(valueGradient <= gradientMagnitude[i-1][j+1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+
+                }else if((i == 0) && (j==height-1)){
+                    if(valueGradient <= gradientMagnitude[i+1][j-1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }else{
+                    if(valueGradient <= gradientMagnitude[i+1][j-1] || valueGradient <= gradientMagnitude[i-1][j+1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }
+                break;
+            case 2:
+            case 6:
+                if(j==0){
+                    if(valueGradient <= gradientMagnitude[i][j+1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+
+                }else if(j==height-1){
+                    if(valueGradient <= gradientMagnitude[i][j-1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }else{
+                    if(valueGradient <= gradientMagnitude[i][j+1] || valueGradient <= gradientMagnitude[i][j-1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }
+                break;
+            case 1:
+            case 5:
+                if((i == 0) && (j==0)){
+                    if(valueGradient <= gradientMagnitude[i+1][j+1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+
+                }else if((i == height-1) && (j==height-1)){
+                    if(valueGradient <= gradientMagnitude[i-1][j-1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }else{
+                    if(valueGradient <= gradientMagnitude[i+1][j+1] || valueGradient <= gradientMagnitude[i-1][j-1]){
+                        edgeNonMaximumSuppression[i][j]=0;
+                    }
+                }
+                break;
+            }
+
+        }
+    }
+
+}
+/**
+    Se aplica para determinar los bordes de la imagen.
+    Primero se buscan los valores que esten por encima del thresholdHigh y
+    si es asi se empieza a recorrer en busca de los siguientes puntos que esten por encima del thresholdDown.
+
+*/
+void ImagenPGM::hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown){
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width ; j++){
+            if((edgeNonMaximumSuppression[i][j]/8)>=thresholdHigh){//OJO AQUI CON LA DIVISION
+                edgeFollow(i,j, edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown);
+            }
+        }
+    }
+    //0 es borde , 1 no es borde
+}
+
+/**
+    Metodo que  sigue un borde. Toma el pixel actual que es mayor al threshold y se toma como un borde.
+    Luego se mueve a la posicion siguiente (90° respecto angulo gradiente contra manecillas reloj).
+    Determina si es mayor por lo menos al thresholdDown y si es asi llama recursivamente a la función.
+    La función para si ya lo hemos visitado o no es mayor al thresholdDown.
+*/
+int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, int thresholdsDown){
+    if(edgeHysteresis[posX][posY]==1){//si no lo visite
+        edgeHysteresis[posX][posY]=0;
+        int degree = gradientDegreeDiscret[posX][posY];
+        //cout << degree << endl;
+        switch(degree){//mover al siguiente punto 90° respecto angulo gradiente contra manecillas reloj
+        case 0:
+            posY--;
+            posX--;
+            break;
+        case 1:
+            posX-=2;
+            break;
+        case 2:
+            posY++;
+            posX--;
+            break;
+        case 3:
+            posY+=2;
+            break;
+        case 4:
+            posY++;
+            posY++;
+            break;
+        case 5:
+            posX+=2;
+            break;
+        case 6:
+            posX++;
+            posY--;
+            break;
+        case 7:
+            posY-=2;
+            break;
+
+        }
+        //siguiente punto
+                                                                     //OJO CON LA DIVISION
+        if(!(posX<0 || posX>=height) && !(posY<0 || posY>=width) && ((int)(edgeNonMaximumSuppression[posX][posY]/8) >= thresholdsDown)){//puede interesarme
+            if(edgeFollow(posX, posY,edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown)){
+                edgeHysteresis[posX][posY]=0;
+                return 1;
+            }
+
+        }
+        return 1;//REVISAR el valor siguiente aun no se ha asignado
+    }
+    return 0;
 }
 
 // Export
@@ -560,9 +959,45 @@ void ImagenPGM::saveImage(QString filename){
 
     if (!filename.contains(".pgm")) {
         filename=filename+".pgm";
+    };
+
+   ofstream fSalida(filename.toStdString().c_str(), ios::out|ios::binary);
+    if(!identification.compare("P2")){
+        string id = identification.toStdString();
+        fSalida << id << endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<width<<" "<<height<<endl;
+        fSalida<<colorDepth<<endl;
+
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++){
+                fSalida<<*matrixImagenP[i][j]<<" ";
+            }
+            fSalida<<endl;
+        }
+
+    }else if(!identification.compare("P5")){
+        fSalida<<identification.toStdString()<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida << width << " " << height << "\n";
+        fSalida << colorDepth << "\n";
+        unsigned char *image;
+        image = (unsigned char *) new unsigned char [this->height*this->width];
+
+        for(int i=0; i<this->height; i++)
+            for(int j=0; j<this->width; j++)
+                image[i*this->width+j]=(unsigned char)*matrixImagenP[i][j];
+
+
+
+        fSalida.write( reinterpret_cast<char *>(image), (this->width*this->height)*sizeof(unsigned char));
+        delete [] image;
     }
 
-    QFile temp(filename);
+    fSalida.close();
+
+
+    /*QFile temp(filename);
     if(temp.open(QFile::WriteOnly)){
         QTextStream fSalida(&temp);
 
@@ -577,5 +1012,7 @@ void ImagenPGM::saveImage(QString filename){
             }
             fSalida<<endl;
         }
-    }
+    }*/
+
+
 }

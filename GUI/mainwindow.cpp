@@ -2,16 +2,21 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: mainwindow.cpp
 //
 // FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
-// gustalibreros@hotmail.com
+// gustalibreros@gmail.com
 //
 // Edwin Fernando Muñoz             0910398-3743
-// edwinfernandomudelgado@hotmail.com
+// edwinfernandomudelgado@gmail.com
+//
+// Yerminson Doney Gonzalez         0843846-3743
+// yermigon@gmail.com
+//
+// Edgar Andrés Moncada             0832294-3743
+// edgarandres29@gmail.com
 //
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
@@ -33,7 +38,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Buttons Events
+//**********************************************************
+//**********************************************************
+// Buttons Events
+//**********************************************************
+//**********************************************************
 void MainWindow::on_pButton_LoadImage_clicked()
 {
 
@@ -43,7 +52,6 @@ void MainWindow::on_pButton_LoadImage_clicked()
 
             // Changes on PushButtons:
             ui->pButton_LoadImage->setEnabled(false);
-            ui->pButton__AdjustImageSize->setEnabled(true);
             ui->pButton__NormalSize->setEnabled(true);
 
             //Enable QActions
@@ -69,6 +77,10 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionMean->setEnabled(true);
                 ui->actionConvolution->setEnabled(true);
                 ui->actionGaussiana->setEnabled(true);
+                ui->actionStretching->setEnabled(true);
+                ui->actionGamma_Correction->setEnabled(true);
+                ui->actionNoise_Cleaning_Pixel->setEnabled(true);
+                ui->actionNoise_Cleaning_Line->setEnabled(true);
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -104,40 +116,53 @@ void MainWindow::on_pButton_LoadImage_clicked()
     }
 }
 
-void MainWindow::on_pButton__AdjustImageSize_clicked()
-{
-    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(this->displayedImage->scaled(QSize(733, 550),Qt::KeepAspectRatio)));
-}
-
 void MainWindow::on_pButton__NormalSize_clicked()
 {
-    if(displayedImage->width()>ui->label_Imagen->width() && displayedImage->height()>ui->label_Imagen->height()){
+    // if width and height of the image are bigger than the display Area
+    if(displayedImage->width()>ui->scrollAreaWidgetContents->width() && displayedImage->height()>ui->scrollAreaWidgetContents->height()){
         ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-    }else if (displayedImage->width()>ui->label_Imagen->width()) {
-        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), ui->label_Imagen->height()));
+    }
+
+    // if just the width is bigger than the display area
+    else if (displayedImage->width()>ui->scrollAreaWidgetContents->width()) {
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(0, yPos, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
-    }else if (displayedImage->height()>ui->label_Imagen->height()) {
-        ui->label_Imagen->setGeometry(QRect(0, 0, ui->label_Imagen->width(), displayedImage->height()));
+    }
+
+    // if just the height is bigger than the display area
+    else if (displayedImage->height()>ui->scrollAreaWidgetContents->height()) {
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, 0, displayedImage->width(), displayedImage->height()));
         ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
-    }else{
-        ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
+    }
+
+    // if any of the cases above
+    else{
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, yPos, displayedImage->width(), displayedImage->height()));
     }
 
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
+    pixmapLabelImagen=*ui->label_Imagen->pixmap();
+
 }
 
+//**********************************************************
+//**********************************************************
 // MenuBar Events
+//**********************************************************
+//**********************************************************
 
+//**********************************************************
 // File Menu
+//**********************************************************
 void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
     ui->pButton_LoadImage->setEnabled(true);
-    ui->pButton__AdjustImageSize->setEnabled(false);
     ui->pButton__NormalSize->setEnabled(false);
 
     //Disable QActions
@@ -157,6 +182,11 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConvolution->setEnabled(false);
     ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
+    //ui->actionNoise_Cleaning_Line-setEnabled(false);
+    //ui->actionNoise_Cleaning_Pixel-setEnabled(false);
+    //ui->actionStretching-setEnabled(false);
+    //ui->actionGamma_Correction-setEnabled(false);
+
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -189,23 +219,6 @@ void MainWindow::on_actionNew_Job_triggered()
     mainController=new MainController();
 }
 
-
-
-// Edit Menu
-void MainWindow::on_actionUndo_triggered()
-{
-    if (mainController->undo()) {
-        displayedImage=mainController->getQImage();
-        ShowHistogram();
-        on_pButton__NormalSize_clicked();
-    }else{
-        QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry, but there is nothing to undo");
-        msgBox2.exec();
-    }
-
-}
-
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
@@ -221,7 +234,26 @@ void MainWindow::on_actionExit_triggered()
     this->close();
 }
 
-// Global Transfomations
+//**********************************************************
+// Edit Menu
+//**********************************************************
+void MainWindow::on_actionUndo_triggered()
+{
+    if (mainController->undo()) {
+        displayedImage=mainController->getQImage();
+        ShowHistogram();
+        on_pButton__NormalSize_clicked();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry, but there is nothing to undo");
+        msgBox2.exec();
+    }
+
+}
+
+//**********************************************************
+// Global Transfomations Menu
+//**********************************************************
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
@@ -351,8 +383,11 @@ void MainWindow::on_actionDivide_triggered()
     }
 }
 
+//**********************************************************
 // Histogram Menu
-void MainWindow::on_actionThreshold_triggered(){
+//**********************************************************
+void MainWindow::on_actionThreshold_triggered()
+{
     if (ui->widget_options!=0) {
         delete ui->widget_options;
         ui->widget_options=0;
@@ -376,8 +411,9 @@ void MainWindow::on_actionEqualization_triggered()
     }
 }
 
-//Filter
-
+//**********************************************************
+// Filters Menu
+//**********************************************************
 void MainWindow::on_actionMean_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
@@ -419,7 +455,6 @@ void MainWindow::on_actionConvolution_triggered()
     ui->widget_options->setVisible(true);
 }
 
-
 void MainWindow::on_actionGaussiana_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
@@ -450,7 +485,45 @@ void MainWindow::on_actionGaussiana_triggered()
     }
 }
 
+void MainWindow::on_actionNoise_Cleaning_Line_triggered()
+{
+
+}
+
+void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
+{
+
+}
+
+//**********************************************************
+// Contrast Menu
+//**********************************************************
+void MainWindow::on_actionGamma_Correction_triggered()
+{
+
+}
+
+void MainWindow::on_actionStretching_triggered()
+{
+
+}
+
+//**********************************************************
+// Edge Detection Menu
+//**********************************************************
+void MainWindow::on_actionSobel_triggered()
+{
+
+}
+
+void MainWindow::on_actionCanny_triggered()
+{
+
+}
+
+//**********************************************************
 // DICOM Menu
+//**********************************************************
 void MainWindow::on_actionWindow_Level_triggered()
 {
     if (ui->widget_options!=0) {
@@ -462,7 +535,9 @@ void MainWindow::on_actionWindow_Level_triggered()
     ui->widget_options->setVisible(true);
 }
 
+//**********************************************************
 // Help Menu
+//**********************************************************
 void MainWindow::on_actionAbout_triggered()
 {
     DialogAbout about(this);
@@ -470,7 +545,11 @@ void MainWindow::on_actionAbout_triggered()
     about.exec();
 }
 
+//**********************************************************
+//**********************************************************
 // Other Methods
+//**********************************************************
+//**********************************************************
 void MainWindow::displayResults(QImage *result)
 {
     displayedImage=result;
@@ -486,3 +565,67 @@ void MainWindow::ShowHistogram(){
     ui->label_Histogram->setPixmap(QPixmap::fromImage(histogramImage->scaled(QSize(250,100), Qt::IgnoreAspectRatio)));
 }
 
+void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
+{
+    qDebug()<<"Coordenadas: X1= "<<start.x()<<" Y1= "<<start.y();
+    qDebug()<<"Coordenadas: X2= "<<end.x()<<" Y2= "<<end.y();
+    QPixmap pixmap (*ui->label_Imagen->pixmap());
+    QPainter painter(&pixmap);
+    QPen pen(Qt::black, 2, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen);
+    painter.drawLine(start.x(),start.y(),end.x(),end.y());
+    ui->label_Imagen->setPixmap(pixmap);
+}
+
+void MainWindow::on_label_Imagen_eraseLine()
+{
+    ui->label_Imagen->setPixmap(pixmapLabelImagen);
+}
+
+void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
+{
+    ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+}
+
+void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
+{
+    if (ui->label_Imagen->pixmap()!=0) {
+
+        double newWidth= ui->label_Imagen->pixmap()->width()*(1+(factor/100));
+        double newHeight= ui->label_Imagen->pixmap()->height()*(1+(factor/100));;
+        QPixmap scaledPixmap = ui->label_Imagen->pixmap()->scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+
+        // if width and height of the image are bigger than the display Area
+        if(scaledPixmap.width()>ui->scrollAreaWidgetContents->width() && scaledPixmap.height()>ui->scrollAreaWidgetContents->height()){
+            ui->label_Imagen->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
+        }
+
+        // if just the width is bigger than the display area
+        else if (scaledPixmap.width()>ui->scrollAreaWidgetContents->width()) {
+            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
+            ui->label_Imagen->setGeometry(QRect(0, yPos, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), ui->scrollAreaWidgetContents->height()));
+        }
+
+        // if just the height is bigger than the display area
+        else if (scaledPixmap.height()>ui->scrollAreaWidgetContents->height()) {
+            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
+            ui->label_Imagen->setGeometry(QRect(xPos, 0, scaledPixmap.width(), scaledPixmap.height()));
+            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), scaledPixmap.height()));
+        }
+
+        // if any of the cases above
+        else{
+            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
+            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
+            ui->label_Imagen->setGeometry(QRect(xPos, yPos, scaledPixmap.width(), displayedImage->height()));
+        }
+
+        ui->label_Imagen->setPixmap(scaledPixmap);
+        pixmapLabelImagen=*ui->label_Imagen->pixmap();
+    }
+    else{
+        ui->horizontalSlider_zoom->setValue(0);
+    }
+}

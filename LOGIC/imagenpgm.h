@@ -2,16 +2,21 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: imagenpgm.h
 //
 // FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
-// gustalibreros@hotmail.com
+// gustalibreros@gmail.com
 //
 // Edwin Fernando Muñoz             0910398-3743
-// edwinfernandomudelgado@hotmail.com
+// edwinfernandomudelgado@gmail.com
+//
+// Yerminson Doney Gonzalez         0843846-3743
+// yermigon@gmail.com
+//
+// Edgar Andrés Moncada             0832294-3743
+// edgarandres29@gmail.com
 //
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
@@ -28,7 +33,9 @@
 #include <QRgb>
 #include <DATA_ACCESS/imagefile.h>
 #include "image.h"
+using namespace std;
 
+#define PI 3.14159265
 class ImagenPGM: public Image{
 
     int ***matrixImagenP;
@@ -77,9 +84,19 @@ public:
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
+    int **createKernelFilter(int *vectorKernel, int kernelSize);
     Image *gaussianaFilter(int sigma, int kernelSize);
-    int *kernelGaussiana(int size);
+    Image *noiseCleaningPixel(int delta);
+    Image *noiseCleaningLine(int delta);
 
+    //Edge
+    Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
+private:
+    int discretDegree(double value);
+    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, int**gradientMagnitude);
+    void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
+    int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
+public:
     // Getters
     int ***getMatrix();
 

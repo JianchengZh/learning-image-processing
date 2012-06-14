@@ -2,16 +2,21 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: mainwindow.h
 //
 // FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
-// gustalibreros@hotmail.com
+// gustalibreros@gmail.com
 //
 // Edwin Fernando Muñoz             0910398-3743
-// edwinfernandomudelgado@hotmail.com
+// edwinfernandomudelgado@gmail.com
+//
+// Yerminson Doney Gonzalez         0843846-3743
+// yermigon@gmail.com
+//
+// Edgar Andrés Moncada             0832294-3743
+// edgarandres29@gmail.com
 //
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
@@ -25,9 +30,13 @@
 #include <QFileDialog>
 #include <QApplication>
 #include <QPixmap>
+#include <QPainter>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QErrorMessage>
+#include <QPoint>
+#include <QDebug>
+
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
@@ -61,11 +70,9 @@ public:
 
 private slots:
 
-    // Load Image
+    // Buttons Events
     void on_pButton_LoadImage_clicked();
-
-    // Events for changing the image size on the main screen
-    void on_pButton__AdjustImageSize_clicked();
+//    void on_pButton__AdjustImageSize_clicked();
     void on_pButton__NormalSize_clicked();
 
     // MenuBar Events
@@ -78,11 +85,10 @@ private slots:
     // Edit Menu
     void on_actionUndo_triggered();
 
-    // Global Transformations
+    // Global Transformations Menu
     void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
-
     void on_actionWeight_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
@@ -93,10 +99,20 @@ private slots:
     void on_actionThreshold_triggered();
     void on_actionEqualization_triggered();
 
-    //Filter
+    //Filters Menu
     void on_actionMean_triggered();
     void on_actionConvolution_triggered();
     void on_actionGaussiana_triggered();
+    void on_actionNoise_Cleaning_Line_triggered();
+    void on_actionNoise_Cleaning_Pixel_triggered();
+
+    // Contrast Menu
+    void on_actionGamma_Correction_triggered();
+    void on_actionStretching_triggered();
+
+    // Edge Detection Menu
+    void on_actionSobel_triggered();
+    void on_actionCanny_triggered();
 
     // DICOM Menu
     void on_actionWindow_Level_triggered();
@@ -104,13 +120,18 @@ private slots:
     // Help Menu
     void on_actionAbout_triggered();
 
-
+    // Other Methods
+    void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
+    void on_label_Imagen_eraseLine();
+    void on_label_Imagen_mousePosition(const QPoint position);
+    void on_horizontalSlider_zoom_sliderMoved(int factor);
 
 private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
+    QPixmap pixmapLabelImagen;
 };
 
 #endif // MAINWINDOW_H
