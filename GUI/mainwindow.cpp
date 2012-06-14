@@ -597,11 +597,8 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
 
     if (mainController->getImage()->getImageType()=="DCM") {
         ImagenDCM *imagen = static_cast<ImagenDCM*> (mainController->getImage());
-
-        qDebug()<<"distancia: "<<imagen->getDistance(start, end)<<"mm";
-
+        ui->label_distance->setText("Distancia: "+QString::number(imagen->getDistance(start, end))+"mm");
     }
-
     ui->label_Imagen->setPixmap(pixmap);
 }
 
