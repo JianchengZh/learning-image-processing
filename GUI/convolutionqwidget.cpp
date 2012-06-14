@@ -56,7 +56,7 @@ void ConvolutionQwidget::on_spinBox_valueChanged(int arg1)
     double heightTable = kernelSize * (heightLineEdit + 3);
     int initialX = (ui->widgetTable->width() - widthTable) / 2;
     int initialY = (ui->widgetTable->height() - heightTable) / 2;
-    int x;
+
 
     qLineEditMatrix = new QLineEdit**[kernelSize];
 

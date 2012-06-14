@@ -45,6 +45,7 @@ class ImagenPGM: public Image{
     void generateQImage();
     Image* applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
     void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
+    Image *clasify(int* centroid, int size , int iterations);
 
 public:
 
@@ -81,6 +82,9 @@ public:
     Image *gammaCorrection(double r);
     Image *contrastStretching();
 
+    //Segmentation
+    Image *kmeans(int clusters, int iterations);
+
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
@@ -94,7 +98,7 @@ public:
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 private:
     int discretDegree(double value);
-    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, int**gradientMagnitude);
+    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
     void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
     int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
 public:
