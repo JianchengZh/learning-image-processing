@@ -58,5 +58,14 @@ void SobelQwidget::on_sobelVertically_clicked()
 
 void SobelQwidget::on_sobelFilter_clicked()
 {
-
+    if(mainController->isThereAnUploadedImage()){
+        mainController->edgeDetectionSobel(2);
+        mainwindow->displayResults(mainController->getQImage());
+        mainwindow->ShowHistogram();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }
