@@ -94,7 +94,7 @@ public:
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 private:
     int discretDegree(double value);
-    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, int**gradientMagnitude);
+    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
     void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
     int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
 public:

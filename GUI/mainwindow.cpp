@@ -528,7 +528,7 @@ void MainWindow::on_actionSobel_triggered()
 
 void MainWindow::on_actionCanny_triggered()
 {
-    int thresholdHigh=70,thresholdDown=20;
+    int thresholdHigh=200,thresholdDown=160;
     if(mainController->isThereAnUploadedImage()){
         mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
         displayResults(mainController->getQImage());
