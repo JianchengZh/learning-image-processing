@@ -46,12 +46,14 @@
 #include "GUI/thresholdqwidget.h"
 #include "GUI/windowlevelqwidget.h"
 #include "GUI/convolutionqwidget.h"
+#include "GUI/sobelqwidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
 class ThresholdQwidget;
 class ConvolutionQwidget;
 class WindowLevelQWidget;
+class SobelQwidget;
 
 namespace Ui {
 class MainWindow;

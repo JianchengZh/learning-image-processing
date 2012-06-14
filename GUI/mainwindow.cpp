@@ -81,6 +81,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionGamma_Correction->setEnabled(true);
                 ui->actionNoise_Cleaning_Pixel->setEnabled(true);
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
+                ui->actionSobel->setEnabled(true);
+                ui->actionCanny->setEnabled(true);
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -182,6 +184,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionConvolution->setEnabled(false);
     ui->actionGaussiana->setEnabled(false);
     ui->actionWindow_Level->setEnabled(false);
+    ui->actionSobel->setEnabled(false);
+    ui->actionCanny->setEnabled(false);
     //ui->actionNoise_Cleaning_Line-setEnabled(false);
     //ui->actionNoise_Cleaning_Pixel-setEnabled(false);
     //ui->actionStretching-setEnabled(false);
@@ -513,12 +517,28 @@ void MainWindow::on_actionStretching_triggered()
 //**********************************************************
 void MainWindow::on_actionSobel_triggered()
 {
-
+    if (ui->widget_options!=0) {
+           delete ui->widget_options;
+           ui->widget_options=0;
+       }
+       ui->widget_options = new SobelQwidget(ui->centralWidget, mainController, this);
+       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options->setVisible(true);
 }
 
 void MainWindow::on_actionCanny_triggered()
 {
-
+    int thresholdHigh=70,thresholdDown=20;
+    if(mainController->isThereAnUploadedImage()){
+        mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }
 
 //**********************************************************

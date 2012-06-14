@@ -84,12 +84,13 @@ public:
     //Filters
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int size);
-    int **createKernelFilter(int *vectorKernel, int kernelSize);
+    int **createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize);
     Image *gaussianaFilter(int sigma, int kernelSize);
     Image *noiseCleaningPixel(int delta);
     Image *noiseCleaningLine(int delta);
 
-    //Edge
+    //Edge Detection
+    Image *edgeDetectionSobel(int position);
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 private:
     int discretDegree(double value);

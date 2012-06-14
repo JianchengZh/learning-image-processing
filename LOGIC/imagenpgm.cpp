@@ -530,7 +530,7 @@ Image* ImagenPGM::gaussianaFilter(int sigma, int kernelSize){
     delete vectorAux;
     vectorAux=0;
     //return vectorActual;
-    return applyKernel(createKernelFilter(vectorActual,kernelSize),kernelSize,kernelSize);
+    return applyKernel(createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize);
 }
 
 Image* ImagenPGM::noiseCleaningLine(int delta){
@@ -631,31 +631,42 @@ Image* ImagenPGM::noiseCleaningPixel(int delta){
 }
 
 
-int** ImagenPGM::createKernelFilter(int* vectorKernel, int kernelSize){
-   // int kernelSize = (2*r) + 1;
-   // double g=0,gmin=2*3.1416*pow(sigma,2);
-  //  QTextStream cout (stdout);
-  //  int *vectorKernel=kernelGaussiana(kernelSize);
-
+int** ImagenPGM::createKernelFilter(int* vectorKerneli,int* vectorKernelj, int kernelSize){
     int **kernel= new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i) {
         kernel[i]=new int[kernelSize];
     }
 
-    //vectorActual = new int [size];cout<< kernelSize <<" "<<gmin<<" "<<sigma<<endl;
     for (int i = 0; i < kernelSize; ++i) {
         for (int j = 0; j < kernelSize; ++j) {
-          //  g=exp(-1*((pow(i,2)+pow(j,2))/(2*pow(sigma,2))));
-          //  if (g<gmin) {gmin=g;}
-          //  kernel[i][j]=round(g*gmin);
-            kernel[i][j]=vectorKernel[i]*vectorKernel[j];
-        //    cout<<kernel[i][j]<<" ";
-        }//cout<<endl;
+            kernel[i][j]=vectorKerneli[i]*vectorKernelj[j];
+        }
     }
     return kernel;
 }
 
-//Edge
+//Edge Detection
+
+Image* ImagenPGM::edgeDetectionSobel(int position){
+    int kernelSize=3;
+    int *vectorKerneli=new int[kernelSize];
+    int *vectorKernelj=new int[kernelSize];
+    vectorKerneli[0]=1; vectorKerneli[1]=0; vectorKerneli[2]=-1;
+    vectorKernelj[0]=1; vectorKernelj[1]=2; vectorKernelj[2]=1;
+
+    int **kernel= new int*[kernelSize];
+    for (int i = 0; i < kernelSize; ++i) {
+        kernel[i]=new int[kernelSize];
+    }
+    meanFilter(kernelSize);
+    if(position==0)
+        kernel=createKernelFilter(vectorKernelj,vectorKerneli,kernelSize);
+    else if(position==1)
+        kernel=createKernelFilter(vectorKerneli,vectorKernelj,kernelSize);
+
+    return applyKernel(kernel,kernelSize,kernelSize);
+}
+
 /**
     El detector de bordes basado en Canny:
     * Primero se aplica un filtro gaussiano a la imagen.
@@ -955,6 +966,7 @@ int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edg
 }
 
 // Export
+
 void ImagenPGM::saveImage(QString filename){
 
     if (!filename.contains(".pgm")) {

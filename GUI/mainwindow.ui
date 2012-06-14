@@ -514,8 +514,8 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuHistogram"/>
    <addaction name="menuFilters"/>
    <addaction name="menuContrast"/>
-   <addaction name="menuTomography"/>
    <addaction name="menuEdge_Detector"/>
+   <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionExit">
@@ -738,11 +738,17 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionSobel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Sobel</string>
    </property>
   </action>
   <action name="actionCanny">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Canny</string>
    </property>
