@@ -663,6 +663,10 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
         kernel=createKernelFilter(vectorKernelj,vectorKerneli,kernelSize);
     else if(position==1)
         kernel=createKernelFilter(vectorKerneli,vectorKernelj,kernelSize);
+    else{
+       // edgeDetectionSobel(0);
+       // edgeDetectionSobel(1);
+    }
 
     return applyKernel(kernel,kernelSize,kernelSize);
 }
@@ -708,8 +712,8 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
 
     /*********************************************/
     //Filtro Gaussiano
-    gaussianaFilter(2,3);
-
+    //gaussianaFilter(1,1);
+    gaussianaFilter(1,5);
     //Calculo del Gradiente (magnitud y angulo)
 
     //Non Maximum Suppression
