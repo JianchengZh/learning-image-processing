@@ -245,6 +245,20 @@ void MainController::noiseCleaningPixel(int delta){
     imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningPixel(delta);
 }
 
+//edge Detection
+
+void MainController::edgeDetectionSobel(int position){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectionSobel(position);
+}
+
+void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectorCanny(thresholdHigh,thresholdDown);
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 

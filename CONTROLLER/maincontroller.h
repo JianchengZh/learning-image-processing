@@ -77,6 +77,10 @@ public:
     void noiseCleaningPixel(int delta);
     void noiseCleaningLine(int delta);
 
+    //Edge Detection
+    void edgeDetectionSobel(int position);
+    void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
+
     // DICOM
     void applyWindowLevel(int window, int level);
 
