@@ -25,6 +25,14 @@
 #include <QFile>
 #include <QTextStream>
 
+
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <fstream>
+using namespace std;
+
 class ImageFile: public QFile
 {
 private:
@@ -40,6 +48,7 @@ private:
 public:
     ImageFile(QString fileName);
     bool readFile();
+    bool readFileImage();
     void readingProcess();
     void printImageContents();
     QList<QString> getImageContents();

@@ -26,7 +26,10 @@ ImageFile::ImageFile(QString filename) : QFile(filename)
 
 bool ImageFile::readFile()
 {
-    if(supportedFormats.contains(fileName().section(".",-1))){
+
+
+    return readFileImage();
+    /*if(supportedFormats.contains(fileName().section(".",-1))){
 
         if (this->open(QIODevice::ReadOnly)){
 
@@ -46,7 +49,7 @@ bool ImageFile::readFile()
         }
     }else{
         return false;
-    }
+    }*/
 }
 
 void ImageFile::readingProcess(){
@@ -104,3 +107,174 @@ int ImageFile::getColorDepth(){
 int* ImageFile::getMatrix(){
     return this->matrix;
 }
+
+bool ImageFile::readFileImage()
+{
+    string path = fileName().toStdString();
+    ifstream imageIn(path.c_str(), ios::binary);
+
+    string content;
+    int count=0;
+
+    if(!imageIn.is_open()){
+        cerr << "Error: ¡La imagen no existe o no pudo ser cargada!" << endl;
+        return false;
+    }
+
+    while(count<4){
+        imageIn >> content;
+
+        if(content.substr(0, 1).compare("#")){ //Si la linea no es un comentario se guardan los datos
+            if(count==0){
+                if(content.compare("P2") && content.compare("P3") && content.compare("P5") && content.compare("P6")){
+                    cerr << "Error: ¡La imagen no es de tipo PGM " << content << endl;
+                    return false;
+                }
+                else{
+                    QString temp(content.c_str());
+                    this->id = temp;
+                }
+
+            }
+            if(count == 1){
+                this->width=atoi(content.c_str());
+            }
+            if(count == 2){
+                this->height=atoi(content.c_str());
+            }
+            if(count == 3){
+                this->colorDepth=atoi(content.c_str());
+            }
+
+            count++;
+        }else getline(imageIn, content); //Si es un comentario se descarta el resto de linea
+    }
+
+    if(!this->id.compare("P2")){ //Si la imagen es en escala de grises
+
+        //Inicializamos el valor para la matrix
+        this->matrix = new int[width*height];
+
+        for(int i=0;i<this->height;i++){ //Hasta que se haya llenado la matriz Y
+
+            for(int j=0;j<this->width;j++)
+            {
+                imageIn >> content;
+
+                if(content.substr(0, 1).compare("#")){ //Si la linea no es un comentario se guardan los datos
+                    int value = atoi(content.c_str());
+
+                    //Falta validar si es un pixel valido USAR CLASE EXCEPTION IMAGE FALTA***
+                    matrix[(i*width)+j] = value;
+
+                }else{
+                    getline(imageIn, content);
+                    i--;
+                } //Si es un comentario se descarta el resto de linea
+            }
+        }
+
+        cout << "Bien: ¡La imagen se leyo correctamente" << endl;
+    }else if(!this->id.compare("P3")){	//Si la imagen es a color
+
+        //Se le dan tamaño a las matrices RGB
+        this->matrix = new int[3*width*height];
+
+
+        int count =0;
+
+        for(int i=0; i<this->height;i++){
+
+            for(int j=0; j<this->width;j++){
+
+                if(content.substr(0, 1).compare("#")){ //Si la linea no es un comentario se guardan los datos
+
+
+                    //Falta validar si es un pixel valido USAR CLASE EXCEPTION IMAGE FALTA***
+
+                    int value;
+                    imageIn >> content; //R
+                    value = atoi(content.c_str());
+                    matrix[count] = value;
+                    count++;
+
+
+                    imageIn >> content; //G
+                    value = atoi(content.c_str());
+                    matrix[count] = value;
+                    count++;
+
+
+                    imageIn >> content; //B
+                    value = atoi(content.c_str());
+                    matrix[count] = value;
+                    count++;
+
+                }else{
+                    getline(imageIn, content);
+                    i--;
+                } //Si es un comentario se descarta el resto de linea
+            }
+
+        }
+
+        cout << "Bien: ¡La imagen se leyo correctamente" << endl;
+
+    }else if(!this->id.compare("P5")){
+
+        //Inicializamos el valor para la matrix
+        this->matrix = new int[width*height];
+
+        int val =0;
+
+        for(int i=0; i<this->height; i++)
+            for(int j=0; j<this->width; j++)
+            {
+                val = imageIn.get();
+                matrix[(i*width)+j] = val;
+            }
+
+
+        cout << "Bien: ¡La imagen se leyo correctamente " << this->id.toStdString()<< endl;
+
+    }else if(!this->id.compare("P6")){
+
+        //Inicializamos el valor para la matrix
+        this->matrix = new int[3*width*height];
+
+        int val = 0;
+        int count = 0;
+        imageIn.get();
+        for(int i=0; i<this->height; i++)
+            for(int j=0; j<this->width; j++)
+            {
+                val = imageIn.get(); //(int)charImage[i*this->width+j];
+                matrix[count] = val;
+                count++;
+
+                val = imageIn.get();
+                matrix[count] = val;
+                count++;
+
+                val = imageIn.get();
+                matrix[count] = val;
+                count++;
+
+
+
+
+            }
+
+
+
+        cout << "Bien: ¡La imagen se leyo correctamente p6" << this->id.toStdString()<< endl;
+
+    }
+
+
+    imageIn.close();
+
+    return true;
+
+}
+
