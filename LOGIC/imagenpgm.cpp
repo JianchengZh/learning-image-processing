@@ -708,7 +708,7 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
 
     /*********************************************/
     //Filtro Gaussiano
-    //gaussianaFilter(1,1);
+    gaussianaFilter(2,3);
 
     //Calculo del Gradiente (magnitud y angulo)
 

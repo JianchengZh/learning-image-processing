@@ -182,7 +182,7 @@ Image* ImagenDCM::changeColorDepth(int bits){
 // GUI Display
 void ImagenDCM::generateQImage(){
     QVector<QRgb> colorTable;
-    int aux;
+
     for (int i = 0; i < 256; ++i) {
         colorTable.append(qRgb(i,i,i));
     }
