@@ -31,9 +31,10 @@ ImageFile::ImageFile(QString filename) : QFile(filename)
 
 bool ImageFile::readFile()
 {
+    //Se asigna el resultado de leer la imagen PGM o PPM ya sea P2,P5 o P3,P6 respectivamente
+    bool state = readFileImage();
 
-
-    return readFileImage();
+    return state;
     /*if(supportedFormats.contains(fileName().section(".",-1))){
 
         if (this->open(QIODevice::ReadOnly)){

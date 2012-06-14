@@ -49,11 +49,13 @@ private:
     int width;
     int *matrix;
 
+    bool readFileImage();
+
 
 public:
     ImageFile(QString fileName);
     bool readFile();
-    bool readFileImage();
+
     void readingProcess();
     void printImageContents();
     QList<QString> getImageContents();
