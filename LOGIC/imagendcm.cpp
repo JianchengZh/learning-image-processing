@@ -22,6 +22,7 @@
 ImagenDCM::ImagenDCM(const char *fileName){
 
     dicomImage = new DicomImage(fileName);
+    statusDcmFileFormat = fileformat.loadFile(fileName);
 
     if (dicomImage != NULL)
     {
@@ -33,24 +34,24 @@ ImagenDCM::ImagenDCM(const char *fileName){
             this->height=dicomImage->getWidth();
             this->width=dicomImage->getHeight();
 
-            QTextStream cout (stdout);
-            cout <<"DICOM depth: "<<dicomImage->getDepth()<<endl;
-            cout <<"Color Depth: "<<colorDepth<<endl;
-            cout<< "frameCount: "<<dicomImage->getFrameCount()<<endl;
+
+            qDebug() <<"DICOM depth: "<<dicomImage->getDepth();
+            qDebug() <<"Color Depth: "<<colorDepth;
+            qDebug()<< "frameCount: "<<dicomImage->getFrameCount();
 
             dicomImage->getMinMaxValues(minDensity, maxDensity);
 
-            cout<<"Min Value: "<<minDensity<<endl;
-            cout<<"Max Value: "<<maxDensity<<endl;
+            qDebug()<<"Min Value: "<<minDensity;
+            qDebug()<<"Max Value: "<<maxDensity;
 
             //Lookup Table
-            lutSize=abs(minDensity)+abs(maxDensity)+1;
+            lutSize=fabs(minDensity)+fabs(maxDensity)+1;
             QTextStream (stdout)<<"lut size"<<lutSize<<endl;
 
             lut = new int [lutSize];
             for (int i = 0; i < lutSize; ++i){
-                lut[i]=i-abs(minDensity);
-//                QTextStream (stdout)<<"LUT["<<i<<"]: "<<lut[i]<<endl;
+                lut[i]=i-fabs(minDensity);
+                //                qDebug()<<"LUT["<<i<<"]: "<<lut[i];
             }
 
             matrixImagenP = new int**[height];
@@ -59,15 +60,14 @@ ImagenDCM::ImagenDCM(const char *fileName){
 
             for(int i=0; i<height; i++){
                 for(int j=0; j<width; j++){
-                    matrixImagenP[i][j]=&lut[getDensity(j,i)+abs(minDensity)];
-//                    QTextStream (stdout)<<*matrixImagenP[i][j]<<" ";
+                    matrixImagenP[i][j]=&lut[getDensity(j,i)+(int)fabs(minDensity)];
                 }
-//                QTextStream (stdout) <<""<<endl;
             }
 
             applyWindowLevel(400,40);
             generateHistogram();
             generateQImage();
+            getMetaData();
 
             status = true;
         } else
@@ -75,7 +75,6 @@ ImagenDCM::ImagenDCM(const char *fileName){
     }
 
 }
-
 
 int ImagenDCM::getDensity(int x, int y)
 {
@@ -141,7 +140,7 @@ void ImagenDCM::applyWindowLevel(int window, int level){
 
     // Reset the lut Table;
     for (int i = 0; i < lutSize; ++i){
-        lut[i]=i-abs(minDensity);
+        lut[i]=i-fabs(minDensity);
     }
 
     for (int i = 0; i < lutSize; ++i){
@@ -237,5 +236,35 @@ void ImagenDCM::saveImage(QString filename){
         }
     }
 }
+
+void ImagenDCM::getMetaData(){
+
+    if (statusDcmFileFormat.good()){
+
+        if (fileformat.getDataset()->findAndGetOFString(DcmTagKey(0x0028,0x0030), pixelSpacing).good())
+        {
+            cout << "OFString pixelSpacing: " << pixelSpacing << endl;
+        } else
+            cout << "Error: cannot access Patient's Name!" << endl;
+    } else
+        cout << "Error: cannot read DICOM file (" << statusDcmFileFormat.text() << ")" << endl;
+}
+
+double ImagenDCM::getDistance(QPoint start, QPoint end){
+
+    double pixelSpacing1 = QString(pixelSpacing.c_str()).toDouble();
+    cout << "pixelSpacing1: "<<pixelSpacing1<<endl;
+
+    double catetoA = (start.x() - end.x()) * pixelSpacing1;
+    double catetoB = (start.y() - end.y()) * pixelSpacing1;
+
+    double distance = sqrt((pow(catetoA,2)+(pow(catetoB,2))));
+
+    return distance;
+
+}
+
+
+
 
 
