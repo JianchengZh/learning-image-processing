@@ -594,6 +594,14 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
     QPen pen(Qt::green, 2, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
     painter.drawLine(start.x(),start.y(),end.x(),end.y());
+
+    if (mainController->getImage()->getImageType()=="DCM") {
+        ImagenDCM *imagen = static_cast<ImagenDCM*> (mainController->getImage());
+
+        qDebug()<<"distancia: "<<imagen->getDistance(start, end)<<"mm";
+
+    }
+
     ui->label_Imagen->setPixmap(pixmap);
 }
 

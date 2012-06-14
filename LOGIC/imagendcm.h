@@ -35,6 +35,8 @@
 #include <QRgb>
 #include <QDebug>
 #include <QPoint>
+#include <iostream>
+using namespace std;
 
 
 class ImagenDCM : public Image{
@@ -46,6 +48,7 @@ class ImagenDCM : public Image{
     int *lut;
     int lutSize;
     double minDensity, maxDensity;
+    OFString pixelSpacing;
 
     void generateHistogram();
     void generateQImage();
@@ -57,7 +60,8 @@ public:
 
     int measureDistance(QPoint start, QPoint end);
     ImagenDCM(const char *fileName);
-
+    void getMetaData();
+    double getDistance(QPoint start, QPoint end);
     void applyWindowLevel(int window, int level);
 
     // VIRTUAL METHODS
