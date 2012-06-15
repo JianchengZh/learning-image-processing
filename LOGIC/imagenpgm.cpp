@@ -931,33 +931,6 @@ int ImagenPGM::discretDegree(double value){
         return 3;
     }
 
-
-    /*if(degree >= 22.5 && degree < 67.5 ){//45   1   - direccion 1
-        return 1;
-        //return 45*PI/180;
-    }else if(degree >= 67.5 && degree < 112.5 ){//90   2    - direccion 2
-        return 2;
-        //return 90*PI/180;
-    }else if(degree >= 112.5 && degree < 157.5 ){//135  3    - direccion 3
-        return 3;
-        //return 135*PI/180;
-    }else if(degree >= 157.5 && degree < 202.5 ){//180   4    - direccion 0
-        return 4;
-        //return 135*PI/180;
-    }else if(degree >= 202.5 && degree < 247.5 ){//225   5    - direccion 1
-        return 5;
-        //return 135*PI/180;
-    }else if(degree >= 247.5 && degree < 292.5 ){//270   6   - direccion 2
-        return 6;
-        //return 135*PI/180;
-    }else if(degree >= 292.5 && degree < 337.5 ){//315   7   - direccion 3
-        return 7;
-        //return 135*PI/180;
-    }else if((degree >= 337.5 && degree < 360) || (degree>=0 && degree < 22.5) ){//0   0    - direccion 0
-        return 0;
-        //return 135*PI/180;
-    }*/
-
     //cerr << "no entro discret" << endl;
     return -1;
 

@@ -256,7 +256,9 @@ void MainController::edgeDetectionSobel(int position,int umbral){
 void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectorCanny(thresholdHigh,thresholdDown);
+    EdgeDetector ed;
+    ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
+    imagen=ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
 }
 
 // DICOM

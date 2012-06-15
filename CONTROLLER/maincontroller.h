@@ -36,6 +36,7 @@
 #include "LOGIC/image.h"
 #include "LOGIC/histogram.h"
 #include "DATA_ACCESS/imagefile.h"
+#include "LOGIC/edgedetector.h"
 
 class MainController
 {

@@ -26,7 +26,12 @@ SOURCES += main.cpp\
     GUI/windowlevelqwidget.cpp \
     GUI/convolutionqwidget.cpp \
     GUI/customqlabel.cpp \
-    GUI/sobelqwidget.cpp
+    GUI/sobelqwidget.cpp \
+    LOGIC/filter.cpp \
+    LOGIC/edgedetector.cpp \
+    LOGIC/geometricoperation.cpp \
+    LOGIC/globaltransformation.cpp \
+    LOGIC/basic.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -44,7 +49,12 @@ HEADERS  += \
     GUI/windowlevelqwidget.h \
     GUI/convolutionqwidget.h \
     GUI/customqlabel.h \
-    GUI/sobelqwidget.h
+    GUI/sobelqwidget.h \
+    LOGIC/filter.h \
+    LOGIC/edgedetector.h \
+    LOGIC/geometricoperation.h \
+    LOGIC/globaltransformation.h \
+    LOGIC/basic.h
 
 FORMS    += \
     GUI/dialogabout.ui \
