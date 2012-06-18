@@ -700,6 +700,11 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     }else if(position==2){
         matrizMagnitud();
         imageResult = new ImagenPGM (height, width, colorDepth,Umbral(resultMatrixGradiente,maxGradiente));
+        for (int i = 0; i < height; ++i) {
+            delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
+        }
+        delete resultMatrixGradiente; resultMatrixGradiente=0;
+
     }else{
         matrizMagnitud();
         matrizDirection();
@@ -791,7 +796,6 @@ int** ImagenPGM::Umbral(double** matrix,int max){
 
     return resultMatrixImage;
 }
-
 
 /**
     El detector de bordes basado en Canny:
