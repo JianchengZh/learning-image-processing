@@ -528,16 +528,17 @@ void MainWindow::on_actionSobel_triggered()
 
 void MainWindow::on_actionCanny_triggered()
 {
-    int thresholdHigh=200,thresholdDown=160;
-    if(mainController->isThereAnUploadedImage()){
-        mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
-        displayResults(mainController->getQImage());
-        ShowHistogram();
-    }else{
-        QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry,Operation not valid");
-        msgBox2.setWindowTitle("ERROR");
-        msgBox2.exec();
+    bool ok;
+    int thresholdHigh = QInputDialog::getInteger(this,tr("Edge Canny"),tr("Threshold High:"),200,0,mainController->getImage()->getColorDepth(),1,&ok );
+
+    if (ok){
+        int thresholdDown = QInputDialog::getInteger(this,tr("Edge Canny"), tr("Threshold Down:"),160,0,mainController->getImage()->getColorDepth(),1,&ok );
+
+        if(ok){
+            mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
     }
 }
 
