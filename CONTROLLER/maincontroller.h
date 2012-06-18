@@ -74,12 +74,12 @@ public:
     //Filter
     void meanFilter(int size);
     void convolutionFilter(int **kernel, int size);
-    void gaussianaFilter(int sigma, int size);
+    void gaussianaFilter(int size);
     void noiseCleaningPixel(int delta);
     void noiseCleaningLine(int delta);
 
     //Edge Detection
-    void edgeDetectionSobel(int position, int umbral);
+    void edgeDetectionSobel(int position);
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
 
     // DICOM

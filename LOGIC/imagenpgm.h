@@ -42,13 +42,17 @@ class ImagenPGM: public Image{
     int *lut;
     int** resultMatrixI;
     int** resultMatrixJ;
-
+    double** resultMatrixGradiente;
+    int** resultMatrixDirection;
+    int maxGradiente;
     void generateHistogram();
     void generateQImage();
     int **applyKernel(int** kernel,int kernelSizeX, int kernelSizeY);
     void applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
     Image *clasify(int* centroid, int size , int iterations);
-    int **matrizMagnitud(int umbral);
+    void matrizMagnitud();
+    void matrizDirection();
+    int **Umbral(double** matrix,int max);
 
 public:
 
@@ -92,18 +96,20 @@ public:
     Image *meanFilter(int kernelSize);
     Image *convolutionFilter(int **kernel,int kernelSize);
     int **createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize);
-    Image *gaussianaFilter(int sigma, int kernelSize);
+    Image *gaussianaFilter(int kernelSize);
     Image *noiseCleaningPixel(int delta);
     Image *noiseCleaningLine(int delta);
 
     //Edge Detection
-    Image *edgeDetectionSobel(int position, int umbral);
+    Image *edgeDetectionSobel(int position);
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
+
 private:
     int discretDegree(double value);
     void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
     void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
     int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
+
 public:
     // Getters
     int ***getMatrix();

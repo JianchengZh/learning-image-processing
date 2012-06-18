@@ -227,10 +227,10 @@ void MainController::convolutionFilter(int **kernel, int size){
     imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
 }
 
-void MainController::gaussianaFilter(int sigma, int size){
+void MainController::gaussianaFilter(int size){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(sigma,size);
+    imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(size);
 }
 
 void MainController::noiseCleaningLine(int delta){
@@ -247,10 +247,10 @@ void MainController::noiseCleaningPixel(int delta){
 
 //edge Detection
 
-void MainController::edgeDetectionSobel(int position,int umbral){
+void MainController::edgeDetectionSobel(int position){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectionSobel(position,umbral);
+    imagen=static_cast<ImagenPGM*>(oldImage)->edgeDetectionSobel(position);
 }
 
 void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){

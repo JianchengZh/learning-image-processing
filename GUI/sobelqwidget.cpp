@@ -31,7 +31,7 @@ SobelQwidget::~SobelQwidget()
 void SobelQwidget::on_sobelHorizontally_clicked()
 {
     if(mainController->isThereAnUploadedImage()){
-        mainController->edgeDetectionSobel(0,0);
+        mainController->edgeDetectionSobel(0);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{
@@ -45,7 +45,7 @@ void SobelQwidget::on_sobelHorizontally_clicked()
 void SobelQwidget::on_sobelVertically_clicked()
 {
     if(mainController->isThereAnUploadedImage()){
-        mainController->edgeDetectionSobel(1,0);
+        mainController->edgeDetectionSobel(1);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{
@@ -59,7 +59,7 @@ void SobelQwidget::on_sobelVertically_clicked()
 void SobelQwidget::on_sobelFilter_clicked()
 {
     if(mainController->isThereAnUploadedImage()){
-        mainController->edgeDetectionSobel(2,100);
+        mainController->edgeDetectionSobel(2);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{

@@ -471,11 +471,11 @@ void MainWindow::on_actionGaussiana_triggered()
                                              tr("Kernel Size:"), items, 0, false, &ok);
         if (ok && !item.isEmpty()){
             if(item=="3x3"){
-                mainController->gaussianaFilter(1.0,3);
+                mainController->gaussianaFilter(3);
             }else if(item=="5x5"){
-                mainController->gaussianaFilter(1.0,5);
+                mainController->gaussianaFilter(5);
             }else{
-                mainController->gaussianaFilter(1.0,9);
+                mainController->gaussianaFilter(9);
             }
             displayResults(mainController->getQImage());
             ShowHistogram();
