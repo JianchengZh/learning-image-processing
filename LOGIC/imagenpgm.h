@@ -52,7 +52,7 @@ class ImagenPGM: public Image{
     Image *clasify(int* centroid, int size , int iterations);
     void matrizMagnitud();
     void matrizDirection();
-    int **Umbral(double** matrix,int max);
+    int **Umbral();
 
 public:
 
@@ -98,7 +98,7 @@ public:
     int **createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize);
     Image *gaussianaFilter(int kernelSize);
     Image *noiseCleaningPixel(int delta);
-    Image *noiseCleaningLine(int delta);
+    Image *noiseCleaningLine(double delta);
 
     //Edge Detection
     Image *edgeDetectionSobel(int position);

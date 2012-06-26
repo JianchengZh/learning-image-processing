@@ -146,15 +146,11 @@ Image *ImagenPGM::gammaCorrection(double r){
 
  Image *ImagenPGM::contrastStretching(){
 
-
      this->generateHistogram();
      double *colorFrecuency = this->getHistogram()->getColorFrequency();
 
-
      int minValue = 0;
      int maxValue = colorDepth;
-
-
 
      for(int i=0; i<colorDepth+1; i++)
          if(colorFrecuency[i]!=0){
@@ -175,9 +171,6 @@ Image *ImagenPGM::gammaCorrection(double r){
      }
 
      return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
-
-
-
  }
 
 //Segmentation
@@ -481,18 +474,6 @@ int** ImagenPGM::applyKernel(int **kernel, int kernelSizeX, int kernelSizeY){
             applyKerneltoPixel(i,j,kernel,kernelSizeX,kernelSizeY,resultMatrix);
         }
     }
-
- //   ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
-/*
-        for (int i = 0; i < height; ++i) {
-            delete resultMatrix[i];
-            resultMatrix[i]=0;
-        }
-
-    delete resultMatrix;
-    resultMatrix=0;*/
-
-    //return imageResult;
     return resultMatrix;
 }
 
@@ -505,7 +486,6 @@ void ImagenPGM::applyKerneltoPixel(int i,int j,int **kernel, int kernelSizeX, in
             jj=(floor(kernelSizeY/2)*-1)+y+j;
             newPixel+=*matrixImagenP[ii][jj]*kernel[x][y];
             div+=abs(kernel[x][y]);
-            //QTextStream (stdout) <<"newPixel: "<<newPixel;
         }
     }
     int cond=qRound(newPixel/div);
@@ -561,7 +541,7 @@ Image* ImagenPGM::gaussianaFilter(int kernelSize){
     return imageResult;
 }
 
-Image* ImagenPGM::noiseCleaningLine(int delta){
+Image* ImagenPGM::noiseCleaningLine(double delta){
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
         resultMatrix[i] = new int[width];
@@ -699,7 +679,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
         imageResult = new ImagenPGM (height, width, colorDepth,resultMatrixJ);
     }else if(position==2){
         matrizMagnitud();
-        imageResult = new ImagenPGM (height, width, colorDepth,Umbral(resultMatrixGradiente,maxGradiente));
+        imageResult = new ImagenPGM (height, width, colorDepth,Umbral());
         for (int i = 0; i < height; ++i) {
             delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
         }
@@ -748,46 +728,18 @@ void ImagenPGM::matrizDirection(){
     }
 }
 
-int** ImagenPGM::Umbral(double** matrix,int max){
-    int max1=0;
-    int max2=0;
-    int temp1=0;
-    int temp2=0;
-    int intensidad = max+1;
+int** ImagenPGM::Umbral(){
     int** resultMatrixImage=new int*[height];
     for (int i = 0; i < height; ++i) {
         resultMatrixImage[i]= new int[width];
     }
 
-    double* colorFrequency= new double[intensidad];
-    for (int i=0; i < intensidad; i++)
-        colorFrequency[i]=0;
-
-    for(int i=0; i<height; i++){
-        for(int j=0; j<width; j++){
-            colorFrequency[(int)matrix[i][j]]++;
-        }
-    }
-
-    //look first peak
-    for (int i=1; i < intensidad-1; ++i) {
-        if(colorFrequency[i]>colorFrequency[i-1]&&colorFrequency[i]>colorFrequency[i+1])
-            if (colorFrequency[i]>colorFrequency[max1]) max1=i;
-    }
-    //look second peak
-    for (int i=1; i < intensidad-1; ++i) {
-        if(colorFrequency[i]>colorFrequency[i-1]&&colorFrequency[i]>colorFrequency[i+1]){
-            temp1=pow(max1-i,2)*colorFrequency[i];
-            if (temp1>temp2){
-                temp2=temp1;
-                max2=i;
-            }
-        }
-    }
+    this->generateHistogram();
+    int threshold = this->getHistogram()->ThresholdingByIsodata();
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            if(resultMatrixGradiente[i][j]>(max1+max2)/2)
+            if(resultMatrixGradiente[i][j]>threshold)
                 resultMatrixImage[i][j]=0;
             else
                 resultMatrixImage[i][j]=resultMatrixGradiente[i][j];
@@ -835,7 +787,7 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
     /*Image *temp1 = this->edgeDetectionSobel(0);
 
 
-    /*ImagenPGM* temp = (static_cast<ImagenPGM*>(temp1));
+    ImagenPGM* temp = (static_cast<ImagenPGM*>(temp1));
     int *** dx ;
     dx= (temp->getMatrix());
     //int ** dx=*((ImagenPGM*)(edgeDetectionSobel(0)))->getMatrix();

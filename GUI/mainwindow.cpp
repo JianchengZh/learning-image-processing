@@ -491,12 +491,26 @@ void MainWindow::on_actionGaussiana_triggered()
 
 void MainWindow::on_actionNoise_Cleaning_Line_triggered()
 {
+    bool ok;
+    double delta = QInputDialog::getDouble(this,tr("Noise Cleaning Line"),tr("Delta:"),3,0,3,1,&ok );
 
+    if (ok){
+        mainController->noiseCleaningLine(delta);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }
 }
 
 void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
 {
+    bool ok;
+    int delta = QInputDialog::getInteger(this,tr("Noise Cleaning Pixel"),tr("Delta:"),3,0,3,1,&ok );
 
+    if (ok){
+        mainController->noiseCleaningPixel(delta);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }
 }
 
 //**********************************************************
@@ -504,12 +518,28 @@ void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
 //**********************************************************
 void MainWindow::on_actionGamma_Correction_triggered()
 {
+    bool ok;
+    int rango = QInputDialog::getInteger(this,tr("Correction Gamma"),tr("Rango:"),3,0,3,1,&ok );
 
+    if (ok){
+        mainController->gammaCorrection(rango);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }
 }
 
 void MainWindow::on_actionStretching_triggered()
 {
-
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        mainController->contrastStretching();
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
 }
 
 //**********************************************************

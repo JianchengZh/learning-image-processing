@@ -76,7 +76,7 @@ public:
     void convolutionFilter(int **kernel, int size);
     void gaussianaFilter(int size);
     void noiseCleaningPixel(int delta);
-    void noiseCleaningLine(int delta);
+    void noiseCleaningLine(double delta);
 
     //Edge Detection
     void edgeDetectionSobel(int position);

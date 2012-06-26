@@ -233,7 +233,7 @@ void MainController::gaussianaFilter(int size){
     imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(size);
 }
 
-void MainController::noiseCleaningLine(int delta){
+void MainController::noiseCleaningLine(double delta){
     delete oldImage;
     oldImage=imagen;
     imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningLine(delta);

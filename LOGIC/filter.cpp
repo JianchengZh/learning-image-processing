@@ -34,7 +34,7 @@ Image * Filter::convolutionFilter(Image *img, int **kernel, int kernelSize)
     return imageResult;
 }
 
-Image * Filter::gaussianaFilter(Image *img, int sigma, int kernelSize)
+Image * Filter::gaussianaFilter(Image *img, int kernelSize)
 {
     int*** matrixImagenP=static_cast<ImagenPGM*>(img)->getMatrix();
     int height=static_cast<ImagenPGM*>(img)->getHeight(), width=static_cast<ImagenPGM*>(img)->getWidth(), colorDepth=static_cast<ImagenPGM*>(img)->getColorDepth();
