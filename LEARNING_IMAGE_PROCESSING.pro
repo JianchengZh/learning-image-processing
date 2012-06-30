@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     LOGIC/edgedetector.cpp \
     LOGIC/geometricoperation.cpp \
     LOGIC/globaltransformation.cpp \
-    LOGIC/basic.cpp
+    LOGIC/basic.cpp \
+    LOGIC/segmentation.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -54,7 +55,8 @@ HEADERS  += \
     LOGIC/edgedetector.h \
     LOGIC/geometricoperation.h \
     LOGIC/globaltransformation.h \
-    LOGIC/basic.h
+    LOGIC/basic.h \
+    LOGIC/segmentation.h
 
 FORMS    += \
     GUI/dialogabout.ui \
