@@ -2,18 +2,34 @@
 #define SEGMENTATION_H
 
 #include "imagenpgm.h"
+#include "imagenppm.h"
+
+
+struct color {
+    int r;
+    int g;
+    int b;
+};
+
+typedef struct color color;
 
 class Segmentation
 {
 
 
 private:
-    int distance(int x, int y);
-    bool equals(int *centroid, int *oldcentroid, int size);
+    int distanceGray(int x, int y);
+    int distanceColor(color a, color b);
+
+    bool equalsGray(int *centroid, int *oldcentroid, int size);
+    bool equalsColor(color *centroid, color *oldcentroid, int size);
+
+    color getColor(Image* img, int x, int y);
 
 public:
     Segmentation();
-    Image* kmeans(Image* img, int clusters);
+    Image* kmeansPGM(Image* img, int clusters);
+    Image* kmeansPPM(Image* img, int clusters);
 
 
 

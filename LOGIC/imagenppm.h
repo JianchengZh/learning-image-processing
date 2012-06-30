@@ -71,6 +71,9 @@ public:
     //   Image *equalizateHistogram(int *newlut);
 
     // Getters
+    int ***getMatrizR();
+    int ***getMatrizG();
+    int ***getMatrizB();
 
     // Export
     void saveImage(QString filename);

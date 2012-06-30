@@ -412,3 +412,18 @@ void ImagenPPM::saveImage(QString filename){
         }
     }*/
 }
+
+int *** ImagenPPM::getMatrizR()
+{
+    return matrixRp;
+}
+
+int *** ImagenPPM::getMatrizG()
+{
+    return matrixGp;
+}
+
+int *** ImagenPPM::getMatrizB()
+{
+    return matrixBp;
+}
