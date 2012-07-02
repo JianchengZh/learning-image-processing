@@ -4,6 +4,10 @@
 #include "imagenpgm.h"
 class GeometricOperation : public Basic
 {
+
+private:
+    int *multiplyVectorMatrix(int *vector,double **matriz);
+
 public:
     GeometricOperation();
     Image *average(Image* img, Image *image, double alpha);
@@ -11,6 +15,17 @@ public:
     Image *subtract(Image* img, Image *image);
     Image *multiply(Image* img, Image *image);
     Image *divide(Image* img, Image *image);
+
+
+
+    Image *scaling(Image *img, double factorX, double factorY);
+
+
+
+
+
+
+
 };
 
 #endif // GEOMETRICOPERATION_H
