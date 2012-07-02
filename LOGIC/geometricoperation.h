@@ -10,11 +10,6 @@ private:
 
 public:
     GeometricOperation();
-    Image *average(Image* img, Image *image, double alpha);
-    Image *add(Image* img, Image *image);
-    Image *subtract(Image* img, Image *image);
-    Image *multiply(Image* img, Image *image);
-    Image *divide(Image* img, Image *image);
 
 
 
