@@ -315,18 +315,18 @@ bool Segmentation::equalsColor(color *centroid, color *oldcentroid, int size)
 
 color Segmentation::getColor(Image *img, int x, int y)
 {
-   color out;
+    color out;
 
-   int ***matrixR = static_cast<ImagenPPM*>(img)->getMatrizR();
-   int ***matrixG = static_cast<ImagenPPM*>(img)->getMatrizG();
-   int ***matrixB = static_cast<ImagenPPM*>(img)->getMatrizB();
+    int ***matrixR = static_cast<ImagenPPM*>(img)->getMatrizR();
+    int ***matrixG = static_cast<ImagenPPM*>(img)->getMatrizG();
+    int ***matrixB = static_cast<ImagenPPM*>(img)->getMatrizB();
 
-   out.r =  *matrixR[x][y];
-   out.g =  *matrixG[x][y];
-   out.b =  *matrixB[x][y];
+    out.r =  *matrixR[x][y];
+    out.g =  *matrixG[x][y];
+    out.b =  *matrixB[x][y];
 
 
-   return out;
+    return out;
 
 }
 
