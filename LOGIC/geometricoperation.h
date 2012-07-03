@@ -10,16 +10,9 @@ private:
 
 public:
     GeometricOperation();
-
-
-
     Image *scaling(Image *img, double factorX, double factorY);
-
-
-
-
-
-
+    Image *translation(Image *img, double factorX, double factorY);
+    Image *rotation(Image *img, double angle);
 
 };
 
