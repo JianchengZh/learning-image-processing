@@ -541,6 +541,7 @@ Image* ImagenPGM::gaussianaFilter(int kernelSize){
     return imageResult;
 }
 
+
 Image* ImagenPGM::noiseCleaningLine(double delta){
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
@@ -550,13 +551,16 @@ Image* ImagenPGM::noiseCleaningLine(double delta){
         }
     }
     for(int i =1; i< height-1; i++){
-        for(int j =1; j< width-1; j++){
+        for(int j =2; j< width-2; j++){
+
+
+
             int test=*matrixImagenP[i][j], neighbors,sum=0;
             sum+=*matrixImagenP[i][j-1];
             sum+=*matrixImagenP[i][j-2];
             sum+=*matrixImagenP[i][j+1];
             sum+=*matrixImagenP[i][j+2];
-            neighbors = sum/4.0;
+            neighbors = qRound(sum/4.0);
 
             if(fabs(test - neighbors) > delta){
                 resultMatrix[i][j]=neighbors;

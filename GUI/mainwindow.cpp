@@ -558,7 +558,15 @@ void MainWindow::on_actionSobel_triggered()
 
 void MainWindow::on_actionCanny_triggered()
 {
-    bool ok;
+    if (ui->widget_options!=0) {
+           delete ui->widget_options;
+           ui->widget_options=0;
+       }
+       ui->widget_options = new CannyWidget(ui->centralWidget, mainController, this);
+       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options->setVisible(true);
+
+    /*bool ok;
     int thresholdHigh = QInputDialog::getInteger(this,tr("Edge Canny"),tr("Threshold High:"),200,0,mainController->getImage()->getColorDepth(),1,&ok );
 
     if (ok){
@@ -569,7 +577,7 @@ void MainWindow::on_actionCanny_triggered()
             displayResults(mainController->getQImage());
             ShowHistogram();
         }
-    }
+    }*/
 }
 
 //**********************************************************

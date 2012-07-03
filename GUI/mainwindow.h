@@ -47,6 +47,7 @@
 #include "GUI/windowlevelqwidget.h"
 #include "GUI/convolutionqwidget.h"
 #include "GUI/sobelqwidget.h"
+#include "GUI/cannywidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
