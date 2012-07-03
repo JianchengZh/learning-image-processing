@@ -104,6 +104,9 @@ public:
     Image *edgeDetectionSobel(int position);
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 
+    //Morphological Operation
+    Image *MorphologicalOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+
 private:
     int discretDegree(double value);
     void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);

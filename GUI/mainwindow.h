@@ -47,6 +47,7 @@
 #include "GUI/windowlevelqwidget.h"
 #include "GUI/convolutionqwidget.h"
 #include "GUI/sobelqwidget.h"
+#include "GUI/structureelementqwidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
@@ -54,6 +55,7 @@ class ThresholdQwidget;
 class ConvolutionQwidget;
 class WindowLevelQWidget;
 class SobelQwidget;
+class StructureElementQwidget;
 
 namespace Ui {
 class MainWindow;
@@ -116,6 +118,9 @@ private slots:
     void on_actionSobel_triggered();
     void on_actionCanny_triggered();
 
+    //Morphological Operation
+    void on_actionDilate_triggered();
+
     // DICOM Menu
     void on_actionWindow_Level_triggered();
 
@@ -127,6 +132,7 @@ private slots:
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
     void on_horizontalSlider_zoom_sliderMoved(int factor);
+
 
 private:
 

@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     LOGIC/geometricoperation.cpp \
     LOGIC/globaltransformation.cpp \
     LOGIC/basic.cpp \
-    LOGIC/segmentation.cpp
+    LOGIC/segmentation.cpp \
+    GUI/structureelementqwidget.cpp
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -56,7 +57,8 @@ HEADERS  += \
     LOGIC/geometricoperation.h \
     LOGIC/globaltransformation.h \
     LOGIC/basic.h \
-    LOGIC/segmentation.h
+    LOGIC/segmentation.h \
+    GUI/structureelementqwidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -66,7 +68,8 @@ FORMS    += \
     GUI/thresholdqwidget.ui \
     GUI/windowlevelqwidget.ui \
     GUI/convolutionqwidget.ui \
-    GUI/sobelqwidget.ui
+    GUI/sobelqwidget.ui \
+    GUI/structureelementqwidget.ui
     
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H

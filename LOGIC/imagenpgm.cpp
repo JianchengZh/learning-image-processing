@@ -144,34 +144,34 @@ Image *ImagenPGM::gammaCorrection(double r){
     return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
 }
 
- Image *ImagenPGM::contrastStretching(){
+Image *ImagenPGM::contrastStretching(){
 
-     this->generateHistogram();
-     double *colorFrecuency = this->getHistogram()->getColorFrequency();
+    this->generateHistogram();
+    double *colorFrecuency = this->getHistogram()->getColorFrequency();
 
-     int minValue = 0;
-     int maxValue = colorDepth;
+    int minValue = 0;
+    int maxValue = colorDepth;
 
-     for(int i=0; i<colorDepth+1; i++)
-         if(colorFrecuency[i]!=0){
-             minValue=i;
-             break;
-         }
+    for(int i=0; i<colorDepth+1; i++)
+        if(colorFrecuency[i]!=0){
+            minValue=i;
+            break;
+        }
 
-     for(int i=colorDepth; i>=0; i--)
-         if(colorFrecuency[i]!=0){
-             maxValue=i;
-             break;
-         }
-      //QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
-     for(int i=0; i<colorDepth+1; i++){
+    for(int i=colorDepth; i>=0; i--)
+        if(colorFrecuency[i]!=0){
+            maxValue=i;
+            break;
+        }
+    //QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
+    for(int i=0; i<colorDepth+1; i++){
 
-          lut[i]=(i-minValue)*colorDepth/(maxValue-minValue);
+        lut[i]=(i-minValue)*colorDepth/(maxValue-minValue);
         //QTextStream (stdout) <<"valor streching  "<< i <<" "<< lut[i] << "\n";
-     }
+    }
 
-     return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
- }
+    return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
+}
 
 //Segmentation
 
@@ -510,9 +510,9 @@ Image* ImagenPGM::meanFilter(int kernelSize){
             kernel[i][j]=1;
         }
     }
-  //  return applyKernel(kernel, kernelSize,kernelSize);
-   ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(kernel, kernelSize,kernelSize));
-   return imageResult;
+    //  return applyKernel(kernel, kernelSize,kernelSize);
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(kernel, kernelSize,kernelSize));
+    return imageResult;
 }
 
 Image *ImagenPGM::convolutionFilter(int **kernel, int kernelSize){
@@ -575,10 +575,10 @@ Image* ImagenPGM::noiseCleaningLine(double delta){
 
     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
 
-        for (int i = 0; i < height; ++i) {
-            delete resultMatrix[i];
-            resultMatrix[i]=0;
-        }
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrix[i];
+        resultMatrix[i]=0;
+    }
 
     delete resultMatrix;
     resultMatrix=0;
@@ -627,10 +627,10 @@ Image* ImagenPGM::noiseCleaningPixel(int delta){
 
     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrix);
 
-        for (int i = 0; i < height; ++i) {
-            delete resultMatrix[i];
-            resultMatrix[i]=0;
-        }
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrix[i];
+        resultMatrix[i]=0;
+    }
 
     delete resultMatrix;
     resultMatrix=0;
@@ -762,7 +762,7 @@ int** ImagenPGM::Umbral(){
       se sigue el borde solo tomando en cuenta el pixel que este 90° en contra de las manecillas del reloj.
       El resultado es 0 si es un borde y 1 si no es un borde;
 */
-const double gX [3][3] ={{-1,-2,-1},{0,0,0},{1,2,1}} , gY [3][3]= {{-1,0,1},{-2,0,2},{-1,0,1}};
+//const double gX [3][3] ={{-1,-2,-1},{0,0,0},{1,2,1}} , gY [3][3]= {{-1,0,1},{-2,0,2},{-1,0,1}};
 
 
 Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
@@ -818,13 +818,13 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
     /*********************************************/
     ImagenPGM *imageResult = new ImagenPGM (height, width, 1, edgeHysteresis); //OJO SE CAMBIO EL NIVEL DEL COLOR
 
-       for (int i = 0; i < height; ++i) {
-           delete edgeNonMaximumSuppression[i]; edgeNonMaximumSuppression[i]=0;
-           delete edgeHysteresis[i]; edgeHysteresis[i]=0;
-           delete resultMatrixDirection[i]; resultMatrixDirection[i]=0;
-           delete resultMatrixGradiente[i]; resultMatrixGradiente[i]=0;
+    for (int i = 0; i < height; ++i) {
+        delete edgeNonMaximumSuppression[i]; edgeNonMaximumSuppression[i]=0;
+        delete edgeHysteresis[i]; edgeHysteresis[i]=0;
+        delete resultMatrixDirection[i]; resultMatrixDirection[i]=0;
+        delete resultMatrixGradiente[i]; resultMatrixGradiente[i]=0;
 
-        }
+    }
     delete edgeNonMaximumSuppression; edgeNonMaximumSuppression=0;
     delete edgeHysteresis; edgeHysteresis=0;
 
@@ -1005,7 +1005,7 @@ int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edg
 
         }
         //siguiente punto
-                                                                     //OJO CON LA DIVISION
+        //OJO CON LA DIVISION
         if(!(posX<0 || posX>=height) && !(posY<0 || posY>=width) && ((edgeNonMaximumSuppression[posX][posY]) >= (double)thresholdsDown)){//puede interesarme
             if(edgeFollow(posX, posY,edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown)){
                 edgeHysteresis[posX][posY]=0;
@@ -1018,6 +1018,44 @@ int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edg
     return 0;
 }
 
+//Morphological Operation
+
+Image* ImagenPGM::MorphologicalOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+
+    int** resultMatrixImage = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrixImage[i] = new int[width];
+    }
+
+    //const int matrixStructuringElement [3][3] ={{0,1,0},{1,1,1},{0,1,0}};
+
+    //int heightS=3,widthS=3;
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            resultMatrixImage[i][j]=0;
+            if(matrixImagenP[i][j]){
+                if(i-origenX>=0&&i+(heightS-origenX)<=height&&j-origenY>=0&&j+(widthS-origenY)<=width)
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y) {
+                            if(matrixStructuringElement[x][y]){
+                                if(i+(x-origenX)>0&&i+(x-origenX)<height)
+                                    resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=1;
+                            }
+                        }
+                    }
+            }
+        }
+    }
+     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
+
+     for (int i = 0; i < height; ++i) {
+         delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+     }   delete resultMatrixImage;resultMatrixImage=0;
+
+     return imageResult;
+}
+
 // Export
 
 void ImagenPGM::saveImage(QString filename){
@@ -1025,7 +1063,7 @@ void ImagenPGM::saveImage(QString filename){
     if (!filename.contains(".pgm")) {
         filename=filename+".pgm";
     };
-   ofstream fSalida(filename.toStdString().c_str(), ios::out|ios::binary);
+    ofstream fSalida(filename.toStdString().c_str(), ios::out|ios::binary);
     if(!identification.compare("P2")){
         string id = identification.toStdString();
         fSalida << id << endl;

@@ -261,6 +261,13 @@ void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
     imagen=ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
 }
 
+//Morphological Operation
+void MainController::morphologicalOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->MorphologicalOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 

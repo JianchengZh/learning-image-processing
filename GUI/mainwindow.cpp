@@ -571,6 +571,21 @@ void MainWindow::on_actionCanny_triggered()
         }
     }
 }
+//**********************************************************
+// MOrphological Operation
+//**********************************************************
+
+
+void MainWindow::on_actionDilate_triggered()
+{
+    if (ui->widget_options!=0) {
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ui->widget_options = new StructureElementQwidget(ui->centralWidget, mainController, this);
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
+}
 
 //**********************************************************
 // DICOM Menu
@@ -685,3 +700,4 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
         ui->horizontalSlider_zoom->setValue(0);
     }
 }
+

@@ -82,6 +82,9 @@ public:
     void edgeDetectionSobel(int position);
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
 
+    //Morphological Operation
+    void morphologicalOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+
     // DICOM
     void applyWindowLevel(int window, int level);
 

@@ -521,6 +521,15 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionGamma_Correction"/>
     <addaction name="actionStretching"/>
    </widget>
+   <widget class="QMenu" name="menuMorphological">
+    <property name="title">
+     <string>Morphological</string>
+    </property>
+    <addaction name="actionDilate"/>
+    <addaction name="actionErosion"/>
+    <addaction name="actionOpening"/>
+    <addaction name="actionClosing"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
@@ -528,6 +537,7 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFilters"/>
    <addaction name="menuContrast"/>
    <addaction name="menuEdge_Detector"/>
+   <addaction name="menuMorphological"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -796,6 +806,38 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Stretching</string>
+   </property>
+  </action>
+  <action name="actionDilate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Dilate</string>
+   </property>
+  </action>
+  <action name="actionErosion">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Erosion</string>
+   </property>
+  </action>
+  <action name="actionOpening">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Opening</string>
+   </property>
+  </action>
+  <action name="actionClosing">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Closing</string>
    </property>
   </action>
  </widget>
