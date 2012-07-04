@@ -87,20 +87,29 @@ private slots:
 
     // Edit Menu
     void on_actionUndo_triggered();
-
-    // Global Transformations Menu
     void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
+
+    // Global Transformations Menu   
     void on_actionWeight_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
     void on_actionMultiply_triggered();
     void on_actionDivide_triggered();
+    void on_actionAND_triggered();
+    void on_actionOR_triggered();
+    void on_actionXOR_triggered();
+    void on_actionNOT_triggered();
+
+    // Global Transformations Menu
 
     // Histogram Menu
     void on_actionThreshold_triggered();
     void on_actionEqualization_triggered();
+    // Contrast SubMenu
+    void on_actionGamma_Correction_triggered();
+    void on_actionStretching_triggered();
 
     //Filters Menu
     void on_actionMean_triggered();
@@ -109,9 +118,6 @@ private slots:
     void on_actionNoise_Cleaning_Line_triggered();
     void on_actionNoise_Cleaning_Pixel_triggered();
 
-    // Contrast Menu
-    void on_actionGamma_Correction_triggered();
-    void on_actionStretching_triggered();
 
     // Edge Detection Menu
     void on_actionSobel_triggered();
@@ -132,6 +138,8 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void on_horizontalSlider_zoom_sliderMoved(int factor);
 
+
+
 private:
 
     Ui::MainWindow *ui;
@@ -141,3 +149,5 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
+

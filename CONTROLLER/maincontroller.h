@@ -38,7 +38,7 @@
 #include "DATA_ACCESS/imagefile.h"
 #include "LOGIC/edgedetector.h"
 #include "LOGIC/segmentation.h"
-
+#include "LOGIC/globaltransformation.h"
 class MainController
 {
 private:
@@ -62,6 +62,10 @@ public:
     bool subtract(QString filename);
     bool multiply(QString filename);
     bool divide(QString filename);
+    bool andOperation(QString filename);
+    bool xorOperation(QString filename);
+    bool notOperation(QString filename);
+    bool orOperation(QString filename);
 
     bool bimodalSegmentaion(int T);
     void equalizateHistogram();
