@@ -1045,7 +1045,7 @@ Image* ImagenPGM::MorphologicalOperation(int** matrixStructuringElement,int orig
                 for (int x = 0; x < heightS; ++x) {
                     for (int y = 0; y < widthS; ++y) {
                         if(matrixStructuringElement[x][y]==0)
-                            if(0<=i+(x-origenX)<=height&&0<=j+(y-origenY)<=width){
+                            if(0<=i+(x-origenX)&&i+(x-origenX)<=height&&0<=j+(y-origenY)&&j+(y-origenY)<=width){
                                 if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
                                     resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
                            // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
