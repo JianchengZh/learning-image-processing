@@ -22,6 +22,8 @@ private slots:
 
     void on_spinBoxDown_valueChanged(int );
 
+    void on_spinBoxHigh_valueChanged(int );
+
 private:
     Ui::CannyWidget *ui;
     MainController *mainController;

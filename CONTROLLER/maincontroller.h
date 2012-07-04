@@ -37,6 +37,7 @@
 #include "LOGIC/histogram.h"
 #include "DATA_ACCESS/imagefile.h"
 #include "LOGIC/edgedetector.h"
+#include "LOGIC/segmentation.h"
 
 class MainController
 {
@@ -81,6 +82,9 @@ public:
     //Edge Detection
     void edgeDetectionSobel(int position);
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
+
+    //Segementation
+    void segmentationK_Means(int cluster);
 
     // DICOM
     void applyWindowLevel(int window, int level);

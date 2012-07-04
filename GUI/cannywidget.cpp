@@ -39,3 +39,12 @@ void CannyWidget::on_spinBoxDown_valueChanged(int i)
         ui->spinBoxHigh->setValue(i);
     }
 }
+
+void CannyWidget::on_spinBoxHigh_valueChanged(int i)
+{
+    int thresholdDown = ui->spinBoxDown->value();
+
+    if(thresholdDown>i){
+        ui->spinBoxHigh->setValue(thresholdDown);
+    }
+}

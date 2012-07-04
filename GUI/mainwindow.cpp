@@ -64,6 +64,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
             if (mainController->getImage()->getImageType().toUpper()=="PPM") {
                 ui->actionConver_to_GrayScale->setEnabled(true);
                 ui->actionEqualization->setEnabled(true);
+                ui->actionK_Means->setEnabled(true);
+
             }
 
             if (mainController->getImage()->getImageType().toUpper()=="PGM") {
@@ -83,6 +85,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
+                ui->actionK_Means->setEnabled(true);
+
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -186,10 +190,11 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionWindow_Level->setEnabled(false);
     ui->actionSobel->setEnabled(false);
     ui->actionCanny->setEnabled(false);
-    //ui->actionNoise_Cleaning_Line-setEnabled(false);
-    //ui->actionNoise_Cleaning_Pixel-setEnabled(false);
-    //ui->actionStretching-setEnabled(false);
-    //ui->actionGamma_Correction-setEnabled(false);
+    ui->actionK_Means->setEnabled(false);
+    ui->actionNoise_Cleaning_Line->setEnabled(false);
+    ui->actionNoise_Cleaning_Pixel->setEnabled(false);
+    ui->actionStretching->setEnabled(false);
+    ui->actionGamma_Correction->setEnabled(false);
 
 
     // Changes on labels
@@ -578,6 +583,30 @@ void MainWindow::on_actionCanny_triggered()
             ShowHistogram();
         }
     }*/
+}
+//**********************************************************
+// Segmentation Menu
+//**********************************************************
+
+void MainWindow::on_actionK_Means_triggered(){
+    bool ok;
+    int cluster = QInputDialog::getInteger(this,tr("K-Means"),tr("Clusters:"),2,2,mainController->getImage()->getColorDepth(),1,&ok);
+    if(ok){
+        if(mainController->isThereAnUploadedImage()){
+            mainController->segmentationK_Means(cluster);
+            displayResults(mainController->getQImage());
+            if(mainController->getImage()->getImageType()=="PGM"){
+                ShowHistogram();
+            }else{
+                ui->label_Histogram->setPixmap(QPixmap());
+            }
+        }else {
+            QMessageBox msgBox2(this);
+            msgBox2.setText("Sorry,Operation not valid");
+            msgBox2.setWindowTitle("ERROR");
+            msgBox2.exec();
+        }
+    }
 }
 
 //**********************************************************

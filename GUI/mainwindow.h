@@ -117,6 +117,9 @@ private slots:
     void on_actionSobel_triggered();
     void on_actionCanny_triggered();
 
+    //Segmentation Menu
+    void on_actionK_Means_triggered();
+
     // DICOM Menu
     void on_actionWindow_Level_triggered();
 

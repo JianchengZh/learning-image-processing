@@ -521,6 +521,12 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionGamma_Correction"/>
     <addaction name="actionStretching"/>
    </widget>
+   <widget class="QMenu" name="menuSegmentation">
+    <property name="title">
+     <string>Segmentation</string>
+    </property>
+    <addaction name="actionK_Means"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
@@ -528,6 +534,7 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFilters"/>
    <addaction name="menuContrast"/>
    <addaction name="menuEdge_Detector"/>
+   <addaction name="menuSegmentation"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -796,6 +803,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Stretching</string>
+   </property>
+  </action>
+  <action name="actionK_Means">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>K-Means</string>
    </property>
   </action>
  </widget>

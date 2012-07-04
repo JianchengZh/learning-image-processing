@@ -257,9 +257,24 @@ void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
     delete oldImage;
     oldImage=imagen;
     EdgeDetector ed;
-    ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
     imagen=ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
 }
+
+//segmentation
+
+void MainController::segmentationK_Means(int cluster)
+{
+    delete oldImage;
+    oldImage=imagen;
+    Segmentation sg;
+    if(static_cast<ImagenPGM*>(oldImage)->getImageType()=="PGM"){
+        imagen=sg.kmeansPGM(oldImage,cluster);
+    }else{
+        imagen=sg.kmeansPPM(oldImage,cluster);
+    }
+
+}
+
 
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
@@ -298,3 +313,5 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
