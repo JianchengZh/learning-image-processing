@@ -292,6 +292,100 @@ Image *GeometricOperation::rotation(Image *img, double angle)
 
 }
 
+Image *GeometricOperation::reflection(Image *img, GeometricOperation::axis orientation)
+{
+    int width = img->getWidth();
+    int height = img->getHeight();
+    int colorDepth = img->getColorDepth();
+    int ***matrix = static_cast<ImagenPGM*>(img)->getMatrix();
+
+    int size = 3;
+
+    int *position;
+
+    position = new int[size];
+    for(int i=0; i<size;i++)
+    {
+        position[i] = 1;
+    }
+
+    double **matrixReflection = new double*[size];
+
+    for(int i=0;i<size;i++)
+        matrixReflection[i] = new double[size];
+
+    for(int i=0;i<size;i++)
+        for(int j=0;j<size;j++)
+            matrixReflection[i][j] = 0;
+
+    if(orientation == GeometricOperation::X)
+    {
+        matrixReflection[0][0] = -1;
+        matrixReflection[1][1] = 1;
+        matrixReflection[2][2] = 1;
+
+    }else if(orientation == GeometricOperation::Y)
+    {
+
+        matrixReflection[0][0] = 1;
+        matrixReflection[1][1] = -1;
+        matrixReflection[2][2] = 1;
+    }
+
+
+    int **matrixReflectiongResult = new int*[height];
+
+    for(int i=0;i<height;i++)
+        matrixReflectiongResult[i] = new int[width];
+
+    for(int i=0;i<height;i++)
+        for(int j=0;j<width;j++)
+            matrixReflectiongResult[i][j] = 0;
+
+
+    for(int i=0; i<height; i++)
+        for(int j=0; j<width; j++){
+
+            position[0]=j;
+            position[1]=i;
+
+            position = multiplyVectorMatrix(position, matrixReflection);
+
+            int x = position[0];
+            int y = position[1];
+
+
+            if(y <0)
+            {
+                matrixReflectiongResult[height+y][x] = *matrix[i][j];
+            }else if(x <0)
+            {
+                 matrixReflectiongResult[y][x+width] = *matrix[i][j];
+            }
+
+            }
+
+    delete position;
+
+    for (int i=0; i < size; i++)
+        delete matrixReflection[i];
+
+    delete matrixReflection;
+
+
+    ImagenPGM *result = new ImagenPGM(height,width,colorDepth,matrixReflectiongResult);
+
+    for (int i=0; i < height; i++)
+        delete matrixReflectiongResult[i];
+
+    delete matrixReflectiongResult;
+
+    return result;
+}
+
+
+
+
 
 
 
