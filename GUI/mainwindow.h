@@ -103,6 +103,8 @@ private slots:
     void on_actionOR_triggered();
     void on_actionXOR_triggered();
     void on_actionNOT_triggered();
+    void on_actionMax_triggered();
+    void on_actionMin_triggered();
 
     // Geometric Operation Menu
     void on_actionTranslation_triggered();

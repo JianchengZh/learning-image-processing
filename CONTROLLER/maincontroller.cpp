@@ -187,6 +187,36 @@ bool MainController::divide(QString filename){
     }
 }
 
+bool MainController::maxOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+        if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+            delete oldImage;
+            oldImage=imagen;
+            GlobalTransformation gt;
+            imagen=gt.maxOp(oldImage,static_cast<Image*>(image));
+            return true;
+        } else {
+           return false;
+        }
+}
+
+bool MainController::minOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+        if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+            delete oldImage;
+            oldImage=imagen;
+            GlobalTransformation gt;
+            imagen=gt.minOp(oldImage,static_cast<Image*>(image));
+            return true;
+        } else {
+           return false;
+        }
+}
+
 bool MainController::andOperation(QString filename)
 {
     ImagenPGM *image = new ImagenPGM(filename);
@@ -424,6 +454,8 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
 
 
 

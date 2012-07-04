@@ -91,6 +91,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionOR->setEnabled(true);
                 ui->actionXOR->setEnabled(true);
                 ui->actionNOT->setEnabled(true);
+                ui->actionMax->setEnabled(true);
+                ui->actionMin->setEnabled(true);
 
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
@@ -209,6 +211,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionOR->setEnabled(false);
     ui->actionXOR->setEnabled(false);
     ui->actionNOT->setEnabled(false);
+    ui->actionMax->setEnabled(false);
+    ui->actionMin->setEnabled(false);
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -401,6 +405,38 @@ void MainWindow::on_actionDivide_triggered()
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
     if(filename.right(3).toUpper()=="PGM"){
         if (mainController->divide(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionMax_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->maxOperation(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionMin_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->minOperation(filename)) {
             displayResults(mainController->getQImage());
             ShowHistogram();
         } else {
@@ -909,6 +945,8 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
         ui->horizontalSlider_zoom->setValue(0);
     }
 }
+
+
 
 
 
