@@ -92,6 +92,11 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionXOR->setEnabled(true);
                 ui->actionNOT->setEnabled(true);
 
+                ui->actionTranslation->setEnabled(true);
+                ui->actionReflection->setEnabled(true);
+                ui->actionRotation->setEnabled(true);
+                ui->actionScaling->setEnabled(true);
+
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -205,6 +210,10 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionXOR->setEnabled(false);
     ui->actionNOT->setEnabled(false);
 
+    ui->actionTranslation->setEnabled(false);
+    ui->actionReflection->setEnabled(false);
+    ui->actionRotation->setEnabled(false);
+    ui->actionScaling->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -469,7 +478,90 @@ void MainWindow::on_actionNOT_triggered()
 //**********************************************************
 // Geometric Transfomations Menu
 //**********************************************************
+void MainWindow::on_actionTranslation_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        bool ok;
+        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,100,1,&ok );
+        if (ok){
+            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,100,1,&ok );
+            if (ok){
+                mainController->translation(valueX, valueY);
+                displayResults(mainController->getQImage());
+                ShowHistogram();
+            }
+        }
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
 
+void MainWindow::on_actionReflection_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        QStringList items;
+        items << tr("Eje X") << tr("Eje Y");
+
+        bool ok;
+        QString item = QInputDialog::getItem(this, tr("Reflection"),
+                                             tr("Orientacion"), items, 0, false, &ok);
+
+        if (ok && !item.isEmpty()){
+            bool value = ((item== "Eje X") && !(item== "Eje Y"));
+            mainController->reflection(value);
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
+
+void MainWindow::on_actionRotation_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        bool ok;
+        double angle = QInputDialog::getDouble(this,tr("Rotation"),tr("Angle:"),0,0,360,2,&ok );
+
+        if (ok){
+            mainController->rotation(angle);
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        }
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
+
+void MainWindow::on_actionScaling_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        bool ok;
+        double valueX = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor x:"),1,1,100,1,&ok );
+        if (ok){
+            double valueY = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor Y:"),1,1,100,1,&ok );
+            if (ok){
+                mainController->sacaling(valueX, valueY);
+                displayResults(mainController->getQImage());
+                ShowHistogram();
+            }
+        }
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
 //**********************************************************
 // Histogram Menu
 //**********************************************************
@@ -817,4 +909,6 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
         ui->horizontalSlider_zoom->setValue(0);
     }
 }
+
+
 

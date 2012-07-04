@@ -249,7 +249,45 @@ bool MainController::orOperation(QString filename)
         return false;
     }
 }
+//geometric operations
+void MainController::sacaling(double factorX, double factorY)
+{
+    delete oldImage;
+    oldImage=imagen;
+    GeometricOperation gO;
+    imagen=gO.scaling(oldImage,factorX,factorY);
+}
 
+void MainController::translation(double factorX, double factorY)
+{
+    delete oldImage;
+    oldImage=imagen;
+    GeometricOperation gO;
+    imagen=gO.translation(oldImage,factorX,factorY);
+}
+
+void MainController::rotation(double angle)
+{
+    delete oldImage;
+    oldImage=imagen;
+    GeometricOperation gO;
+    imagen=gO.rotation(oldImage,angle);
+}
+
+void MainController::reflection(bool orientationX)
+{
+    delete oldImage;
+    oldImage=imagen;
+    GeometricOperation gO;
+    if(orientationX){
+        imagen=gO.reflection(oldImage,GeometricOperation::X);
+    }else{
+        imagen=gO.reflection(oldImage,GeometricOperation::Y);
+    }
+
+}
+
+//histogram
 void MainController::equalizateHistogram(){
         delete oldImage;
         oldImage=imagen;
@@ -386,6 +424,9 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
+
 
 
 

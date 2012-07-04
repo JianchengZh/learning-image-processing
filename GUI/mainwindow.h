@@ -104,7 +104,11 @@ private slots:
     void on_actionXOR_triggered();
     void on_actionNOT_triggered();
 
-    // Global Transformations Menu
+    // Geometric Operation Menu
+    void on_actionTranslation_triggered();
+    void on_actionReflection_triggered();
+    void on_actionRotation_triggered();
+    void on_actionScaling_triggered();
 
     // Histogram Menu
     void on_actionThreshold_triggered();

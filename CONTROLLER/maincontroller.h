@@ -39,6 +39,7 @@
 #include "LOGIC/edgedetector.h"
 #include "LOGIC/segmentation.h"
 #include "LOGIC/globaltransformation.h"
+#include "LOGIC/geometricoperation.h"
 class MainController
 {
 private:
@@ -67,6 +68,13 @@ public:
     bool notOperation(QString filename);
     bool orOperation(QString filename);
 
+    //geometric operations
+    void sacaling(double factorX, double factorY);
+    void translation(double factorX, double factorY);
+    void rotation(double angle);
+    void reflection(bool orientationX);//true X false Y
+
+    //histogram
     bool bimodalSegmentaion(int T);
     void equalizateHistogram();
     void otsuSegmentation();

@@ -537,6 +537,7 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionTranslation"/>
     <addaction name="actionReflection"/>
     <addaction name="actionScaling"/>
+    <addaction name="actionRotation"/>
    </widget>
    <widget class="QMenu" name="menuMorphological">
     <property name="title">
@@ -902,6 +903,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Scaling</string>
+   </property>
+  </action>
+  <action name="actionRotation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Rotation</string>
    </property>
   </action>
  </widget>
