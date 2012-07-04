@@ -46,7 +46,8 @@ private slots:
 
     void on_spinBox_valueChanged(int arg1);
     void on_spinBox_2_valueChanged(int arg2);
-    void on_pushButton_clicked();
+    void on_pushButtonDilate_clicked();
+    void on_pushButtonErosion_clicked();
 
 private:
     Ui::StructureElementQwidget *ui;

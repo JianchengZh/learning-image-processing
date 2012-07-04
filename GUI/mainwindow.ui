@@ -516,6 +516,7 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionGaussiana"/>
     <addaction name="actionNoise_Cleaning_Line"/>
     <addaction name="actionNoise_Cleaning_Pixel"/>
+    <addaction name="actionMorphological"/>
    </widget>
    <widget class="QMenu" name="menuEdge_Detector">
     <property name="title">
@@ -539,15 +540,6 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionScaling"/>
     <addaction name="actionRotation"/>
    </widget>
-   <widget class="QMenu" name="menuMorphological">
-    <property name="title">
-     <string>Morphological</string>
-    </property>
-    <addaction name="actionDilate"/>
-    <addaction name="actionErosion"/>
-    <addaction name="actionOpening"/>
-    <addaction name="actionClosing"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
@@ -555,7 +547,6 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuHistogram"/>
    <addaction name="menuFilters"/>
    <addaction name="menuEdge_Detector"/>
-   <addaction name="menuMorphological"/>
    <addaction name="menuSegmentation"/>
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
@@ -851,12 +842,12 @@ background-color: rgb(255, 255, 255);</string>
     <string>Stretching</string>
    </property>
   </action>
-  <action name="actionDilate">
+  <action name="actionMorphological">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Dilate</string>
+    <string>Morphological</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+D</string>

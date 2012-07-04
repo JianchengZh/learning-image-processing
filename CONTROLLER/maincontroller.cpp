@@ -363,13 +363,17 @@ void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
 
 
 //Morphological Operation
-void MainController::morphologicalOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+void MainController::dilateOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->MorphologicalOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
+    imagen=static_cast<ImagenPGM*>(oldImage)->dilateOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
 }
 
-
+void MainController::erosionOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->erosionOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
+}
 //segmentation
 
 void MainController::segmentationK_Means(int cluster)

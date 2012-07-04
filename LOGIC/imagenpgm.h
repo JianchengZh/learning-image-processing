@@ -105,7 +105,8 @@ public:
     Image *edgeDetectorCanny(int thresholdHigh, int thresholdsDown);
 
     //Morphological Operation
-    Image *MorphologicalOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
 
 private:
     int discretDegree(double value);

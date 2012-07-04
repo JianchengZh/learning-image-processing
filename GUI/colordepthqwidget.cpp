@@ -47,7 +47,7 @@ void ColorDepthQwidget::on_pushButton_clicked()
         QTextStream (stdout) << "CAMBIANDO DE "<<(log2(mainController->getImage()->getColorDepth()+1))<<" A: "<<depth<<endl;
         mainController->changeColorDepth(depth);
         mainwindow->displayResults(mainController->getQImage());
-        //        mainwindow->ShowHistogram();
+        mainwindow->ShowHistogram();
     }else{
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");

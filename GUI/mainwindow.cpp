@@ -85,19 +85,19 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-                ui->actionDilate->setEnabled(true);
+                ui->actionMorphological->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
                 ui->actionXOR->setEnabled(true);
                 ui->actionNOT->setEnabled(true);
-
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
                 ui->actionRotation->setEnabled(true);
                 ui->actionScaling->setEnabled(true);
 
             }
+
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
             }
@@ -209,6 +209,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionOR->setEnabled(false);
     ui->actionXOR->setEnabled(false);
     ui->actionNOT->setEnabled(false);
+    ui->actionMorphological->setEnabled(false);
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -718,6 +719,25 @@ void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
 }
 
 
+void MainWindow::on_actionMorphological_triggered()
+{
+    if(mainController->getImage()->getColorDepth()==1){
+        if (ui->widget_options!=0) {
+            delete ui->widget_options;
+            ui->widget_options=0;
+        }
+        ui->widget_options = new StructureElementQwidget(ui->centralWidget, mainController, this);
+        ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+        ui->widget_options->setVisible(true);
+    }else{
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid, a binary image is expected");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+
+}
+
 
 //**********************************************************
 // Edge Detection Menu
@@ -779,21 +799,6 @@ void MainWindow::on_actionK_Means_triggered(){
             msgBox2.exec();
         }
     }
-}
-//**********************************************************
-// Morphological Operation
-//**********************************************************
-
-
-void MainWindow::on_actionDilate_triggered()
-{
-    if (ui->widget_options!=0) {
-        delete ui->widget_options;
-        ui->widget_options=0;
-    }
-    ui->widget_options = new StructureElementQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
-    ui->widget_options->setVisible(true);
 }
 
 //**********************************************************

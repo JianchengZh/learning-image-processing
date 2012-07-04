@@ -123,14 +123,11 @@ private slots:
     void on_actionGaussiana_triggered();
     void on_actionNoise_Cleaning_Line_triggered();
     void on_actionNoise_Cleaning_Pixel_triggered();
-
+    void on_actionMorphological_triggered();
 
     // Edge Detection Menu
     void on_actionSobel_triggered();
     void on_actionCanny_triggered();
-
-    //Morphological Operation
-    void on_actionDilate_triggered();
 
     //Segmentation Menu
     void on_actionK_Means_triggered();

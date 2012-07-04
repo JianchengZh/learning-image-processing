@@ -96,7 +96,9 @@ public:
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
 
     //Morphological Operation
-    void morphologicalOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+    void dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+    void erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+
 
     //Segementation
     void segmentationK_Means(int cluster);
