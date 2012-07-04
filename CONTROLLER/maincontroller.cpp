@@ -205,7 +205,6 @@ bool MainController::maxOperation(QString filename)
 bool MainController::minOperation(QString filename)
 {
     ImagenPGM *image = new ImagenPGM(filename);
-
         if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
             delete oldImage;
             oldImage=imagen;
