@@ -1104,6 +1104,8 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
                                 for (int i = 0; i < x*y; ++i) {
                                     resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
                                     x=heightS;y=widthS;
+                                    cout<<resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]<<endl;
+
                                 }
                             }
                         }
