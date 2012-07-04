@@ -180,7 +180,70 @@ bool MainController::divide(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
-        imagen->saveImage("temp");
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool MainController::andOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::And);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+       return false;
+    }
+}
+
+bool MainController::xorOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::Xor);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool MainController::notOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.unaryOperations(oldImage,GlobalTransformation::Not);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+       return false;
+    }
+}
+
+bool MainController::orOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::Or);
+        //imagen->saveImage("temp");
         return true;
     } else {
         return false;
@@ -257,10 +320,10 @@ void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
     delete oldImage;
     oldImage=imagen;
     EdgeDetector ed;
-    ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
     imagen=ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
 }
 
+<<<<<<< HEAD
 //Morphological Operation
 void MainController::morphologicalOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
     delete oldImage;
@@ -268,6 +331,24 @@ void MainController::morphologicalOperation(int** matrixStructuringElement,int o
     imagen=static_cast<ImagenPGM*>(oldImage)->MorphologicalOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
 }
 
+=======
+//segmentation
+
+void MainController::segmentationK_Means(int cluster)
+{
+    delete oldImage;
+    oldImage=imagen;
+    Segmentation sg;
+    if(static_cast<ImagenPGM*>(oldImage)->getImageType()=="PGM"){
+        imagen=sg.kmeansPGM(oldImage,cluster);
+    }else{
+        imagen=sg.kmeansPPM(oldImage,cluster);
+    }
+
+}
+
+
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 
@@ -305,3 +386,7 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
+
+

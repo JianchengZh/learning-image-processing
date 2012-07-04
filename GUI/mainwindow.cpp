@@ -64,6 +64,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
             if (mainController->getImage()->getImageType().toUpper()=="PPM") {
                 ui->actionConver_to_GrayScale->setEnabled(true);
                 ui->actionEqualization->setEnabled(true);
+                ui->actionK_Means->setEnabled(true);
+
             }
 
             if (mainController->getImage()->getImageType().toUpper()=="PGM") {
@@ -83,7 +85,16 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
+<<<<<<< HEAD
                 ui->actionDilate->setEnabled(true);
+=======
+                ui->actionK_Means->setEnabled(true);
+                ui->actionAND->setEnabled(true);
+                ui->actionOR->setEnabled(true);
+                ui->actionXOR->setEnabled(true);
+                ui->actionNOT->setEnabled(true);
+
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -187,10 +198,15 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionWindow_Level->setEnabled(false);
     ui->actionSobel->setEnabled(false);
     ui->actionCanny->setEnabled(false);
-    //ui->actionNoise_Cleaning_Line-setEnabled(false);
-    //ui->actionNoise_Cleaning_Pixel-setEnabled(false);
-    //ui->actionStretching-setEnabled(false);
-    //ui->actionGamma_Correction-setEnabled(false);
+    ui->actionK_Means->setEnabled(false);
+    ui->actionNoise_Cleaning_Line->setEnabled(false);
+    ui->actionNoise_Cleaning_Pixel->setEnabled(false);
+    ui->actionStretching->setEnabled(false);
+    ui->actionGamma_Correction->setEnabled(false);
+    ui->actionAND->setEnabled(false);
+    ui->actionOR->setEnabled(false);
+    ui->actionXOR->setEnabled(false);
+    ui->actionNOT->setEnabled(false);
 
 
     // Changes on labels
@@ -255,10 +271,6 @@ void MainWindow::on_actionUndo_triggered()
     }
 
 }
-
-//**********************************************************
-// Global Transfomations Menu
-//**********************************************************
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
@@ -300,6 +312,11 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
         msgBox2.exec();
     }
 }
+
+//**********************************************************
+// Global Transfomations Menu
+//**********************************************************
+
 
 void MainWindow::on_actionWeight_Average_triggered()
 {
@@ -388,6 +405,74 @@ void MainWindow::on_actionDivide_triggered()
     }
 }
 
+void MainWindow::on_actionAND_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->andOperation(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionOR_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->orOperation(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionXOR_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->xorOperation(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+void MainWindow::on_actionNOT_triggered()
+{
+    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    if(filename.right(3).toUpper()=="PGM"){
+        if (mainController->notOperation(filename)) {
+            displayResults(mainController->getQImage());
+            ShowHistogram();
+        } else {
+            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
+        }
+    }else{
+        erroMessageDialog->showMessage("Formato de imagen no apropiado");
+    }
+}
+
+//**********************************************************
+// Geometric Transfomations Menu
+//**********************************************************
+
 //**********************************************************
 // Histogram Menu
 //**********************************************************
@@ -406,6 +491,35 @@ void MainWindow::on_actionEqualization_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         mainController->equalizateHistogram();
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }else {
+        QMessageBox msgBox2(this);
+        msgBox2.setText("Sorry,Operation not valid");
+        msgBox2.setWindowTitle("ERROR");
+        msgBox2.exec();
+    }
+}
+
+//**********************************************************
+// Contrast SubMenu
+//**********************************************************
+void MainWindow::on_actionGamma_Correction_triggered()
+{
+    bool ok;
+    int rango = QInputDialog::getInteger(this,tr("Correction Gamma"),tr("Rango:"),3,0,3,1,&ok );
+
+    if (ok){
+        mainController->gammaCorrection(rango);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }
+}
+
+void MainWindow::on_actionStretching_triggered()
+{
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+        mainController->contrastStretching();
         displayResults(mainController->getQImage());
         ShowHistogram();
     }else {
@@ -514,34 +628,7 @@ void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
     }
 }
 
-//**********************************************************
-// Contrast Menu
-//**********************************************************
-void MainWindow::on_actionGamma_Correction_triggered()
-{
-    bool ok;
-    int rango = QInputDialog::getInteger(this,tr("Correction Gamma"),tr("Rango:"),3,0,3,1,&ok );
 
-    if (ok){
-        mainController->gammaCorrection(rango);
-        displayResults(mainController->getQImage());
-        ShowHistogram();
-    }
-}
-
-void MainWindow::on_actionStretching_triggered()
-{
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
-        mainController->contrastStretching();
-        displayResults(mainController->getQImage());
-        ShowHistogram();
-    }else {
-        QMessageBox msgBox2(this);
-        msgBox2.setText("Sorry,Operation not valid");
-        msgBox2.setWindowTitle("ERROR");
-        msgBox2.exec();
-    }
-}
 
 //**********************************************************
 // Edge Detection Menu
@@ -559,7 +646,15 @@ void MainWindow::on_actionSobel_triggered()
 
 void MainWindow::on_actionCanny_triggered()
 {
-    bool ok;
+    if (ui->widget_options!=0) {
+           delete ui->widget_options;
+           ui->widget_options=0;
+       }
+       ui->widget_options = new CannyWidget(ui->centralWidget, mainController, this);
+       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options->setVisible(true);
+
+    /*bool ok;
     int thresholdHigh = QInputDialog::getInteger(this,tr("Edge Canny"),tr("Threshold High:"),200,0,mainController->getImage()->getColorDepth(),1,&ok );
 
     if (ok){
@@ -569,6 +664,30 @@ void MainWindow::on_actionCanny_triggered()
             mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
             displayResults(mainController->getQImage());
             ShowHistogram();
+        }
+    }*/
+}
+//**********************************************************
+// Segmentation Menu
+//**********************************************************
+
+void MainWindow::on_actionK_Means_triggered(){
+    bool ok;
+    int cluster = QInputDialog::getInteger(this,tr("K-Means"),tr("Clusters:"),2,2,mainController->getImage()->getColorDepth(),1,&ok);
+    if(ok){
+        if(mainController->isThereAnUploadedImage()){
+            mainController->segmentationK_Means(cluster);
+            displayResults(mainController->getQImage());
+            if(mainController->getImage()->getImageType()=="PGM"){
+                ShowHistogram();
+            }else{
+                ui->label_Histogram->setPixmap(QPixmap());
+            }
+        }else {
+            QMessageBox msgBox2(this);
+            msgBox2.setText("Sorry,Operation not valid");
+            msgBox2.setWindowTitle("ERROR");
+            msgBox2.exec();
         }
     }
 }
@@ -702,3 +821,7 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622

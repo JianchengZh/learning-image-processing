@@ -457,15 +457,14 @@ background-color: rgb(255, 255, 255);</string>
      <string>Edit</string>
     </property>
     <addaction name="actionUndo"/>
+    <addaction name="actionResize"/>
+    <addaction name="actionChange_Color_Depth"/>
+    <addaction name="actionConver_to_GrayScale"/>
    </widget>
    <widget class="QMenu" name="menuPreprocessing">
     <property name="title">
      <string>Global Transformations</string>
     </property>
-    <addaction name="actionResize"/>
-    <addaction name="actionChange_Color_Depth"/>
-    <addaction name="actionConver_to_GrayScale"/>
-    <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="actionWeight_Average"/>
     <addaction name="actionAdd"/>
@@ -476,20 +475,28 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionMax"/>
     <addaction name="actionMin"/>
     <addaction name="separator"/>
-    <addaction name="actionAnd"/>
+    <addaction name="actionAND"/>
     <addaction name="actionOR"/>
     <addaction name="actionXOR"/>
     <addaction name="actionNOT"/>
     <addaction name="separator"/>
-    <addaction name="actionTranslation"/>
-    <addaction name="actionReflection"/>
    </widget>
    <widget class="QMenu" name="menuHistogram">
     <property name="title">
      <string>Histogram</string>
     </property>
+    <widget class="QMenu" name="menuContrast_2">
+     <property name="title">
+      <string>Contrast</string>
+     </property>
+     <addaction name="actionStretching"/>
+     <addaction name="actionGamma_Correction"/>
+    </widget>
     <addaction name="actionThreshold"/>
+    <addaction name="separator"/>
     <addaction name="actionEqualization"/>
+    <addaction name="separator"/>
+    <addaction name="menuContrast_2"/>
    </widget>
    <widget class="QMenu" name="menuTomography">
     <property name="title">
@@ -514,12 +521,19 @@ background-color: rgb(255, 255, 255);</string>
     <addaction name="actionSobel"/>
     <addaction name="actionCanny"/>
    </widget>
-   <widget class="QMenu" name="menuContrast">
+   <widget class="QMenu" name="menuSegmentation">
     <property name="title">
-     <string>Contrast</string>
+     <string>Segmentation</string>
     </property>
-    <addaction name="actionGamma_Correction"/>
-    <addaction name="actionStretching"/>
+    <addaction name="actionK_Means"/>
+   </widget>
+   <widget class="QMenu" name="menuGeometric_Operations">
+    <property name="title">
+     <string>Geometric Operations</string>
+    </property>
+    <addaction name="actionTranslation"/>
+    <addaction name="actionReflection"/>
+    <addaction name="actionScaling"/>
    </widget>
    <widget class="QMenu" name="menuMorphological">
     <property name="title">
@@ -533,11 +547,15 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuPreprocessing"/>
+   <addaction name="menuGeometric_Operations"/>
    <addaction name="menuHistogram"/>
    <addaction name="menuFilters"/>
-   <addaction name="menuContrast"/>
    <addaction name="menuEdge_Detector"/>
+<<<<<<< HEAD
    <addaction name="menuMorphological"/>
+=======
+   <addaction name="menuSegmentation"/>
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -664,7 +682,7 @@ background-color: rgb(255, 255, 255);</string>
     <string>Min</string>
    </property>
   </action>
-  <action name="actionAnd">
+  <action name="actionAND">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -808,19 +826,31 @@ background-color: rgb(255, 255, 255);</string>
     <string>Stretching</string>
    </property>
   </action>
+<<<<<<< HEAD
   <action name="actionDilate">
+=======
+  <action name="actionK_Means">
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
+<<<<<<< HEAD
     <string>Dilate</string>
    </property>
   </action>
   <action name="actionErosion">
+=======
+    <string>K-Means</string>
+   </property>
+  </action>
+  <action name="actionScaling">
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
+<<<<<<< HEAD
     <string>Erosion</string>
    </property>
   </action>
@@ -838,6 +868,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Closing</string>
+=======
+    <string>Scaling</string>
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
    </property>
   </action>
  </widget>

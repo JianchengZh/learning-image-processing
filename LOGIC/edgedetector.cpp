@@ -7,7 +7,9 @@ EdgeDetector::EdgeDetector()
 Image * EdgeDetector::edgeDetectionSobel(Image *img, int position, int umbral)
 {
     int*** matrixImagenP=static_cast<ImagenPGM*>(img)->getMatrix();
-    int height=static_cast<ImagenPGM*>(img)->getHeight(), width=static_cast<ImagenPGM*>(img)->getWidth(), colorDepth=static_cast<ImagenPGM*>(img)->getColorDepth();
+    height=static_cast<ImagenPGM*>(img)->getHeight();
+    width=static_cast<ImagenPGM*>(img)->getWidth();
+    int colorDepth=static_cast<ImagenPGM*>(img)->getColorDepth();
 
 }
 
@@ -28,7 +30,8 @@ const double gX [3][3] ={{-1,-2,-1},{0,0,0},{1,2,1}} , gY [3][3]= {{-1,0,1},{-2,
 Image * EdgeDetector::edgeDetectorCanny(Image* img, int thresholdHigh, int thresholdsDown)
 {
     int*** matrixImagenP=static_cast<ImagenPGM*>(img)->getMatrix();
-    int height=static_cast<ImagenPGM*>(img)->getHeight(), width=static_cast<ImagenPGM*>(img)->getWidth();
+    height=static_cast<ImagenPGM*>(img)->getHeight();
+    width=static_cast<ImagenPGM*>(img)->getWidth();
 
     int** resultMatrix = new int*[height];
     int** dx = new int*[height];
@@ -139,10 +142,10 @@ Image * EdgeDetector::edgeDetectorCanny(Image* img, int thresholdHigh, int thres
     }
 
     //Non Maximum Suppression
-    nonMaximumSuppression(height, width,edgeNonMaximumSuppression,gradientDegreeDiscret,gradientMagnitude);
+    nonMaximumSuppression(edgeNonMaximumSuppression,gradientDegreeDiscret,gradientMagnitude);
 
     //hysteresis
-    hysteresis(height, width,edgeHysteresis,edgeNonMaximumSuppression,gradientDegreeDiscret, thresholdHigh, thresholdsDown);
+    hysteresis(edgeHysteresis,edgeNonMaximumSuppression,gradientDegreeDiscret, thresholdHigh, thresholdsDown);
 
 
     /*********************************************/
@@ -218,7 +221,7 @@ int EdgeDetector::discretDegree(double value)
 /**
     Se suprimen los valores que sean menores a los dos vecinos que indique la dirección del gradiente, de lo contrario se deja el valor de la magnitud
 */
-void EdgeDetector::nonMaximumSuppression(int height, int width,double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, double **gradientMagnitude)
+void EdgeDetector::nonMaximumSuppression(double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, double **gradientMagnitude)
 {
     for(int i = 0 ; i< height;i++ ){
         for(int j = 0 ; j< width;j++ ){
@@ -301,14 +304,14 @@ void EdgeDetector::nonMaximumSuppression(int height, int width,double **edgeNonM
     si es asi se empieza a recorrer en busca de los siguientes puntos que esten por encima del thresholdDown.
 
 */
-void EdgeDetector::hysteresis(int height, int width,int **edgeHysteresis, double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, int thresholdHigh, int thresholdsDown)
+void EdgeDetector::hysteresis(int **edgeHysteresis, double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, int thresholdHigh, int thresholdsDown)
 {
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width ; j++){
             //QTextStream (stdout) << (edgeNonMaximumSuppression[i][j]/8)<<" \n";
 
             if((edgeNonMaximumSuppression[i][j])>=(double)thresholdHigh){//OJO AQUI CON LA DIVISION
-                edgeFollow(height, width,i,j, edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown);
+                edgeFollow(i,j, edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown);
             }
         }
     }
@@ -321,7 +324,7 @@ void EdgeDetector::hysteresis(int height, int width,int **edgeHysteresis, double
     Determina si es mayor por lo menos al thresholdDown y si es asi llama recursivamente a la función.
     La función para si ya lo hemos visitado o no es mayor al thresholdDown.
 */
-int EdgeDetector::edgeFollow(int height, int width,int posX, int posY, int **edgeHysteresis, double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, int thresholdsDown)
+int EdgeDetector::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edgeNonMaximumSuppression, int **gradientDegreeDiscret, int thresholdsDown)
 {
     if(edgeHysteresis[posX][posY]==1){//si no lo visite
         edgeHysteresis[posX][posY]=0;
@@ -361,7 +364,7 @@ int EdgeDetector::edgeFollow(int height, int width,int posX, int posY, int **edg
         //siguiente punto
                                                                      //OJO CON LA DIVISION
         if(!(posX<0 || posX>=height) && !(posY<0 || posY>=width) && ((edgeNonMaximumSuppression[posX][posY]) >= (double)thresholdsDown)){//puede interesarme
-            if(edgeFollow(height, width,posX, posY,edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown)){
+            if(edgeFollow(posX, posY,edgeHysteresis, edgeNonMaximumSuppression,gradientDegreeDiscret,thresholdsDown)){
                 edgeHysteresis[posX][posY]=0;
                 return 1;
             }

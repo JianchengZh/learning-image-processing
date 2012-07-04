@@ -33,7 +33,11 @@ SOURCES += main.cpp\
     LOGIC/globaltransformation.cpp \
     LOGIC/basic.cpp \
     LOGIC/segmentation.cpp \
+<<<<<<< HEAD
     GUI/structureelementqwidget.cpp
+=======
+    GUI/cannywidget.cpp
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -58,7 +62,11 @@ HEADERS  += \
     LOGIC/globaltransformation.h \
     LOGIC/basic.h \
     LOGIC/segmentation.h \
+<<<<<<< HEAD
     GUI/structureelementqwidget.h
+=======
+    GUI/cannywidget.h
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -69,7 +77,11 @@ FORMS    += \
     GUI/windowlevelqwidget.ui \
     GUI/convolutionqwidget.ui \
     GUI/sobelqwidget.ui \
+<<<<<<< HEAD
     GUI/structuringElementQwidget.ui
+=======
+    GUI/cannywidget.ui
+>>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
     
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
