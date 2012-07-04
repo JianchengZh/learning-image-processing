@@ -323,7 +323,7 @@ void MainController::edgeDetectorCanny(int thresholdHigh, int thresholdDown){
     imagen=ed.edgeDetectorCanny(oldImage,thresholdHigh,thresholdDown);
 }
 
-<<<<<<< HEAD
+
 //Morphological Operation
 void MainController::morphologicalOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
     delete oldImage;
@@ -331,7 +331,7 @@ void MainController::morphologicalOperation(int** matrixStructuringElement,int o
     imagen=static_cast<ImagenPGM*>(oldImage)->MorphologicalOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
 }
 
-=======
+
 //segmentation
 
 void MainController::segmentationK_Means(int cluster)
@@ -348,7 +348,7 @@ void MainController::segmentationK_Means(int cluster)
 }
 
 
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
 

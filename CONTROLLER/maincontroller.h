@@ -87,13 +87,12 @@ public:
     void edgeDetectionSobel(int position);
     void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
 
-<<<<<<< HEAD
     //Morphological Operation
     void morphologicalOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
-=======
+
     //Segementation
     void segmentationK_Means(int cluster);
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
+
 
     // DICOM
     void applyWindowLevel(int window, int level);

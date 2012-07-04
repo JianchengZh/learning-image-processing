@@ -551,11 +551,8 @@ background-color: rgb(255, 255, 255);</string>
    <addaction name="menuHistogram"/>
    <addaction name="menuFilters"/>
    <addaction name="menuEdge_Detector"/>
-<<<<<<< HEAD
    <addaction name="menuMorphological"/>
-=======
    <addaction name="menuSegmentation"/>
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
    <addaction name="menuTomography"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -826,33 +823,37 @@ background-color: rgb(255, 255, 255);</string>
     <string>Stretching</string>
    </property>
   </action>
-<<<<<<< HEAD
+
   <action name="actionDilate">
-=======
-  <action name="actionK_Means">
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
-   <property name="enabled">
+  <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-<<<<<<< HEAD
-    <string>Dilate</string>
+	<string>Dilate</string>
    </property>
   </action>
-  <action name="actionErosion">
-=======
+
+  <action name="actionK_Means">
+ <property name="enabled">
+    <bool>false</bool>
+   </property>
+ <property name="text">
     <string>K-Means</string>
    </property>
   </action>
-  <action name="actionScaling">
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
-   <property name="enabled">
+ 
+
+    
+  <action name="actionErosion">
+ <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-<<<<<<< HEAD
+
     <string>Erosion</string>
    </property>
+
+  
   </action>
   <action name="actionOpening">
    <property name="enabled">
@@ -868,9 +869,16 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Closing</string>
-=======
+  </property>
+</action>
+ <action name="actionScaling">
+<property name="enabled">
+    <bool>false</bool>
+   </property>
+ <property name="text">
+
     <string>Scaling</string>
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
+
    </property>
   </action>
  </widget>
