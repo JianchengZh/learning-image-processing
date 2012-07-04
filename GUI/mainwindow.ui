@@ -64,6 +64,9 @@
        <property name="text">
         <string>Load Image</string>
        </property>
+       <property name="shortcut">
+        <string>Ctrl+O</string>
+       </property>
        <property name="autoDefault">
         <bool>false</bool>
        </property>
@@ -598,6 +601,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Resize</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+R</string>
+   </property>
   </action>
   <action name="actionChange_Color_Depth">
    <property name="enabled">
@@ -621,6 +627,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Threshold</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionEqualization">
@@ -750,6 +759,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Window - Level</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+W</string>
+   </property>
   </action>
   <action name="actionMean">
    <property name="enabled">
@@ -758,6 +770,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Mean</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+M</string>
+   </property>
   </action>
   <action name="actionConvolution">
    <property name="enabled">
@@ -765,6 +780,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Convolution</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
    </property>
   </action>
   <action name="actionGaussiana">
@@ -782,6 +800,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Sobel</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
   </action>
   <action name="actionCanny">
    <property name="enabled">
@@ -789,6 +810,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Canny</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
    </property>
   </action>
   <action name="actionNoise_Cleaning_Line">
@@ -823,37 +847,35 @@ background-color: rgb(255, 255, 255);</string>
     <string>Stretching</string>
    </property>
   </action>
-
   <action name="actionDilate">
-  <property name="enabled">
+   <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-	<string>Dilate</string>
+    <string>Dilate</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+D</string>
    </property>
   </action>
-
   <action name="actionK_Means">
- <property name="enabled">
+   <property name="enabled">
     <bool>false</bool>
    </property>
- <property name="text">
+   <property name="text">
     <string>K-Means</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+K</string>
+   </property>
   </action>
- 
-
-    
   <action name="actionErosion">
- <property name="enabled">
+   <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-
     <string>Erosion</string>
    </property>
-
-  
   </action>
   <action name="actionOpening">
    <property name="enabled">
@@ -869,16 +891,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Closing</string>
-  </property>
-</action>
- <action name="actionScaling">
-<property name="enabled">
+   </property>
+  </action>
+  <action name="actionScaling">
+   <property name="enabled">
     <bool>false</bool>
    </property>
- <property name="text">
-
+   <property name="text">
     <string>Scaling</string>
-
    </property>
   </action>
  </widget>
