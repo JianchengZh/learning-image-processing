@@ -67,6 +67,8 @@ public:
     bool xorOperation(QString filename);
     bool notOperation(QString filename);
     bool orOperation(QString filename);
+    bool maxOperation(QString filename);
+    bool minOperation(QString filename);
 
     //geometric operations
     void sacaling(double factorX, double factorY);

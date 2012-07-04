@@ -304,4 +304,64 @@ Image * GlobalTransformation::divide(Image *img, Image *image)
     return result;
 }
 
+Image * GlobalTransformation::maxOp(Image *img, Image *image)
+{
+    int*** matrixImagenP=static_cast<ImagenPGM*>(img)->getMatrix();
+    int height=static_cast<ImagenPGM*>(img)->getHeight(), width=static_cast<ImagenPGM*>(img)->getWidth(), colorDepth=static_cast<ImagenPGM*>(img)->getColorDepth();
+
+    int **addMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        addMatrix[i]=new int[width];
+    int smaxValue = 0;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            smaxValue= max((*matrixImagenP[i][j]),(*static_cast<ImagenPGM*>(image)->getMatrix()[i][j]));
+            if (smaxValue<=colorDepth) {
+                addMatrix[i][j]=smaxValue;
+            }else {
+                addMatrix[i][j]=colorDepth;
+            }
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, addMatrix);
+
+    for (int i=0; i < height; i++)
+        delete addMatrix[i];
+
+    delete addMatrix;
+
+    return result;
+}
+
+Image * GlobalTransformation::minOp(Image *img, Image *image)
+{
+    int*** matrixImagenP=static_cast<ImagenPGM*>(img)->getMatrix();
+    int height=static_cast<ImagenPGM*>(img)->getHeight(), width=static_cast<ImagenPGM*>(img)->getWidth(), colorDepth=static_cast<ImagenPGM*>(img)->getColorDepth();
+
+    int **addMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        addMatrix[i]=new int[width];
+    int minValue = 0;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            minValue= min((*matrixImagenP[i][j]),(*static_cast<ImagenPGM*>(image)->getMatrix()[i][j]));
+            if (minValue<=colorDepth) {
+                addMatrix[i][j]=minValue;
+            }else {
+                addMatrix[i][j]=colorDepth;
+            }
+        }
+    }
+
+    ImagenPGM *result = new ImagenPGM(height, width, colorDepth, addMatrix);
+
+    for (int i=0; i < height; i++)
+        delete addMatrix[i];
+
+    delete addMatrix;
+
+    return result;
+}
+
 

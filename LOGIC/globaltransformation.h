@@ -3,6 +3,7 @@
 
 #include "basic.h"
 #include "imagenpgm.h"
+#include <algorithm>
 
 class GlobalTransformation : public Basic
 {
@@ -23,6 +24,8 @@ public:
     Image *subtract(Image* img, Image *image);
     Image *multiply(Image* img, Image *image);
     Image *divide(Image* img, Image *image);
+    Image *maxOp(Image* img, Image *image);
+    Image *minOp(Image* img, Image *image);
 
 
 
