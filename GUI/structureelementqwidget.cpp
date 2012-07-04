@@ -169,10 +169,10 @@ void StructureElementQwidget::on_pushButtonErosion_clicked(){
     }
 
     bool ok;
-    int origenX = QInputDialog::getInteger(this,tr("Representative Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
+    int origenX = QInputDialog::getInteger(this,tr("R. Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
 
     if (ok){
-        int origenY = QInputDialog::getInteger(this,tr("Representative Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
+        int origenY = QInputDialog::getInteger(this,tr("R. Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
 
         if(ok){
             mainController->erosionOperation(kernel,origenX,origenY,heigthS,widthS);
