@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/UNIVALLE.png</file>
+        <file>icons/icon1.png</file>
+        <file>icons/application_exit.png</file>
+    </qresource>
+</RCC>

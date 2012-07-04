@@ -85,3 +85,6 @@ unix:!macx:!symbian: LIBS += -lofstd
 
 OTHER_FILES += \
     GUI/UNIVALLE.ppm
+
+RESOURCES += \
+    GUI/icons.qrc
