@@ -248,20 +248,13 @@ bool MainController::xorOperation(QString filename)
     }
 }
 
-bool MainController::notOperation(QString filename)
+void MainController::notOperation()
 {
-    ImagenPGM *image = new ImagenPGM(filename);
+    delete oldImage;
+    oldImage=imagen;
+    GlobalTransformation gt;
+    imagen=gt.unaryOperations(oldImage,GlobalTransformation::Not);
 
-    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
-        delete oldImage;
-        oldImage=imagen;
-        GlobalTransformation gt;
-        imagen=gt.unaryOperations(oldImage,GlobalTransformation::Not);
-        //imagen->saveImage("temp");
-        return true;
-    } else {
-       return false;
-    }
 }
 
 bool MainController::orOperation(QString filename)

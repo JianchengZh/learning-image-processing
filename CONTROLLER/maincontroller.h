@@ -65,7 +65,7 @@ public:
     bool divide(QString filename);
     bool andOperation(QString filename);
     bool xorOperation(QString filename);
-    bool notOperation(QString filename);
+    void notOperation();
     bool orOperation(QString filename);
     bool maxOperation(QString filename);
     bool minOperation(QString filename);

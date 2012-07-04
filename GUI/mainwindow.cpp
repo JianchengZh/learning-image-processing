@@ -496,19 +496,10 @@ void MainWindow::on_actionXOR_triggered()
 }
 
 void MainWindow::on_actionNOT_triggered()
-{
-    QErrorMessage *erroMessageDialog = new QErrorMessage(this);
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
-    if(filename.right(3).toUpper()=="PGM"){
-        if (mainController->notOperation(filename)) {
-            displayResults(mainController->getQImage());
-            ShowHistogram();
-        } else {
-            erroMessageDialog->showMessage("Imagen no apropiada para realiza dicha operacion");
-        }
-    }else{
-        erroMessageDialog->showMessage("Formato de imagen no apropiado");
-    }
+{   
+    mainController->notOperation();
+    displayResults(mainController->getQImage());
+    ShowHistogram();
 }
 
 //**********************************************************
@@ -563,7 +554,7 @@ void MainWindow::on_actionRotation_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         bool ok;
-        double angle = QInputDialog::getDouble(this,tr("Rotation"),tr("Angle:"),0,0,360,2,&ok );
+        double angle = QInputDialog::getDouble(this,tr("Rotation"),tr("Angle:"),0,-360,360,2,&ok );
 
         if (ok){
             mainController->rotation(angle);
@@ -582,9 +573,9 @@ void MainWindow::on_actionScaling_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         bool ok;
-        double valueX = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor x:"),1,1,100,1,&ok );
+        double valueX = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor x:"),0,0,2,2,&ok );
         if (ok){
-            double valueY = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor Y:"),1,1,100,1,&ok );
+            double valueY = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor Y:"),0,0,2,2,&ok );
             if (ok){
                 mainController->sacaling(valueX, valueY);
                 displayResults(mainController->getQImage());
