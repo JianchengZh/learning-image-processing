@@ -620,6 +620,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Conver to GrayScale</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+G</string>
+   </property>
   </action>
   <action name="actionThreshold">
    <property name="enabled">
@@ -782,7 +785,7 @@ background-color: rgb(255, 255, 255);</string>
     <string>Convolution</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+C</string>
+    <string>Ctrl+Alt+V</string>
    </property>
   </action>
   <action name="actionGaussiana">
