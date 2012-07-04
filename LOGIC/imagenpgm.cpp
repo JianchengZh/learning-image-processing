@@ -1040,21 +1040,22 @@ Image* ImagenPGM::MorphologicalOperation(int** matrixStructuringElement,int orig
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-          //
-            if(*matrixImagenP[i][j]==0){
-                for (int x = 0; x < heightS; ++x) {
-                    for (int y = 0; y < widthS; ++y) {
-                        if(matrixStructuringElement[x][y]==0)
-                            if(0<=i+(x-origenX)&&i+(x-origenX)<=height&&0<=j+(y-origenY)&&j+(y-origenY)<=width){
-                                if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
-                                    resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
-                           // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
-                        }//cout<<endl;
+            //
+            if(i+origenY<height&&j+origenX<width)
+                if(*matrixImagenP[i+origenY][j+origenX]==0){
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y) {
+                            if(matrixStructuringElement[x][y]==0)
+                                if(0<=i+(x-origenX)&&i+(x-origenX)<=height&&0<=j+(y-origenY)&&j+(y-origenY)<=width){
+                                    if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
+                                        resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
+                                    // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
+                                }//cout<<endl;
+                        }
                     }
                 }
-            }
-        }cout<<endl;
-    }
+        }
+    }cout<<endl;
 
 
     for (int i = 0; i < height; ++i) {
@@ -1063,13 +1064,13 @@ Image* ImagenPGM::MorphologicalOperation(int** matrixStructuringElement,int orig
         }cout<<endl;
     }
 
-     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
 
-     for (int i = 0; i < height; ++i) {
-         delete resultMatrixImage[i]; resultMatrixImage[i]=0;
-     }   delete resultMatrixImage;resultMatrixImage=0;
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+    }   delete resultMatrixImage;resultMatrixImage=0;
 
-     return imageResult;
+    return imageResult;
 }
 
 // Export
