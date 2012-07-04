@@ -69,7 +69,7 @@ FORMS    += \
     GUI/windowlevelqwidget.ui \
     GUI/convolutionqwidget.ui \
     GUI/sobelqwidget.ui \
-    GUI/structureelementqwidget.ui
+    GUI/structuringElementQwidget.ui
     
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H

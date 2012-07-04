@@ -24,6 +24,7 @@
 
 #ifndef STRUCTUREELEMENTQWIDGET_H
 #define STRUCTUREELEMENTQWIDGET_H
+
 #include <QWidget>
 #include "GUI/mainwindow.h"
 
@@ -43,7 +44,8 @@ public:
 
 private slots:
 
-    void on_spinBox_valueChanged(int arg1,int arg2);
+    void on_spinBox_valueChanged(int arg1);
+    void on_spinBox_2_valueChanged(int arg2);
     void on_pushButton_clicked();
 
 private:
@@ -52,6 +54,8 @@ private:
     MainWindow *mainwindow;
     QLineEdit ***qLineEditMatrix;
     int heigthS,widthS;
+    double widthLineEdit, heightLineEdit,widthTable,heightTable;
+    int initialX, initialY;
 
     void deleteTable();
 };

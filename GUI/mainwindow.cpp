@@ -83,6 +83,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
+                ui->actionDilate->setEnabled(true);
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -572,7 +573,7 @@ void MainWindow::on_actionCanny_triggered()
     }
 }
 //**********************************************************
-// MOrphological Operation
+// Morphological Operation
 //**********************************************************
 
 

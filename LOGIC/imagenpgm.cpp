@@ -1027,26 +1027,38 @@ Image* ImagenPGM::MorphologicalOperation(int** matrixStructuringElement,int orig
         resultMatrixImage[i] = new int[width];
     }
 
-    //const int matrixStructuringElement [3][3] ={{0,1,0},{1,1,1},{0,1,0}};
-
-    //int heightS=3,widthS=3;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            cout<<*matrixImagenP[i][j]<<" ";
+            resultMatrixImage[i][j]=*matrixImagenP[i][j];
+        }cout<<endl;
+    }
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            resultMatrixImage[i][j]=0;
-            if(matrixImagenP[i][j]){
-                if(i-origenX>=0&&i+(heightS-origenX)<=height&&j-origenY>=0&&j+(widthS-origenY)<=width)
-                    for (int x = 0; x < heightS; ++x) {
-                        for (int y = 0; y < widthS; ++y) {
-                            if(matrixStructuringElement[x][y]){
-                                if(i+(x-origenX)>0&&i+(x-origenX)<height)
-                                    resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=1;
-                            }
-                        }
+          //
+            if(*matrixImagenP[i][j]==0){
+                for (int x = 0; x < heightS; ++x) {
+                    for (int y = 0; y < widthS; ++y) {
+                        if(matrixStructuringElement[x][y]==0)
+                            if(0<=i+(x-origenX)<=height&&0<=j+(y-origenY)<=width){
+                                if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
+                                    resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
+                           // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
+                        }//cout<<endl;
                     }
+                }
             }
-        }
+        }cout<<endl;
     }
+
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            cout<<resultMatrixImage[i][j]<<" ";
+        }cout<<endl;
+    }
+
      ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
 
      for (int i = 0; i < height; ++i) {

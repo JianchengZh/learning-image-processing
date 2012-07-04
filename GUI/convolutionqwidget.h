@@ -56,5 +56,4 @@ private:
 
     void deleteTable();
 };
-
 #endif // CONVOLUTIONQWIDGET_H

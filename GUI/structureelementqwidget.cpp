@@ -24,7 +24,7 @@
 //**********************************************************
 
 #include "structureelementqwidget.h"
-#include "ui_structureelementqwidget.h"
+#include "ui_structuringElementQwidget.h"
 
 StructureElementQwidget::StructureElementQwidget(QWidget *parent, MainController *controller, MainWindow *window) :
     QWidget(parent),
@@ -34,7 +34,8 @@ StructureElementQwidget::StructureElementQwidget(QWidget *parent, MainController
     mainwindow=window;
     mainController=controller;
     qLineEditMatrix=NULL;
-    on_spinBox_valueChanged(3,3);
+    on_spinBox_valueChanged(3);
+    on_spinBox_2_valueChanged(3);
 
 }
 
@@ -44,21 +45,53 @@ StructureElementQwidget::~StructureElementQwidget()
     delete ui;
 }
 
-void StructureElementQwidget::on_spinBox_valueChanged(int arg1, int arg2)
+void StructureElementQwidget::on_spinBox_valueChanged(int arg1){
+    if (qLineEditMatrix != NULL) {
+        deleteTable();
+    }
+    heigthS = arg1;
+    widthLineEdit = 30;
+    heightLineEdit = 25;
+    widthTable = widthS * (widthLineEdit + 3);
+    heightTable = heigthS * (heightLineEdit + 3);
+    initialX = (ui->widgetTable->width() - widthTable) / 2;
+    initialY = (ui->widgetTable->height() - heightTable) / 2;
+
+
+    qLineEditMatrix = new QLineEdit**[heigthS];
+
+    for (int i = 0; i < heigthS; ++i) {
+        qLineEditMatrix[i]= new QLineEdit*[widthS];
+    }
+
+    QFont font;
+    font.setPointSize(10);
+    for (int i = 0; i < heigthS; ++i) {
+        int x=initialX;
+        for (int j = 0; j < widthS; ++j) {
+            qLineEditMatrix[i][j] = new QLineEdit(ui->widgetTable);
+            qLineEditMatrix[i][j]->setGeometry(QRect(x, initialY, widthLineEdit, heightLineEdit));
+            qLineEditMatrix[i][j]->setFont(font);
+            qLineEditMatrix[i][j]->setVisible(true);
+            x += widthLineEdit + 3;
+        }
+        initialY += heightLineEdit + 3;
+    }
+}
+
+void StructureElementQwidget::on_spinBox_2_valueChanged(int arg2)
 {
     if (qLineEditMatrix != NULL) {
         deleteTable();
     }
 
-    heigthS = arg1;
     widthS = arg2;
-    double widthLineEdit = 30;
-    double heightLineEdit = 25;
-    double widthTable = widthS * (widthLineEdit + 3);
-    double heightTable = heigthS * (heightLineEdit + 3);
-    int initialX = (ui->widgetTable->width() - widthTable) / 2;
-    int initialY = (ui->widgetTable->height() - heightTable) / 2;
-
+    widthLineEdit = 30;
+    heightLineEdit = 25;
+    widthTable = widthS * (widthLineEdit + 3);
+    heightTable = heigthS * (heightLineEdit + 3);
+    initialX = (ui->widgetTable->width() - widthTable) / 2;
+    initialY = (ui->widgetTable->height() - heightTable) / 2;
 
     qLineEditMatrix = new QLineEdit**[heigthS];
 
@@ -96,7 +129,6 @@ void StructureElementQwidget::deleteTable(){
 }
 
 void StructureElementQwidget::on_pushButton_clicked(){
-    int origenX=1,origenY=1;
     int **kernel = new int*[heigthS];
 
     for (int i = 0; i < heigthS; ++i) {
@@ -109,6 +141,16 @@ void StructureElementQwidget::on_pushButton_clicked(){
         }
     }
 
-    mainController->morphologicalOperation(kernel,origenX,origenY,heigthS,widthS);
-    mainwindow->displayResults(mainController->getQImage());
+    bool ok;
+    int origenX = QInputDialog::getInteger(this,tr("Representative Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
+
+    if (ok){
+        int origenY = QInputDialog::getInteger(this,tr("Representative Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
+
+        if(ok){
+            mainController->morphologicalOperation(kernel,origenX,origenY,heigthS,widthS);
+            mainwindow->displayResults(mainController->getQImage());
+            mainwindow->ShowHistogram();
+        }
+    }
 }
