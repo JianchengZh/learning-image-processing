@@ -33,8 +33,9 @@ SOURCES += main.cpp\
     LOGIC/globaltransformation.cpp \
     LOGIC/basic.cpp \
     LOGIC/segmentation.cpp \
-    GUI/structureelementqwidget.cpp
+    GUI/structureelementqwidget.cpp\
     GUI/cannywidget.cpp
+
 
 HEADERS  += \
     GUI/mainwindow.h \
@@ -59,7 +60,7 @@ HEADERS  += \
     LOGIC/globaltransformation.h \
     LOGIC/basic.h \
     LOGIC/segmentation.h \
-    GUI/structureelementqwidget.h
+    GUI/structureelementqwidget.h \
     GUI/cannywidget.h
 
 FORMS    += \
@@ -71,7 +72,7 @@ FORMS    += \
     GUI/windowlevelqwidget.ui \
     GUI/convolutionqwidget.ui \
     GUI/sobelqwidget.ui \
-    GUI/structuringElementQwidget.ui
+    GUI/structuringElementQwidget.ui \
     GUI/cannywidget.ui
     
 

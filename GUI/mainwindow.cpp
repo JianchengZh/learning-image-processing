@@ -85,16 +85,13 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-<<<<<<< HEAD
                 ui->actionDilate->setEnabled(true);
-=======
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
                 ui->actionXOR->setEnabled(true);
                 ui->actionNOT->setEnabled(true);
 
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
@@ -821,7 +818,3 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
     }
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622

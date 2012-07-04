@@ -47,11 +47,8 @@
 #include "GUI/windowlevelqwidget.h"
 #include "GUI/convolutionqwidget.h"
 #include "GUI/sobelqwidget.h"
-<<<<<<< HEAD
 #include "GUI/structureelementqwidget.h"
-=======
 #include "GUI/cannywidget.h"
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
 
 class ResizeQwidget;
 class ColorDepthQwidget;
@@ -128,13 +125,12 @@ private slots:
     void on_actionSobel_triggered();
     void on_actionCanny_triggered();
 
-<<<<<<< HEAD
     //Morphological Operation
     void on_actionDilate_triggered();
-=======
+
     //Segmentation Menu
     void on_actionK_Means_triggered();
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
+
 
     // DICOM Menu
     void on_actionWindow_Level_triggered();
@@ -148,11 +144,6 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void on_horizontalSlider_zoom_sliderMoved(int factor);
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a0d575e57158feba9507cbe59b210008801c622
 private:
 
     Ui::MainWindow *ui;
