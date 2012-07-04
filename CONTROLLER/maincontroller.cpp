@@ -180,7 +180,70 @@ bool MainController::divide(QString filename){
         delete oldImage;
         oldImage=imagen;
         imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
-        imagen->saveImage("temp");
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool MainController::andOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::And);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+       return false;
+    }
+}
+
+bool MainController::xorOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::Xor);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool MainController::notOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.unaryOperations(oldImage,GlobalTransformation::Not);
+        //imagen->saveImage("temp");
+        return true;
+    } else {
+       return false;
+    }
+}
+
+bool MainController::orOperation(QString filename)
+{
+    ImagenPGM *image = new ImagenPGM(filename);
+    if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
+        delete oldImage;
+        oldImage=imagen;
+        GlobalTransformation gt;
+        imagen=gt.binaryOperations(oldImage,static_cast<Image*>(image),GlobalTransformation::Or);
+        //imagen->saveImage("temp");
         return true;
     } else {
         return false;
@@ -313,5 +376,7 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
 
 
