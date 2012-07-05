@@ -1045,9 +1045,9 @@ Image* ImagenPGM::dilateOperation(int** matrixStructuringElement,int origenX,int
                     for (int x = 0; x < heightS; ++x) {
                         for (int y = 0; y < widthS; ++y) {
                             if(matrixStructuringElement[x][y]==0)
-                                if(0<=i+(x-origenX)&&i+(x-origenX)<=height&&0<=j+(y-origenY)&&j+(y-origenY)<=width){
-                                    if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
-                                        resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
+                                if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
+                                    if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0)//{
+                                        resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
                                     // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
                                 }//cout<<endl;
                         }
@@ -1085,31 +1085,38 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            //
-            if(i+origenY<height&&j+origenX<width)
-                if(*matrixImagenP[i+origenY][j+origenX]==0){
-                    for (int x = 0; x < heightS; ++x) {
-                        for (int y = 0; y < widthS; ++y) {
-                            cout<<"x+y "<<x+y<<" i "<<i<<endl;
-                            if(matrixStructuringElement[x][y]==0)
-                                if(matrixStructuringElement[x][y]==*matrixImagenP[i+(x-origenX)][j+(y-origenY)]&&0<=i+(x-origenX)&&i+(x-origenX)<=height&&0<=j+(y-origenY)&&j+(y-origenY)<=width){
-                                    if(resultMatrixImage[i+(x-origenX)][j+(y-origenY)]!=0)//{
-                                        resultMatrixImage[i+(x-origenX)][j+(y-origenY)]=0;
-                                    // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
-                                    memoryposition[x+y][0]=i+(x-origenX);
-                                    memoryposition[x+y][1]=j+(y-origenY);
-                                    cout<<"x+y "<<x+y<<endl;
-                                    cout<<memoryposition[x+y][0]<<" "<<i+(x-origenX)<<" "<<memoryposition[x+y][1]<<" "<<j+(y-origenY)<<endl;
-                                }else{
-                                    for (int i = 0; i <= x+y; ++i) {
-                                        resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
-                                      //  x=heightS;y=widthS;
-                                        cout<<"result "<<resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]<<endl;
-                                    }
-                                }//cout<<endl;
+            for (int x = 0; x < heightS; ++x) {
+                for (int y = 0; y < widthS; ++y) {
+                    if(i+(x-origenY)<height&&j+(y-origenX)<width)
+                        if(*matrixImagenP[i+origenY][j+origenX]==0){
+                            cout<<"-----------------arriba---------------------------------------"<<endl;
+                            cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
+                            cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
+
+                            if(matrixStructuringElement[x][y]==*matrixImagenP[i+(x-origenY)][j+(y-origenX)]
+                                    &&0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
+                                if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0){
+                                    resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                    memoryposition[x+y][0]=i+(x-origenY); memoryposition[x+y][1]=j+(y-origenX);
+
+                                    cout<<"-----------------medio---------------------------------------"<<endl;
+                                    cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
+                                    cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX)) "<<j+(y-origenX)<<endl;
+                                }
+                            }else{
+
+                                cout<<"----------------------abajo----------------------------------"<<endl;
+                                cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
+                                cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
+
+                                for (int i = 0; i <= x+y; ++i) {
+                                    resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
+                                }
+                                x=heightS;y=widthS;
+                            }
                         }
-                    }
                 }
+            }
         }
     }
 
