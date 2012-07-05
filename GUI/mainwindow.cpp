@@ -180,6 +180,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionNOT->setEnabled(false);
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
+    ui->actionMorphological->setEnabled(false);
+
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
     ui->actionRotation->setEnabled(false);

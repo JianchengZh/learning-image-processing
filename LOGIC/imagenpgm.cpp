@@ -1044,6 +1044,7 @@ Image* ImagenPGM::dilateOperation(int** matrixStructuringElement,int origenX,int
                 if(*matrixImagenP[i+origenY][j+origenX]==0){
                     for (int x = 0; x < heightS; ++x) {
                         for (int y = 0; y < widthS; ++y) {
+
                             if(matrixStructuringElement[x][y]==0)
                                 if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
                                     if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0)//{
@@ -1083,42 +1084,38 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
         }
     }
 
+    int key=0;
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            for (int x = 0; x < heightS; ++x) {
-                for (int y = 0; y < widthS; ++y) {
-                    if(i+(x-origenY)<height&&j+(y-origenX)<width)
-                        if(*matrixImagenP[i+origenY][j+origenX]==0){
-                            cout<<"-----------------arriba---------------------------------------"<<endl;
-                            cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
-                            cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
-
-                            if(matrixStructuringElement[x][y]==*matrixImagenP[i+(x-origenY)][j+(y-origenX)]
-                                    &&0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
-                                if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0){
-                                    resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
-                                    memoryposition[x+y][0]=i+(x-origenY); memoryposition[x+y][1]=j+(y-origenX);
-
-                                    cout<<"-----------------medio---------------------------------------"<<endl;
-                                    cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
-                                    cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX)) "<<j+(y-origenX)<<endl;
-                                }
-                            }else{
-
-                                cout<<"----------------------abajo----------------------------------"<<endl;
-                                cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
-                                cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
-
+            //
+            if(i+origenY<height&&j+origenX<width)
+                if(*matrixImagenP[i+origenY][j+origenX]==0){
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y) {
+                            if(matrixStructuringElement[x][y]==0)
+                                if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
+                                    //resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                    memoryposition[x+y][0]=i+(x-origenY);
+                                    memoryposition[x+y][1]=j+(y-origenX);
+                                    key=1;
+                                }else
+                                    key=0;
+                        }
+                    }
+                    if(key==1){
+                        for (int x = 0; x < heightS; ++x) {
+                            for (int y = 0; y < widthS; ++y){
                                 for (int i = 0; i <= x+y; ++i) {
-                                    resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
+                                    resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=0;
                                 }
-                                x=heightS;y=widthS;
                             }
                         }
+                    }
                 }
-            }
         }
     }
+
+
 
     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
 
