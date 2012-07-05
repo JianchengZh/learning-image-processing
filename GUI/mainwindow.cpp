@@ -97,6 +97,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionReflection->setEnabled(true);
                 ui->actionRotation->setEnabled(true);
                 ui->actionScaling->setEnabled(true);
+                ui->actionRemove_Cap->setEnabled(true);
 
             }
 
@@ -220,6 +221,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionRotation->setEnabled(false);
     ui->actionScaling->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
+    ui->actionRemove_Cap->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -958,4 +960,11 @@ void MainWindow::on_actionChange_Frame_triggered()
         displayResults(mainController->getQImage());
         ShowHistogram();
     }
+}
+
+void MainWindow::on_actionRemove_Cap_triggered()
+{
+    mainController->segmentationRemoveCap();
+    displayResults(mainController->getQImage());
+    ShowHistogram();
 }

@@ -149,6 +149,8 @@ private slots:
 
     void on_actionChange_Frame_triggered();
 
+    void on_actionRemove_Cap_triggered();
+
 private:
 
     Ui::MainWindow *ui;

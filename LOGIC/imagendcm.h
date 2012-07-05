@@ -42,6 +42,7 @@ using namespace std;
 class ImagenDCM : public Image{
 
     DicomImage *dicomImage;
+    DicomImage *firstImage;
     DcmFileFormat fileformat;
     OFCondition statusDcmFileFormat;
     int ***matrixImagenP;
@@ -71,6 +72,7 @@ public:
     Image *changeColorDepth(int bits);
 
     // GETTERS:
+    int getCountFrameFirstImage();
 
     // SAVE IMAGE
     void saveImage(QString filename);
