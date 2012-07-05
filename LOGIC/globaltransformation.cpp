@@ -279,7 +279,7 @@ Image * GlobalTransformation::divide(Image *img, Image *image)
     int **divideMatrix = new int*[height];
     for (int i=0; i < height; i++)
         divideMatrix[i]=new int[width];
-    QTextStream cout (stdout);
+    //QTextStream cout (stdout);
     int div = 0;
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
@@ -289,8 +289,8 @@ Image * GlobalTransformation::divide(Image *img, Image *image)
             //            } else {
             //                divideMatrix[i][j]=colorDepth;
             //            }
-            cout<<divideMatrix[i][j]<<" ";
-        }cout<<endl;
+            //cout<<divideMatrix[i][j]<<" ";
+        }//cout<<endl;
     }
 
     ImagenPGM *result = new ImagenPGM(height, width, colorDepth, divideMatrix);

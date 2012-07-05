@@ -30,6 +30,7 @@ public:
     Segmentation();
     Image* kmeansPGM(Image* img, int clusters);
     Image* kmeansPPM(Image* img, int clusters);
+    Image* removeCap(Image* img);
 
 
 

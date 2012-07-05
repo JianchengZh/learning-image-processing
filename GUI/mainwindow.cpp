@@ -102,6 +102,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
 
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
+                ui->actionChange_Frame->setEnabled(true);
             }
 
 
@@ -218,6 +219,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionReflection->setEnabled(false);
     ui->actionRotation->setEnabled(false);
     ui->actionScaling->setEnabled(false);
+    ui->actionChange_Frame->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -509,9 +511,9 @@ void MainWindow::on_actionTranslation_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         bool ok;
-        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,100,1,&ok );
+        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,250,1,&ok );
         if (ok){
-            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,100,1,&ok );
+            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,250,1,&ok );
             if (ok){
                 mainController->translation(valueX, valueY);
                 displayResults(mainController->getQImage());
@@ -945,3 +947,15 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
 
 
 
+
+void MainWindow::on_actionChange_Frame_triggered()
+{
+    bool ok;
+    int numFrame = QInputDialog::getInteger(this,tr("Change Frame"),tr("Frame Number:"),1,1,20,1,&ok );
+
+    if (ok){
+        mainController->changeFrame(numFrame);
+        displayResults(mainController->getQImage());
+        ShowHistogram();
+    }
+}

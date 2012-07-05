@@ -483,6 +483,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>DICOM</string>
     </property>
     <addaction name="actionWindow_Level"/>
+    <addaction name="actionChange_Frame"/>
    </widget>
    <widget class="QMenu" name="menuFilters">
     <property name="title">
@@ -912,6 +913,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="toolTip">
     <string>Normal Size</string>
+   </property>
+  </action>
+  <action name="actionChange_Frame">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Change Frame</string>
    </property>
   </action>
  </widget>

@@ -245,11 +245,11 @@ Image *GeometricOperation::rotation(Image *img, double angle)
 
             position[0] = j;
             position[1] = i;
-             cout <<position[0] << "   "<< position[1];
+
 
             // Trasladamos al origen
             position=multiplyVectorMatrix(position, matrixTranslation);
-             cout <<position[0] << "  traslacion "<< position[1];
+
 
             //Rotamos respecto al angulo
             position= multiplyVectorMatrix(position, matrixRotation);
@@ -259,7 +259,7 @@ Image *GeometricOperation::rotation(Image *img, double angle)
             matrixTranslation[1][2] = centerY;
             position = multiplyVectorMatrix(position, matrixTranslation);
 
-            //cout <<position[0] << "   "<< position[1];
+
             if(position[0]<width && position[0] >=0 && position[1] < height && position[1] >=0)
                 matrixRotationResult[position[1]][position[0]] = *matrix[i][j];
         }

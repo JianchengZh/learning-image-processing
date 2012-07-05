@@ -330,4 +330,75 @@ color Segmentation::getColor(Image *img, int x, int y)
 
 }
 
+Image * Segmentation::removeCap(Image *img)
+{
+
+    int ***matrix = static_cast<ImagenPGM*>(img)->getMatrix();
+    int width = static_cast<ImagenPGM*>(img)->getWidth();
+    int height = static_cast<ImagenPGM*>(img)->getHeight();
+    int colorDepth = static_cast<ImagenPGM*>(img)->getColorDepth();
+
+    int valueInit = *matrix[0][0];
+    int change = 0;
+    for(int i=0;i<height;i++)
+    {
+        for(int j=0;j<width/2;j++)
+        {
+            int pixel = *matrix[i][j];
+            if(pixel != valueInit)
+            {
+                while(pixel != valueInit)
+                {
+                     matrix[i][j+change] = &valueInit;
+                     change++;
+                     pixel = *matrix[i][j+change];
+                }
+                change = 0;
+                break;
+            }
+        }
+    }
+
+    valueInit = *matrix[0][0];
+
+    for(int i=0;i<height;i++)
+    {
+        for(int j=width-1;j>=width/2;j--)
+        {
+            int pixel = *matrix[i][j];
+            if(pixel != valueInit)
+            {
+                while(pixel != valueInit)
+                {
+                     matrix[i][j-change] = &valueInit;
+                     change++;
+                     pixel = *matrix[i][j-change];
+                }
+                change = 0;
+                break;
+
+            }
+
+        }
+    }
+
+    int **removeCapMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        removeCapMatrix[i]=new int[width];
+
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            removeCapMatrix[i][j] =  *matrix[i][j];
+
+        }
+    }
+
+
+  ImagenPGM *result = new ImagenPGM(height, width, colorDepth, removeCapMatrix);
+
+
+   return result;
+
+}
+
 

@@ -64,6 +64,8 @@ public:
     double getDistance(QPoint start, QPoint end);
     void applyWindowLevel(int window, int level);
 
+    void setFrameImage(int frame);
+
     // VIRTUAL METHODS
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
