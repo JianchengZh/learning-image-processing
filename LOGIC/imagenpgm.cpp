@@ -1088,30 +1088,34 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             //
-            if(i+origenY<height&&j+origenX<width)
-                if(*matrixImagenP[i+origenY][j+origenX]==0){
-                    for (int x = 0; x < heightS; ++x) {
-                        for (int y = 0; y < widthS; ++y) {
-                            if(matrixStructuringElement[x][y]==0)
-                                if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
-                                    //resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
-                                    memoryposition[x+y][0]=i+(x-origenY);
-                                    memoryposition[x+y][1]=j+(y-origenX);
-                                    key=1;
-                                }else
-                                    key=0;
-                        }
+            if(*matrixImagenP[i+origenY][j+origenX]==0){
+                for (int x = 0; x < heightS; ++x) {
+                    for (int y = 0; y < widthS; ++y) {
+                        if(i+(x-origenY)<height&&j+(y-origenX)<width)
+                            if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
+                                resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
+                                memoryposition[x+y][0]=i+(x-origenY);
+                                memoryposition[x+y][1]=j+(y-origenX);
+                                key=1;
+                            }else{
+                                key=0;x=heightS;y=widthS;
+                                cout<<"sale ";
+                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
+
+                            }
                     }
-                    if(key==1){
-                        for (int x = 0; x < heightS; ++x) {
-                            for (int y = 0; y < widthS; ++y){
-                                for (int i = 0; i <= x+y; ++i) {
-                                    resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=0;
-                                }
+                }
+                if(key==0){
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y){
+                            for (int i = 0; i <= x+y; ++i) {
+                                resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
                             }
                         }
                     }
                 }
+            }
         }
     }
 
@@ -1122,6 +1126,10 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
     for (int i = 0; i < height; ++i) {
         delete resultMatrixImage[i]; resultMatrixImage[i]=0;
     }   delete resultMatrixImage;resultMatrixImage=0;
+
+    for (int i = 0; i < heightS*widthS; ++i) {
+        delete memoryposition[i]; memoryposition[i]= 0;
+    }delete memoryposition; memoryposition=0;
 
     return imageResult;
 }

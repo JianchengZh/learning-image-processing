@@ -184,13 +184,13 @@ void StructureElementQwidget::on_pushButtonErosion_clicked(){
 
 void StructureElementQwidget::on_pushButtonOpening_clicked()
 {
-    on_pushButtonDilate_clicked();
     on_pushButtonErosion_clicked();
+    on_pushButtonDilate_clicked();
 }
 
 
 void StructureElementQwidget::on_pushButtonClosing_clicked()
 {
-    on_pushButtonErosion_clicked();
     on_pushButtonOpening_clicked();
+    on_pushButtonErosion_clicked();
 }
