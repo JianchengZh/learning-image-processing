@@ -85,7 +85,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-                ui->actionDilate->setEnabled(true);
+                ui->actionMorphological->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
