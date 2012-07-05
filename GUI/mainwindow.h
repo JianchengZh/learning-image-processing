@@ -147,6 +147,8 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void on_horizontalSlider_zoom_sliderMoved(int factor);
 
+    void on_actionChange_Frame_triggered();
+
 private:
 
     Ui::MainWindow *ui;

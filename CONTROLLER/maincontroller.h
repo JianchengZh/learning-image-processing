@@ -40,6 +40,7 @@
 #include "LOGIC/segmentation.h"
 #include "LOGIC/globaltransformation.h"
 #include "LOGIC/geometricoperation.h"
+#include "LOGIC/filter.h"
 class MainController
 {
 private:
@@ -108,6 +109,7 @@ public:
 
     // DICOM
     void applyWindowLevel(int window, int level);
+    void changeFrame(int numFrame);
 
     // Getters:
     Image *getImage();

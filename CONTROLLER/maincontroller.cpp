@@ -339,33 +339,43 @@ void MainController::otsuSegmentation(){
 
 //Filter
 void MainController::meanFilter(int size){
-        delete oldImage;
-        oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->meanFilter(size);
+    delete oldImage;
+    oldImage=imagen;
+    Filter f;
+    imagen=f.meanFilter(oldImage, size);
+    //imagen=static_cast<ImagenPGM*>(oldImage)->meanFilter(size);
 }
 
 void MainController::convolutionFilter(int **kernel, int size){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
+    Filter f;
+    imagen=f.convolutionFilter(oldImage,kernel,size);
+    //imagen=static_cast<ImagenPGM*>(oldImage)->convolutionFilter(kernel,size);
 }
 
 void MainController::gaussianaFilter(int size){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(size);
+    Filter f;
+    imagen=f.gaussianaFilter(oldImage,size);
+    //imagen=static_cast<ImagenPGM*>(oldImage)->gaussianaFilter(size);
 }
 
 void MainController::noiseCleaningLine(double delta){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningLine(delta);
+    Filter f;
+    imagen=f.noiseCleaningLine(oldImage,delta);
+    //imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningLine(delta);
 }
 
 void MainController::noiseCleaningPixel(int delta){
     delete oldImage;
     oldImage=imagen;
-    imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningPixel(delta);
+    Filter f;
+    imagen=f.noiseCleaningPixel(oldImage,delta);
+    //imagen=static_cast<ImagenPGM*>(oldImage)->noiseCleaningPixel(delta);
 }
 
 //edge Detection
@@ -419,6 +429,11 @@ void MainController::applyWindowLevel(int window, int level){
     static_cast<ImagenDCM*>(imagen)->applyWindowLevel(window,level);
 }
 
+void MainController::changeFrame(int numFrame)
+{
+    static_cast<ImagenDCM*>(imagen)->setFrameImage(numFrame);
+}
+
 // Getters
 Image* MainController::getImage(){
     return imagen;
@@ -450,6 +465,8 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
 
 
 

@@ -73,7 +73,7 @@ Image * Filter::noiseCleaningLine(Image *img, int delta)
         }
     }
     for(int i =1; i< height-1; i++){
-        for(int j =1; j< width-1; j++){
+        for(int j =2; j< width-2; j++){
             int test=*matrixImagenP[i][j], neighbors,sum=0;
             sum+=*matrixImagenP[i][j-1];
             sum+=*matrixImagenP[i][j-2];
