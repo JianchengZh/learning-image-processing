@@ -359,7 +359,7 @@ Image * Segmentation::removeCap(Image *img)
         }
     }
 
-    valueInit = *matrix[0][0];
+
 
     for(int i=0;i<height;i++)
     {
@@ -382,20 +382,14 @@ Image * Segmentation::removeCap(Image *img)
         }
     }
 
+
+
+
     int **removeCapMatrix = new int*[height];
     for (int i=0; i < height; i++)
         removeCapMatrix[i]=new int[width];
 
-/*
-    for(int i=0; i < height; i++) {
-        for(int j=0; j < width; j++) {
-            if(*matrix[i][j] != valueInit)
-            {
-                    matrix[i][j] = 0;
-            }
 
-        }
-    }*/
 
     for(int i=0; i < height; i++) {
         for(int j=0; j < width; j++) {
@@ -408,7 +402,127 @@ Image * Segmentation::removeCap(Image *img)
   ImagenPGM *result = new ImagenPGM(height, width, colorDepth, removeCapMatrix);
 
 
-   return result;
+  return result;
+
+}
+
+Image * Segmentation::whiteTissue(Image *img)
+{
+    int ***matrix = static_cast<ImagenPGM*>(img)->getMatrix();
+    int width = static_cast<ImagenPGM*>(img)->getWidth();
+    int height = static_cast<ImagenPGM*>(img)->getHeight();
+    int colorDepth = static_cast<ImagenPGM*>(img)->getColorDepth();
+
+    int valueInit = *matrix[0][0];
+
+
+    int **whiteTissuepMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        whiteTissuepMatrix[i]=new int[width];
+
+//Para segmentar materia gris recorremos lo de kmeans y el color de fondo lo volvemos blanco.
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            if(*matrix[i][j] != valueInit)
+            {
+                    matrix[i][j] = &colorDepth ;
+            }
+
+        }
+    }
+
+
+    valueInit = *matrix[0][0];
+
+    for(int i=0;i<height;i++)
+    {
+        for(int j=width-1;j>=width/2;j--)
+        {
+            int pixel = *matrix[i][j];
+
+
+            if(pixel != valueInit)
+            {
+                break;
+
+            }
+
+            matrix[i][j] = &colorDepth;
+
+        }
+    }
+
+
+
+    for(int i=0;i<height;i++)
+    {
+        for(int j=0;j<width/2;j++)
+        {
+            int pixel = *matrix[i][j];
+            if(pixel != valueInit)
+            {
+                break;
+            }
+
+            matrix[i][j] = &colorDepth;
+        }
+    }
+
+
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            whiteTissuepMatrix[i][j] =  *matrix[i][j];
+
+        }
+    }
+
+
+  ImagenPGM *result = new ImagenPGM(height, width, colorDepth, whiteTissuepMatrix);
+
+
+  return result;
+
+}
+
+Image * Segmentation::grayTissue(Image *img)
+{
+
+    int ***matrix = static_cast<ImagenPGM*>(img)->getMatrix();
+    int width = static_cast<ImagenPGM*>(img)->getWidth();
+    int height = static_cast<ImagenPGM*>(img)->getHeight();
+    int colorDepth = static_cast<ImagenPGM*>(img)->getColorDepth();
+
+    int valueInit = *matrix[0][0];
+    int **grayTissueMatrix = new int*[height];
+    for (int i=0; i < height; i++)
+        grayTissueMatrix[i]=new int[width];
+
+//Para segmentar materia gris recorremos lo de kmeans y el color de fondo lo volvemos blanco.
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            if(*matrix[i][j] == valueInit)
+            {
+                    matrix[i][j] = &colorDepth ;
+            }
+
+        }
+    }
+
+
+
+
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            grayTissueMatrix[i][j] =  *matrix[i][j];
+
+        }
+    }
+
+
+  ImagenPGM *result = new ImagenPGM(height, width, colorDepth, grayTissueMatrix);
+
+
+  return result;
 
 }
 
