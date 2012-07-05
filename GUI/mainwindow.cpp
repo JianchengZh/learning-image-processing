@@ -815,9 +815,20 @@ void MainWindow::on_actionWindow_Level_triggered()
 //**********************************************************
 void MainWindow::on_actionAbout_triggered()
 {
-    DialogAbout about(this);
-    about.setModal(true);
-    about.exec();
+    QString about = "";
+
+      QFile file(":/README");
+
+      if (file.open(QIODevice::ReadOnly))
+      {
+          QTextStream stream(&file);
+
+          about = stream.readAll();
+
+          file.close();
+      }
+
+      QMessageBox::information(this, tr("About"), about);
 }
 
 //**********************************************************

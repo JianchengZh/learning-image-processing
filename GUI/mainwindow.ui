@@ -279,6 +279,8 @@ border: 1px solid rgb(62, 61, 58);
    <addaction name="actionZoom_Out"/>
    <addaction name="action_Normal_Size"/>
    <addaction name="actionZoom_In"/>
+   <addaction name="separator"/>
+   <addaction name="actionAbout"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
@@ -534,6 +536,10 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/about.png</normaloff>:/icons/about.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
