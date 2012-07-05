@@ -64,7 +64,7 @@ void StructureElementQwidget::on_spinBox_valueChanged(int arg1){
         qLineEditMatrix[i]= new QLineEdit*[widthS];
     }
 
-    QFont font;
+    font;
     font.setPointSize(10);
     for (int i = 0; i < heigthS; ++i) {
         int x=initialX;
@@ -99,7 +99,7 @@ void StructureElementQwidget::on_spinBox_2_valueChanged(int arg2)
         qLineEditMatrix[i]= new QLineEdit*[widthS];
     }
 
-    QFont font;
+    font;
     font.setPointSize(10);
     for (int i = 0; i < heigthS; ++i) {
         int x=initialX;
@@ -142,10 +142,10 @@ void StructureElementQwidget::on_pushButtonDilate_clicked(){
     }
 
     bool ok;
-    int origenX = QInputDialog::getInteger(this,tr("Representative Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
+    int origenX = QInputDialog::getInteger(this,tr("R. Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
 
     if (ok){
-        int origenY = QInputDialog::getInteger(this,tr("Representative Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
+        int origenY = QInputDialog::getInteger(this,tr("R. Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
 
         if(ok){
             mainController->dilateOperation(kernel,origenX,origenY,heigthS,widthS);
@@ -180,4 +180,17 @@ void StructureElementQwidget::on_pushButtonErosion_clicked(){
             mainwindow->ShowHistogram();
         }
     }
+}
+
+void StructureElementQwidget::on_pushButtonOpening_clicked()
+{
+    on_pushButtonDilate_clicked();
+    on_pushButtonErosion_clicked();
+}
+
+
+void StructureElementQwidget::on_pushButtonClosing_clicked()
+{
+    on_pushButtonErosion_clicked();
+    on_pushButtonOpening_clicked();
 }

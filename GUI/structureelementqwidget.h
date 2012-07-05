@@ -49,6 +49,10 @@ private slots:
     void on_pushButtonDilate_clicked();
     void on_pushButtonErosion_clicked();
 
+    void on_pushButtonOpening_clicked();
+
+    void on_pushButtonClosing_clicked();
+
 private:
     Ui::StructureElementQwidget *ui;
     MainController *mainController;
@@ -57,6 +61,7 @@ private:
     int heigthS,widthS;
     double widthLineEdit, heightLineEdit,widthTable,heightTable;
     int initialX, initialY;
+    QFont font;
 
     void deleteTable();
 };
