@@ -1091,7 +1091,7 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
             if(*matrixImagenP[i+origenY][j+origenX]==0){
                 for (int x = 0; x < heightS; ++x) {
                     for (int y = 0; y < widthS; ++y) {
-                        if(i+(x-origenY)<height&&j+(y-origenX)<width)
+                        if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
                             if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
                                 resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
                                 cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
