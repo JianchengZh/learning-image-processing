@@ -43,7 +43,7 @@ MainWindow::~MainWindow()
 // Buttons Events
 //**********************************************************
 //**********************************************************
-void MainWindow::on_pButton_LoadImage_clicked()
+void MainWindow::on_action_Load_Image_triggered()
 {
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -51,8 +51,8 @@ void MainWindow::on_pButton_LoadImage_clicked()
         if (mainController->loadImage(fileName)) {
 
             // Changes on PushButtons:
-            ui->pButton_LoadImage->setEnabled(false);
-            ui->pButton__NormalSize->setEnabled(true);
+            ui->action_Load_Image->setEnabled(false);
+            ui->action_Normal_Size->setEnabled(true);
 
             //Enable QActions
             ui->actionNew_Job->setEnabled(true);
@@ -85,7 +85,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-                ui->actionMorphological->setEnabled(true);
+                ui->actionDilate->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
@@ -93,17 +93,15 @@ void MainWindow::on_pButton_LoadImage_clicked()
                 ui->actionNOT->setEnabled(true);
                 ui->actionMax->setEnabled(true);
                 ui->actionMin->setEnabled(true);
+
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
                 ui->actionRotation->setEnabled(true);
                 ui->actionScaling->setEnabled(true);
-                ui->actionRemove_Cap->setEnabled(true);
 
             }
-
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
-                ui->actionChange_Frame->setEnabled(true);
             }
 
 
@@ -122,7 +120,7 @@ void MainWindow::on_pButton_LoadImage_clicked()
             displayedImage=mainController->getQImage();
 
             // Display Image in Original Size
-            on_pButton__NormalSize_clicked();
+            on_action_Normal_Size_triggered();
             ShowHistogram();
 
 
@@ -136,39 +134,6 @@ void MainWindow::on_pButton_LoadImage_clicked()
     }
 }
 
-void MainWindow::on_pButton__NormalSize_clicked()
-{
-    // if width and height of the image are bigger than the display Area
-    if(displayedImage->width()>ui->scrollAreaWidgetContents->width() && displayedImage->height()>ui->scrollAreaWidgetContents->height()){
-        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-    }
-
-    // if just the width is bigger than the display area
-    else if (displayedImage->width()>ui->scrollAreaWidgetContents->width()) {
-        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
-        ui->label_Imagen->setGeometry(QRect(0, yPos, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
-    }
-
-    // if just the height is bigger than the display area
-    else if (displayedImage->height()>ui->scrollAreaWidgetContents->height()) {
-        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
-        ui->label_Imagen->setGeometry(QRect(xPos, 0, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
-    }
-
-    // if any of the cases above
-    else{
-        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
-        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
-        ui->label_Imagen->setGeometry(QRect(xPos, yPos, displayedImage->width(), displayedImage->height()));
-    }
-
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
-    pixmapLabelImagen=*ui->label_Imagen->pixmap();
-
-}
 
 //**********************************************************
 //**********************************************************
@@ -182,8 +147,8 @@ void MainWindow::on_pButton__NormalSize_clicked()
 void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on PushButtons:
-    ui->pButton_LoadImage->setEnabled(true);
-    ui->pButton__NormalSize->setEnabled(false);
+    ui->action_Load_Image->setEnabled(true);
+    ui->action_Normal_Size->setEnabled(false);
 
     //Disable QActions
     ui->actionNew_Job->setEnabled(false);
@@ -213,15 +178,13 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionOR->setEnabled(false);
     ui->actionXOR->setEnabled(false);
     ui->actionNOT->setEnabled(false);
-    ui->actionMorphological->setEnabled(false);
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
+
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
     ui->actionRotation->setEnabled(false);
     ui->actionScaling->setEnabled(false);
-    ui->actionChange_Frame->setEnabled(false);
-    ui->actionRemove_Cap->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -277,7 +240,7 @@ void MainWindow::on_actionUndo_triggered()
     if (mainController->undo()) {
         displayedImage=mainController->getQImage();
         ShowHistogram();
-        on_pButton__NormalSize_clicked();
+        on_action_Normal_Size_triggered();
     }else{
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry, but there is nothing to undo");
@@ -513,9 +476,9 @@ void MainWindow::on_actionTranslation_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         bool ok;
-        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,250,1,&ok );
+        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,100,1,&ok );
         if (ok){
-            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,250,1,&ok );
+            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,100,1,&ok );
             if (ok){
                 mainController->translation(valueX, valueY);
                 displayResults(mainController->getQImage());
@@ -778,8 +741,8 @@ void MainWindow::on_actionSobel_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new SobelQwidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new SobelQwidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
 }
 
@@ -789,22 +752,9 @@ void MainWindow::on_actionCanny_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new CannyWidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new CannyWidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
-
-    /*bool ok;
-    int thresholdHigh = QInputDialog::getInteger(this,tr("Edge Canny"),tr("Threshold High:"),200,0,mainController->getImage()->getColorDepth(),1,&ok );
-
-    if (ok){
-        int thresholdDown = QInputDialog::getInteger(this,tr("Edge Canny"), tr("Threshold Down:"),160,0,mainController->getImage()->getColorDepth(),1,&ok );
-
-        if(ok){
-            mainController->edgeDetectorCanny(thresholdHigh,thresholdDown);
-            displayResults(mainController->getQImage());
-            ShowHistogram();
-        }
-    }*/
 }
 //**********************************************************
 // Segmentation Menu
@@ -863,7 +813,7 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::displayResults(QImage *result)
 {
     displayedImage=result;
-    on_pButton__NormalSize_clicked();
+    on_action_Normal_Size_triggered();
     ui->label_DimensionsValue->setText("W: "+QString::number(mainController->getImage()->getWidth())+"P"+
                                        "  H: "+QString::number(mainController->getImage()->getHeight())+"P");
     ui->label_DensityValue->setText(QString::number(log2(mainController->getImage()->getColorDepth()+1))+" Bits");
@@ -887,7 +837,7 @@ void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
 
     if (mainController->getImage()->getImageType()=="DCM") {
         ImagenDCM *imagen = static_cast<ImagenDCM*> (mainController->getImage());
-        ui->label_distance->setText("Distancia: "+QString::number(imagen->getDistance(start, end))+"mm");
+        ui->statusBar->showMessage(ui->statusBar->currentMessage()+"\tDistance: "+ QString::number(imagen->getDistance(start, end))+" mm");
     }
     ui->label_Imagen->setPixmap(pixmap);
 }
@@ -899,10 +849,11 @@ void MainWindow::on_label_Imagen_eraseLine()
 
 void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
-    ui->label_position->setText("X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+
+    ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
 }
 
-void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
+void MainWindow::horizontalSlider_zoom_sliderMoved(int factor)
 {
     if (ui->label_Imagen->pixmap()!=0) {
 
@@ -941,40 +892,39 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
         pixmapLabelImagen=*ui->label_Imagen->pixmap();
     }
     else{
-        ui->horizontalSlider_zoom->setValue(0);
+//        ui->horizontalSlider_zoom->setValue(0);
     }
 }
 
-
-
-
-
-
-void MainWindow::on_actionChange_Frame_triggered()
+void MainWindow::on_action_Normal_Size_triggered()
 {
-    if (ui->widget_options!=0) {
-        delete ui->widget_options;
-        ui->widget_options=0;
+    // if width and height of the image are bigger than the display Area
+    if(displayedImage->width()>ui->scrollAreaWidgetContents->width() && displayedImage->height()>ui->scrollAreaWidgetContents->height()){
+        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
     }
-    ChangeFrameWidget *temp = new ChangeFrameWidget(ui->centralWidget, mainController, this);
-    ui->widget_options = temp;
-    temp->setMaxFrame(mainController->getCountFrameFirstImage());
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
-    ui->widget_options->setVisible(true);
 
-   /* bool ok;
-    int numFrame = QInputDialog::getInteger(this,tr("Change Frame"),tr("Frame Number:"),1,1,20,1,&ok );
+    // if just the width is bigger than the display area
+    else if (displayedImage->width()>ui->scrollAreaWidgetContents->width()) {
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(0, yPos, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
+    }
 
-    if (ok){
-        mainController->changeFrame(numFrame);
-        displayResults(mainController->getQImage());
-        ShowHistogram();
-    }*/
-}
+    // if just the height is bigger than the display area
+    else if (displayedImage->height()>ui->scrollAreaWidgetContents->height()) {
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, 0, displayedImage->width(), displayedImage->height()));
+        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
+    }
 
-void MainWindow::on_actionRemove_Cap_triggered()
-{
-    mainController->segmentationRemoveCap();
-    displayResults(mainController->getQImage());
-    ShowHistogram();
+    // if any of the cases above
+    else{
+        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
+        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
+        ui->label_Imagen->setGeometry(QRect(xPos, yPos, displayedImage->width(), displayedImage->height()));
+    }
+
+    ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
+    pixmapLabelImagen=*ui->label_Imagen->pixmap();
 }
