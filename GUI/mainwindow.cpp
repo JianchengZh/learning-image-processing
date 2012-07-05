@@ -41,8 +41,34 @@ MainWindow::~MainWindow()
 
 //**********************************************************
 //**********************************************************
-// Buttons Events
+// ToolBar Events
 //**********************************************************
+//**********************************************************
+void MainWindow::on_action_Normal_Size_triggered()
+{
+    ui->label_Imagen->setMaximumSize(displayedImage->width(),displayedImage->height());
+    ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
+    pixmapLabelImagen=*ui->label_Imagen->pixmap();
+}
+
+void MainWindow::on_actionZoom_In_triggered()
+{
+    scaleDisplayedImage(0.1);
+}
+
+void MainWindow::on_actionZoom_Out_triggered()
+{
+    scaleDisplayedImage(-0.1);
+}
+
+//**********************************************************
+//**********************************************************
+// MenuBar Events
+//**********************************************************
+//**********************************************************
+
+//**********************************************************
+// File Menu
 //**********************************************************
 void MainWindow::on_action_Load_Image_triggered()
 {
@@ -85,7 +111,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-                ui->actionDilate->setEnabled(true);
+                ui->actionMorphological->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
@@ -134,16 +160,6 @@ void MainWindow::on_action_Load_Image_triggered()
     }
 }
 
-
-//**********************************************************
-//**********************************************************
-// MenuBar Events
-//**********************************************************
-//**********************************************************
-
-//**********************************************************
-// File Menu
-//**********************************************************
 void MainWindow::on_actionNew_Job_triggered()
 {
     // Changes on QActions:
@@ -249,6 +265,7 @@ void MainWindow::on_actionUndo_triggered()
     }
 
 }
+
 void MainWindow::on_actionResize_triggered()
 {
     if (ui->widget_options!=0) {
@@ -294,8 +311,6 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 //**********************************************************
 // Global Transfomations Menu
 //**********************************************************
-
-
 void MainWindow::on_actionWeight_Average_triggered()
 {
     QErrorMessage *erroMessageDialog = new QErrorMessage(this);
@@ -557,6 +572,7 @@ void MainWindow::on_actionScaling_triggered()
         msgBox2.exec();
     }
 }
+
 //**********************************************************
 // Histogram Menu
 //**********************************************************
@@ -712,7 +728,6 @@ void MainWindow::on_actionNoise_Cleaning_Pixel_triggered()
     }
 }
 
-
 void MainWindow::on_actionMorphological_triggered()
 {
     if(mainController->getImage()->getColorDepth()==1){
@@ -731,7 +746,6 @@ void MainWindow::on_actionMorphological_triggered()
     }
 
 }
-
 
 //**********************************************************
 // Edge Detection Menu
@@ -757,10 +771,10 @@ void MainWindow::on_actionCanny_triggered()
     ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 }
+
 //**********************************************************
 // Segmentation Menu
 //**********************************************************
-
 void MainWindow::on_actionK_Means_triggered(){
     bool ok;
     int cluster = QInputDialog::getInteger(this,tr("K-Means"),tr("Clusters:"),2,2,mainController->getImage()->getColorDepth(),1,&ok);
@@ -850,7 +864,6 @@ void MainWindow::on_label_Imagen_eraseLine()
 
 void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
-
     ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
 }
 
@@ -858,12 +871,8 @@ void MainWindow::scaleDisplayedImage(double factor)
 {
     if (ui->label_Imagen->pixmap()!=0) {
 
-        qDebug()<<"original Width:"<<ui->label_Imagen->pixmap()->width();
         double newWidth= ((double)ui->label_Imagen->pixmap()->width())*(1+factor);
-        qDebug()<<"newWidth"<<newWidth;
-        qDebug()<<"original height:"<<ui->label_Imagen->pixmap()->height();
         double newHeight= ((double)ui->label_Imagen->pixmap()->height())*(1+factor);
-        qDebug()<<"newHeight"<<newHeight;
         QPixmap scaledPixmap = ui->label_Imagen->pixmap()->scaled(newWidth, newHeight, Qt::KeepAspectRatio);
         ui->label_Imagen->setPixmap(0);
 
@@ -871,20 +880,4 @@ void MainWindow::scaleDisplayedImage(double factor)
         ui->label_Imagen->setPixmap(scaledPixmap);
         pixmapLabelImagen=*ui->label_Imagen->pixmap();
     }
-}
-
-void MainWindow::on_action_Normal_Size_triggered()
-{
-    ui->label_Imagen->setMaximumSize(displayedImage->width(),displayedImage->height());
-    ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
-    pixmapLabelImagen=*ui->label_Imagen->pixmap();
-}
-
-void MainWindow::on_actionZoom_In_triggered()
-{
-    scaleDisplayedImage(0.1);
-}
-void MainWindow::on_actionZoom_Out_triggered()
-{
-    scaleDisplayedImage(-0.1);
 }
