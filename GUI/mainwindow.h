@@ -77,7 +77,7 @@ private slots:
 
     // ToolBar Actions
     void on_action_Normal_Size_triggered();
-    void on_action_Load_Image_triggered();
+
 
     // MenuBar Events
 
@@ -85,6 +85,7 @@ private slots:
     void on_actionNew_Job_triggered();
     void on_actionSave_triggered();
     void on_actionExit_triggered();
+    void on_action_Load_Image_triggered();
 
     // Edit Menu
     void on_actionUndo_triggered();
@@ -144,9 +145,11 @@ private slots:
     void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
-    void horizontalSlider_zoom_sliderMoved(int factor);
+    void scaleDisplayedImage(double factor);
 
+    void on_actionZoom_In_triggered();
 
+    void on_actionZoom_Out_triggered();
 
 private:
 
@@ -157,3 +160,7 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
+
+
+
