@@ -90,7 +90,7 @@ border: 1px solid rgb(62, 61, 58);
            </property>
            <widget class="CustomQLabel" name="label_Imagen">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -125,7 +125,10 @@ border: 1px solid rgb(62, 61, 58);
      <string>File</string>
     </property>
     <addaction name="actionNew_Job"/>
+    <addaction name="separator"/>
+    <addaction name="action_Load_Image"/>
     <addaction name="actionSave"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -276,6 +279,7 @@ border: 1px solid rgb(62, 61, 58);
    <addaction name="actionExit"/>
    <addaction name="separator"/>
    <addaction name="actionNew_Job"/>
+   <addaction name="separator"/>
    <addaction name="action_Load_Image"/>
    <addaction name="actionSave"/>
    <addaction name="separator"/>

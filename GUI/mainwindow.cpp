@@ -26,6 +26,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
+
     ui->setupUi(this);
     ui->widget_options=0;
     displayedImage=0;
@@ -50,11 +51,11 @@ void MainWindow::on_action_Load_Image_triggered()
     if (!fileName.isEmpty()){
         if (mainController->loadImage(fileName)) {
 
-            // Changes on PushButtons:
+            // Changes on QActions:
             ui->action_Load_Image->setEnabled(false);
             ui->action_Normal_Size->setEnabled(true);
 
-            //Enable QActions
+            // Enable QActions
             ui->actionNew_Job->setEnabled(true);
             ui->actionUndo->setEnabled(true);
             ui->actionResize->setEnabled(true);
@@ -65,7 +66,6 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionConver_to_GrayScale->setEnabled(true);
                 ui->actionEqualization->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
-
             }
 
             if (mainController->getImage()->getImageType().toUpper()=="PGM") {
@@ -146,7 +146,7 @@ void MainWindow::on_action_Load_Image_triggered()
 //**********************************************************
 void MainWindow::on_actionNew_Job_triggered()
 {
-    // Changes on PushButtons:
+    // Changes on QActions:
     ui->action_Load_Image->setEnabled(true);
     ui->action_Normal_Size->setEnabled(false);
 
@@ -180,7 +180,6 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionNOT->setEnabled(false);
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
-
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
     ui->actionRotation->setEnabled(false);
@@ -199,8 +198,8 @@ void MainWindow::on_actionNew_Job_triggered()
     // Erase Image
     ui->label_Imagen->setPixmap(0);
     ui->label_Histogram->setPixmap(0);
-    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
+    //    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
+    //    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
     delete ui->widget_options;
@@ -738,23 +737,23 @@ void MainWindow::on_actionMorphological_triggered()
 void MainWindow::on_actionSobel_triggered()
 {
     if (ui->widget_options!=0) {
-           delete ui->widget_options;
-           ui->widget_options=0;
-       }
-       ui->widget_options = new SobelQwidget(ui->dockWidgetContents, mainController, this);
-       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
-       ui->widget_options->setVisible(true);
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ui->widget_options = new SobelQwidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
+    ui->widget_options->setVisible(true);
 }
 
 void MainWindow::on_actionCanny_triggered()
 {
     if (ui->widget_options!=0) {
-           delete ui->widget_options;
-           ui->widget_options=0;
-       }
-       ui->widget_options = new CannyWidget(ui->dockWidgetContents, mainController, this);
-       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
-       ui->widget_options->setVisible(true);
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ui->widget_options = new CannyWidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
+    ui->widget_options->setVisible(true);
 }
 //**********************************************************
 // Segmentation Menu
@@ -853,78 +852,37 @@ void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
     ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
 }
 
-void MainWindow::horizontalSlider_zoom_sliderMoved(int factor)
+void MainWindow::scaleDisplayedImage(double factor)
 {
     if (ui->label_Imagen->pixmap()!=0) {
 
-        double newWidth= ui->label_Imagen->pixmap()->width()*(1+(factor/100));
-        double newHeight= ui->label_Imagen->pixmap()->height()*(1+(factor/100));;
+        qDebug()<<"original Width:"<<ui->label_Imagen->pixmap()->width();
+        double newWidth= ((double)ui->label_Imagen->pixmap()->width())*(1+factor);
+        qDebug()<<"newWidth"<<newWidth;
+        qDebug()<<"original height:"<<ui->label_Imagen->pixmap()->height();
+        double newHeight= ((double)ui->label_Imagen->pixmap()->height())*(1+factor);
+        qDebug()<<"newHeight"<<newHeight;
         QPixmap scaledPixmap = ui->label_Imagen->pixmap()->scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+        ui->label_Imagen->setPixmap(0);
 
-        // if width and height of the image are bigger than the display Area
-        if(scaledPixmap.width()>ui->scrollAreaWidgetContents->width() && scaledPixmap.height()>ui->scrollAreaWidgetContents->height()){
-            ui->label_Imagen->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
-            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), scaledPixmap.height()));
-        }
-
-        // if just the width is bigger than the display area
-        else if (scaledPixmap.width()>ui->scrollAreaWidgetContents->width()) {
-            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
-            ui->label_Imagen->setGeometry(QRect(0, yPos, scaledPixmap.width(), scaledPixmap.height()));
-            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, scaledPixmap.width(), ui->scrollAreaWidgetContents->height()));
-        }
-
-        // if just the height is bigger than the display area
-        else if (scaledPixmap.height()>ui->scrollAreaWidgetContents->height()) {
-            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
-            ui->label_Imagen->setGeometry(QRect(xPos, 0, scaledPixmap.width(), scaledPixmap.height()));
-            ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), scaledPixmap.height()));
-        }
-
-        // if any of the cases above
-        else{
-            int xPos = (ui->scrollAreaWidgetContents->width() - scaledPixmap.width())/2;
-            int yPos = (ui->scrollAreaWidgetContents->height() - scaledPixmap.height())/2;
-            ui->label_Imagen->setGeometry(QRect(xPos, yPos, scaledPixmap.width(), displayedImage->height()));
-        }
-
+        ui->label_Imagen->setMaximumSize(newWidth,newHeight);
         ui->label_Imagen->setPixmap(scaledPixmap);
         pixmapLabelImagen=*ui->label_Imagen->pixmap();
-    }
-    else{
-//        ui->horizontalSlider_zoom->setValue(0);
     }
 }
 
 void MainWindow::on_action_Normal_Size_triggered()
 {
-    // if width and height of the image are bigger than the display Area
-    if(displayedImage->width()>ui->scrollAreaWidgetContents->width() && displayedImage->height()>ui->scrollAreaWidgetContents->height()){
-        ui->label_Imagen->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), displayedImage->height()));
-    }
-
-    // if just the width is bigger than the display area
-    else if (displayedImage->width()>ui->scrollAreaWidgetContents->width()) {
-        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
-        ui->label_Imagen->setGeometry(QRect(0, yPos, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, displayedImage->width(), ui->scrollAreaWidgetContents->height()));
-    }
-
-    // if just the height is bigger than the display area
-    else if (displayedImage->height()>ui->scrollAreaWidgetContents->height()) {
-        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
-        ui->label_Imagen->setGeometry(QRect(xPos, 0, displayedImage->width(), displayedImage->height()));
-        ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, ui->scrollAreaWidgetContents->width(), displayedImage->height()));
-    }
-
-    // if any of the cases above
-    else{
-        int xPos = (ui->scrollAreaWidgetContents->width() - displayedImage->width())/2;
-        int yPos = (ui->scrollAreaWidgetContents->height() - displayedImage->height())/2;
-        ui->label_Imagen->setGeometry(QRect(xPos, yPos, displayedImage->width(), displayedImage->height()));
-    }
-
+    ui->label_Imagen->setMaximumSize(displayedImage->width(),displayedImage->height());
     ui->label_Imagen->setPixmap(QPixmap::fromImage(*displayedImage));
     pixmapLabelImagen=*ui->label_Imagen->pixmap();
+}
+
+void MainWindow::on_actionZoom_In_triggered()
+{
+    scaleDisplayedImage(0.1);
+}
+void MainWindow::on_actionZoom_Out_triggered()
+{
+    scaleDisplayedImage(-0.1);
 }
