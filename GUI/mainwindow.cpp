@@ -87,6 +87,8 @@ void MainWindow::on_action_Load_Image_triggered()
             ui->actionResize->setEnabled(true);
             ui->actionChange_Color_Depth->setEnabled(true);
             ui->actionSave->setEnabled(true);
+            ui->actionZoom_In->setEnabled(true);
+            ui->actionZoom_Out->setEnabled(true);
 
             if (mainController->getImage()->getImageType().toUpper()=="PPM") {
                 ui->actionConver_to_GrayScale->setEnabled(true);
