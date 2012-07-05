@@ -511,9 +511,9 @@ void MainWindow::on_actionTranslation_triggered()
 {
     if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
         bool ok;
-        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,100,1,&ok );
+        double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,250,1,&ok );
         if (ok){
-            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,100,1,&ok );
+            double valueY= QInputDialog::getDouble(this,tr("Traslation"),tr("Factor Y:"),1,1,250,1,&ok );
             if (ok){
                 mainController->translation(valueX, valueY);
                 displayResults(mainController->getQImage());

@@ -121,7 +121,9 @@ bool MainController::average(QString filename, double alpha){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->average(image,alpha);
+        GlobalTransformation gt;
+        imagen=gt.average(oldImage,static_cast<Image*>(image), alpha);
+        //imagen=static_cast<ImagenPGM*>(oldImage)->average(image,alpha);
         return true;
     } else {
         return false;
@@ -136,7 +138,9 @@ bool MainController::add(QString filename){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->add(image);
+        GlobalTransformation gt;
+        imagen=gt.add(oldImage,static_cast<Image*>(image));
+        //imagen=static_cast<ImagenPGM*>(oldImage)->add(image);
         return true;
     } else {
         return false;
@@ -150,7 +154,9 @@ bool MainController::subtract(QString filename){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
+        GlobalTransformation gt;
+        imagen=gt.subtract(oldImage,static_cast<Image*>(image));
+        //imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
         return true;
     } else {
         return false;
@@ -164,7 +170,9 @@ bool MainController::multiply(QString filename){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
+        GlobalTransformation gt;
+        imagen=gt.multiply(oldImage,static_cast<Image*>(image));
+        //imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
         return true;
     } else {
         return false;
@@ -179,7 +187,9 @@ bool MainController::divide(QString filename){
     if (imagen->getHeight()==image->getHeight() && imagen->getWidth()==image->getWidth()) {
         delete oldImage;
         oldImage=imagen;
-        imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
+        GlobalTransformation gt;
+        imagen=gt.divide(oldImage,static_cast<Image*>(image));
+        //imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
         //imagen->saveImage("temp");
         return true;
     } else {
