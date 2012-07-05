@@ -459,7 +459,6 @@ int MainController::getCountFrameFirstImage()
    return static_cast<ImagenDCM*>(imagen)->getCountFrameFirstImage()-1;
 }
 
-
 // Getters
 Image* MainController::getImage(){
     return imagen;
