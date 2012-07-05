@@ -720,6 +720,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
@@ -897,6 +900,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="action_Normal_Size">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/OriginalSize.png</normaloff>:/icons/OriginalSize.png</iconset>
@@ -921,6 +927,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionZoom_In">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/Zoom In.png</normaloff>:/icons/Zoom In.png</iconset>
@@ -936,6 +945,9 @@ background-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionZoom_Out">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/Zoom Out.png</normaloff>:/icons/Zoom Out.png</iconset>

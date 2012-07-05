@@ -48,6 +48,7 @@ void SobelQwidget::on_sobelVertically_clicked()
         mainController->edgeDetectionSobel(1);
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
+
     }else{
         QMessageBox msgBox2(this);
         msgBox2.setText("Sorry,Operation not valid");
@@ -60,6 +61,7 @@ void SobelQwidget::on_sobelFilter_clicked()
 {
     if(mainController->isThereAnUploadedImage()){
         mainController->edgeDetectionSobel(2);
+        mainController->isodataSegmentation();
         mainwindow->displayResults(mainController->getQImage());
         mainwindow->ShowHistogram();
     }else{

@@ -684,6 +684,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     }else if(position==2){
         matrizMagnitud();
         imageResult = new ImagenPGM (height, width, colorDepth,Umbral());
+
         for (int i = 0; i < height; ++i) {
             delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
         }
@@ -1085,13 +1086,13 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
     }
 
     int key=0;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = origenY; i < height; ++i) {
+        for (int j = origenX; j < width; ++j) {
             //
-            if(*matrixImagenP[i+origenY][j+origenX]==0){
+            if(*matrixImagenP[i][j]==0){
                 for (int x = 0; x < heightS; ++x) {
                     for (int y = 0; y < widthS; ++y) {
-                        if(i+(x-origenY)<height&&j+(y-origenX)<width)
+                        if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
                             if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
                                 resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
                                 cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
@@ -1118,7 +1119,6 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
             }
         }
     }
-
 
 
     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
