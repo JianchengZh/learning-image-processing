@@ -1083,6 +1083,7 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
         }
     }
 
+    int key=0;
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             for (int x = 0; x < heightS; ++x) {
@@ -1093,12 +1094,15 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
                             cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
                             cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
 
+                            cout<<matrixStructuringElement[x][y]<<" "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<endl;
+
                             if(matrixStructuringElement[x][y]==*matrixImagenP[i+(x-origenY)][j+(y-origenX)]
                                     &&0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
+                                cout<<"llego aqui DIos ayudame"<<endl;
                                 if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0){
                                     resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
                                     memoryposition[x+y][0]=i+(x-origenY); memoryposition[x+y][1]=j+(y-origenX);
-
+                                    key=1;
                                     cout<<"-----------------medio---------------------------------------"<<endl;
                                     cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
                                     cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX)) "<<j+(y-origenX)<<endl;
@@ -1108,11 +1112,11 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
                                 cout<<"----------------------abajo----------------------------------"<<endl;
                                 cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
                                 cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
-
-                                for (int i = 0; i <= x+y; ++i) {
-                                    resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
-                                }
-                                x=heightS;y=widthS;
+                                if(key!=0)
+                                    for (int i = 0; i <= x+y; ++i) {
+                                        resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
+                                    }
+                                x=heightS;y=widthS;key=0;
                             }
                         }
                 }
