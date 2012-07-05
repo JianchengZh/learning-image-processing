@@ -77,7 +77,8 @@ private slots:
 
     // ToolBar Actions
     void on_action_Normal_Size_triggered();
-
+    void on_actionZoom_In_triggered();
+    void on_actionZoom_Out_triggered();
 
     // MenuBar Events
 
@@ -147,9 +148,7 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void scaleDisplayedImage(double factor);
 
-    void on_actionZoom_In_triggered();
 
-    void on_actionZoom_Out_triggered();
 
 private:
 
