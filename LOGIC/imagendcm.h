@@ -49,6 +49,7 @@ class ImagenDCM : public Image{
     int *lut;
     int lutSize;
     double minDensity, maxDensity;
+    double distanceTomography;
     OFString pixelSpacing;
 
     void generateHistogram();
@@ -62,7 +63,7 @@ public:
     int measureDistance(QPoint start, QPoint end);
     ImagenDCM(const char *fileName);
     void getMetaData();
-    double getDistance(QPoint start, QPoint end);
+    double getDistanceTomography(QPoint start, QPoint end);
     void applyWindowLevel(int window, int level);
 
     void setFrameImage(int frame);
@@ -71,8 +72,12 @@ public:
     Image *changeSize(int factor);
     Image *changeColorDepth(int bits);
 
+    // SETTERS:
+    void resetDistanceTomography();
+
     // GETTERS:
     int getCountFrameFirstImage();
+    double getDistanceTomography();
 
     // SAVE IMAGE
     void saveImage(QString filename);

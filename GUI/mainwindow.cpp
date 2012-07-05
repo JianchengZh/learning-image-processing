@@ -819,18 +819,18 @@ void MainWindow::on_actionAbout_triggered()
 {
     QString about = "";
 
-      QFile file(":/README");
+    QFile file(":/README");
 
-      if (file.open(QIODevice::ReadOnly))
-      {
-          QTextStream stream(&file);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file);
 
-          about = stream.readAll();
+        about = stream.readAll();
 
-          file.close();
-      }
+        file.close();
+    }
 
-      QMessageBox::information(this, tr("About"), about);
+    QMessageBox::information(this, tr("About"), about);
 }
 
 //**********************************************************
@@ -855,29 +855,48 @@ void MainWindow::ShowHistogram(){
 
 void MainWindow::on_label_Imagen_drawLine(const QPoint start, const QPoint end)
 {
-    qDebug()<<"Coordenadas: X1= "<<start.x()<<" Y1= "<<start.y();
-    qDebug()<<"Coordenadas: X2= "<<end.x()<<" Y2= "<<end.y();
-    QPixmap pixmap (*ui->label_Imagen->pixmap());
-    QPainter painter(&pixmap);
-    QPen pen(Qt::green, 2, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
-    painter.setPen(pen);
-    painter.drawLine(start.x(),start.y(),end.x(),end.y());
-
     if (mainController->getImage()->getImageType()=="DCM") {
+
+        qDebug()<<"Coordenadas: X1= "<<start.x()<<" Y1= "<<start.y();
+        qDebug()<<"Coordenadas: X2= "<<end.x()<<" Y2= "<<end.y();
+
+        QPixmap pixmap (*ui->label_Imagen->pixmap());
+        QPainter painter(&pixmap);
+        QPen pen(Qt::green, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        painter.setPen(pen);
+        painter.drawLine(start.x(),start.y(),end.x(),end.y());
+
         ImagenDCM *imagen = static_cast<ImagenDCM*> (mainController->getImage());
-        ui->statusBar->showMessage(ui->statusBar->currentMessage()+"\tDistance: "+ QString::number(imagen->getDistance(start, end))+" mm");
+        ui->statusBar->showMessage(" X: "+QString::number(end.x())+" Y: "+QString::number(end.y())+"\tDistance: "+ QString::number(imagen->getDistanceTomography(start, end))+" mm");
+        ui->label_Imagen->setPixmap(pixmap);
     }
-    ui->label_Imagen->setPixmap(pixmap);
+
 }
 
 void MainWindow::on_label_Imagen_eraseLine()
 {
     ui->label_Imagen->setPixmap(pixmapLabelImagen);
+    if (mainController->getImage()!=NULL && mainController->getImage()->getImageType()=="DCM") {
+        static_cast<ImagenDCM*> (mainController->getImage())->resetDistanceTomography();
+    }
+
 }
 
 void MainWindow::on_label_Imagen_mousePosition(const QPoint position)
 {
-    ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+    if (mainController->getImage()!=NULL && mainController->getImage()->getImageType()=="DCM") {
+        double distance= static_cast<ImagenDCM*> (mainController->getImage())->getDistanceTomography();
+        if (distance!=0) {
+            ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y())+"\tDistance: "+ QString::number(distance)+" mm");
+        }
+        else {
+            ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+        }
+    }
+
+    else{
+        ui->statusBar->showMessage(" X: "+QString::number(position.x())+" Y: "+QString::number(position.y()));
+    }
 }
 
 void MainWindow::scaleDisplayedImage(double factor)

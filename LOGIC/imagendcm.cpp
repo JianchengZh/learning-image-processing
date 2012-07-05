@@ -24,6 +24,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
     dicomImage = new DicomImage(fileName);   
     firstImage = new DicomImage(fileName);
     statusDcmFileFormat = fileformat.loadFile(fileName);
+    distanceTomography=0;
 
     if (dicomImage != NULL)
     {
@@ -313,7 +314,7 @@ void ImagenDCM::getMetaData(){
         cout << "Error: cannot read DICOM file (" << statusDcmFileFormat.text() << ")" << endl;
 }
 
-double ImagenDCM::getDistance(QPoint start, QPoint end){
+double ImagenDCM::getDistanceTomography(QPoint start, QPoint end){
 
     double pixelSpacing1 = QString(pixelSpacing.c_str()).toDouble();
     cout << "pixelSpacing1: "<<pixelSpacing1<<endl;
@@ -321,15 +322,25 @@ double ImagenDCM::getDistance(QPoint start, QPoint end){
     double catetoA = (start.x() - end.x()) * pixelSpacing1;
     double catetoB = (start.y() - end.y()) * pixelSpacing1;
 
-    double distance = sqrt((pow(catetoA,2)+(pow(catetoB,2))));
+    distanceTomography = sqrt((pow(catetoA,2)+(pow(catetoB,2))));
 
-    return distance;
+    return distanceTomography;
 
 }
 
 int ImagenDCM::getCountFrameFirstImage()
 {
     return firstImage->getFrameCount();
+}
+
+double ImagenDCM::getDistanceTomography()
+{
+    return this->distanceTomography;
+}
+
+void ImagenDCM::resetDistanceTomography()
+{
+    this->distanceTomography=0;
 }
 
 
