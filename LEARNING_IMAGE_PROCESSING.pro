@@ -12,7 +12,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     GUI/mainwindow.cpp \
-    GUI/dialogabout.cpp \
     LOGIC/histogram.cpp \
     LOGIC/imagenpgm.cpp \
     LOGIC/imagenppm.cpp \
@@ -40,7 +39,6 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     GUI/mainwindow.h \
-    GUI/dialogabout.h \
     LOGIC/histogram.h \
     LOGIC/imagenpgm.h \
     LOGIC/imagenppm.h \
@@ -66,7 +64,6 @@ HEADERS  += \
     GUI/changeframewidget.h
 
 FORMS    += \
-    GUI/dialogabout.ui \
     GUI/mainwindow.ui \
     GUI/resizeqwidget.ui \
     GUI/colordepthqwidget.ui \
@@ -90,4 +87,5 @@ OTHER_FILES += \
     GUI/UNIVALLE.ppm
 
 RESOURCES += \
-    GUI/icons.qrc
+    GUI/icons.qrc \
+    files.qrc

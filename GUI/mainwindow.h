@@ -40,7 +40,6 @@
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
-#include "GUI/dialogabout.h"
 #include "GUI/resizeqwidget.h"
 #include "GUI/colordepthqwidget.h"
 #include "GUI/thresholdqwidget.h"
@@ -77,7 +76,8 @@ private slots:
 
     // ToolBar Actions
     void on_action_Normal_Size_triggered();
-
+    void on_actionZoom_In_triggered();
+    void on_actionZoom_Out_triggered();
 
     // MenuBar Events
 
@@ -147,9 +147,7 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void scaleDisplayedImage(double factor);
 
-    void on_actionZoom_In_triggered();
 
-    void on_actionZoom_Out_triggered();
 
 private:
 
