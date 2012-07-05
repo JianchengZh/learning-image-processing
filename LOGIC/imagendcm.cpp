@@ -22,6 +22,7 @@
 ImagenDCM::ImagenDCM(const char *fileName){
 
     dicomImage = new DicomImage(fileName);
+    dicomImage = dicomImage->createDicomImage(15,1);
     statusDcmFileFormat = fileformat.loadFile(fileName);
 
     if (dicomImage != NULL)
@@ -64,7 +65,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
                 }
             }
 
-            applyWindowLevel(400,40);
+            applyWindowLevel(300,300);
             generateHistogram();
             generateQImage();
             getMetaData();
@@ -74,6 +75,63 @@ ImagenDCM::ImagenDCM(const char *fileName){
             status=false;
     }
 
+}
+
+void ImagenDCM::setFrameImage(int frame)
+{
+
+    dicomImage = dicomImage->createDicomImage(frame,1);
+
+
+    if (dicomImage != NULL)
+    {
+        if (dicomImage->getStatus() == EIS_Normal)
+        {
+            this->identification="DCM";
+            this->imageType="DCM";
+            this->colorDepth=pow(2,(dicomImage->getDepth()-1))-1;
+            this->height=dicomImage->getWidth();
+            this->width=dicomImage->getHeight();
+
+
+            qDebug() <<"DICOM depth: "<<dicomImage->getDepth();
+            qDebug() <<"Color Depth: "<<colorDepth;
+            qDebug()<< "frameCount: "<<dicomImage->getFrameCount();
+
+            dicomImage->getMinMaxValues(minDensity, maxDensity);
+
+            qDebug()<<"Min Value: "<<minDensity;
+            qDebug()<<"Max Value: "<<maxDensity;
+
+            //Lookup Table
+            lutSize=fabs(minDensity)+fabs(maxDensity)+1;
+            QTextStream (stdout)<<"lut size"<<lutSize<<endl;
+
+            lut = new int [lutSize];
+            for (int i = 0; i < lutSize; ++i){
+                lut[i]=i-fabs(minDensity);
+                //                qDebug()<<"LUT["<<i<<"]: "<<lut[i];
+            }
+
+            matrixImagenP = new int**[height];
+            for (int i=0; i < height; i++)
+                matrixImagenP[i]=new int*[width];
+
+            for(int i=0; i<height; i++){
+                for(int j=0; j<width; j++){
+                    matrixImagenP[i][j]=&lut[getDensity(j,i)+(int)fabs(minDensity)];
+                }
+            }
+
+            applyWindowLevel(300,300);
+            generateHistogram();
+            generateQImage();
+            getMetaData();
+
+            status = true;
+        } else
+            status=false;
+    }
 }
 
 int ImagenDCM::getDensity(int x, int y)
