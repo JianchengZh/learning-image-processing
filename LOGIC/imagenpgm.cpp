@@ -1085,10 +1085,10 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
     }
 
     int key=0;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = origenY; i < height; ++i) {
+        for (int j = origenX; j < width; ++j) {
             //
-            if(*matrixImagenP[i+origenY][j+origenX]==0){
+            if(*matrixImagenP[i][j]==0){
                 for (int x = 0; x < heightS; ++x) {
                     for (int y = 0; y < widthS; ++y) {
                         if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
@@ -1118,7 +1118,6 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
             }
         }
     }
-
 
 
     ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
