@@ -40,7 +40,6 @@
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
-#include "GUI/dialogabout.h"
 #include "GUI/resizeqwidget.h"
 #include "GUI/colordepthqwidget.h"
 #include "GUI/thresholdqwidget.h"
