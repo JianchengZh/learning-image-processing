@@ -1,7 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/UNIVALLE.png</file>
-        <file>icons/icon1.png</file>
         <file>icons/application_exit.png</file>
+        <file>icons/open.png</file>
+        <file>icons/newProject.png</file>
+        <file>icons/save.png</file>
+        <file>icons/OriginalSize.png</file>
+        <file>icons/Undo.png</file>
+        <file>icons/Zoom In.png</file>
+        <file>icons/Zoom Out.png</file>
     </qresource>
 </RCC>

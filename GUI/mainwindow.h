@@ -49,7 +49,6 @@
 #include "GUI/sobelqwidget.h"
 #include "GUI/structureelementqwidget.h"
 #include "GUI/cannywidget.h"
-#include "GUI/changeframewidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
@@ -76,10 +75,9 @@ public:
 
 private slots:
 
-    // Buttons Events
-    void on_pButton_LoadImage_clicked();
-//    void on_pButton__AdjustImageSize_clicked();
-    void on_pButton__NormalSize_clicked();
+    // ToolBar Actions
+    void on_action_Normal_Size_triggered();
+    void on_action_Load_Image_triggered();
 
     // MenuBar Events
 
@@ -146,11 +144,9 @@ private slots:
     void on_label_Imagen_drawLine(const QPoint start, const QPoint end);
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
-    void on_horizontalSlider_zoom_sliderMoved(int factor);
+    void horizontalSlider_zoom_sliderMoved(int factor);
 
-    void on_actionChange_Frame_triggered();
 
-    void on_actionRemove_Cap_triggered();
 
 private:
 
@@ -161,5 +157,3 @@ private:
 };
 
 #endif // MAINWINDOW_H
-
-
