@@ -431,7 +431,17 @@ void MainController::segmentationK_Means(int cluster)
 
 }
 
-
+void MainController::segmentationRemoveCap()
+{
+    delete oldImage;
+    oldImage=imagen;
+    Segmentation sg;
+    if(static_cast<ImagenPGM*>(oldImage)->getImageType()=="PGM"){
+        imagen=sg.removeCap(oldImage);
+    }else{
+        //imagen=sg.kmeansPPM(oldImage,cluster);
+    }
+}
 
 // DICOM
 void MainController::applyWindowLevel(int window, int level){
@@ -475,6 +485,8 @@ bool MainController::isThereAnUploadedImage(){
 void MainController::saveImage(QString filename){
     imagen->saveImage(filename);
 }
+
+
 
 
 

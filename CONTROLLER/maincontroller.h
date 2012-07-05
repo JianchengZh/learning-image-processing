@@ -105,6 +105,7 @@ public:
 
     //Segementation
     void segmentationK_Means(int cluster);
+    void segmentationRemoveCap();
 
 
     // DICOM

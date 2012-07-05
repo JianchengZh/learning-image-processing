@@ -508,6 +508,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>Segmentation</string>
     </property>
     <addaction name="actionK_Means"/>
+    <addaction name="actionRemove_Cap"/>
    </widget>
    <widget class="QMenu" name="menuGeometric_Operations">
     <property name="title">
@@ -921,6 +922,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Change Frame</string>
+   </property>
+  </action>
+  <action name="actionRemove_Cap">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Remove Cap</string>
    </property>
   </action>
  </widget>
