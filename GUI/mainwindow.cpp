@@ -952,14 +952,24 @@ void MainWindow::on_horizontalSlider_zoom_sliderMoved(int factor)
 
 void MainWindow::on_actionChange_Frame_triggered()
 {
-    bool ok;
+    if (ui->widget_options!=0) {
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ChangeFrameWidget *temp = new ChangeFrameWidget(ui->centralWidget, mainController, this);
+    ui->widget_options = temp;
+    temp->setMaxFrame(mainController->getCountFrameFirstImage());
+    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options->setVisible(true);
+
+   /* bool ok;
     int numFrame = QInputDialog::getInteger(this,tr("Change Frame"),tr("Frame Number:"),1,1,20,1,&ok );
 
     if (ok){
         mainController->changeFrame(numFrame);
         displayResults(mainController->getQImage());
         ShowHistogram();
-    }
+    }*/
 }
 
 void MainWindow::on_actionRemove_Cap_triggered()

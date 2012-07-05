@@ -49,6 +49,7 @@
 #include "GUI/sobelqwidget.h"
 #include "GUI/structureelementqwidget.h"
 #include "GUI/cannywidget.h"
+#include "GUI/changeframewidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;

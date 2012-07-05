@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     LOGIC/basic.cpp \
     LOGIC/segmentation.cpp \
     GUI/structureelementqwidget.cpp\
-    GUI/cannywidget.cpp
+    GUI/cannywidget.cpp \
+    GUI/changeframewidget.cpp
 
 
 HEADERS  += \
@@ -61,7 +62,8 @@ HEADERS  += \
     LOGIC/basic.h \
     LOGIC/segmentation.h \
     GUI/structureelementqwidget.h \
-    GUI/cannywidget.h
+    GUI/cannywidget.h \
+    GUI/changeframewidget.h
 
 FORMS    += \
     GUI/dialogabout.ui \
@@ -73,7 +75,8 @@ FORMS    += \
     GUI/convolutionqwidget.ui \
     GUI/sobelqwidget.ui \
     GUI/structuringElementQwidget.ui \
-    GUI/cannywidget.ui
+    GUI/cannywidget.ui \
+    GUI/changeframewidget.ui
     
 
 QMAKE_CXXFLAGS += -DHAVE_CONFIG_H
