@@ -741,8 +741,8 @@ void MainWindow::on_actionSobel_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new SobelQwidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new SobelQwidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
 }
 
@@ -752,8 +752,8 @@ void MainWindow::on_actionCanny_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new CannyWidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new CannyWidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
 }
 //**********************************************************

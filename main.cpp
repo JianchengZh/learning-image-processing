@@ -23,7 +23,7 @@
 //**********************************************************
 
 #include <QtGui/QApplication>
-#include <QApplication>
+#include <QDesktopWidget>
 #include "GUI/mainwindow.h"
 
 void center(QWidget & widget)
