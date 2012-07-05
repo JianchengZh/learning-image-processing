@@ -684,6 +684,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     }else if(position==2){
         matrizMagnitud();
         imageResult = new ImagenPGM (height, width, colorDepth,Umbral());
+
         for (int i = 0; i < height; ++i) {
             delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
         }
