@@ -386,6 +386,17 @@ Image * Segmentation::removeCap(Image *img)
     for (int i=0; i < height; i++)
         removeCapMatrix[i]=new int[width];
 
+/*
+    for(int i=0; i < height; i++) {
+        for(int j=0; j < width; j++) {
+            if(*matrix[i][j] == valueInit)
+            {
+                    matrix[i][j] = &colorDepth;
+            }
+
+        }
+    }*/
+
     for(int i=0; i < height; i++) {
         for(int j=0; j < width; j++) {
             removeCapMatrix[i][j] =  *matrix[i][j];
