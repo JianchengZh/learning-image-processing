@@ -85,7 +85,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionNoise_Cleaning_Line->setEnabled(true);
                 ui->actionSobel->setEnabled(true);
                 ui->actionCanny->setEnabled(true);
-                ui->actionDilate->setEnabled(true);
+                ui->actionMorphological->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionAND->setEnabled(true);
                 ui->actionOR->setEnabled(true);
@@ -180,6 +180,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionNOT->setEnabled(false);
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
+    ui->actionMorphological->setEnabled(false);
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -254,8 +255,8 @@ void MainWindow::on_actionResize_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new ResizeQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options = new ResizeQwidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 
 }
@@ -266,8 +267,8 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new ColorDepthQwidget(ui->centralWidget, mainController, this, log2(mainController->getImage()->getColorDepth()+1));
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options = new ColorDepthQwidget(ui->dockWidgetContents, mainController, this, log2(mainController->getImage()->getColorDepth()+1));
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
@@ -565,8 +566,8 @@ void MainWindow::on_actionThreshold_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new ThresholdQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options = new ThresholdQwidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
@@ -652,8 +653,8 @@ void MainWindow::on_actionConvolution_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new ConvolutionQwidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options = new ConvolutionQwidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
@@ -719,8 +720,8 @@ void MainWindow::on_actionMorphological_triggered()
             delete ui->widget_options;
             ui->widget_options=0;
         }
-        ui->widget_options = new StructureElementQwidget(ui->centralWidget, mainController, this);
-        ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+        ui->widget_options = new StructureElementQwidget(ui->dockWidgetContents, mainController, this);
+        ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
         ui->widget_options->setVisible(true);
     }else{
         QMessageBox msgBox2(this);
@@ -741,8 +742,8 @@ void MainWindow::on_actionSobel_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new SobelQwidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new SobelQwidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
 }
 
@@ -752,8 +753,8 @@ void MainWindow::on_actionCanny_triggered()
            delete ui->widget_options;
            ui->widget_options=0;
        }
-       ui->widget_options = new CannyWidget(ui->centralWidget, mainController, this);
-       ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+       ui->widget_options = new CannyWidget(ui->dockWidgetContents, mainController, this);
+       ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
        ui->widget_options->setVisible(true);
 }
 //**********************************************************
@@ -790,8 +791,8 @@ void MainWindow::on_actionWindow_Level_triggered()
         delete ui->widget_options;
         ui->widget_options=0;
     }
-    ui->widget_options = new WindowLevelQWidget(ui->centralWidget, mainController, this);
-    ui->widget_options->setGeometry(QRect(770, 70, 270, 331));
+    ui->widget_options = new WindowLevelQWidget(ui->dockWidgetContents, mainController, this);
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
 }
 
