@@ -1101,19 +1101,19 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
 
                                     cout<<"-----------------medio---------------------------------------"<<endl;
                                     cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
-                                    cout<<"i+(x-origenX) "<<i+(x-origenX)<<endl<<"j+(y-origenY) "<<j+(y-origenY)<<endl;
+                                    cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX)) "<<j+(y-origenX)<<endl;
                                 }
                             }else{
 
                                 cout<<"----------------------abajo----------------------------------"<<endl;
                                 cout<<"i "<<i<<endl<<"j "<<j<<endl<<"x "<<x<<endl<<"y "<<y<<endl;
-                                cout<<"i+(x-origenX) "<<i+(x-origenX)<<endl<<"j+(y-origenY) "<<j+(y-origenY)<<endl;
+                                cout<<"i+(x-origenY) "<<i+(x-origenY)<<endl<<"j+(y-origenX) "<<j+(y-origenX)<<endl;
 
                                 for (int i = 0; i <= x+y; ++i) {
                                     resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
                                 }
-                                x=heightS+1;y=widthS+1;
-                            }//cout<<endl;
+                                x=heightS;y=widthS;
+                            }
                         }
                 }
             }
