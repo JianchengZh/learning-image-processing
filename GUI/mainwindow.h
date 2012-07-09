@@ -48,6 +48,7 @@
 #include "GUI/sobelqwidget.h"
 #include "GUI/structureelementqwidget.h"
 #include "GUI/cannywidget.h"
+#include "GUI/changeframewidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
@@ -133,6 +134,7 @@ private slots:
 
     //Segmentation Menu
     void on_actionK_Means_triggered();
+    void on_actionChange_Frame_triggered();
 
 
     // DICOM Menu
@@ -146,6 +148,7 @@ private slots:
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
     void scaleDisplayedImage(double factor);
+
 
 
 

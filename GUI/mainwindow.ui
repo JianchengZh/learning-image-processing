@@ -212,6 +212,7 @@ border: 1px solid rgb(62, 61, 58);
      <string>Segmentation</string>
     </property>
     <addaction name="actionK_Means"/>
+    <addaction name="actionChange_Frame"/>
    </widget>
    <widget class="QMenu" name="menuGeometric_Operations">
     <property name="title">
@@ -925,6 +926,9 @@ background-color: rgb(255, 255, 255);</string>
    <property name="toolTip">
     <string>Load Image</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionZoom_In">
    <property name="enabled">
@@ -960,6 +964,14 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionChange_Frame">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Change Frame</string>
    </property>
   </action>
  </widget>

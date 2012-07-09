@@ -130,6 +130,9 @@ void MainWindow::on_action_Load_Image_triggered()
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
+                ui->actionK_Means->setEnabled(true);
+                ui->actionChange_Frame->setEnabled(true);
+
             }
 
 
@@ -199,6 +202,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
     ui->actionMorphological->setEnabled(false);
+    ui->actionChange_Frame->setEnabled(false);
+
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -912,4 +917,18 @@ void MainWindow::scaleDisplayedImage(double factor)
         ui->label_Imagen->setPixmap(scaledPixmap);
         pixmapLabelImagen=*ui->label_Imagen->pixmap();
     }
+}
+
+void MainWindow::on_actionChange_Frame_triggered()
+{
+    if (ui->widget_options!=0) {
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ChangeFrameWidget *temp =new ChangeFrameWidget(ui->dockWidgetContents, mainController, this);
+    temp->setMaxFrame(mainController->getCountFrameFirstImage());
+    ui->widget_options = temp;
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
+    ui->widget_options->setVisible(true);
+
 }
