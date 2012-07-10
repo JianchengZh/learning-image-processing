@@ -1024,6 +1024,61 @@ int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edg
 }
 
 //Morphological Operation
+int** ImagenPGM::matrixMorphological(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS,int option){
+    int** resultMatrixImage= new int*[height];
+    for (int i = 0; i < height; ++i) {
+        resultMatrixImage[i]= new int[width];
+    }
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            if (option==0) {
+                resultMatrixImage[i][j]=*matrixImagenP[i][j];
+            } else {
+                resultMatrixImage[i][j]=1;
+            }
+        }
+    }
+
+    int** temporalMSElement= new int*[heightS];
+    for (int i = 0; i < heightS; ++i) {
+        temporalMSElement[i]=new int[widthS];
+    }
+    int clave=0;
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            clave=0;
+            if(*matrixImagenP[i+origenY][j+origenX]==0){
+                if(i+origenY<height&&j+origenX<width){
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y) {
+                            if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
+                                if (option==0) {
+                                    if(matrixStructuringElement[x][y]==0)
+                                        if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0)
+                                            resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                } else {
+                                    if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
+                                        clave++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(clave==heightS*widthS){
+                        for (int x = 0; x < heightS; ++x) {
+                            for (int y = 0; y < widthS; ++y) {
+                                resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=temporalMSElement[x][y];
+                            }
+                        }
+                        clave=0;
+                    }
+                }
+            }
+        }
+    }
+    return resultMatrixImage;
+}
 
 Image* ImagenPGM::dilateOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
 
@@ -1088,33 +1143,29 @@ Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,in
     int key=0;
     for (int i = origenY; i < height; ++i) {
         for (int j = origenX; j < width; ++j) {
-            //
+            key=0;
             if(*matrixImagenP[i][j]==0){
                 for (int x = 0; x < heightS; ++x) {
                     for (int y = 0; y < widthS; ++y) {
                         if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
                             if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
                                 resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
-                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
+                              //  cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
                                 memoryposition[x+y][0]=i+(x-origenY);
                                 memoryposition[x+y][1]=j+(y-origenX);
-                                key=1;
-                            }else{
-                                key=0;x=heightS;y=widthS;
-                                cout<<"sale ";
-                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
-
+                                key++;
                             }
                     }
                 }
-                if(key==0){
+                if(key==heightS*widthS){
                     for (int x = 0; x < heightS; ++x) {
                         for (int y = 0; y < widthS; ++y){
-                            for (int i = 0; i <= x+y; ++i) {
-                                resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
+                            for (int z = 0; z <= x+y; ++z) {
+                                resultMatrixImage[memoryposition[z][0]][memoryposition[z][1]]=1;
                             }
                         }
                     }
+                    key=0;
                 }
             }
         }
