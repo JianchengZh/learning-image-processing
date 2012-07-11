@@ -109,6 +109,8 @@ public:
     //Morphological Operation
     Image *dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
     Image *erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *openingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *closingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
 
 private:
     int discretDegree(double value);

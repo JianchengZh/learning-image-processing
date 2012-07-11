@@ -416,6 +416,18 @@ void MainController::erosionOperation(int** matrixStructuringElement,int origenX
     oldImage=imagen;
     imagen=static_cast<ImagenPGM*>(oldImage)->erosionOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
 }
+
+void MainController::openingOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->openingOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
+}
+
+void MainController::closingOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    delete oldImage;
+    oldImage=imagen;
+    imagen=static_cast<ImagenPGM*>(oldImage)->closingOperation(matrixStructuringElement,origenX,origenY,heightS,widthS);
+}
 //segmentation
 
 void MainController::segmentationK_Means(int cluster)

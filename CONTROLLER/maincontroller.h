@@ -101,7 +101,8 @@ public:
     //Morphological Operation
     void dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
     void erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
-
+    void openingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+    void closingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
 
     //Segementation
     void segmentationK_Means(int cluster);

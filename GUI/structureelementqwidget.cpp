@@ -184,13 +184,61 @@ void StructureElementQwidget::on_pushButtonErosion_clicked(){
 
 void StructureElementQwidget::on_pushButtonOpening_clicked()
 {
-    on_pushButtonErosion_clicked();
-    on_pushButtonDilate_clicked();
+    //on_pushButtonErosion_clicked();
+   // on_pushButtonDilate_clicked();
+    int **kernel = new int*[heigthS];
+
+    for (int i = 0; i < heigthS; ++i) {
+        kernel[i]=new int[widthS];
+    }
+
+    for (int i = 0; i < heigthS; ++i) {
+        for (int j = 0; j < widthS; ++j) {
+            kernel[i][j]=qLineEditMatrix[i][j]->text().toInt();
+        }
+    }
+
+    bool ok;
+    int origenX = QInputDialog::getInteger(this,tr("R. Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
+
+    if (ok){
+        int origenY = QInputDialog::getInteger(this,tr("R. Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
+
+        if(ok){
+            mainController->openingOperation(kernel,origenX,origenY,heigthS,widthS);
+            mainwindow->displayResults(mainController->getQImage());
+            mainwindow->ShowHistogram();
+        }
+    }
 }
 
 
 void StructureElementQwidget::on_pushButtonClosing_clicked()
 {
-    on_pushButtonOpening_clicked();
-    on_pushButtonErosion_clicked();
+   // on_pushButtonOpening_clicked();
+   // on_pushButtonErosion_clicked();
+    int **kernel = new int*[heigthS];
+
+    for (int i = 0; i < heigthS; ++i) {
+        kernel[i]=new int[widthS];
+    }
+
+    for (int i = 0; i < heigthS; ++i) {
+        for (int j = 0; j < widthS; ++j) {
+            kernel[i][j]=qLineEditMatrix[i][j]->text().toInt();
+        }
+    }
+
+    bool ok;
+    int origenX = QInputDialog::getInteger(this,tr("R. Point"),tr("Origen X:"),0,0,widthS-1,1,&ok );
+
+    if (ok){
+        int origenY = QInputDialog::getInteger(this,tr("R. Point"), tr("Origen Y:"),0,0,heigthS-1,1,&ok );
+
+        if(ok){
+            mainController->closingOperation(kernel,origenX,origenY,heigthS,widthS);
+            mainwindow->displayResults(mainController->getQImage());
+            mainwindow->ShowHistogram();
+        }
+    }
 }
