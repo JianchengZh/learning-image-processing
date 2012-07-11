@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     CONTROLLER/maincontroller.cpp \
     DATA_ACCESS/imagefile.cpp \
     LOGIC/image.cpp \
-    GUI/resizeqwidget.cpp \
     GUI/colordepthqwidget.cpp \
     GUI/thresholdqwidget.cpp \
     LOGIC/imagendcm.cpp \
@@ -45,7 +44,6 @@ HEADERS  += \
     CONTROLLER/maincontroller.h \
     DATA_ACCESS/imagefile.h \
     LOGIC/image.h \
-    GUI/resizeqwidget.h \
     GUI/colordepthqwidget.h \
     GUI/thresholdqwidget.h \
     LOGIC/imagendcm.h \
@@ -65,7 +63,6 @@ HEADERS  += \
 
 FORMS    += \
     GUI/mainwindow.ui \
-    GUI/resizeqwidget.ui \
     GUI/colordepthqwidget.ui \
     GUI/thresholdqwidget.ui \
     GUI/windowlevelqwidget.ui \

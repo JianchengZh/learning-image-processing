@@ -40,7 +40,6 @@
 
 // Projec include
 #include "CONTROLLER/maincontroller.h"
-#include "GUI/resizeqwidget.h"
 #include "GUI/colordepthqwidget.h"
 #include "GUI/thresholdqwidget.h"
 #include "GUI/windowlevelqwidget.h"
@@ -50,7 +49,6 @@
 #include "GUI/cannywidget.h"
 #include "GUI/changeframewidget.h"
 
-class ResizeQwidget;
 class ColorDepthQwidget;
 class ThresholdQwidget;
 class ConvolutionQwidget;
@@ -90,7 +88,6 @@ private slots:
 
     // Edit Menu
     void on_actionUndo_triggered();
-    void on_actionResize_triggered();
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
 

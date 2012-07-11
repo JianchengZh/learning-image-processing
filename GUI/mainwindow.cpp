@@ -329,18 +329,6 @@ void MainWindow::on_actionUndo_triggered()
 
 }
 
-void MainWindow::on_actionResize_triggered()
-{
-    if (ui->widget_options!=0) {
-        delete ui->widget_options;
-        ui->widget_options=0;
-    }
-    ui->widget_options = new ResizeQwidget(ui->dockWidgetContents, mainController, this);
-    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
-    ui->widget_options->setVisible(true);
-
-}
-
 void MainWindow::on_actionChange_Color_Depth_triggered()
 {
     if (ui->widget_options!=0) {

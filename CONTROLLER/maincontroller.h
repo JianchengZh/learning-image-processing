@@ -60,7 +60,6 @@ class MainController
         bool loadImage(QString filename);
 
         // Global Transformations
-        void changeSize(int density);
         void changeColorDepth(int depth);
         void convertToGrayscale(int method);
         bool average(QString filename,

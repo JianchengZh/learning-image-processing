@@ -74,7 +74,6 @@ class Image
         virtual void saveImage(QString filename) = 0;
 
         // Image transformations
-        virtual Image * changeSize(int factor) = 0;
         virtual Image * changeColorDepth(int bits) = 0;
 
         // virtual Image *equalizateHistogram(int *newlut)=0;

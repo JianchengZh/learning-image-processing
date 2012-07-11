@@ -176,7 +176,6 @@ Image *ImagenPGM::contrastStretching(){
 }
 
 //Segmentation
-
 Image *ImagenPGM::kmeans(int clusters, int iterations){
 
     Image* image2;
@@ -198,62 +197,7 @@ Image *ImagenPGM::clasify(int* centroid, int size , int iterations){
 
 }
 
-
-
 //Global Transformations
-Image* ImagenPGM::changeSize(int factor){
-
-    int w=0;
-    int h=0;
-    int **resizedMatrix;
-    ImagenPGM *resizedImage;
-
-    if (factor>0) {
-        w = this->width*factor;
-        h = this->height*factor;
-
-        resizedMatrix = new int*[h];
-        for (int i=0; i < h; i++)
-            resizedMatrix[i]=new int[w];
-
-        for (int i = 0; i <h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                resizedMatrix[i][j]=*(matrixImagenP[(int)floor(i/factor)][(int)floor(j/factor)]);
-            }
-        }
-        resizedImage = new ImagenPGM (w, h, colorDepth, resizedMatrix);
-
-        for (int i=0; i < h; i++)
-            delete resizedMatrix[i];
-        delete resizedMatrix;
-
-    } else {
-        factor*=-1;
-        w = (int)ceil(this->width/factor);
-        h = (int)ceil(this->height/factor);
-
-        // inicializacion
-        resizedMatrix = new int*[h];
-        for (int i=0; i < h; i++)
-            resizedMatrix[i]=new int[w];
-
-        // Proceso de reduccion
-        for(int i=0; i <h; i++){
-            for(int j=0; j<w; j++){
-                resizedMatrix[i][j]=*(matrixImagenP[i*factor][j*factor]);
-            }
-        }
-
-        resizedImage = new ImagenPGM (w, h, colorDepth, resizedMatrix);
-
-        for (int i=0; i < h; i++)
-            delete resizedMatrix[i];
-        delete resizedMatrix;
-
-    }
-    return resizedImage;
-}
-
 Image* ImagenPGM::changeColorDepth(int bits){
 
     double newColorDepth=(int)(pow(2,bits)-1);
@@ -544,7 +488,6 @@ Image* ImagenPGM::gaussianaFilter(int kernelSize){
     return imageResult;
 }
 
-
 Image* ImagenPGM::noiseCleaningLine(double delta){
     int** resultMatrix = new int*[height];
     for (int i = 0; i < height; ++i) {
@@ -593,7 +536,6 @@ Image* ImagenPGM::noiseCleaningLine(double delta){
     return imageResult;
 
 }
-
 
 Image* ImagenPGM::noiseCleaningPixel(int delta){
     int** resultMatrix = new int*[height];
@@ -644,7 +586,6 @@ Image* ImagenPGM::noiseCleaningPixel(int delta){
 
     return imageResult;
 }
-
 
 int** ImagenPGM::createKernelFilter(int* vectorKerneli,int* vectorKernelj, int kernelSize){
     int **kernel= new int*[kernelSize];
@@ -855,7 +796,6 @@ int ImagenPGM::discretDegree(double value){
 /**
     Se suprimen los valores que sean menores a los dos vecinos que indique la dirección del gradiente, de lo contrario se deja el valor de la magnitud
 */
-
 void ImagenPGM::nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientDegreeDiscret, double**gradientMagnitude){
 
     for(int i = 0 ; i< height;i++ ){
@@ -934,6 +874,7 @@ void ImagenPGM::nonMaximumSuppression(double **edgeNonMaximumSuppression, int** 
     }
 
 }
+
 /**
     Se aplica para determinar los bordes de la imagen.
     Primero se buscan los valores que esten por encima del thresholdHigh y
@@ -1182,7 +1123,6 @@ Image *ImagenPGM::closingOperation(int** matrixStructuringElement,int origenX,in
 }
 
 // Export
-
 void ImagenPGM::saveImage(QString filename){
 
     if (!filename.contains(".pgm")) {

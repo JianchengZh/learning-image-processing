@@ -86,14 +86,6 @@ QImage * MainController::getHistogramImage()
 }
 
 // Image Transfomations
-void MainController::changeSize(int density)
-{
-    delete oldImage;
-
-    oldImage = 0;
-    oldImage = imagen;
-    imagen   = oldImage -> changeSize(density);
-}
 
 // Contrast
 void MainController::gammaCorrection(double r)
