@@ -117,7 +117,7 @@ private:
     void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
     void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
     int edgeFollow(int posX,int posY, int **edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
-    int **matrixMorphological(int **matrixStructuringElement,int origenX,int origenY,int heightS,int widthS,int option);
+    int **matrixMorphological(int **matrixImagen, int **matrixStructuringElement,int origenX,int origenY,int heightS,int widthS,int option);
 
 
 public:
