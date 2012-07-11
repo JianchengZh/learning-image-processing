@@ -95,9 +95,11 @@ ImagenPGM::ImagenPGM(int h, int w, int colorD, int ***matrixP, int *lut){
     this->status=true;
 
     //Lookup Table
-    this->lut = new int [colorDepth+1];
+    this->lut = lut;
+    /*this->lut = new int [colorDepth+1];
     for (int i = 0; i < colorDepth+1; ++i)
         this->lut[i]=i;
+     */
 
     // Matrix of Pointers
     matrixImagenP = new int**[height];
@@ -665,7 +667,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     int *vectorKernelj=new int[kernelSize];
     vectorKerneli[0]=-1; vectorKerneli[1]=0; vectorKerneli[2]=1;
     vectorKernelj[0]=1; vectorKernelj[1]=2; vectorKernelj[2]=1;
-    ImagenPGM *imageResult;
+    ImagenPGM *imageResult=0;
 
     resultMatrixI = new int*[height];
     resultMatrixJ = new int*[height];

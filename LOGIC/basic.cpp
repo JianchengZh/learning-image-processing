@@ -4,7 +4,7 @@ Basic::Basic()
 {
 }
 
-int ** Basic::createKernelFilter(int ***matrixImagenP, int *vectorKerneli, int *vectorKernelj, int kernelSize)
+int ** Basic::createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize)
 {
     int **kernel= new int*[kernelSize];
     for (int i = 0; i < kernelSize; ++i) {

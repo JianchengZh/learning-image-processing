@@ -81,7 +81,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
 void ImagenDCM::setFrameImage(int frame)
 {
 
-    if(frame <= firstImage->getFrameCount()){
+    if((unsigned)frame <= firstImage->getFrameCount()){
 
         DicomImage *imageNew  = firstImage->createDicomImage(frame,firstImage->getFrameCount());
         dicomImage = imageNew;

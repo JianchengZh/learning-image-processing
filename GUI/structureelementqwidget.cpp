@@ -64,7 +64,7 @@ void StructureElementQwidget::on_spinBox_valueChanged(int arg1){
         qLineEditMatrix[i]= new QLineEdit*[widthS];
     }
 
-    font;
+
     font.setPointSize(10);
     for (int i = 0; i < heigthS; ++i) {
         int x=initialX;
@@ -99,7 +99,7 @@ void StructureElementQwidget::on_spinBox_2_valueChanged(int arg2)
         qLineEditMatrix[i]= new QLineEdit*[widthS];
     }
 
-    font;
+
     font.setPointSize(10);
     for (int i = 0; i < heigthS; ++i) {
         int x=initialX;
