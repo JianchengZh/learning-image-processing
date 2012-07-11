@@ -44,6 +44,8 @@ class ImagenPGM: public Image{
     int** resultMatrixJ;
     double** resultMatrixGradiente;
     int** resultMatrixDirection;
+    int** resultMatrixImage;
+    int** memoryposition;
     int maxGradiente;
     void generateHistogram();
     void generateQImage();
