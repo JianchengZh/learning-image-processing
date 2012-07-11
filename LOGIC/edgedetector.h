@@ -13,11 +13,18 @@ public:
     Image *edgeDetectorCanny(Image *img, int thresholdHigh, int thresholdsDown);
 private:
     int discretDegree(double value);
-    void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
-    void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
-    int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
+    void nonMaximumSuppression();
+    void hysteresis(int thresholdHigh, int thresholdsDown);
+    int edgeFollow(int posX,int posY, int thresholdsDown);
     int height;
     int width;
+    int colorDepth;
+    int*** matrixImagenP;
+    double** gradientMagnitude;
+    int** gradientDegreeDiscret;
+    double** edgeNonMaximumSuppression;
+    int** edgeHysteresis;
+
 };
 
 #endif // EDGEDETECTOR_H

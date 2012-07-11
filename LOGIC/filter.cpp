@@ -56,7 +56,7 @@ Image * Filter::gaussianaFilter(Image *img, int kernelSize)
     vectorAux=0;
     //return vectorActual;
   //  return applyKernel(createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize);
-    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(height, width,matrixImagenP,createKernelFilter(matrixImagenP,vectorActual,vectorActual,kernelSize),kernelSize,kernelSize));
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, applyKernel(height, width,matrixImagenP,createKernelFilter(vectorActual,vectorActual,kernelSize),kernelSize,kernelSize));
     return imageResult;
 }
 

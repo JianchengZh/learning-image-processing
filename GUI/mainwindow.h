@@ -48,6 +48,7 @@
 #include "GUI/sobelqwidget.h"
 #include "GUI/structureelementqwidget.h"
 #include "GUI/cannywidget.h"
+#include "GUI/changeframewidget.h"
 
 class ResizeQwidget;
 class ColorDepthQwidget;
@@ -71,6 +72,12 @@ public:
 
     void displayResults(QImage *result);
     void ShowHistogram();
+
+private:
+    QStringList choiseItemSaveOption();
+    QString valueItemSaveOption(QString comparator);
+    int indexItemSaveOption(QString comparator);
+    QString lastPath;
 
 private slots:
 
@@ -133,6 +140,7 @@ private slots:
 
     //Segmentation Menu
     void on_actionK_Means_triggered();
+    void on_actionChange_Frame_triggered();
 
 
     // DICOM Menu
@@ -149,12 +157,15 @@ private slots:
 
 
 
+
 private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
     QPixmap pixmapLabelImagen;
+
+
 };
 
 #endif // MAINWINDOW_H

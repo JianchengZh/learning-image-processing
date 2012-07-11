@@ -31,6 +31,8 @@ public:
     Image* kmeansPGM(Image* img, int clusters);
     Image* kmeansPPM(Image* img, int clusters);
     Image* removeCap(Image* img);
+    Image* whiteTissue(Image* img);
+    Image* grayTissue(Image* img);
 
 
 

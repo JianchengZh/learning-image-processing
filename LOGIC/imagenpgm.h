@@ -44,6 +44,8 @@ class ImagenPGM: public Image{
     int** resultMatrixJ;
     double** resultMatrixGradiente;
     int** resultMatrixDirection;
+    int** resultMatrixImage;
+    int** memoryposition;
     int maxGradiente;
     void generateHistogram();
     void generateQImage();
@@ -107,12 +109,16 @@ public:
     //Morphological Operation
     Image *dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
     Image *erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *openingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
+    Image *closingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS, int widthS);
 
 private:
     int discretDegree(double value);
     void nonMaximumSuppression(double **edgeNonMaximumSuppression, int** gradientOrientationDiscret, double**gradientMagnitude);
     void hysteresis(int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret, int thresholdHigh, int thresholdsDown);
-    int edgeFollow(int posX,int posY, int**edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
+    int edgeFollow(int posX,int posY, int **edgeHysteresis, double **edgeNonMaximumSuppression,int**gradientDegreeDiscret,  int thresholdsDown);
+    int **matrixMorphological(int **matrixImagen, int **matrixStructuringElement,int origenX,int origenY,int heightS,int widthS,int option);
+
 
 public:
     // Getters

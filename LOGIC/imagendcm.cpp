@@ -81,7 +81,7 @@ ImagenDCM::ImagenDCM(const char *fileName){
 void ImagenDCM::setFrameImage(int frame)
 {
 
-    if(frame <= firstImage->getFrameCount()){
+    if((unsigned)frame <= firstImage->getFrameCount()){
 
         DicomImage *imageNew  = firstImage->createDicomImage(frame,firstImage->getFrameCount());
         dicomImage = imageNew;
@@ -289,7 +289,7 @@ void ImagenDCM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<"255"<<endl;
         for(int i=0; i<height; i++){

@@ -365,7 +365,7 @@ void ImagenPPM::saveImage(QString filename){
     ofstream fSalida(filename.toStdString().c_str(), ios::out|ios::binary);
    if(!identification.compare("P3")){
        fSalida<<identification.toStdString()<<endl;
-       fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+       fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
        fSalida<<width<<" "<<height<<endl;
        fSalida<<colorDepth<<endl;
 
@@ -380,7 +380,7 @@ void ImagenPPM::saveImage(QString filename){
 
    }else if(!identification.compare("P6")){
        fSalida<<identification.toStdString()<<endl;
-       fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+       fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
        fSalida<<width<<" "<<height<<endl;
        fSalida<<colorDepth<<endl;
 
@@ -400,7 +400,7 @@ void ImagenPPM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 

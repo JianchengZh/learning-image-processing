@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     displayedImage=0;
     histogramImage=0;
     mainController= new MainController();
+    lastPath="../LEARNING_IMAGE_PROCESSING/IMAGES";
+    //lastPath=QString(getenv("HOME"));
 }
 
 MainWindow::~MainWindow()
@@ -73,10 +75,10 @@ void MainWindow::on_actionZoom_Out_triggered()
 void MainWindow::on_action_Load_Image_triggered()
 {
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), lastPath, tr("Image Files (*)"));
     if (!fileName.isEmpty()){
         if (mainController->loadImage(fileName)) {
-
+            lastPath=fileName;
             // Changes on QActions:
             ui->action_Load_Image->setEnabled(false);
             ui->action_Normal_Size->setEnabled(true);
@@ -130,6 +132,9 @@ void MainWindow::on_action_Load_Image_triggered()
             }
             if(mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWindow_Level->setEnabled(true);
+                ui->actionK_Means->setEnabled(true);
+                ui->actionChange_Frame->setEnabled(true);
+
             }
 
 
@@ -199,6 +204,8 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMax->setEnabled(false);
     ui->actionMin->setEnabled(false);
     ui->actionMorphological->setEnabled(false);
+    ui->actionChange_Frame->setEnabled(false);
+
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -240,10 +247,64 @@ void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Image"),
-                                                    QString(getenv("HOME")),
+                                                    lastPath,
                                                     tr("Image Files (*)"));
-    if (!fileName.isEmpty())
-        mainController->saveImage(fileName);
+
+    QStringList items;
+    QString id;
+    items = choiseItemSaveOption();
+    bool ok=true;
+    if(!fileName.isEmpty() && !items.isEmpty()){
+        int select = indexItemSaveOption(mainController->getImage()->getIdentification());
+        id = QInputDialog::getItem(this, tr("Formato"),
+                                             tr("Indique el formato con el que desea guardar la imagen"), items,select, false, &ok);
+        id =valueItemSaveOption(id);
+    }
+    if (ok && !fileName.isEmpty()){
+        mainController->saveImage(fileName, id);
+        lastPath=fileName;
+    }
+
+}
+
+QStringList MainWindow::choiseItemSaveOption()
+{
+    QStringList items;
+    QString type = mainController->getImage()->getImageType();
+    if(!type.toLower().compare("pgm")){
+        items << tr("P2 (ASCII)") << tr("P5 (Binary)");
+    }else if(!type.toLower().compare("ppm")){
+        items << tr("P3 (ASCII)") << tr("P6 (Binary)");
+    }
+    return items;
+}
+
+QString MainWindow::valueItemSaveOption(QString comparator)
+{
+    if(!comparator.compare("P2 (ASCII)")){
+        return QString("P2");
+    }else if(!comparator.compare("P5 (Binary)")){
+        return QString("P5");
+    }else if(!comparator.compare("P3 (ASCII)")){
+        return QString("P3");
+    }else if(!comparator.compare("P6 (Binary)")){
+        return QString("P6");
+    }
+    return QString("");
+}
+
+int MainWindow::indexItemSaveOption(QString comparator)
+{
+    if(!comparator.compare("P2")){
+        return 0;
+    }else if(!comparator.compare("P5")){
+        return 1;
+    }else if(!comparator.compare("P3")){
+        return 0;
+    }else if(!comparator.compare("P6")){
+        return 1;
+    }
+    return 0;
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -913,3 +974,19 @@ void MainWindow::scaleDisplayedImage(double factor)
         pixmapLabelImagen=*ui->label_Imagen->pixmap();
     }
 }
+
+void MainWindow::on_actionChange_Frame_triggered()
+{
+    if (ui->widget_options!=0) {
+        delete ui->widget_options;
+        ui->widget_options=0;
+    }
+    ChangeFrameWidget *temp =new ChangeFrameWidget(ui->dockWidgetContents, mainController, this);
+    temp->setMaxFrame(mainController->getCountFrameFirstImage());
+    ui->widget_options = temp;
+    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
+    ui->widget_options->setVisible(true);
+
+}
+
+

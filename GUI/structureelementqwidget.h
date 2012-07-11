@@ -48,9 +48,7 @@ private slots:
     void on_spinBox_2_valueChanged(int arg2);
     void on_pushButtonDilate_clicked();
     void on_pushButtonErosion_clicked();
-
     void on_pushButtonOpening_clicked();
-
     void on_pushButtonClosing_clicked();
 
 private:

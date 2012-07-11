@@ -8,7 +8,7 @@ class Basic
 {
 public:
     Basic();
-    int **createKernelFilter(int*** matrixImagenP,int *vectorKerneli, int *vectorKernelj, int kernelSize);
+    int **createKernelFilter(int *vectorKerneli, int *vectorKernelj, int kernelSize);
     int **applyKernel(int height, int width,int*** matrixImagenP,int** kernel,int kernelSizeX, int kernelSizeY);
     void applyKerneltoPixel(int*** matrixImagenP, int i,int j,int **kernel, int kernelSizeX, int kernelSizeY, int **matrix);
 

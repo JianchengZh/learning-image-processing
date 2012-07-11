@@ -95,9 +95,11 @@ ImagenPGM::ImagenPGM(int h, int w, int colorD, int ***matrixP, int *lut){
     this->status=true;
 
     //Lookup Table
-    this->lut = new int [colorDepth+1];
+    this->lut = lut;
+    /*this->lut = new int [colorDepth+1];
     for (int i = 0; i < colorDepth+1; ++i)
         this->lut[i]=i;
+     */
 
     // Matrix of Pointers
     matrixImagenP = new int**[height];
@@ -665,7 +667,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     int *vectorKernelj=new int[kernelSize];
     vectorKerneli[0]=-1; vectorKerneli[1]=0; vectorKerneli[2]=1;
     vectorKernelj[0]=1; vectorKernelj[1]=2; vectorKernelj[2]=1;
-    ImagenPGM *imageResult;
+    ImagenPGM *imageResult=0;
 
     resultMatrixI = new int*[height];
     resultMatrixJ = new int*[height];
@@ -684,6 +686,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
     }else if(position==2){
         matrizMagnitud();
         imageResult = new ImagenPGM (height, width, colorDepth,Umbral());
+
         for (int i = 0; i < height; ++i) {
             delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
         }
@@ -1023,114 +1026,175 @@ int ImagenPGM::edgeFollow(int posX, int posY, int **edgeHysteresis, double **edg
 }
 
 //Morphological Operation
+int** ImagenPGM::matrixMorphological(int** matrixImagen, int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS,int option){
 
-Image* ImagenPGM::dilateOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
-
-    int** resultMatrixImage = new int*[height];
+    resultMatrixImage = new int*[height];
     for (int i = 0; i < height; ++i) {
         resultMatrixImage[i] = new int[width];
     }
 
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            resultMatrixImage[i][j]=*matrixImagenP[i][j];
+    if (option==0) {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                resultMatrixImage[i][j]=matrixImagen[i][j];
+            }
         }
-    }
 
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            //
-            if(i+origenY<height&&j+origenX<width)
-                if(*matrixImagenP[i+origenY][j+origenX]==0){
-                    for (int x = 0; x < heightS; ++x) {
-                        for (int y = 0; y < widthS; ++y) {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                if(i+origenY<height&&j+origenX<width)
+                    if(matrixImagen[i+origenY][j+origenX]==0){
+                        for (int x = 0; x < heightS; ++x) {
+                            for (int y = 0; y < widthS; ++y) {
 
-                            if(matrixStructuringElement[x][y]==0)
-                                if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
-                                    if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0)//{
-                                        resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
-                                    // cout<<"("<<i+(x-origenX)<<","<<j+(y-origenY)<<") ";}
-                                }//cout<<endl;
+                                if(matrixStructuringElement[x][y]==0)
+                                    if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width){
+                                        if(resultMatrixImage[i+(x-origenY)][j+(y-origenX)]!=0)
+                                            resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                    }
+                            }
                         }
                     }
-                }
+            }
         }
-    }
 
-    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
+    } else {
+        memoryposition = new int*[heightS*widthS];
+        for (int i = 0; i < heightS*widthS; ++i) {
+            memoryposition[i] = new int[2];
+        }
+
+        for (int i = 0; i < height; ++i)
+            for (int j = 0; j < width; ++j)
+                resultMatrixImage[i][j]=1;
+
+        int key=0;
+        for (int i = origenY; i < height; ++i) {
+            for (int j = origenX; j < width; ++j) {
+                key=0;
+                if(matrixImagen[i][j]==0){
+                    for (int x = 0; x < heightS; ++x) {
+                        for (int y = 0; y < widthS; ++y) {
+                            if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
+                                if(matrixImagen[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
+                                    resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
+                                    memoryposition[x+y][0]=i+(x-origenY);
+                                    memoryposition[x+y][1]=j+(y-origenX);
+                                    key++;
+                                }
+                        }
+                    }
+                    if(key==heightS*widthS){
+                        for (int x = 0; x < heightS; ++x) {
+                            for (int y = 0; y < widthS; ++y){
+                                for (int z = 0; z <= x+y; ++z) {
+                                    resultMatrixImage[memoryposition[z][0]][memoryposition[z][1]]=1;
+                                }
+                            }
+                        }
+                        key=0;
+                    }
+                }
+            }
+        }
+
+    }
+    return resultMatrixImage;
+}
+
+Image* ImagenPGM::dilateOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    int **tempMatrixImage= new int*[height];
+    for (int i = 0; i < height; ++i) {
+        tempMatrixImage[i]= new int[width];
+    }
+    for (int i = 0; i < height; ++i)
+        for (int j = 0; j < width; ++j)
+            tempMatrixImage[i][j]=*matrixImagenP[i][j];
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, matrixMorphological(tempMatrixImage,matrixStructuringElement,origenX,origenY,heightS,widthS,0));
 
     for (int i = 0; i < height; ++i) {
         delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+        delete tempMatrixImage[i]; tempMatrixImage[i]=0;
     }   delete resultMatrixImage;resultMatrixImage=0;
+    delete tempMatrixImage;tempMatrixImage=0;
 
     return imageResult;
 }
 
 Image* ImagenPGM::erosionOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
 
-    int** resultMatrixImage = new int*[height];
+    int **tempMatrixImage= new int*[height];
     for (int i = 0; i < height; ++i) {
-        resultMatrixImage[i] = new int[width];
+        tempMatrixImage[i]= new int[width];
     }
+    for (int i = 0; i < height; ++i)
+        for (int j = 0; j < width; ++j)
+            tempMatrixImage[i][j]=*matrixImagenP[i][j];
 
-    int** memoryposition = new int*[heightS*widthS];
-    for (int i = 0; i < heightS*widthS; ++i) {
-        memoryposition[i] = new int[2];
-    }
-
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            resultMatrixImage[i][j]=1;
-        }
-    }
-
-    int key=0;
-    for (int i = origenY; i < height; ++i) {
-        for (int j = origenX; j < width; ++j) {
-            //
-            if(*matrixImagenP[i][j]==0){
-                for (int x = 0; x < heightS; ++x) {
-                    for (int y = 0; y < widthS; ++y) {
-                        if(0<=i+(x-origenY)&&i+(x-origenY)<height&&0<=j+(y-origenX)&&j+(y-origenX)<width)
-                            if(*matrixImagenP[i+(x-origenY)][j+(y-origenX)]==matrixStructuringElement[x][y]){
-                                resultMatrixImage[i+(x-origenY)][j+(y-origenX)]=0;
-                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
-                                memoryposition[x+y][0]=i+(x-origenY);
-                                memoryposition[x+y][1]=j+(y-origenX);
-                                key=1;
-                            }else{
-                                key=0;x=heightS;y=widthS;
-                                cout<<"sale ";
-                                cout<<"("<<i+(x-origenY)<<","<<j+(y-origenX)<<") = "<<*matrixImagenP[i+(x-origenY)][j+(y-origenX)]<<" SM "<<matrixStructuringElement[x][y]<<endl;
-
-                            }
-                    }
-                }
-                if(key==0){
-                    for (int x = 0; x < heightS; ++x) {
-                        for (int y = 0; y < widthS; ++y){
-                            for (int i = 0; i <= x+y; ++i) {
-                                resultMatrixImage[memoryposition[i][0]][memoryposition[i][1]]=1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, resultMatrixImage);
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth, matrixMorphological(tempMatrixImage,matrixStructuringElement,origenX,origenY,heightS,widthS,1));
 
     for (int i = 0; i < height; ++i) {
         delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+        delete tempMatrixImage[i]; tempMatrixImage[i]=0;
     }   delete resultMatrixImage;resultMatrixImage=0;
+    delete tempMatrixImage;tempMatrixImage=0;
 
     for (int i = 0; i < heightS*widthS; ++i) {
         delete memoryposition[i]; memoryposition[i]= 0;
     }delete memoryposition; memoryposition=0;
 
     return imageResult;
+}
+
+Image *ImagenPGM::openingOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    int **tempMatrixImage= new int*[height];
+    for (int i = 0; i < height; ++i) {
+        tempMatrixImage[i]= new int[width];
+    }
+    for (int i = 0; i < height; ++i)
+        for (int j = 0; j < width; ++j)
+            tempMatrixImage[i][j]=*matrixImagenP[i][j];
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth,matrixMorphological(matrixMorphological(tempMatrixImage,matrixStructuringElement,origenX,origenY,heightS,widthS,1),matrixStructuringElement,origenX,origenY,heightS,widthS,0));
+
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+        delete tempMatrixImage[i]; tempMatrixImage[i]=0;
+    }   delete resultMatrixImage;resultMatrixImage=0;
+    delete tempMatrixImage;tempMatrixImage=0;
+
+    for (int i = 0; i < heightS*widthS; ++i) {
+        delete memoryposition[i]; memoryposition[i]= 0;
+    }delete memoryposition; memoryposition=0;
+
+    return imageResult;
+
+}
+
+Image *ImagenPGM::closingOperation(int** matrixStructuringElement,int origenX,int origenY,int heightS,int widthS){
+    int **tempMatrixImage= new int*[height];
+    for (int i = 0; i < height; ++i) {
+        tempMatrixImage[i]= new int[width];
+    }
+    for (int i = 0; i < height; ++i)
+        for (int j = 0; j < width; ++j)
+            tempMatrixImage[i][j]=*matrixImagenP[i][j];
+
+    ImagenPGM *imageResult = new ImagenPGM (height, width, colorDepth,matrixMorphological(matrixMorphological(tempMatrixImage,matrixStructuringElement,origenX,origenY,heightS,widthS,0),matrixStructuringElement,origenX,origenY,heightS,widthS,1));
+
+    for (int i = 0; i < height; ++i) {
+        delete resultMatrixImage[i]; resultMatrixImage[i]=0;
+        delete tempMatrixImage[i]; tempMatrixImage[i]=0;
+    }   delete resultMatrixImage;resultMatrixImage=0;
+    delete tempMatrixImage;tempMatrixImage=0;
+
+    for (int i = 0; i < heightS*widthS; ++i) {
+        delete memoryposition[i]; memoryposition[i]= 0;
+    }delete memoryposition; memoryposition=0;
+
+    return imageResult;
+
 }
 
 // Export
@@ -1144,7 +1208,7 @@ void ImagenPGM::saveImage(QString filename){
     if(!identification.compare("P2")){
         string id = identification.toStdString();
         fSalida << id << endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 
@@ -1157,7 +1221,7 @@ void ImagenPGM::saveImage(QString filename){
 
     }else if(!identification.compare("P5")){
         fSalida<<identification.toStdString()<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida << width << " " << height << "\n";
         fSalida << colorDepth << "\n";
         unsigned char *image;
@@ -1181,7 +1245,7 @@ void ImagenPGM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 
