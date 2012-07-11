@@ -444,7 +444,7 @@ void MainController::equalizateHistogram()
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> histogramEqualization(
-        oldImage -> getHistogram() -> calculateEqualization());
+    oldImage -> getHistogram() -> calculateEqualization());
 }
 
 bool MainController::bimodalSegmentaion(int T)

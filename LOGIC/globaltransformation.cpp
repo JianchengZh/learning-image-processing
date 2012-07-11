@@ -32,8 +32,8 @@ GlobalTransformation::GlobalTransformation()
 }
 
 Image * GlobalTransformation::binaryOperations(Image * image1,
-        Image *                                        image2,
-        GlobalTransformation::binaryOperation          operation)
+                                               Image *                                        image2,
+                                               GlobalTransformation::binaryOperation          operation)
 {
     if ((image1 -> getHeight() != image2 -> getHeight()) || (image1 -> getWidth() != image2 -> getWidth()))
     {
@@ -139,7 +139,7 @@ Image * GlobalTransformation::binaryOperations(Image * image1,
 }
 
 Image * GlobalTransformation::unaryOperations(Image * image1,
-        GlobalTransformation::unaryOperation          operation)
+                                              GlobalTransformation::unaryOperation          operation)
 {
     int     height       = image1 -> getHeight();
     int     width        = image1 -> getWidth();
@@ -176,14 +176,14 @@ Image * GlobalTransformation::unaryOperations(Image * image1,
 }
 
 Image * GlobalTransformation::average(Image * img,
-        Image *                               image,
-        double                                alpha)
+                                      Image *                               image,
+                                      double                                alpha)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** averageMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -196,7 +196,7 @@ Image * GlobalTransformation::average(Image * img,
         for (int j = 0; j < width; ++j)
         {
             averageMatrix[i][j] = alpha * (*matrixImagenP[i][j])
-                                  + (1 - alpha) * (*static_cast<ImagenPGM *>(image) -> getMatrix()[i][j]);
+                    + (1 - alpha) * (*static_cast<ImagenPGM *>(image) -> getMatrix()[i][j]);
         }
     }
 
@@ -217,9 +217,9 @@ Image * GlobalTransformation::add(Image * img,
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** addMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -259,13 +259,13 @@ Image * GlobalTransformation::add(Image * img,
 }
 
 Image * GlobalTransformation::subtract(Image * img,
-        Image *                                image)
+                                       Image *                                image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** subtractMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -305,13 +305,13 @@ Image * GlobalTransformation::subtract(Image * img,
 }
 
 Image * GlobalTransformation::multiply(Image * img,
-        Image *                                image)
+                                       Image *                                image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** multiplyMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -324,7 +324,7 @@ Image * GlobalTransformation::multiply(Image * img,
         for (int j = 0; j < width; ++j)
         {
             multiplyMatrix[i][j] = ((*matrixImagenP[i][j]) * (*static_cast<ImagenPGM *>(image) -> getMatrix()[i][j]))
-                                   / colorDepth;
+                    / colorDepth;
         }
     }
 
@@ -341,13 +341,13 @@ Image * GlobalTransformation::multiply(Image * img,
 }
 
 Image * GlobalTransformation::divide(Image * img,
-        Image *                              image)
+                                     Image *                              image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** divideMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -363,15 +363,14 @@ Image * GlobalTransformation::divide(Image * img,
         for (int j = 0; j < width; ++j)
         {
             div = ((colorDepth + 1) * (*matrixImagenP[i][j]))
-                  / ((*static_cast<ImagenPGM *>(image) -> getMatrix()[i][j]) + 1);
+                    / ((*static_cast<ImagenPGM *>(image) -> getMatrix()[i][j]) + 1);
 
-            // if (div<colorDepth+1) {
-            divideMatrix[i][j] = div;
-
-            // } else {
-            // divideMatrix[i][j]=colorDepth;
-            // }
-            // cout<<divideMatrix[i][j]<<" ";
+            if (div<colorDepth+1) {
+                divideMatrix[i][j] = div;
+            } /*else {
+                divideMatrix[i][j]=colorDepth;
+            }
+            // cout<<divideMatrix[i][j]<<" ";*/
         }    // cout<<endl;
     }
 
@@ -388,13 +387,13 @@ Image * GlobalTransformation::divide(Image * img,
 }
 
 Image * GlobalTransformation::maxOp(Image * img,
-        Image *                             image)
+                                    Image *                             image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** addMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
@@ -434,13 +433,13 @@ Image * GlobalTransformation::maxOp(Image * img,
 }
 
 Image * GlobalTransformation::minOp(Image * img,
-        Image *                             image)
+                                    Image *                             image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
-        static_cast<ImagenPGM *>(img) ->
-             getHeight(), width = static_cast<ImagenPGM *>(img) ->
-                  getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
+            static_cast<ImagenPGM *>(img) ->
+            getHeight(), width = static_cast<ImagenPGM *>(img) ->
+            getWidth(), colorDepth = static_cast<ImagenPGM *>(img) -> getColorDepth();
     int ** addMatrix = new int *[height];
 
     for (int i = 0; i < height; i++)
