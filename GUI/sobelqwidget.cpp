@@ -100,7 +100,6 @@ void SobelQwidget::on_sobelFilter_clicked()
     if (mainController -> isThereAnUploadedImage())
     {
         mainController -> edgeDetectionSobel(2);
-        mainController -> isodataSegmentation();
         mainwindow -> displayResults(mainController -> getQImage());
         mainwindow -> ShowHistogram();
     }

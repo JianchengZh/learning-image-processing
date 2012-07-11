@@ -59,6 +59,7 @@ class ImagenPGM:public Image
     void matrizMagnitud();
     void matrizDirection();
     int ** Umbral();
+    int Threshold(int *colorFrequency);
 
 public:
 
