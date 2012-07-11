@@ -44,11 +44,11 @@ public:
     
 private slots:
 
-    void on_isodataSegmentation_clicked();
-
-    void on_otsuSegmentation_clicked();
-
     void on_manualSegPushButton_clicked();
+
+    void on_isodataSegPushButton_clicked();
+
+    void on_otsuSegPushButton_clicked();
 
 private:
     Ui::ThresholdQwidget *ui;
@@ -57,3 +57,4 @@ private:
 };
 
 #endif // THRESHOLDQWIDGET_H
+

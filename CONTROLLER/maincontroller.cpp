@@ -466,13 +466,13 @@ bool MainController::bimodalSegmentaion(int T)
 
 void MainController::isodataSegmentation()
 {
-    imagen -> getHistogram() -> ThresholdingByTwoPeaks();
+   // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen -> getHistogram() -> ThresholdingByIsodata());
 }
 
 void MainController::otsuSegmentation()
 {
-    imagen -> getHistogram() -> ThresholdingByTwoPeaks();
+   // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen -> getHistogram() -> ThresholdingByOtsu());
 }
 

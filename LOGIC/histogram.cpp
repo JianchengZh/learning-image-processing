@@ -217,7 +217,7 @@ double Histogram::findMaxFrecuency()
 
 int * Histogram::calculateEqualization()
 {
-    int      a                    = 0;
+    int      a  = 0;
     int *    discretizedFrecuency = new int[intensidad];
     double * relativeEqualization = new double[intensidad];
 

@@ -47,7 +47,7 @@ ThresholdQwidget::~ThresholdQwidget()
     delete ui;
 }
 
-void ThresholdQwidget::on_isodataSegmentation_clicked()
+void ThresholdQwidget::on_isodataSegPushButton_clicked()
 {
     if (mainController -> isThereAnUploadedImage())
     {
@@ -64,7 +64,8 @@ void ThresholdQwidget::on_isodataSegmentation_clicked()
     }
 }
 
-void ThresholdQwidget::on_otsuSegmentation_clicked()
+
+void ThresholdQwidget::on_otsuSegPushButton_clicked()
 {
     if (mainController -> isThereAnUploadedImage())
     {
@@ -80,6 +81,7 @@ void ThresholdQwidget::on_otsuSegmentation_clicked()
         msgBox2.exec();
     }
 }
+
 
 void ThresholdQwidget::on_manualSegPushButton_clicked()
 {

@@ -396,6 +396,7 @@ Image* ImagenPGM::divide(ImagenPGM *image){
 }
 
 Image* ImagenPGM::bimodalSegmentaion(int T){
+    cout<<T<<endl;
     for (int i = 0; i < colorDepth+1; ++i) {
         if (lut[i]<T) {
             lut[i]=0;
@@ -742,7 +743,8 @@ int** ImagenPGM::Umbral(){
     }
 
     this->generateHistogram();
-    int threshold = this->getHistogram()->ThresholdingByIsodata();
+    int threshold = this->getHistogram()->ThresholdingByTwoPeaks();
+    cout<<threshold<<endl;
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
@@ -785,26 +787,8 @@ Image* ImagenPGM::edgeDetectorCanny(int thresholdHigh, int thresholdsDown){
     }
 
     /*********************************************/
-    //Filtro Gaussiano
-    //gaussianaFilter(1,1);
     gaussianaFilter(5);
-    //Calculo del Gradiente (magnitud y angulo)
 
-    //****Calculo de los componentes usando los operadores de sobel
-    /*Image *temp1 = this->edgeDetectionSobel(0);
-
-
-    ImagenPGM* temp = (static_cast<ImagenPGM*>(temp1));
-    int *** dx ;
-    dx= (temp->getMatrix());
-    //int ** dx=*((ImagenPGM*)(edgeDetectionSobel(0)))->getMatrix();
-
-    temp = (static_cast<ImagenPGM*>(this->edgeDetectionSobel(1)));
-    int *** dy ;
-    dy = (temp->getMatrix());
-    QTextStream (stdout) <<" mag! " << endl << endl << endl << endl;*/
-
-    //****Calculo de la magnitud y angulo del gradiente a partir de lso componentes
     edgeDetectionSobel(3);
 
     for(int i = 0; i < height; ++i) {
