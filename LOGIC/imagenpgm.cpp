@@ -95,11 +95,9 @@ ImagenPGM::ImagenPGM(int h, int w, int colorD, int ***matrixP, int *lut){
     this->status=true;
 
     //Lookup Table
-    this->lut = lut;
-    /*this->lut = new int [colorDepth+1];
+    this->lut = new int [colorDepth+1];
     for (int i = 0; i < colorDepth+1; ++i)
         this->lut[i]=i;
-     */
 
     // Matrix of Pointers
     matrixImagenP = new int**[height];
