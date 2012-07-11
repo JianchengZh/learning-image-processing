@@ -686,7 +686,7 @@ Image* ImagenPGM::edgeDetectionSobel(int position){
         imageResult = new ImagenPGM (height, width, colorDepth,resultMatrixJ);
     }else if(position==2){
         matrizMagnitud();
-        imageResult = new ImagenPGM (height, width, colorDepth,Umbral());
+        imageResult = new ImagenPGM (height, width, 1,Umbral());
 
         for (int i = 0; i < height; ++i) {
             delete resultMatrixGradiente[i];resultMatrixGradiente[i]=0;
@@ -743,8 +743,7 @@ int** ImagenPGM::Umbral(){
     }
 
     this->generateHistogram();
-    int threshold = this->getHistogram()->ThresholdingByTwoPeaks();
-    cout<<threshold<<endl;
+    int threshold = this->getHistogram()->ThresholdingByIsodata();
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
@@ -755,8 +754,55 @@ int** ImagenPGM::Umbral(){
         }
     }
 
+    int* colorFrequency = new int[colorDepth+1];
+
+    for (int i = 0; i < colorDepth+1; i++)
+        colorFrequency[i] = 0;
+
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+            colorFrequency[resultMatrixImage[i][j]]++;
+
+    threshold = Threshold(colorFrequency);
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            if(resultMatrixImage[i][j]>threshold)
+                resultMatrixImage[i][j]=1;
+            else
+                resultMatrixImage[i][j]=0;
+        }
+    }
+
+    delete colorFrequency;colorFrequency=0;
+
     return resultMatrixImage;
 }
+
+int ImagenPGM::Threshold(int* colorFrequency)
+{
+    int max1 = 0,max2 = 0,temp1 = 0,temp2 = 0;
+
+    // look first peak
+    for (int i = 1; i < colorDepth; ++i)
+        if ((colorFrequency[i] > colorFrequency[i - 1]) && (colorFrequency[i] > colorFrequency[i + 1]))
+            if (colorFrequency[i] > colorFrequency[max1])
+                max1 = i;
+
+    // look second peak
+    for (int i = 1; i < colorDepth; ++i){
+        if ((colorFrequency[i] > colorFrequency[i - 1]) && (colorFrequency[i] > colorFrequency[i + 1])) {
+            temp1 = pow(max1 - i, 2) * colorFrequency[i];
+            if (temp1 > temp2){
+                temp2 = temp1;
+                max2  = i;
+            }
+        }
+    }
+
+    return (max1 + max2) / 2;
+}
+
 
 /**
     El detector de bordes basado en Canny:

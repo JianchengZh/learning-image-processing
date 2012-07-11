@@ -449,17 +449,14 @@ void MainController::equalizateHistogram()
 
 bool MainController::bimodalSegmentaion(int T)
 {
-    if (imagen != 0)
-    {
+    if (imagen != 0){
         delete oldImage;
 
         oldImage = imagen;
         imagen   = static_cast<ImagenPGM *>(oldImage) -> bimodalSegmentaion(T);
 
         return true;
-    }
-    else
-    {
+    } else  {
         return false;
     }
 }
