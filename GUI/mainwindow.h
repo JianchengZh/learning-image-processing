@@ -73,12 +73,6 @@ public:
     void displayResults(QImage *result);
     void ShowHistogram();
 
-private:
-    QStringList choiseItemSaveOption();
-    QString valueItemSaveOption(QString comparator);
-    int indexItemSaveOption(QString comparator);
-    QString lastPath;
-
 private slots:
 
     // ToolBar Actions
@@ -100,7 +94,7 @@ private slots:
     void on_actionChange_Color_Depth_triggered();
     void on_actionConver_to_GrayScale_triggered();
 
-    // Global Transformations Menu   
+    // Global Transformations Menu
     void on_actionWeight_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
@@ -155,21 +149,18 @@ private slots:
     void on_label_Imagen_mousePosition(const QPoint position);
     void scaleDisplayedImage(double factor);
 
-
-
-
 private:
 
     Ui::MainWindow *ui;
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
     QPixmap pixmapLabelImagen;
+    QString lastPath;
 
+    QStringList choiseItemSaveOption();
+    QString valueItemSaveOption(QString comparator);
+    int indexItemSaveOption(QString comparator);
 
 };
 
 #endif // MAINWINDOW_H
-
-
-
-

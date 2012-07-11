@@ -3,19 +3,27 @@
 // LEARNING_IMAGE_PROCESSING
 //
 // ARCHIVO: image.cpp
-//
-// FECHA INICIACION: Marzo de 2012
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
-// gustalibreros@hotmail.com
+// gustalibreros@gmail.com
 //
 // Edwin Fernando Muñoz             0910398-3743
-// edwinfernandomudelgado@hotmail.com
+// edwinfernandomudelgado@gmail.com
+//
+// Yerminson Doney Gonzalez         0843846-3743
+// yermigon@gmail.com
+//
+// Edgar Andrés Moncada             0832294-3743
+// edgarandres29@gmail.com
 //
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
+
+
 
 #include "image.h"
 
@@ -23,47 +31,59 @@ Image::Image()
 {
 }
 
-Image::~Image(){
+Image::~Image()
+{
 }
 
-QString Image::getIdentification(){
-    return this->identification;
+QString Image::getIdentification()
+{
+    return this -> identification;
 }
 
-QString Image::getImageType(){
-    return this->imageType;
+QString Image::getImageType()
+{
+    return this -> imageType;
 }
 
-int Image::getHeight(){
-    return this->height;
+int Image::getHeight()
+{
+    return this -> height;
 }
 
-int Image::getWidth(){
-    return this->width;
+int Image::getWidth()
+{
+    return this -> width;
 }
 
-int Image::getColorDepth(){
-    return this->colorDepth;
+int Image::getColorDepth()
+{
+    return this -> colorDepth;
 }
 
-bool Image::getStatus(){
-    return this->status;
+bool Image::getStatus()
+{
+    return this -> status;
 }
 
-Histogram* Image::getHistogram(){
-    return this->histogram;
+Histogram * Image::getHistogram()
+{
+    return this -> histogram;
 }
 
-QImage* Image::getQImage(){
-    return this->qImage;
+QImage * Image::getQImage()
+{
+    return this -> qImage;
 }
 
-QImage* Image::getHistogramImage(){
-    return this->histogram->getHistogram();
+QImage * Image::getHistogramImage()
+{
+    return this -> histogram -> getHistogram();
 }
 
 void Image::setImageIdentification(QString id)
 {
-    this->identification=id;
+    this -> identification = id;
 }
 
+
+//~ Formatted by Jindent --- http://www.jindent.com

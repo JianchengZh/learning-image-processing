@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: customqlabel.cpp
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,41 +23,54 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #include "customqlabel.h"
 
-CustomQLabel::CustomQLabel(QWidget *parent) :
+CustomQLabel::CustomQLabel(QWidget * parent):
     QLabel(parent)
 {
     lineDrawing = false;
+
     setMouseTracking(true);
 }
 
-void CustomQLabel::mousePressEvent(QMouseEvent *event){
+void CustomQLabel::mousePressEvent(QMouseEvent * event)
+{
+    startPoint = QPoint(event -> x(), event -> y());
 
-    startPoint= QPoint(event->x(), event->y());
-    if (this->pixmap()!=0) {
+    if (this -> pixmap() != 0)
+    {
         lineDrawing = true;
+
         emit eraseLine();
     }
 }
 
-void CustomQLabel::mouseMoveEvent(QMouseEvent *event){
+void CustomQLabel::mouseMoveEvent(QMouseEvent * event)
+{
+    endPoint = QPoint(event -> x(), event -> y());
 
-    endPoint= QPoint(event->x(), event->y());
     emit mousePosition(endPoint);
-    if (this->pixmap()!=0 && lineDrawing) {
+
+    if ((this -> pixmap() != 0) && lineDrawing)
+    {
         emit eraseLine();
         emit drawLine(startPoint, endPoint);
     }
-
 }
 
-void CustomQLabel::mouseReleaseEvent(QMouseEvent *event){
+void CustomQLabel::mouseReleaseEvent(QMouseEvent * event)
+{
+    endPoint = QPoint(event -> x(), event -> y());
 
-    endPoint= QPoint(event->x(), event->y());
-    if (this->pixmap()!=0) {
+    if (this -> pixmap() != 0)
+    {
         emit drawLine(startPoint, endPoint);
-        lineDrawing=false;
-    }
 
+        lineDrawing = false;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: imagendcm.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef IMAGENDCM_H
 #define IMAGENDCM_H
 
@@ -36,51 +39,62 @@
 #include <QDebug>
 #include <QPoint>
 #include <iostream>
+
 using namespace std;
 
-
-class ImagenDCM : public Image{
-
-    DicomImage *dicomImage;
-    DicomImage *firstImage;
+class ImagenDCM:
+    public Image
+{
+    DicomImage *  dicomImage;
+    DicomImage *  firstImage;
     DcmFileFormat fileformat;
-    OFCondition statusDcmFileFormat;
-    int ***matrixImagenP;
-    int *lut;
-    int lutSize;
-    double minDensity, maxDensity;
-    double distanceTomography;
-    OFString pixelSpacing;
+    OFCondition   statusDcmFileFormat;
+    int ***       matrixImagenP;
+    int *         lut;
+    int           lutSize;
+    double        minDensity, maxDensity;
+    double        distanceTomography;
+    OFString      pixelSpacing;
 
     void generateHistogram();
     void generateQImage();
-    int getDensity(int x, int y);
-    int appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept);
-    int pixelWindowLevel(int pixelValue, int window, int center);
+    int getDensity(int x,
+                   int y);
+    int appyCalibrationFunction(int pixelValue,
+                                int rescaleSlope,
+                                int rescaleIntercept);
+    int pixelWindowLevel(int pixelValue,
+                         int window,
+                         int center);
 
-public:
+    public:
+        int measureDistance(QPoint start,
+                            QPoint end);
 
-    int measureDistance(QPoint start, QPoint end);
-    ImagenDCM(const char *fileName);
-    void getMetaData();
-    double getDistanceTomography(QPoint start, QPoint end);
-    void applyWindowLevel(int window, int level);
+        ImagenDCM(const char * fileName);
 
-    void setFrameImage(int frame);
+        void getMetaData();
+        double getDistanceTomography(QPoint start,
+                                     QPoint end);
+        void applyWindowLevel(int window,
+                              int level);
+        void setFrameImage(int frame);
 
-    // VIRTUAL METHODS
-    Image *changeSize(int factor);
-    Image *changeColorDepth(int bits);
+        // VIRTUAL METHODS
+        Image * changeSize(int factor);
+        Image * changeColorDepth(int bits);
 
-    // SETTERS:
-    void resetDistanceTomography();
+        // SETTERS:
+        void resetDistanceTomography();
 
-    // GETTERS:
-    int getCountFrameFirstImage();
-    double getDistanceTomography();
+        // GETTERS:
+        int getCountFrameFirstImage();
+        double getDistanceTomography();
 
-    // SAVE IMAGE
-    void saveImage(QString filename);
+        // SAVE IMAGE
+        void saveImage(QString filename);
 };
-
 #endif // IMAGENDCM_H
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

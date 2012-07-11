@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: imagefile.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef IMAGEFILE_H
 #define IMAGEFILE_H
 
@@ -29,43 +32,44 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
-
-
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <cmath>
 #include <fstream>
+
 using namespace std;
 
-class ImageFile: public QFile
+class ImageFile:
+    public QFile
 {
-private:
-    QList<QString> lectura;
-    QList<QString> supportedFormats;
-    QString id;
-    int colorDepth;
-    int height;
-    int width;
-    int *matrix;
+    private:
+        QList<QString> lectura;
+        QList<QString> supportedFormats;
+        QString        id;
+        int            colorDepth;
+        int            height;
+        int            width;
+        int *          matrix;
 
-    bool readFileImage();
+        bool readFileImage();
 
+    public:
+        ImageFile(QString fileName);
 
-public:
-    ImageFile(QString fileName);
-    bool readFile();
+        bool readFile();
+        void readingProcess();
+        void printImageContents();
+        QList<QString> getImageContents();
 
-    void readingProcess();
-    void printImageContents();
-    QList<QString> getImageContents();
-
-    //GETTERS
-    QString getId();
-    int getColorDepth();
-    int getHeight();
-    int getWidth();
-    int *getMatrix();
+        // GETTERS
+        QString getId();
+        int getColorDepth();
+        int getHeight();
+        int getWidth();
+        int * getMatrix();
 };
-
 #endif // IMAGEFILE_H
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

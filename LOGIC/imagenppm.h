@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: imagenppm.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef IMAGENPPM_H
 #define IMAGENPPM_H
 
@@ -29,54 +32,59 @@
 #include "image.h"
 #include <QImage>
 #include <QRgb>
+
 using namespace std;
 
-class ImagenPPM: public Image
+class ImagenPPM:
+    public Image
 {
-    int ***matrixRp, ***matrixGp, ***matrixBp;
-    int *lutR, *lutG, *lutB;
+    int *** matrixRp, ***matrixGp, ***matrixBp;
+    int *   lutR, *lutG, *lutB;
 
     void generateHistogram();
     void generateQImage();
-public:
 
-    //Constructors
-    ImagenPPM(QString filename);
+    public:
 
-    ImagenPPM(QString id,
-              int h,
-              int w,
-              int depth,
-              int **matrizR,
-              int **matrizG,
-              int **matrizB);
+        // Constructors
+        ImagenPPM(QString filename);
 
-    ImagenPPM(QString id,
-              int h,
-              int w,
-              int colorD,
-              int ***matrizR,
-              int *lutR,
-              int ***matrizG,
-              int *lutG,
-              int ***matrizB,
-              int *lutB);
+        ImagenPPM(QString id,
+                  int     h,
+                  int     w,
+                  int     depth,
+                  int **  matrizR,
+                  int **  matrizG,
+                  int **  matrizB);
 
-    ~ImagenPPM();
+        ImagenPPM(QString id,
+                  int     h,
+                  int     w,
+                  int     colorD,
+                  int *** matrizR,
+                  int *   lutR,
+                  int *** matrizG,
+                  int *   lutG,
+                  int *** matrizB,
+                  int *   lutB);
 
-    //Image processing
-    Image* changeSize(int factor);
-    Image* changeColorDepth(int bits);
-    ImagenPGM* convertToGrayScale(int method);
-    //   Image *equalizateHistogram(int *newlut);
+        ~ImagenPPM();
 
-    // Getters
-    int ***getMatrizR();
-    int ***getMatrizG();
-    int ***getMatrizB();
+        // Image processing
+        Image * changeSize(int factor);
+        Image * changeColorDepth(int bits);
+        ImagenPGM * convertToGrayScale(int method);
 
-    // Export
-    void saveImage(QString filename);
+        // Image *equalizateHistogram(int *newlut);
+        // Getters
+        int *** getMatrizR();
+        int *** getMatrizG();
+        int *** getMatrizB();
+
+        // Export
+        void saveImage(QString filename);
 };
-
 #endif // IMAGENPPGM_H
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: image.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef IMAGE_H
 #define IMAGE_H
 
@@ -34,51 +37,49 @@
 
 class Image
 {
+    protected:
+        QString     identification;
+        QString     imageType;
+        int         colorDepth;
+        int         height;
+        int         width;
+        bool        status;
+        QImage *    qImage;
+        Histogram * histogram;
 
-protected:
+        virtual void generateHistogram() = 0;
+        virtual void generateQImage() = 0;
 
-    QString identification;
-    QString imageType;
-    int colorDepth;
-    int height;
-    int width;
-    bool status;
-    QImage *qImage;
-    Histogram *histogram;
+    public:
+        Image();
 
-    virtual void generateHistogram()=0;
-    virtual void generateQImage()=0;
+        virtual ~Image();
 
-public:
-    Image();
-    virtual ~Image();
+        // GETTERS:
+        QString getIdentification();
+        QString getImageType();
+        int getColorDepth();
+        int getHeight();
+        int getWidth();
+        bool getStatus();
+        Histogram * getHistogram();
+        QImage * getQImage();
+        QImage * getHistogramImage();
 
-    // GETTERS:
-    QString getIdentification();
-    QString getImageType();
+        // SETTERS:
+        void setImageIdentification(QString id);
 
-    int getColorDepth();
-    int getHeight();
-    int getWidth();
+        // Virtual Methods
+        // export
+        virtual void saveImage(QString filename) = 0;
 
-    bool getStatus();
+        // Image transformations
+        virtual Image * changeSize(int factor) = 0;
+        virtual Image * changeColorDepth(int bits) = 0;
 
-    Histogram *getHistogram();
-
-    QImage *getQImage();
-    QImage *getHistogramImage();
-
-    //SETTERS:
-    void setImageIdentification(QString id);
-
-    // Virtual Methods
-    // export
-    virtual void saveImage(QString filename) =0;
-
-    // Image transformations
-    virtual Image *changeSize(int factor)=0;
-    virtual Image *changeColorDepth(int bits)=0;
-    //virtual Image *equalizateHistogram(int *newlut)=0;
+        // virtual Image *equalizateHistogram(int *newlut)=0;
 };
-
 #endif // IMAGE_H
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: histogram.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 
@@ -30,31 +33,35 @@
 
 class Histogram
 {
-public:
-    Histogram(int height, int width, int colorD, int **matrix);
-    ~Histogram();
+    public:
+        Histogram(int    height,
+                  int    width,
+                  int    colorD,
+                  int ** matrix);
 
-    int ThresholdingByIsodata();
-    int ThresholdingByOtsu();
-    int ThresholdingByTwoPeaks();
-    int* calculateEqualization();
+        ~Histogram();
 
-    //Getters
-    QImage *getHistogram();
-    double *getColorFrequency();
+        int ThresholdingByIsodata();
+        int ThresholdingByOtsu();
+        int ThresholdingByTwoPeaks();
+        int * calculateEqualization();
 
-private:
+        // Getters
+        QImage * getHistogram();
+        double * getColorFrequency();
 
-    double *colorFrequency;
-    int **matrizHistograma;
-    int intensidad;
-    double u1,u2,w1,w2,n;
-    QImage *qImage;
+    private:
+        double * colorFrequency;
+        int **   matrizHistograma;
+        int      intensidad;
+        double   u1, u2, w1, w2, n;
+        QImage * qImage;
 
-
-    void    generateMatrix();
-    double  findMaxFrecuency();
-    void    calculatePromedio();
-
+        void generateMatrix();
+        double findMaxFrecuency();
+        void calculatePromedio();
 };
 #endif
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

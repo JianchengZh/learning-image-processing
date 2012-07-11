@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
-    <normaloff>:/icons/UNIVALLE.png</normaloff>:/icons/UNIVALLE.png</iconset>
+    <normaloff>:/icons/logoFinal.gif</normaloff>:/icons/logoFinal.gif</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"> QDockWidget::title {

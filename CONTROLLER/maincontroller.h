@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: maincontroller.h
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,14 +23,18 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
 // Qt include
-#include <QImage>
-//#include <QString>
 
+#include <QImage>
+
+// #include <QString>
 // Project include
+
 #include "LOGIC/imagenpgm.h"
 #include "LOGIC/imagenppm.h"
 #include "LOGIC/imagendcm.h"
@@ -41,88 +46,111 @@
 #include "LOGIC/globaltransformation.h"
 #include "LOGIC/geometricoperation.h"
 #include "LOGIC/filter.h"
+
 class MainController
 {
-private:
+    private:
+        Image * imagen, *oldImage;
 
-    Image *imagen, *oldImage;
+    public:
+        MainController();
 
-public:
+        ~MainController();
 
-    MainController();
-    ~MainController();
+        bool loadImage(QString filename);
 
-    bool loadImage(QString filename);
+        // Global Transformations
+        void changeSize(int density);
+        void changeColorDepth(int depth);
+        void convertToGrayscale(int method);
+        bool average(QString filename,
+                     double  alpha);
+        bool add(QString filename);
+        bool subtract(QString filename);
+        bool multiply(QString filename);
+        bool divide(QString filename);
+        bool andOperation(QString filename);
+        bool xorOperation(QString filename);
+        void notOperation();
+        bool orOperation(QString filename);
+        bool maxOperation(QString filename);
+        bool minOperation(QString filename);
 
+        // geometric operations
+        void sacaling(double factorX,
+                      double factorY);
+        void translation(double factorX,
+                         double factorY);
+        void rotation(double angle);
+        void reflection(bool orientationX);    // true X false Y
 
-    // Global Transformations
-    void changeSize(int density);
-    void changeColorDepth(int depth);
-    void convertToGrayscale(int method);
-    bool average(QString filename, double alpha);
-    bool add(QString filename);
-    bool subtract(QString filename);
-    bool multiply(QString filename);
-    bool divide(QString filename);
-    bool andOperation(QString filename);
-    bool xorOperation(QString filename);
-    void notOperation();
-    bool orOperation(QString filename);
-    bool maxOperation(QString filename);
-    bool minOperation(QString filename);
+        // histogram
+        bool bimodalSegmentaion(int T);
+        void equalizateHistogram();
+        void otsuSegmentation();
+        void isodataSegmentation();
 
-    //geometric operations
-    void sacaling(double factorX, double factorY);
-    void translation(double factorX, double factorY);
-    void rotation(double angle);
-    void reflection(bool orientationX);//true X false Y
+        // contrast
+        void gammaCorrection(double r);
+        void contrastStretching();
 
-    //histogram
-    bool bimodalSegmentaion(int T);
-    void equalizateHistogram();
-    void otsuSegmentation();
-    void isodataSegmentation();
+        // Filter
+        void meanFilter(int size);
+        void convolutionFilter(int ** kernel,
+                               int    size);
+        void gaussianaFilter(int size);
+        void noiseCleaningPixel(int delta);
+        void noiseCleaningLine(double delta);
 
-    //contrast
-    void gammaCorrection(double r);
-    void contrastStretching();
+        // Edge Detection
+        void edgeDetectionSobel(int position);
+        void edgeDetectorCanny(int thresholdHigh,
+                               int thresholdDown);
 
-    //Filter
-    void meanFilter(int size);
-    void convolutionFilter(int **kernel, int size);
-    void gaussianaFilter(int size);
-    void noiseCleaningPixel(int delta);
-    void noiseCleaningLine(double delta);
+        // Morphological Operation
+        void dilateOperation(int ** matrixStructuringElement,
+                             int    origenX,
+                             int    origenY,
+                             int    heightS,
+                             int    widthS);
+        void erosionOperation(int ** matrixStructuringElement,
+                              int    origenX,
+                              int    origenY,
+                              int    heightS,
+                              int    widthS);
+        void openingOperation(int ** matrixStructuringElement,
+                              int    origenX,
+                              int    origenY,
+                              int    heightS,
+                              int    widthS);
+        void closingOperation(int ** matrixStructuringElement,
+                              int    origenX,
+                              int    origenY,
+                              int    heightS,
+                              int    widthS);
 
-    //Edge Detection
-    void edgeDetectionSobel(int position);
-    void edgeDetectorCanny(int thresholdHigh, int thresholdDown);
+        // Segementation
+        void segmentationK_Means(int cluster);
+        void segmentationRemoveCap();
+        int getCountFrameFirstImage();
 
-    //Morphological Operation
-    void dilateOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
-    void erosionOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
-    void openingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
-    void closingOperation(int** matrixStructuringElement, int origenX,int origenY,int heightS,int widthS);
+        // DICOM
+        void applyWindowLevel(int window,
+                              int level);
+        void changeFrame(int numFrame);
 
-    //Segementation
-    void segmentationK_Means(int cluster);
-    void segmentationRemoveCap();
-    int getCountFrameFirstImage();
+        // Getters:
+        Image * getImage();
+        QImage * getQImage();
+        QImage * getHistogramImage();
 
-
-    // DICOM
-    void applyWindowLevel(int window, int level);
-    void changeFrame(int numFrame);
-
-    // Getters:
-    Image *getImage();
-    QImage *getQImage();
-    QImage *getHistogramImage();
-
-    // Others methods:
-    bool undo();
-    bool isThereAnUploadedImage();
-    void saveImage(QString filename, QString id);
-
+        // Others methods:
+        bool undo();
+        bool isThereAnUploadedImage();
+        void saveImage(QString filename,
+                       QString id);
 };
 #endif // MAINCONTROLLER_H
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

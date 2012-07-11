@@ -2,8 +2,9 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-//
-// FECHA INICIACION: Marzo de 2012
+// ARCHIVO: main.cpp
+// 
+// FECHA: 11.07.12
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,6 +23,8 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
+
+
 #include <QtGui/QApplication>
 #include <QDesktopWidget>
 #include "GUI/mainwindow.h"
@@ -36,12 +39,18 @@ void center(QWidget & widget)
     widget.move(x, y);
 }
 
-int main(int argc, char *argv[])
+int main(int    argc,
+         char * argv[])
 {
     QApplication a(argc, argv);
+
     MainWindow w;
+
     w.show();
     center(w);
+
     return a.exec();
 }
 
+
+//~ Formatted by Jindent --- http://www.jindent.com

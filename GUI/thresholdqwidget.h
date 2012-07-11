@@ -43,7 +43,6 @@ public:
     ~ThresholdQwidget();
     
 private slots:
-    void on_pushButton_clicked();
 
     void on_isodataSegmentation_clicked();
 
