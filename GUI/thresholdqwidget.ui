@@ -66,7 +66,7 @@
     <number>5</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="manualSegPushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -134,7 +134,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="isodataSegmentation">
+  <widget class="QPushButton" name="isodataSegPushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -155,7 +155,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="otsuSegmentation">
+  <widget class="QPushButton" name="otsuSegPushButton">
    <property name="geometry">
     <rect>
      <x>20</x>

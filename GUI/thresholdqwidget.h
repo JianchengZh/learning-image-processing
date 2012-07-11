@@ -49,6 +49,8 @@ private slots:
 
     void on_otsuSegmentation_clicked();
 
+    void on_manualSegPushButton_clicked();
+
 private:
     Ui::ThresholdQwidget *ui;
     MainController *mainController;
