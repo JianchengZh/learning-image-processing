@@ -122,7 +122,7 @@ public:
     // Others methods:
     bool undo();
     bool isThereAnUploadedImage();
-    void saveImage(QString filename);
+    void saveImage(QString filename, QString id);
 
 };
 #endif // MAINCONTROLLER_H

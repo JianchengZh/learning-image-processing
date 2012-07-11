@@ -73,6 +73,12 @@ public:
     void displayResults(QImage *result);
     void ShowHistogram();
 
+private:
+    QStringList choiseItemSaveOption();
+    QString valueItemSaveOption(QString comparator);
+    int indexItemSaveOption(QString comparator);
+    QString lastPath;
+
 private slots:
 
     // ToolBar Actions
@@ -158,6 +164,8 @@ private:
     MainController * mainController;
     QImage *displayedImage, *histogramImage;
     QPixmap pixmapLabelImagen;
+
+
 };
 
 #endif // MAINWINDOW_H

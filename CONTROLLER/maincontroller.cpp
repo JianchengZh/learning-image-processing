@@ -499,8 +499,16 @@ bool MainController::isThereAnUploadedImage(){
     }
 }
 
-void MainController::saveImage(QString filename){
+void MainController::saveImage(QString filename,QString id){
+    QString idTemp;
+    if(!id.isEmpty()){//si es una imagen dcm no se cambia el tipo
+        idTemp = imagen->getIdentification();
+        imagen->setImageIdentification(id);
+    }
     imagen->saveImage(filename);
+    if(!id.isEmpty()){
+        imagen->setImageIdentification(idTemp);
+    }
 }
 
 

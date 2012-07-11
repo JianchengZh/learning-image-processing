@@ -68,6 +68,9 @@ public:
     QImage *getQImage();
     QImage *getHistogramImage();
 
+    //SETTERS:
+    void setImageIdentification(QString id);
+
     // Virtual Methods
     // export
     virtual void saveImage(QString filename) =0;

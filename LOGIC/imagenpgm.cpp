@@ -1208,7 +1208,7 @@ void ImagenPGM::saveImage(QString filename){
     if(!identification.compare("P2")){
         string id = identification.toStdString();
         fSalida << id << endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 
@@ -1221,7 +1221,7 @@ void ImagenPGM::saveImage(QString filename){
 
     }else if(!identification.compare("P5")){
         fSalida<<identification.toStdString()<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida << width << " " << height << "\n";
         fSalida << colorDepth << "\n";
         unsigned char *image;
@@ -1245,7 +1245,7 @@ void ImagenPGM::saveImage(QString filename){
         QTextStream fSalida(&temp);
 
         fSalida<<identification<<endl;
-        fSalida<<"#LEARNING IMAGE PROCESSING by GUSTAVO & EDWIN AT UNIVALLE"<<endl;
+        fSalida<<"#LEARNING IMAGE PROCESSING AT UNIVALLE"<<endl;
         fSalida<<width<<" "<<height<<endl;
         fSalida<<colorDepth<<endl;
 

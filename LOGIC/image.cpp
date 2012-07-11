@@ -62,3 +62,8 @@ QImage* Image::getHistogramImage(){
     return this->histogram->getHistogram();
 }
 
+void Image::setImageIdentification(QString id)
+{
+    this->identification=id;
+}
+
