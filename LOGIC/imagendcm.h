@@ -43,58 +43,49 @@
 using namespace std;
 
 class ImagenDCM:
-    public Image
+        public Image
 {
-    DicomImage *  dicomImage;
-    DicomImage *  firstImage;
-    DcmFileFormat fileformat;
-    OFCondition   statusDcmFileFormat;
+
     int ***       matrixImagenP;
     int *         lut;
     int           lutSize;
     double        minDensity, maxDensity;
     double        distanceTomography;
     OFString      pixelSpacing;
+    DicomImage *  dicomImage;
+    DicomImage *  firstImage;
+    DcmFileFormat fileformat;
+    OFCondition   statusDcmFileFormat;
 
     void generateHistogram();
     void generateQImage();
-    int getDensity(int x,
-                   int y);
-    int appyCalibrationFunction(int pixelValue,
-                                int rescaleSlope,
-                                int rescaleIntercept);
-    int pixelWindowLevel(int pixelValue,
-                         int window,
-                         int center);
+    int getDensity(int x, int y);
+    int appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept);
+    int pixelWindowLevel(int pixelValue,int window,int center);
 
-    public:
-        int measureDistance(QPoint start,
-                            QPoint end);
+public:
 
-        ImagenDCM(const char * fileName);
+    ImagenDCM(const char * fileName);
 
-        void getMetaData();
-        double getDistanceTomography(QPoint start,
-                                     QPoint end);
-        void applyWindowLevel(int window,
-                              int level);
-        void setFrameImage(int frame);
+    void getMetaData();
+    double getDistanceTomography(QPoint start, QPoint end);
+    void applyWindowLevel(int window, int level);
+    void setFrameImage(int frame);
 
-        // VIRTUAL METHODS
-        Image * changeSize(int factor);
-        Image * changeColorDepth(int bits);
+    // VIRTUAL METHODS
+    Image * changeSize(int factor);
+    Image * changeColorDepth(int bits);
 
-        // SETTERS:
-        void resetDistanceTomography();
+    // SETTERS:
+    void resetDistanceTomography();
 
-        // GETTERS:
-        int getCountFrameFirstImage();
-        double getDistanceTomography();
+    // GETTERS:
+    int     getCountFrameFirstImage();
+    double  getDistanceTomography();
+    int *** getMatrixImagenP();
+    int *   getLut();
 
-        // SAVE IMAGE
-        void saveImage(QString filename);
+    // SAVE IMAGE
+    void saveImage(QString filename);
 };
 #endif // IMAGENDCM_H
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

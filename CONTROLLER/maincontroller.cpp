@@ -111,7 +111,16 @@ void MainController::changeColorDepth(int depth)
     delete oldImage;
     oldImage = 0;
     oldImage = imagen;
-    imagen = oldImage -> changeColorDepth(depth);
+    if (imagen->getImageType()=="DCM") {
+
+        ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
+        imagen= new ImagenPGM(imagenDCM->getHeight(),
+                              imagenDCM->getWidth(),
+                              255,
+                              imagenDCM->getMatrixImagenP(),
+                              imagenDCM->getLut());
+    }
+    imagen = imagen -> changeColorDepth(depth);
 }
 
 void MainController::convertToGrayscale(int method)

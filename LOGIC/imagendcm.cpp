@@ -266,9 +266,7 @@ void ImagenDCM::applyWindowLevel(int window,
     generateQImage();
 }
 
-int ImagenDCM::pixelWindowLevel(int pixelValue,
-                                int window,
-                                int center)
+int ImagenDCM::pixelWindowLevel(int pixelValue, int window, int center)
 {
     double ymin = 0;
     double ymax = 255;
@@ -433,4 +431,14 @@ double ImagenDCM::getDistanceTomography()
 void ImagenDCM::resetDistanceTomography()
 {
     this -> distanceTomography = 0;
+}
+
+int *** ImagenDCM::getMatrixImagenP()
+{
+    return this->matrixImagenP;
+}
+
+int *   ImagenDCM::getLut()
+{
+    return this->lut;
 }
