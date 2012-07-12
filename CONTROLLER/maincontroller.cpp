@@ -89,8 +89,8 @@ void MainController::changeColorDepth(int depth)
     oldImage = imagen;
     if (imagen->getImageType()=="DCM") {
         convertDICOMtoPGM();
-    }
-    imagen = imagen -> changeColorDepth(depth);
+    }else
+        imagen = imagen -> changeColorDepth(depth);
 }
 
 void MainController::convertToGrayscale(int method)
@@ -107,7 +107,17 @@ void MainController::gammaCorrection(double r)
 
     oldImage = 0;
     oldImage = imagen;
-    imagen   = static_cast<ImagenPGM *>(oldImage) -> gammaCorrection(r);
+
+    if (imagen->getImageType()=="DCM") {
+
+        ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
+        imagen= new ImagenPGM(imagenDCM->getHeight(),
+                              imagenDCM->getWidth(),
+                              255,
+                              imagenDCM->getMatrixImagenP(),
+                              imagenDCM->getLut());
+    }else
+        imagen   = static_cast<ImagenPGM *>(oldImage) -> gammaCorrection(r);
 }
 
 void MainController::contrastStretching()
