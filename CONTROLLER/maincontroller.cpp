@@ -650,6 +650,46 @@ void MainController::segmentationRemoveCap()
     }
 }
 
+void MainController::segmentationWhiteTissue()
+{
+    delete oldImage;
+
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
+    oldImage = imagen;
+    Segmentation sg;
+
+    if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
+    {
+        imagen = sg.whiteTissue(oldImage);
+    }
+    else
+    {
+        // imagen=sg.kmeansPPM(oldImage,cluster);
+    }
+}
+
+void MainController::segmentationGrayTissue()
+{
+    delete oldImage;
+
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
+    oldImage = imagen;
+    Segmentation sg;
+
+    if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
+    {
+        imagen = sg.grayTissue(oldImage);
+    }
+    else
+    {
+        // imagen=sg.kmeansPPM(oldImage,cluster);
+    }
+}
+
 // DICOM
 void MainController::applyWindowLevel(int window, int level)
 {
@@ -740,3 +780,5 @@ void MainController::convertDICOMtoPGM()
                           imagenDCM->getMatrixImagenP(),
                           imagenDCM->getLut());
 }
+
+

@@ -124,6 +124,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionNOT->setEnabled(true);
                 ui->actionMax->setEnabled(true);
                 ui->actionMin->setEnabled(true);
+                ui->actionRemoveCap->setEnabled(true);
 
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
@@ -137,6 +138,9 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionChange_Frame->setEnabled(true);
                 ui->actionConvert_to_PGM->setEnabled(true);
                 ui->actionChange_Color_Depth->setEnabled(false);
+                ui->actionRemoveCap->setEnabled(true);
+                ui->actionWhite_Tissue->setEnabled(true);
+                ui->actionGray_Tissue->setEnabled(true);
                 ui->dockWidget_DICOM->show();
                 ui->plainTextEdit_DICOM->appendPlainText(mainController->getDataSet());
             }
@@ -216,11 +220,14 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMorphological->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
     ui->actionConvert_to_PGM->setEnabled(false);
-
+    ui->actionRemoveCap->setEnabled(false);
+    ui->actionWhite_Tissue->setEnabled(false);
+    ui->actionGray_Tissue->setEnabled(false);
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
     ui->actionRotation->setEnabled(false);
     ui->actionScaling->setEnabled(false);
+    ui->actionEqualization->setEnabled(false);
 
     // Changes on labels
     ui->label_Density->setEnabled(false);
@@ -980,16 +987,59 @@ void MainWindow::scaleDisplayedImage(double factor)
 
 void MainWindow::on_actionChange_Frame_triggered()
 {
-    if (ui->widget_options!=0) {
-        delete ui->widget_options;
-        ui->widget_options=0;
+    if(mainController->getImage()->getImageType()=="DCM"){
+        if (ui->widget_options!=0) {
+            delete ui->widget_options;
+            ui->widget_options=0;
+        }
+        ChangeFrameWidget *temp =new ChangeFrameWidget(ui->dockWidgetContents, mainController, this);
+        temp->setMaxFrame(mainController->getCountFrameFirstImage());
+        ui->widget_options = temp;
+        ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
+        ui->widget_options->setVisible(true);
     }
-    ChangeFrameWidget *temp =new ChangeFrameWidget(ui->dockWidgetContents, mainController, this);
-    temp->setMaxFrame(mainController->getCountFrameFirstImage());
-    ui->widget_options = temp;
-    ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
-    ui->widget_options->setVisible(true);
+
 
 }
 
+
+
+void MainWindow::on_actionRemoveCap_triggered()
+{
+    if(mainController->isThereAnUploadedImage()){
+        mainController->segmentationRemoveCap();
+        displayResults(mainController->getQImage());
+        if(mainController->getImage()->getImageType()!="PPM"){
+            ShowHistogram();
+        }else{
+            ui->label_Histogram->setPixmap(QPixmap());
+        }
+    }
+}
+
+void MainWindow::on_actionWhite_Tissue_triggered()
+{
+    if(mainController->isThereAnUploadedImage()){
+        mainController->segmentationWhiteTissue();
+        displayResults(mainController->getQImage());
+        if(mainController->getImage()->getImageType()!="PPM"){
+            ShowHistogram();
+        }else{
+            ui->label_Histogram->setPixmap(QPixmap());
+        }
+    }
+}
+
+void MainWindow::on_actionGray_Tissue_triggered()
+{
+    if(mainController->isThereAnUploadedImage()){
+        mainController->segmentationGrayTissue();
+        displayResults(mainController->getQImage());
+        if(mainController->getImage()->getImageType()!="PPM"){
+            ShowHistogram();
+        }else{
+            ui->label_Histogram->setPixmap(QPixmap());
+        }
+    }
+}
 

@@ -213,6 +213,9 @@ border: 1px solid rgb(62, 61, 58);
     </property>
     <addaction name="actionK_Means"/>
     <addaction name="actionChange_Frame"/>
+    <addaction name="actionRemoveCap"/>
+    <addaction name="actionWhite_Tissue"/>
+    <addaction name="actionGray_Tissue"/>
    </widget>
    <widget class="QMenu" name="menuGeometric_Operations">
     <property name="title">
@@ -999,6 +1002,30 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Convert to PGM</string>
+   </property>
+  </action>
+  <action name="actionRemoveCap">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>RemoveCap</string>
+   </property>
+  </action>
+  <action name="actionWhite_Tissue">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>White Tissue</string>
+   </property>
+  </action>
+  <action name="actionGray_Tissue">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Gray Tissue</string>
    </property>
   </action>
  </widget>
