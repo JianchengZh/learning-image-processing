@@ -124,6 +124,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionNOT->setEnabled(true);
                 ui->actionMax->setEnabled(true);
                 ui->actionMin->setEnabled(true);
+                ui->actionRemoveCap->setEnabled(true);
 
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
