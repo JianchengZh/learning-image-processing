@@ -118,7 +118,7 @@ void MainController::changeColorDepth(int depth)
                               imagenDCM->getMatrixImagenP(),
                               imagenDCM->getLut());
     }
-    //imagen = imagen -> changeColorDepth(depth);
+    imagen = imagen -> changeColorDepth(depth);
 }
 
 void MainController::convertToGrayscale(int method)

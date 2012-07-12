@@ -115,7 +115,6 @@ ImagenPGM::ImagenPGM(int h, int w, int colorD, int ***matrixP, int *lut){
 
     generateHistogram();
     generateQImage();
-    qDebug()<<"END OF CONStructor";
 }
 
 ImagenPGM::~ImagenPGM(){
