@@ -51,16 +51,20 @@ class MainController
     private:
         Image * imagen, *oldImage;
 
+        // Auxiliary Private Methods
+        void convertDICOMtoPGM();
+
     public:
         MainController();
-
         ~MainController();
 
         bool loadImage(QString filename);
 
-        // Global Transformations
+        // Edit Menu:
         void changeColorDepth(int depth);
         void convertToGrayscale(int method);
+
+        // Global Trasnformations
         bool average(QString filename,
                      double  alpha);
         bool add(QString filename);
@@ -137,7 +141,7 @@ class MainController
                               int level);
         void changeFrame(int numFrame);
 
-        // Getters:
+        // GETTERS:
         Image * getImage();
         QImage * getQImage();
         QImage * getHistogramImage();
