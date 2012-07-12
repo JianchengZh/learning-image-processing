@@ -37,6 +37,7 @@
 #include <QDebug>
 #include <QPoint>
 #include <iostream>
+#include <QStringList>
 
 using namespace std;
 
