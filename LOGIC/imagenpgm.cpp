@@ -137,13 +137,14 @@ Image *ImagenPGM::gammaCorrection(double r){
         return 0;
     }
 
-    if(r==1)
-        return this;
+        if(r==1)
+            return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
 
     double aux = 0;
     for(int i=0; i<colorDepth+1; i++){
         aux = colorDepth *pow((double)lut[i]/(double)colorDepth,r);
-        lut[i]= round(aux);
+
+        lut[i]= round(fabs(aux));
     }
 
     return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
@@ -168,11 +169,12 @@ Image *ImagenPGM::contrastStretching(){
             maxValue=i;
             break;
         }
-    //QTextStream (stdout) <<"valor streching min  "<< colorDepth <<" "<< minValue << "max "<< maxValue<< "\n";
+
     for(int i=0; i<colorDepth+1; i++){
 
-        lut[i]=(i-minValue)*colorDepth/(maxValue-minValue);
-        //QTextStream (stdout) <<"valor streching  "<< i <<" "<< lut[i] << "\n";
+        if((maxValue-minValue) >= 0)
+            lut[i]=fabs((i-minValue)*colorDepth/(maxValue-minValue));
+
     }
 
     return new ImagenPGM(height, width, colorDepth, matrixImagenP, lut);
