@@ -36,9 +36,7 @@ MainController::~MainController()
     delete imagen;
 
     imagen = 0;
-
     delete oldImage;
-
     oldImage = 0;
 }
 
@@ -83,7 +81,24 @@ QImage * MainController::getHistogramImage()
     return imagen -> getHistogramImage();
 }
 
-// Image Transfomations
+// Edit Menu:
+void MainController::changeColorDepth(int depth)
+{
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+    if (imagen->getImageType()=="DCM") {
+        convertDICOMtoPGM();
+    }
+    imagen = imagen -> changeColorDepth(depth);
+}
+
+void MainController::convertToGrayscale(int method)
+{
+    delete oldImage;
+    oldImage = imagen;
+    imagen   = static_cast<ImagenPPM *>(oldImage) -> convertToGrayScale(method);
+}
 
 // Contrast
 void MainController::gammaCorrection(double r)
@@ -104,33 +119,7 @@ void MainController::contrastStretching()
     imagen   = static_cast<ImagenPGM *>(oldImage) -> contrastStretching();
 }
 
-void MainController::changeColorDepth(int depth)
-{
-    delete oldImage;
-    oldImage = 0;
-    oldImage = imagen;
-    if (imagen->getImageType()=="DCM") {
-
-        ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
-        imagen= new ImagenPGM(imagenDCM->getHeight(),
-                              imagenDCM->getWidth(),
-                              255,
-                              imagenDCM->getMatrixImagenP(),
-                              imagenDCM->getLut());
-    }
-    imagen = imagen -> changeColorDepth(depth);
-}
-
-void MainController::convertToGrayscale(int method)
-{
-    delete oldImage;
-
-    oldImage = imagen;
-    imagen   = static_cast<ImagenPPM *>(oldImage) -> convertToGrayScale(method);
-}
-
-bool MainController::average(QString filename,
-                             double  alpha)
+bool MainController::average(QString filename, double  alpha)
 {
     ImagenPGM * image = new ImagenPGM(filename);
 
@@ -431,7 +420,7 @@ void MainController::equalizateHistogram()
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> histogramEqualization(
-    oldImage -> getHistogram() -> calculateEqualization());
+                oldImage -> getHistogram() -> calculateEqualization());
 }
 
 bool MainController::bimodalSegmentaion(int T)
@@ -450,13 +439,13 @@ bool MainController::bimodalSegmentaion(int T)
 
 void MainController::isodataSegmentation()
 {
-   // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
+    // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen -> getHistogram() -> ThresholdingByIsodata());
 }
 
 void MainController::otsuSegmentation()
 {
-   // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
+    // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
     bimodalSegmentaion(imagen -> getHistogram() -> ThresholdingByOtsu());
 }
 
@@ -475,7 +464,7 @@ void MainController::meanFilter(int size)
 }
 
 void MainController::convolutionFilter(int ** kernel,
-        int                                   size)
+                                       int                                   size)
 {
     delete oldImage;
 
@@ -537,7 +526,7 @@ void MainController::edgeDetectionSobel(int position)
 }
 
 void MainController::edgeDetectorCanny(int thresholdHigh,
-        int                                thresholdDown)
+                                       int                                thresholdDown)
 {
     delete oldImage;
 
@@ -550,55 +539,55 @@ void MainController::edgeDetectorCanny(int thresholdHigh,
 
 // Morphological Operation
 void MainController::dilateOperation(int ** matrixStructuringElement,
-        int                                 origenX,
-        int                                 origenY,
-        int                                 heightS,
-        int                                 widthS)
+                                     int                                 origenX,
+                                     int                                 origenY,
+                                     int                                 heightS,
+                                     int                                 widthS)
 {
     delete oldImage;
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> dilateOperation(matrixStructuringElement, origenX, origenY, heightS,
-            widthS);
+                                                                     widthS);
 }
 
 void MainController::erosionOperation(int ** matrixStructuringElement,
-        int                                  origenX,
-        int                                  origenY,
-        int                                  heightS,
-        int                                  widthS)
+                                      int                                  origenX,
+                                      int                                  origenY,
+                                      int                                  heightS,
+                                      int                                  widthS)
 {
     delete oldImage;
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> erosionOperation(matrixStructuringElement, origenX, origenY,
-            heightS, widthS);
+                                                                      heightS, widthS);
 }
 
 void MainController::openingOperation(int ** matrixStructuringElement,
-        int                                  origenX,
-        int                                  origenY,
-        int                                  heightS,
-        int                                  widthS)
+                                      int                                  origenX,
+                                      int                                  origenY,
+                                      int                                  heightS,
+                                      int                                  widthS)
 {
     delete oldImage;
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> openingOperation(matrixStructuringElement, origenX, origenY,
-            heightS, widthS);
+                                                                      heightS, widthS);
 }
 
 void MainController::closingOperation(int ** matrixStructuringElement,
-        int                                  origenX,
-        int                                  origenY,
-        int                                  heightS,
-        int                                  widthS)
+                                      int                                  origenX,
+                                      int                                  origenY,
+                                      int                                  heightS,
+                                      int                                  widthS)
 {
     delete oldImage;
 
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> closingOperation(matrixStructuringElement, origenX, origenY,
-            heightS, widthS);
+                                                                      heightS, widthS);
 }
 
 // segmentation
@@ -641,7 +630,7 @@ void MainController::segmentationRemoveCap()
 
 // DICOM
 void MainController::applyWindowLevel(int window,
-        int                               level)
+                                      int                               level)
 {
     static_cast<ImagenDCM *>(imagen) -> applyWindowLevel(window, level);
 }
@@ -715,5 +704,13 @@ void MainController::saveImage(QString filename,
     }
 }
 
-
-//~ Formatted by Jindent --- http://www.jindent.com
+// Auxiliary Private Methods
+void MainController::convertDICOMtoPGM()
+{
+    ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
+    imagen= new ImagenPGM(imagenDCM->getHeight(),
+                          imagenDCM->getWidth(),
+                          255,
+                          imagenDCM->getMatrixImagenP(),
+                          imagenDCM->getLut());
+}
