@@ -151,6 +151,12 @@ private slots:
     void scaleDisplayedImage(double factor);
 
 
+    void on_actionRemoveCap_triggered();
+
+    void on_actionWhite_Tissue_triggered();
+
+    void on_actionGray_Tissue_triggered();
+
 private:
 
     Ui::MainWindow *ui;
@@ -166,4 +172,6 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
+
 

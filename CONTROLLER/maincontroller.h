@@ -133,6 +133,8 @@ class MainController
         void segmentationK_Means(int cluster);
         void segmentationRemoveCap();
         int getCountFrameFirstImage();
+        void segmentationWhiteTissue();
+        void segmentationGrayTissue();
 
         // DICOM
         void applyWindowLevel(int window,int level);
