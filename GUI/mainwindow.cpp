@@ -177,7 +177,7 @@ void MainWindow::on_action_Load_Image_triggered()
 
 void MainWindow::enable_triggered(){
     ui->actionWindow_Level->setEnabled(false);
-    ui->actionK_Means->setEnabled(false);
+    //ui->actionK_Means->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
     ui->actionConvert_to_PGM->setEnabled(false);
 }
