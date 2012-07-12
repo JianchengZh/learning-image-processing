@@ -85,6 +85,7 @@ private slots:
     void on_actionSave_triggered();
     void on_actionExit_triggered();
     void on_action_Load_Image_triggered();
+    void enable_triggered();
 
     // Edit Menu
     void on_actionUndo_triggered();
@@ -138,6 +139,7 @@ private slots:
 
     // DICOM Menu
     void on_actionWindow_Level_triggered();
+    void on_actionConvert_to_PGM_triggered();
 
     // Help Menu
     void on_actionAbout_triggered();
@@ -147,6 +149,7 @@ private slots:
     void on_label_Imagen_eraseLine();
     void on_label_Imagen_mousePosition(const QPoint position);
     void scaleDisplayedImage(double factor);
+
 
 private:
 
@@ -163,3 +166,4 @@ private:
 };
 
 #endif // MAINWINDOW_H
+

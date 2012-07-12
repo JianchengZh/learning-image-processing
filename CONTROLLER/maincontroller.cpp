@@ -108,10 +108,10 @@ bool MainController::weightedAverage(QString filename, double  alpha)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::weightedAverage(oldImage, static_cast<Image *>(image), alpha);
         return true;
     }
@@ -128,10 +128,10 @@ bool MainController::add(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::add(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -148,10 +148,10 @@ bool MainController::subtract(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::subtract(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -168,10 +168,10 @@ bool MainController::multiply(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::multiply(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -188,10 +188,10 @@ bool MainController::divide(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::divide(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -208,10 +208,10 @@ bool MainController::maxOperation(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::maxOp(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -228,10 +228,10 @@ bool MainController::minOperation(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::minOp(oldImage, static_cast<Image *>(image));
         return true;
     }
@@ -248,10 +248,10 @@ bool MainController::andOperation(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::And);
         return true;
     }
@@ -268,10 +268,10 @@ bool MainController::xorOperation(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Xor);
 
         return true;
@@ -285,10 +285,10 @@ bool MainController::xorOperation(QString filename)
 void MainController::notOperation()
 {
     delete oldImage;
-    oldImage = imagen;
     if (imagen->getImageType()=="DCM") {
-        convertDICOMtoPGM();
+        changeColorDepth(8);
     }
+    oldImage = imagen;
     imagen = GlobalTransformation::unaryOperations(oldImage, GlobalTransformation::Not);
 }
 
@@ -299,10 +299,10 @@ bool MainController::orOperation(QString filename)
     if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
     {
         delete oldImage;
-        oldImage = imagen;
         if (imagen->getImageType()=="DCM") {
-            convertDICOMtoPGM();
+            changeColorDepth(8);
         }
+        oldImage = imagen;
         imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Or);
         return true;
     }
@@ -318,8 +318,10 @@ void MainController::gammaCorrection(double r)
     delete oldImage;
 
     oldImage = 0;
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     imagen   = static_cast<ImagenPGM *>(oldImage) -> gammaCorrection(r);
 }
 
@@ -328,6 +330,9 @@ void MainController::contrastStretching()
     delete oldImage;
 
     oldImage = 0;
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> contrastStretching();
 }
@@ -337,8 +342,10 @@ void MainController::sacaling(double factorX,double factorY)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     GeometricOperation gO;
 
     imagen = gO.scaling(oldImage, factorX, factorY);
@@ -348,8 +355,10 @@ void MainController::translation(double factorX,double factorY)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     GeometricOperation gO;
 
     imagen = gO.translation(oldImage, factorX, factorY);
@@ -359,8 +368,10 @@ void MainController::rotation(double angle)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     GeometricOperation gO;
 
     imagen = gO.rotation(oldImage, angle);
@@ -370,8 +381,10 @@ void MainController::reflection(bool orientationX)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     GeometricOperation gO;
 
     if (orientationX)
@@ -389,6 +402,9 @@ void MainController::equalizateHistogram()
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> histogramEqualization(
                 oldImage -> getHistogram() -> calculateEqualization());
@@ -399,6 +415,9 @@ bool MainController::bimodalSegmentaion(int T)
     if (imagen != 0){
         delete oldImage;
 
+        if (imagen->getImageType()=="DCM") {
+            changeColorDepth(8);
+        }
         oldImage = imagen;
         imagen   = static_cast<ImagenPGM *>(oldImage) -> bimodalSegmentaion(T);
 
@@ -417,16 +436,20 @@ void MainController::isodataSegmentation()
 void MainController::otsuSegmentation()
 {
     // imagen -> getHistogram() -> ThresholdingByTwoPeaks();
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     bimodalSegmentaion(imagen -> getHistogram() -> ThresholdingByOtsu());
 }
 
 // Filter
 void MainController::meanFilter(int size)
 {
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     delete oldImage;
-
     oldImage = imagen;
-
     Filter f;
 
     imagen = f.meanFilter(oldImage, size);
@@ -439,8 +462,10 @@ void MainController::convolutionFilter(int ** kernel,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Filter f;
 
     imagen = f.convolutionFilter(oldImage, kernel, size);
@@ -452,8 +477,10 @@ void MainController::gaussianaFilter(int size)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Filter f;
 
     imagen = f.gaussianaFilter(oldImage, size);
@@ -465,8 +492,10 @@ void MainController::noiseCleaningLine(double delta)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Filter f;
 
     imagen = f.noiseCleaningLine(oldImage, delta);
@@ -478,8 +507,10 @@ void MainController::noiseCleaningPixel(int delta)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Filter f;
 
     imagen = f.noiseCleaningPixel(oldImage, delta);
@@ -491,7 +522,9 @@ void MainController::noiseCleaningPixel(int delta)
 void MainController::edgeDetectionSobel(int position)
 {
     delete oldImage;
-
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> edgeDetectionSobel(position);
 }
@@ -501,8 +534,10 @@ void MainController::edgeDetectorCanny(int thresholdHigh,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     EdgeDetector ed;
 
     imagen = ed.edgeDetectorCanny(oldImage, thresholdHigh, thresholdDown);
@@ -517,6 +552,9 @@ void MainController::dilateOperation(int ** matrixStructuringElement,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> dilateOperation(matrixStructuringElement, origenX, origenY, heightS,
                                                                      widthS);
@@ -530,6 +568,9 @@ void MainController::erosionOperation(int ** matrixStructuringElement,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> erosionOperation(matrixStructuringElement, origenX, origenY,
                                                                       heightS, widthS);
@@ -543,6 +584,9 @@ void MainController::openingOperation(int ** matrixStructuringElement,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> openingOperation(matrixStructuringElement, origenX, origenY,
                                                                       heightS, widthS);
@@ -556,6 +600,9 @@ void MainController::closingOperation(int ** matrixStructuringElement,
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+         changeColorDepth(8);
+    }
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> closingOperation(matrixStructuringElement, origenX, origenY,
                                                                       heightS, widthS);
@@ -567,8 +614,10 @@ void MainController::segmentationK_Means(int cluster)
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Segmentation sg;
 
     if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
@@ -585,8 +634,10 @@ void MainController::segmentationRemoveCap()
 {
     delete oldImage;
 
+    if (imagen->getImageType()=="DCM") {
+        changeColorDepth(8);
+    }
     oldImage = imagen;
-
     Segmentation sg;
 
     if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
@@ -600,8 +651,7 @@ void MainController::segmentationRemoveCap()
 }
 
 // DICOM
-void MainController::applyWindowLevel(int window,
-                                      int                               level)
+void MainController::applyWindowLevel(int window, int level)
 {
     static_cast<ImagenDCM *>(imagen) -> applyWindowLevel(window, level);
 }

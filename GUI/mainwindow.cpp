@@ -87,10 +87,10 @@ void MainWindow::on_action_Load_Image_triggered()
             // Enable QActions
             ui->actionNew_Job->setEnabled(true);
             ui->actionUndo->setEnabled(true);
-            ui->actionChange_Color_Depth->setEnabled(true);
             ui->actionSave->setEnabled(true);
             ui->actionZoom_In->setEnabled(true);
             ui->actionZoom_Out->setEnabled(true);
+            ui->actionChange_Color_Depth->setEnabled(true);
 
             if (mainController->getImage()->getImageType().toUpper()=="PPM") {
                 ui->actionConver_to_GrayScale->setEnabled(true);
@@ -99,7 +99,7 @@ void MainWindow::on_action_Load_Image_triggered()
             }
 
             if (mainController->getImage()->getImageType().toUpper()=="PGM"||
-                    mainController->getImage()->getImageType().toUpper()=="DCM") {
+                    mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWeighted_Average->setEnabled(true);
                 ui->actionAdd->setEnabled(true);
                 ui->actionSubstract->setEnabled(true);
@@ -135,6 +135,8 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionWindow_Level->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionChange_Frame->setEnabled(true);
+                ui->actionConvert_to_PGM->setEnabled(true);
+                ui->actionChange_Color_Depth->setEnabled(false);
                 ui->dockWidget_DICOM->show();
                 ui->plainTextEdit_DICOM->appendPlainText(mainController->getDataSet());
             }
@@ -167,6 +169,13 @@ void MainWindow::on_action_Load_Image_triggered()
             mainController=0;
         }
     }
+}
+
+void MainWindow::enable_triggered(){
+    ui->actionWindow_Level->setEnabled(false);
+    ui->actionK_Means->setEnabled(false);
+    ui->actionChange_Frame->setEnabled(false);
+    ui->actionConvert_to_PGM->setEnabled(false);
 }
 
 void MainWindow::on_actionNew_Job_triggered()
@@ -206,7 +215,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMin->setEnabled(false);
     ui->actionMorphological->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
-
+    ui->actionConvert_to_PGM->setEnabled(false);
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -339,7 +348,7 @@ void MainWindow::on_actionChange_Color_Depth_triggered()
 
 void MainWindow::on_actionConver_to_GrayScale_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PPM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         QMessageBox msgBox(this);
         msgBox.setText("do you want to give the same weight to all color channels?");
         msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
@@ -538,7 +547,7 @@ void MainWindow::on_actionNOT_triggered()
 //**********************************************************
 void MainWindow::on_actionTranslation_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         bool ok;
         double valueX = QInputDialog::getDouble(this,tr("Traslation"),tr("Factor x:"),1,1,100,1,&ok );
         if (ok){
@@ -559,7 +568,7 @@ void MainWindow::on_actionTranslation_triggered()
 
 void MainWindow::on_actionReflection_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         QStringList items;
         items << tr("Eje X") << tr("Eje Y");
 
@@ -583,7 +592,7 @@ void MainWindow::on_actionReflection_triggered()
 
 void MainWindow::on_actionRotation_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         bool ok;
         double angle = QInputDialog::getDouble(this,tr("Rotation"),tr("Angle:"),0,-360,360,2,&ok );
 
@@ -602,7 +611,7 @@ void MainWindow::on_actionRotation_triggered()
 
 void MainWindow::on_actionScaling_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         bool ok;
         double valueX = QInputDialog::getDouble(this,tr("Scaling"),tr("Factor x:"),0,0,2,2,&ok );
         if (ok){
@@ -637,7 +646,7 @@ void MainWindow::on_actionThreshold_triggered()
 
 void MainWindow::on_actionEqualization_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         mainController->equalizateHistogram();
         displayResults(mainController->getQImage());
         ShowHistogram();
@@ -666,7 +675,7 @@ void MainWindow::on_actionGamma_Correction_triggered()
 
 void MainWindow::on_actionStretching_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
         mainController->contrastStretching();
         displayResults(mainController->getQImage());
         ShowHistogram();
@@ -683,7 +692,7 @@ void MainWindow::on_actionStretching_triggered()
 //**********************************************************
 void MainWindow::on_actionMean_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
 
         QStringList items;
         items << tr("3x3") << tr("5x5") << tr("9x9");
@@ -724,7 +733,7 @@ void MainWindow::on_actionConvolution_triggered()
 
 void MainWindow::on_actionGaussiana_triggered()
 {
-    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()=="PGM"){
+    if(mainController->isThereAnUploadedImage()  && mainController->getImage()->getImageType()!="PPM"){
 
         QStringList items;
         items << tr("3x3") << tr("5x5") << tr("9x9");
@@ -830,7 +839,7 @@ void MainWindow::on_actionK_Means_triggered(){
         if(mainController->isThereAnUploadedImage()){
             mainController->segmentationK_Means(cluster);
             displayResults(mainController->getQImage());
-            if(mainController->getImage()->getImageType()=="PGM"){
+            if(mainController->getImage()->getImageType()!="PPM"){
                 ShowHistogram();
             }else{
                 ui->label_Histogram->setPixmap(QPixmap());
@@ -856,6 +865,15 @@ void MainWindow::on_actionWindow_Level_triggered()
     ui->widget_options = new WindowLevelQWidget(ui->dockWidgetContents, mainController, this);
     ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
+}
+
+
+void MainWindow::on_actionConvert_to_PGM_triggered()
+{
+    enable_triggered();
+    mainController->changeColorDepth(8);
+    displayResults(mainController -> getQImage());
+    ShowHistogram();
 }
 
 //**********************************************************

@@ -50,10 +50,7 @@ class MainController
 {
     private:
         Image * imagen, *oldImage;
-
-        // Auxiliary Private Methods
-        void convertDICOMtoPGM();
-
+        
     public:
         MainController();
         ~MainController();
@@ -141,6 +138,7 @@ class MainController
         void applyWindowLevel(int window,int level);
         void changeFrame(int numFrame);
         QString getDataSet();
+        void convertDICOMtoPGM();
 
         // GETTERS:
         Image * getImage();
