@@ -89,7 +89,7 @@ void MainController::changeColorDepth(int depth)
     oldImage = imagen;
     if (imagen->getImageType()=="DCM") {
         convertDICOMtoPGM();
-    }else
+    }
         imagen = imagen -> changeColorDepth(depth);
 }
 
@@ -98,6 +98,218 @@ void MainController::convertToGrayscale(int method)
     delete oldImage;
     oldImage = imagen;
     imagen   = static_cast<ImagenPPM *>(oldImage) -> convertToGrayScale(method);
+}
+
+// Global Trasnformations
+bool MainController::weightedAverage(QString filename, double  alpha)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::weightedAverage(oldImage, static_cast<Image *>(image), alpha);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::add(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::add(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::subtract(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::subtract(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::multiply(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::multiply(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::divide(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::divide(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::maxOperation(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::maxOp(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::minOperation(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::minOp(oldImage, static_cast<Image *>(image));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::andOperation(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::And);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MainController::xorOperation(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Xor);
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void MainController::notOperation()
+{
+    delete oldImage;
+    oldImage = imagen;
+    if (imagen->getImageType()=="DCM") {
+        convertDICOMtoPGM();
+    }
+    imagen = GlobalTransformation::unaryOperations(oldImage, GlobalTransformation::Not);
+}
+
+bool MainController::orOperation(QString filename)
+{
+    ImagenPGM * image = new ImagenPGM(filename);
+
+    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
+    {
+        delete oldImage;
+        oldImage = imagen;
+        if (imagen->getImageType()=="DCM") {
+            convertDICOMtoPGM();
+        }
+        imagen = GlobalTransformation::binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Or);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 // Contrast
@@ -118,246 +330,6 @@ void MainController::contrastStretching()
     oldImage = 0;
     oldImage = imagen;
     imagen   = static_cast<ImagenPGM *>(oldImage) -> contrastStretching();
-}
-
-bool MainController::weightedAverage(QString filename, double  alpha)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.average(oldImage, static_cast<Image *>(image), alpha);
-
-        // imagen=static_cast<ImagenPGM*>(oldImage)->average(image,alpha);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::add(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.add(oldImage, static_cast<Image *>(image));
-
-        // imagen=static_cast<ImagenPGM*>(oldImage)->add(image);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::subtract(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.subtract(oldImage, static_cast<Image *>(image));
-
-        // imagen=static_cast<ImagenPGM*>(oldImage)->subtract(image);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::multiply(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.multiply(oldImage, static_cast<Image *>(image));
-
-        // imagen=static_cast<ImagenPGM*>(oldImage)->multiply(image);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::divide(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.divide(oldImage, static_cast<Image *>(image));
-
-        // imagen=static_cast<ImagenPGM*>(oldImage)->divide(image);
-        // imagen->saveImage("temp");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::maxOperation(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.maxOp(oldImage, static_cast<Image *>(image));
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::minOperation(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.minOp(oldImage, static_cast<Image *>(image));
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::andOperation(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::And);
-
-        // imagen->saveImage("temp");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool MainController::xorOperation(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Xor);
-
-        // imagen->saveImage("temp");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-void MainController::notOperation()
-{
-    delete oldImage;
-
-    oldImage = imagen;
-
-    GlobalTransformation gt;
-
-    imagen = gt.unaryOperations(oldImage, GlobalTransformation::Not);
-}
-
-bool MainController::orOperation(QString filename)
-{
-    ImagenPGM * image = new ImagenPGM(filename);
-
-    if ((imagen -> getHeight() == image -> getHeight()) && (imagen -> getWidth() == image -> getWidth()))
-    {
-        delete oldImage;
-
-        oldImage = imagen;
-
-        GlobalTransformation gt;
-
-        imagen = gt.binaryOperations(oldImage, static_cast<Image *>(image), GlobalTransformation::Or);
-
-        // imagen->saveImage("temp");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 // geometric operations

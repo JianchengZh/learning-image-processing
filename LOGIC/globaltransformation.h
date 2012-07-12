@@ -32,37 +32,23 @@
 #include <algorithm>
 
 class GlobalTransformation:
-    public Basic
+        public Basic
 {
-    public:
-        enum binaryOperation { And, Or, Xor };
+public:
 
-        enum unaryOperation { Not };
+    enum binaryOperation { And, Or, Xor };
+    enum unaryOperation { Not };
 
-        GlobalTransformation();
+    static Image * binaryOperations(Image *image1, Image *image2,binaryOperation operation);
+    static Image * unaryOperations(Image *image1, unaryOperation operation);
 
-        Image * binaryOperations(Image *         image1,
-                                 Image *         image2,
-                                 binaryOperation operation);
-        Image * unaryOperations(Image *        image1,
-                                unaryOperation operation);
-        Image * average(Image * img,
-                        Image * image,
-                        double  alpha);
-        Image * add(Image * img,
-                    Image * image);
-        Image * subtract(Image * img,
-                         Image * image);
-        Image * multiply(Image * img,
-                         Image * image);
-        Image * divide(Image * img,
-                       Image * image);
-        Image * maxOp(Image * img,
-                      Image * image);
-        Image * minOp(Image * img,
-                      Image * image);
+    static Image * weightedAverage(Image * img, Image * image, double  alpha);
+    static Image * add(Image * img,Image * image);
+    static Image * subtract(Image * img,Image * image);
+    static Image * multiply(Image * img,Image * image);
+    static Image * divide(Image * img,Image * image);
+    static Image * maxOp(Image * img,Image * image);
+    static Image * minOp(Image * img,Image * image);
+
 };
 #endif // GLOBALTRANSFORMATION_H
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

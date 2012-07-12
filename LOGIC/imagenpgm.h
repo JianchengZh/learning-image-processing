@@ -53,6 +53,8 @@ class ImagenPGM:public Image
 
     void generateHistogram();
     void generateQImage();
+
+
     int ** applyKernel(int ** kernel, int    kernelSizeX, int    kernelSizeY);
     void applyKerneltoPixel(int i,int j, int ** kernel, int kernelSizeX, int kernelSizeY, int ** matrix);
     Image * clasify(int * centroid, int size, int iterations);
@@ -82,11 +84,6 @@ public:
     // Global Transformations
     Image * changeSize(int factor);
     Image * changeColorDepth(int bits);
-    Image * average(ImagenPGM * qImage, double alpha);
-    Image * add(ImagenPGM * qImage);
-    Image * subtract(ImagenPGM * qImage);
-    Image * multiply(ImagenPGM * qImage);
-    Image * divide(ImagenPGM * qImage);
     Image * bimodalSegmentaion(int T);
     Image * histogramEqualization(int * newlut);
 
