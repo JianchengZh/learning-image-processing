@@ -98,7 +98,8 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionK_Means->setEnabled(true);
             }
 
-            if (mainController->getImage()->getImageType().toUpper()=="PGM") {
+            if (mainController->getImage()->getImageType().toUpper()=="PGM"||
+                    mainController->getImage()->getImageType().toUpper()=="DCM") {
                 ui->actionWeight_Average->setEnabled(true);
                 ui->actionAdd->setEnabled(true);
                 ui->actionSubstract->setEnabled(true);
