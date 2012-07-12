@@ -52,7 +52,7 @@ class MainController
         Image * imagen, *oldImage;
 
         // Auxiliary Private Methods
-        void convertDICOMtoPGM();
+     //   void convertDICOMtoPGM();
 
     public:
         MainController();
@@ -140,6 +140,7 @@ class MainController
         void applyWindowLevel(int window,
                               int level);
         void changeFrame(int numFrame);
+        void convertDICOMtoPGM();
 
         // GETTERS:
         Image * getImage();

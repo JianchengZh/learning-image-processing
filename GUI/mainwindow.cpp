@@ -97,8 +97,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionK_Means->setEnabled(true);
             }
 
-            if (mainController->getImage()->getImageType().toUpper()=="PGM"||
-                    mainController->getImage()->getImageType().toUpper()=="DCM") {
+            if (mainController->getImage()->getImageType().toUpper()=="PGM"){
                 ui->actionWeighted_Average->setEnabled(true);
                 ui->actionAdd->setEnabled(true);
                 ui->actionSubstract->setEnabled(true);
@@ -134,7 +133,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionWindow_Level->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionChange_Frame->setEnabled(true);
-
+                ui->actionConvert_to_PGM->setEnabled(true);
             }
 
 
@@ -165,6 +164,44 @@ void MainWindow::on_action_Load_Image_triggered()
             mainController=0;
         }
     }
+}
+
+void MainWindow::enable_triggered(){
+
+    ui->actionWeighted_Average->setEnabled(true);
+    ui->actionAdd->setEnabled(true);
+    ui->actionSubstract->setEnabled(true);
+    ui->actionMultiply->setEnabled(true);
+    ui->actionDivide->setEnabled(true);
+    ui->actionThreshold->setEnabled(true);
+    ui->actionEqualization->setEnabled(true);
+    ui->actionMean->setEnabled(true);
+    ui->actionConvolution->setEnabled(true);
+    ui->actionGaussiana->setEnabled(true);
+    ui->actionStretching->setEnabled(true);
+    ui->actionGamma_Correction->setEnabled(true);
+    ui->actionNoise_Cleaning_Pixel->setEnabled(true);
+    ui->actionNoise_Cleaning_Line->setEnabled(true);
+    ui->actionSobel->setEnabled(true);
+    ui->actionCanny->setEnabled(true);
+    ui->actionMorphological->setEnabled(true);
+    ui->actionK_Means->setEnabled(true);
+    ui->actionAND->setEnabled(true);
+    ui->actionOR->setEnabled(true);
+    ui->actionXOR->setEnabled(true);
+    ui->actionNOT->setEnabled(true);
+    ui->actionMax->setEnabled(true);
+    ui->actionMin->setEnabled(true);
+
+    ui->actionTranslation->setEnabled(true);
+    ui->actionReflection->setEnabled(true);
+    ui->actionRotation->setEnabled(true);
+    ui->actionScaling->setEnabled(true);
+
+    ui->actionWindow_Level->setEnabled(false);
+    ui->actionK_Means->setEnabled(false);
+    ui->actionChange_Frame->setEnabled(false);
+    ui->actionConvert_to_PGM->setEnabled(false);
 }
 
 void MainWindow::on_actionNew_Job_triggered()
@@ -204,7 +241,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionMin->setEnabled(false);
     ui->actionMorphological->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
-
+    ui->actionConvert_to_PGM->setEnabled(false);
 
     ui->actionTranslation->setEnabled(false);
     ui->actionReflection->setEnabled(false);
@@ -250,7 +287,7 @@ void MainWindow::on_actionSave_triggered()
     if(!fileName.isEmpty() && !items.isEmpty()){
         int select = indexItemSaveOption(mainController->getImage()->getIdentification());
         id = QInputDialog::getItem(this, tr("Formato"),
-                                             tr("Indique el formato con el que desea guardar la imagen"), items,select, false, &ok);
+                                   tr("Indique el formato con el que desea guardar la imagen"), items,select, false, &ok);
         id =valueItemSaveOption(id);
     }
     if (ok && !fileName.isEmpty()){
@@ -851,6 +888,15 @@ void MainWindow::on_actionWindow_Level_triggered()
     ui->widget_options = new WindowLevelQWidget(ui->dockWidgetContents, mainController, this);
     ui->widget_options->setGeometry(QRect(0, 0, 270, 331));
     ui->widget_options->setVisible(true);
+}
+
+
+void MainWindow::on_actionConvert_to_PGM_triggered()
+{
+    enable_triggered();
+    mainController->convertDICOMtoPGM();
+    displayResults(mainController -> getQImage());
+    ShowHistogram();
 }
 
 //**********************************************************

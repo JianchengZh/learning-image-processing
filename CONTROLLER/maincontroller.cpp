@@ -87,9 +87,9 @@ void MainController::changeColorDepth(int depth)
     delete oldImage;
     oldImage = 0;
     oldImage = imagen;
-    if (imagen->getImageType()=="DCM") {
+    /*if (imagen->getImageType()=="DCM") {
         convertDICOMtoPGM();
-    }
+    }*/
     imagen = imagen -> changeColorDepth(depth);
 }
 
@@ -630,8 +630,7 @@ void MainController::segmentationRemoveCap()
 }
 
 // DICOM
-void MainController::applyWindowLevel(int window,
-                                      int                               level)
+void MainController::applyWindowLevel(int window, int level)
 {
     static_cast<ImagenDCM *>(imagen) -> applyWindowLevel(window, level);
 }
@@ -708,10 +707,15 @@ void MainController::saveImage(QString filename,
 // Auxiliary Private Methods
 void MainController::convertDICOMtoPGM()
 {
+    delete oldImage;
+    oldImage = 0;
+    oldImage = imagen;
+
     ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
     imagen= new ImagenPGM(imagenDCM->getHeight(),
                           imagenDCM->getWidth(),
                           255,
                           imagenDCM->getMatrixImagenP(),
                           imagenDCM->getLut());
+    imagen = imagen -> changeColorDepth(8);
 }
