@@ -90,7 +90,7 @@ void MainController::changeColorDepth(int depth)
     if (imagen->getImageType()=="DCM") {
         convertDICOMtoPGM();
     }
-        imagen = imagen -> changeColorDepth(depth);
+    imagen = imagen -> changeColorDepth(depth);
 }
 
 void MainController::convertToGrayscale(int method)
