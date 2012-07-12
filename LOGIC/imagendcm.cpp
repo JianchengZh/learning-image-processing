@@ -83,8 +83,8 @@ ImagenDCM::ImagenDCM(const char * fileName)
             applyWindowLevel(300, 300);
             generateHistogram();
             generateQImage();
-            getDataSet();
 
+            fileformat.getDataset()->findAndGetOFString(DcmTagKey(0x0028,0x0030), pixelSpacing);
             status = true;
         }
         else
@@ -153,7 +153,7 @@ void ImagenDCM::setFrameImage(int frame)
                 applyWindowLevel(300, 300);
                 generateHistogram();
                 generateQImage();
-                getDataSet();
+                fileformat.getDataset()->findAndGetOFString(DcmTagKey(0x0028,0x0030), pixelSpacing);
 
                 status = true;
             }
@@ -385,7 +385,25 @@ QString ImagenDCM::getDataSet()
         std::ostringstream stream;
         fileformat.getDataset()->print(stream);
         std::string str =  stream.str();
-        return QString (str.c_str());
+        QString dataSet(str.c_str());
+
+        QStringList dataSetList = dataSet.split("\n");
+        QString respuesta;
+
+        for (int i = 3; i < dataSetList.length()-3; ++i) {
+            QRegExp tag("\\(\\w*\\,\\w*\\)");
+            tag.indexIn(dataSetList[i]);
+
+            QRegExp desc("\\w*$");
+            desc.indexIn(dataSetList[i]);
+
+            QRegExp value("\\[.*\\]");
+            value.indexIn(dataSetList[i]);
+
+            respuesta+=tag.cap(0)+"\t"+desc.cap(0)+":\t"+value.cap(0)+"\n";
+
+        }
+        return respuesta;
     }
     else
     {
