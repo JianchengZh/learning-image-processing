@@ -2,9 +2,8 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: imagenpgm.h
-// 
-// FECHA: 11.07.12
+//
+// FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -29,11 +28,12 @@
 #define IMAGENPGM_H
 
 #include <QFile>
-#include <math.h>
+#include <QDebug>
 #include <QTextStream>
 #include <QImage>
 #include <QRgb>
-#include <DATA_ACCESS/imagefile.h>
+#include <math.h>
+#include "DATA_ACCESS/imagefile.h"
 #include "image.h"
 
 using namespace std;

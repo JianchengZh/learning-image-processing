@@ -2,9 +2,8 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: maincontroller.cpp
-// 
-// FECHA: 11.07.12
+//
+// FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,7 +21,6 @@
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
-
 
 
 #include "maincontroller.h"
@@ -120,7 +118,7 @@ void MainController::changeColorDepth(int depth)
                               imagenDCM->getMatrixImagenP(),
                               imagenDCM->getLut());
     }
-    imagen = imagen -> changeColorDepth(depth);
+    //imagen = imagen -> changeColorDepth(depth);
 }
 
 void MainController::convertToGrayscale(int method)

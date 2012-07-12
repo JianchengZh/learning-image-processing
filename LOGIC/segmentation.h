@@ -2,9 +2,8 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: segmentation.h
-// 
-// FECHA: 11.07.12
+//
+// FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,8 +21,6 @@
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
-
-
 
 #ifndef SEGMENTATION_H
 #define SEGMENTATION_H

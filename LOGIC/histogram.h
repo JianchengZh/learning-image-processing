@@ -2,9 +2,8 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: histogram.h
-// 
-// FECHA: 11.07.12
+//
+// FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -22,7 +21,6 @@
 // ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
-
 
 
 #ifndef HISTOGRAM_H

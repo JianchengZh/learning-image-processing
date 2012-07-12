@@ -2,9 +2,8 @@
 // INTRODUCCION AL PROCESAMIENTO DIGITAL DE IMÁGENES
 // LEARNING_IMAGE_PROCESSING
 //
-// ARCHIVO: colordepthqwidget.cpp
-// 
-// FECHA: 11.07.12
+//
+// FECHA INICIACION: Marzo de 2012
 //
 // AUTORES:
 // Gustavo Adolfo Rodriguez         0932979-3743
@@ -23,15 +22,13 @@
 // UNIVERSIDAD DEL VALLE
 //**********************************************************
 
-
-
 #include "colordepthqwidget.h"
 #include "ui_colordepthqwidget.h"
 
 ColorDepthQwidget::ColorDepthQwidget(QWidget * parent,
-        MainController *                       controller,
-        MainWindow *                           window,
-        int                                    ColorDensity):
+                                     MainController *                       controller,
+                                     MainWindow *                           window,
+                                     int                                    ColorDensity):
     QWidget(parent),
     ui(new Ui::ColorDepthQwidget)
 {
@@ -39,7 +36,7 @@ ColorDepthQwidget::ColorDepthQwidget(QWidget * parent,
 
     mainController = controller;
     mainwindow     = window;
-
+    ui -> verticalSlider -> setMaximum(ColorDensity);
     ui -> verticalSlider -> setValue(ColorDensity);
 }
 
@@ -51,6 +48,13 @@ ColorDepthQwidget::~ColorDepthQwidget()
 void ColorDepthQwidget::on_pushButton_clicked()
 {
     int depth = (int) ui -> lcdNumber -> value();
+
+    // In case some dicom images hava a bigger value
+    if (depth>8) {
+        depth=8;
+        ui -> verticalSlider -> setMaximum(depth);
+        ui -> verticalSlider -> setValue(depth);
+    }
 
     if (mainController -> isThereAnUploadedImage())
     {
