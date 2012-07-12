@@ -108,22 +108,10 @@ void MainController::contrastStretching()
 
 void MainController::changeColorDepth(int depth)
 {
-    QTextStream cout(stdout);
-
-    cout << "A. Inicio del metodo changeColorDepth en el controlador" << endl;
-
     delete oldImage;
-
     oldImage = 0;
     oldImage = imagen;
-
-    cout << "B. Justo Antes de llamar al metodo changeColorDepth de la clase Imagen" << endl;
-
     imagen = oldImage -> changeColorDepth(depth);
-
-    imagen -> saveImage("temp");
-
-    cout << "H. Dentro de changeColorDepth - en controlador, despues de exportar " << endl;
 }
 
 void MainController::convertToGrayscale(int method)

@@ -434,6 +434,3 @@ void ImagenDCM::resetDistanceTomography()
 {
     this -> distanceTomography = 0;
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

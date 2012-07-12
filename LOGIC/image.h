@@ -76,7 +76,6 @@ class Image
         // Image transformations
         virtual Image * changeColorDepth(int bits) = 0;
 
-        // virtual Image *equalizateHistogram(int *newlut)=0;
 };
 #endif // IMAGE_H
 

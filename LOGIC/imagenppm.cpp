@@ -164,9 +164,9 @@ ImagenPPM::ImagenPPM(QString id,
 
     for (int i = 0; i < colorDepth + 1; ++i)
     {
-        this -> lutR[i] = lutR[i];
-        this -> lutG[i] = lutG[i];
-        this -> lutB[i] = lutB[i];
+        this -> lutR[i] = i;
+        this -> lutG[i] = i;
+        this -> lutB[i] = i;
     }
 
     // Matrix of Pointers
@@ -220,27 +220,21 @@ ImagenPPM::~ImagenPPM()
     }
 
     delete matrixRp;
-
     this -> matrixRp = 0;
 
     delete matrixRp;
-
     this -> matrixRp = 0;
 
     delete matrixRp;
-
     this -> matrixRp = 0;
 
     delete lutR;
-
     this -> lutR = 0;
 
     delete lutG;
-
     this -> lutG = 0;
 
     delete lutB;
-
     this -> lutB = 0;
 }
 
@@ -409,7 +403,9 @@ void ImagenPPM::generateQImage()
     {
         for (int j = 0; j < width; ++j)
         {
-            qImage -> setPixel(j, i, qRgb(*matrixRp[i][j], *matrixGp[i][j], *matrixBp[i][j]));
+            qImage -> setPixel(j, i, qRgb(floor((255/colorDepth)*(*matrixRp[i][j])),
+                                          floor((255/colorDepth)*(*matrixGp[i][j])),
+                                          floor((255/colorDepth)*(*matrixBp[i][j]))));
         }
     }
 }
