@@ -86,7 +86,6 @@ void MainWindow::on_action_Load_Image_triggered()
             // Enable QActions
             ui->actionNew_Job->setEnabled(true);
             ui->actionUndo->setEnabled(true);
-            ui->actionResize->setEnabled(true);
             ui->actionChange_Color_Depth->setEnabled(true);
             ui->actionSave->setEnabled(true);
             ui->actionZoom_In->setEnabled(true);
@@ -177,7 +176,6 @@ void MainWindow::on_actionNew_Job_triggered()
     //Disable QActions
     ui->actionNew_Job->setEnabled(false);
     ui->actionUndo->setEnabled(false);
-    ui->actionResize->setEnabled(false);
     ui->actionChange_Color_Depth->setEnabled(false);
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
@@ -226,8 +224,6 @@ void MainWindow::on_actionNew_Job_triggered()
     // Erase Image
     ui->label_Imagen->setPixmap(0);
     ui->label_Histogram->setPixmap(0);
-    //    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-    //    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
     delete ui->widget_options;
@@ -246,11 +242,7 @@ void MainWindow::on_actionNew_Job_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Image"),
-                                                    lastPath,
-                                                    tr("Image Files (*)"));
-
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image"),lastPath,tr("Image Files (*)"));
     QStringList items;
     QString id;
     items = choiseItemSaveOption();
@@ -265,7 +257,6 @@ void MainWindow::on_actionSave_triggered()
         mainController->saveImage(fileName, id);
         lastPath=fileName;
     }
-
 }
 
 QStringList MainWindow::choiseItemSaveOption()
@@ -363,7 +354,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 //**********************************************************
 // Global Transfomations Menu
 //**********************************************************
-void MainWindow::on_actionWeight_Average_triggered()
+void MainWindow::on_actionWeighted_Average_triggered()
 {
     QErrorMessage *erroMessageDialog = new QErrorMessage(this);
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -371,7 +362,7 @@ void MainWindow::on_actionWeight_Average_triggered()
         bool ok;
         double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
         if (ok){
-            if (mainController->average(filename, alpha)) {
+            if (mainController->weightedAverage(filename, alpha)) {
                 displayResults(mainController->getQImage());
                 //                ShowHistogram();
             } else {

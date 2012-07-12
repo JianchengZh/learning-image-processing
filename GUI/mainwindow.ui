@@ -142,7 +142,6 @@ border: 1px solid rgb(62, 61, 58);
      <string>Edit</string>
     </property>
     <addaction name="actionUndo"/>
-    <addaction name="actionResize"/>
     <addaction name="actionChange_Color_Depth"/>
     <addaction name="actionConver_to_GrayScale"/>
    </widget>
@@ -151,7 +150,7 @@ border: 1px solid rgb(62, 61, 58);
      <string>Global Transformations</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionWeight_Average"/>
+    <addaction name="actionWeighted_Average"/>
     <addaction name="actionAdd"/>
     <addaction name="actionSubstract"/>
     <addaction name="actionMultiply"/>
@@ -575,17 +574,6 @@ background-color: rgb(255, 255, 255);</string>
     <string>Ctrl+Z</string>
    </property>
   </action>
-  <action name="actionResize">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Resize</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Alt+R</string>
-   </property>
-  </action>
   <action name="actionChange_Color_Depth">
    <property name="enabled">
     <bool>false</bool>
@@ -735,12 +723,15 @@ background-color: rgb(255, 255, 255);</string>
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionWeight_Average">
+  <action name="actionWeighted_Average">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Weight Average</string>
+    <string>Weighted Average</string>
+   </property>
+   <property name="toolTip">
+    <string>Weighted Average</string>
    </property>
   </action>
   <action name="actionWindow_Level">

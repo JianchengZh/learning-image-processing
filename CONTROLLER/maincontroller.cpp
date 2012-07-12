@@ -108,16 +108,7 @@ void MainController::gammaCorrection(double r)
     oldImage = 0;
     oldImage = imagen;
 
-    if (imagen->getImageType()=="DCM") {
-
-        ImagenDCM* imagenDCM= static_cast<ImagenDCM *>(imagen);
-        imagen= new ImagenPGM(imagenDCM->getHeight(),
-                              imagenDCM->getWidth(),
-                              255,
-                              imagenDCM->getMatrixImagenP(),
-                              imagenDCM->getLut());
-    }else
-        imagen   = static_cast<ImagenPGM *>(oldImage) -> gammaCorrection(r);
+    imagen   = static_cast<ImagenPGM *>(oldImage) -> gammaCorrection(r);
 }
 
 void MainController::contrastStretching()
@@ -129,7 +120,7 @@ void MainController::contrastStretching()
     imagen   = static_cast<ImagenPGM *>(oldImage) -> contrastStretching();
 }
 
-bool MainController::average(QString filename, double  alpha)
+bool MainController::weightedAverage(QString filename, double  alpha)
 {
     ImagenPGM * image = new ImagenPGM(filename);
 
