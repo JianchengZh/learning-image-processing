@@ -142,7 +142,6 @@ border: 1px solid rgb(62, 61, 58);
      <string>Edit</string>
     </property>
     <addaction name="actionUndo"/>
-    <addaction name="actionResize"/>
     <addaction name="actionChange_Color_Depth"/>
     <addaction name="actionConver_to_GrayScale"/>
    </widget>
@@ -573,17 +572,6 @@ background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionResize">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Resize</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Alt+R</string>
    </property>
   </action>
   <action name="actionChange_Color_Depth">

@@ -86,7 +86,6 @@ void MainWindow::on_action_Load_Image_triggered()
             // Enable QActions
             ui->actionNew_Job->setEnabled(true);
             ui->actionUndo->setEnabled(true);
-            ui->actionResize->setEnabled(true);
             ui->actionChange_Color_Depth->setEnabled(true);
             ui->actionSave->setEnabled(true);
             ui->actionZoom_In->setEnabled(true);
@@ -176,7 +175,6 @@ void MainWindow::on_actionNew_Job_triggered()
     //Disable QActions
     ui->actionNew_Job->setEnabled(false);
     ui->actionUndo->setEnabled(false);
-    ui->actionResize->setEnabled(false);
     ui->actionChange_Color_Depth->setEnabled(false);
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
@@ -225,8 +223,6 @@ void MainWindow::on_actionNew_Job_triggered()
     // Erase Image
     ui->label_Imagen->setPixmap(0);
     ui->label_Histogram->setPixmap(0);
-    //    ui->label_Imagen->setGeometry(QRect(0, 0, 733, 550));
-    //    ui->scrollAreaWidgetContents->setGeometry(QRect(0, 0, 733, 550));
 
     // delete widget_options
     delete ui->widget_options;
@@ -245,11 +241,7 @@ void MainWindow::on_actionNew_Job_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Image"),
-                                                    lastPath,
-                                                    tr("Image Files (*)"));
-
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image"),lastPath,tr("Image Files (*)"));
     QStringList items;
     QString id;
     items = choiseItemSaveOption();
@@ -264,7 +256,6 @@ void MainWindow::on_actionSave_triggered()
         mainController->saveImage(fileName, id);
         lastPath=fileName;
     }
-
 }
 
 QStringList MainWindow::choiseItemSaveOption()
