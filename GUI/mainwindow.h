@@ -92,17 +92,19 @@ private slots:
     void on_actionConver_to_GrayScale_triggered();
 
     // Global Transformations Menu
-    void on_actionWeight_Average_triggered();
+    void on_actionWeighted_Average_triggered();
     void on_actionAdd_triggered();
     void on_actionSubstract_triggered();
     void on_actionMultiply_triggered();
     void on_actionDivide_triggered();
+
+    void on_actionMax_triggered();
+    void on_actionMin_triggered();
+
     void on_actionAND_triggered();
     void on_actionOR_triggered();
     void on_actionXOR_triggered();
     void on_actionNOT_triggered();
-    void on_actionMax_triggered();
-    void on_actionMin_triggered();
 
     // Geometric Operation Menu
     void on_actionTranslation_triggered();

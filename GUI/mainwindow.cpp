@@ -353,7 +353,7 @@ void MainWindow::on_actionConver_to_GrayScale_triggered()
 //**********************************************************
 // Global Transfomations Menu
 //**********************************************************
-void MainWindow::on_actionWeight_Average_triggered()
+void MainWindow::on_actionWeighted_Average_triggered()
 {
     QErrorMessage *erroMessageDialog = new QErrorMessage(this);
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image"), "../LEARNING_IMAGE_PROCESSING/IMAGES", tr("Image Files (*)"));
@@ -361,7 +361,7 @@ void MainWindow::on_actionWeight_Average_triggered()
         bool ok;
         double alpha = QInputDialog::getDouble(this, tr("Sum of Images"),tr("Alpha:"), 0.5, 0, 1, 1, &ok);
         if (ok){
-            if (mainController->average(filename, alpha)) {
+            if (mainController->weightedAverage(filename, alpha)) {
                 displayResults(mainController->getQImage());
                 //                ShowHistogram();
             } else {

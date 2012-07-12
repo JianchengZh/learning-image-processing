@@ -65,7 +65,7 @@ class MainController
         void convertToGrayscale(int method);
 
         // Global Trasnformations
-        bool average(QString filename,
+        bool weightedAverage(QString filename,
                      double  alpha);
         bool add(QString filename);
         bool subtract(QString filename);
