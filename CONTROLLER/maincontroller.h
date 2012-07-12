@@ -65,18 +65,19 @@ class MainController
         void convertToGrayscale(int method);
 
         // Global Trasnformations
-        bool weightedAverage(QString filename,
-                     double  alpha);
+        bool weightedAverage(QString filename, double  alpha);
         bool add(QString filename);
         bool subtract(QString filename);
         bool multiply(QString filename);
         bool divide(QString filename);
+
+        bool maxOperation(QString filename);
+        bool minOperation(QString filename);
+
         bool andOperation(QString filename);
         bool xorOperation(QString filename);
         void notOperation();
         bool orOperation(QString filename);
-        bool maxOperation(QString filename);
-        bool minOperation(QString filename);
 
         // geometric operations
         void sacaling(double factorX,

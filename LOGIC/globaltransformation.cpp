@@ -26,13 +26,7 @@
 
 #include "globaltransformation.h"
 
-GlobalTransformation::GlobalTransformation()
-{
-}
-
-Image * GlobalTransformation::binaryOperations(Image * image1,
-                                               Image *                                        image2,
-                                               GlobalTransformation::binaryOperation          operation)
+Image * GlobalTransformation::binaryOperations(Image *image1, Image *image2,binaryOperation operation)
 {
     if ((image1 -> getHeight() != image2 -> getHeight()) || (image1 -> getWidth() != image2 -> getWidth()))
     {
@@ -137,8 +131,7 @@ Image * GlobalTransformation::binaryOperations(Image * image1,
     return result;
 }
 
-Image * GlobalTransformation::unaryOperations(Image * image1,
-                                              GlobalTransformation::unaryOperation          operation)
+Image * GlobalTransformation::unaryOperations(Image *image1, unaryOperation operation)
 {
     int     height       = image1 -> getHeight();
     int     width        = image1 -> getWidth();
@@ -174,9 +167,7 @@ Image * GlobalTransformation::unaryOperations(Image * image1,
     return result;
 }
 
-Image * GlobalTransformation::average(Image * img,
-                                      Image *                               image,
-                                      double                                alpha)
+Image * GlobalTransformation::weightedAverage(Image * img, Image * image, double alpha)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -211,8 +202,7 @@ Image * GlobalTransformation::average(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::add(Image * img,
-                                  Image * image)
+Image * GlobalTransformation::add(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -257,8 +247,7 @@ Image * GlobalTransformation::add(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::subtract(Image * img,
-                                       Image *                                image)
+Image * GlobalTransformation::subtract(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -303,8 +292,7 @@ Image * GlobalTransformation::subtract(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::multiply(Image * img,
-                                       Image *                                image)
+Image * GlobalTransformation::multiply(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -339,8 +327,7 @@ Image * GlobalTransformation::multiply(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::divide(Image * img,
-                                     Image *                              image)
+Image * GlobalTransformation::divide(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -385,8 +372,7 @@ Image * GlobalTransformation::divide(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::maxOp(Image * img,
-                                    Image *                             image)
+Image * GlobalTransformation::maxOp(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -431,8 +417,7 @@ Image * GlobalTransformation::maxOp(Image * img,
     return result;
 }
 
-Image * GlobalTransformation::minOp(Image * img,
-                                    Image *                             image)
+Image * GlobalTransformation::minOp(Image * img,Image * image)
 {
     int *** matrixImagenP = static_cast<ImagenPGM *>(img) -> getMatrix();
     int     height        =
@@ -476,6 +461,3 @@ Image * GlobalTransformation::minOp(Image * img,
 
     return result;
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com
