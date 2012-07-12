@@ -99,7 +99,7 @@ void MainWindow::on_action_Load_Image_triggered()
 
             if (mainController->getImage()->getImageType().toUpper()=="PGM"||
                     mainController->getImage()->getImageType().toUpper()=="DCM") {
-                ui->actionWeight_Average->setEnabled(true);
+                ui->actionWeighted_Average->setEnabled(true);
                 ui->actionAdd->setEnabled(true);
                 ui->actionSubstract->setEnabled(true);
                 ui->actionMultiply->setEnabled(true);
@@ -179,7 +179,7 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->actionChange_Color_Depth->setEnabled(false);
     ui->actionConver_to_GrayScale->setEnabled(false);
     ui->actionThreshold->setEnabled(false);
-    ui->actionWeight_Average->setEnabled(false);
+    ui->actionWeighted_Average->setEnabled(false);
     ui->actionAdd->setEnabled(false);
     ui->actionSubstract->setEnabled(false);
     ui->actionMultiply->setEnabled(false);
