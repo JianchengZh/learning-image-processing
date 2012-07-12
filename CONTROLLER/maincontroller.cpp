@@ -333,8 +333,7 @@ void MainController::contrastStretching()
 }
 
 // geometric operations
-void MainController::sacaling(double factorX,
-                              double factorY)
+void MainController::sacaling(double factorX,double factorY)
 {
     delete oldImage;
 
@@ -345,8 +344,7 @@ void MainController::sacaling(double factorX,
     imagen = gO.scaling(oldImage, factorX, factorY);
 }
 
-void MainController::translation(double factorX,
-                                 double factorY)
+void MainController::translation(double factorX,double factorY)
 {
     delete oldImage;
 
