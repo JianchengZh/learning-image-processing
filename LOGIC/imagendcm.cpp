@@ -83,7 +83,7 @@ ImagenDCM::ImagenDCM(const char * fileName)
             applyWindowLevel(300, 300);
             generateHistogram();
             generateQImage();
-            getMetaData();
+            getDataSet();
 
             status = true;
         }
@@ -153,7 +153,7 @@ void ImagenDCM::setFrameImage(int frame)
                 applyWindowLevel(300, 300);
                 generateHistogram();
                 generateQImage();
-                getMetaData();
+                getDataSet();
 
                 status = true;
             }
@@ -165,8 +165,7 @@ void ImagenDCM::setFrameImage(int frame)
     }
 }
 
-int ImagenDCM::getDensity(int x,
-                          int y)
+int ImagenDCM::getDensity(int x, int y)
 {
     int             iPos = x + (y * width);
     OFString        str;
@@ -189,66 +188,65 @@ int ImagenDCM::getDensity(int x,
 
     switch (rep)
     {
-        case EPR_Sint32:
-        {
-            Sint32 * pixelNew1 = ((Sint32 *) pixelData + iPos);
+    case EPR_Sint32:
+    {
+        Sint32 * pixelNew1 = ((Sint32 *) pixelData + iPos);
 
-            result = *pixelNew1;
+        result = *pixelNew1;
 
-            break;
-        }
+        break;
+    }
 
-        case EPR_Uint32:
-        {
-            Uint32 * pixelNew2 = ((Uint32 *) pixelData + iPos);
+    case EPR_Uint32:
+    {
+        Uint32 * pixelNew2 = ((Uint32 *) pixelData + iPos);
 
-            result = *pixelNew2;
+        result = *pixelNew2;
 
-            break;
-        }
+        break;
+    }
 
-        case EPR_Sint16:
-        {
-            Sint16 * pixelNew3 = ((Sint16 *) pixelData + iPos);
+    case EPR_Sint16:
+    {
+        Sint16 * pixelNew3 = ((Sint16 *) pixelData + iPos);
 
-            result = *pixelNew3;
+        result = *pixelNew3;
 
-            break;
-        }
+        break;
+    }
 
-        case EPR_Uint16:
-        {
-            Uint16 * pixelNew4 = ((Uint16 *) pixelData + iPos);
+    case EPR_Uint16:
+    {
+        Uint16 * pixelNew4 = ((Uint16 *) pixelData + iPos);
 
-            result = *pixelNew4;
+        result = *pixelNew4;
 
-            break;
-        }
+        break;
+    }
 
-        case EPR_Uint8:
-        {
-            Uint8 * pixelNew5 = ((Uint8 *) pixelData + iPos);
+    case EPR_Uint8:
+    {
+        Uint8 * pixelNew5 = ((Uint8 *) pixelData + iPos);
 
-            result = *pixelNew5;
+        result = *pixelNew5;
 
-            break;
-        }
+        break;
+    }
 
-        default:
-        {
-            Sint8 * pixelNew6 = ((Sint8 *) pixelData + iPos);
+    default:
+    {
+        Sint8 * pixelNew6 = ((Sint8 *) pixelData + iPos);
 
-            result = *pixelNew6;
+        result = *pixelNew6;
 
-            break;
-        }
+        break;
+    }
     }
 
     return result;
 }
 
-void ImagenDCM::applyWindowLevel(int window,
-                                 int level)
+void ImagenDCM::applyWindowLevel(int window, int level)
 {
     // Reset the lut Table;
     for (int i = 0; i < lutSize; ++i)
@@ -286,9 +284,7 @@ int ImagenDCM::pixelWindowLevel(int pixelValue, int window, int center)
     return y;
 }
 
-int ImagenDCM::appyCalibrationFunction(int pixelValue,
-        int                                rescaleSlope,
-        int                                rescaleIntercept)
+int ImagenDCM::appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept)
 {    // Not it use!
     return (pixelValue * rescaleSlope) + rescaleIntercept;
 }
@@ -382,27 +378,22 @@ void ImagenDCM::saveImage(QString filename)
     }
 }
 
-void ImagenDCM::getMetaData()
+QString ImagenDCM::getDataSet()
 {
     if (statusDcmFileFormat.good())
     {
-        if (fileformat.getDataset() -> findAndGetOFString(DcmTagKey(0x0028, 0x0030), pixelSpacing).good())
-        {
-            cout << "OFString pixelSpacing: " << pixelSpacing << endl;
-        }
-        else
-        {
-            cout << "Error: cannot access Patient's Name!" << endl;
-        }
+        std::ostringstream stream;
+        fileformat.getDataset()->print(stream);
+        std::string str =  stream.str();
+        return QString (str.c_str());
     }
     else
     {
-        cout << "Error: cannot read DICOM file (" << statusDcmFileFormat.text() << ")" << endl;
+        return QString("Error: ")+ QString(statusDcmFileFormat.text());
     }
 }
 
-double ImagenDCM::getDistanceTomography(QPoint start,
-        QPoint                                 end)
+double ImagenDCM::getDistanceTomography(QPoint start, QPoint end)
 {
     double pixelSpacing1 = QString(pixelSpacing.c_str()).toDouble();
 

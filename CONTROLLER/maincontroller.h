@@ -138,9 +138,9 @@ class MainController
         int getCountFrameFirstImage();
 
         // DICOM
-        void applyWindowLevel(int window,
-                              int level);
+        void applyWindowLevel(int window,int level);
         void changeFrame(int numFrame);
+        QString getDataSet();
 
         // GETTERS:
         Image * getImage();

@@ -611,6 +611,11 @@ void MainController::changeFrame(int numFrame)
     static_cast<ImagenDCM *>(imagen) -> setFrameImage(numFrame);
 }
 
+QString MainController::getDataSet()
+{
+    return static_cast<ImagenDCM *>(imagen) -> getDataSet();
+}
+
 int MainController::getCountFrameFirstImage()
 {
     return static_cast<ImagenDCM *>(imagen) -> getCountFrameFirstImage() - 1;

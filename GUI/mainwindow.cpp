@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     mainController= new MainController();
     lastPath="../LEARNING_IMAGE_PROCESSING/IMAGES";
     //lastPath=QString(getenv("HOME"));
+    ui->dockWidget_DICOM->hide();
 }
 
 MainWindow::~MainWindow()
@@ -134,7 +135,8 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionWindow_Level->setEnabled(true);
                 ui->actionK_Means->setEnabled(true);
                 ui->actionChange_Frame->setEnabled(true);
-
+                ui->dockWidget_DICOM->show();
+                ui->plainTextEdit_DICOM->appendPlainText(mainController->getDataSet());
             }
 
 
@@ -225,6 +227,9 @@ void MainWindow::on_actionNew_Job_triggered()
     ui->label_Imagen->setPixmap(0);
     ui->label_Histogram->setPixmap(0);
 
+    ui->dockWidget_DICOM->hide();
+    ui->plainTextEdit_DICOM->clear();
+
     // delete widget_options
     delete ui->widget_options;
     ui->widget_options=0;
@@ -250,7 +255,7 @@ void MainWindow::on_actionSave_triggered()
     if(!fileName.isEmpty() && !items.isEmpty()){
         int select = indexItemSaveOption(mainController->getImage()->getIdentification());
         id = QInputDialog::getItem(this, tr("Formato"),
-                                             tr("Indique el formato con el que desea guardar la imagen"), items,select, false, &ok);
+                                   tr("Indique el formato con el que desea guardar la imagen"), items,select, false, &ok);
         id =valueItemSaveOption(id);
     }
     if (ok && !fileName.isEmpty()){

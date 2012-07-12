@@ -49,14 +49,17 @@ class ImagenDCM:
     int           lutSize;
     double        minDensity, maxDensity;
     double        distanceTomography;
+
     OFString      pixelSpacing;
     DicomImage *  dicomImage;
     DicomImage *  firstImage;
+
     DcmFileFormat fileformat;
     OFCondition   statusDcmFileFormat;
 
     void generateHistogram();
     void generateQImage();
+
     int getDensity(int x, int y);
     int appyCalibrationFunction(int pixelValue, int rescaleSlope, int rescaleIntercept);
     int pixelWindowLevel(int pixelValue,int window,int center);
@@ -65,7 +68,7 @@ public:
 
     ImagenDCM(const char * fileName);
 
-    void getMetaData();
+    QString getDataSet();
     double getDistanceTomography(QPoint start, QPoint end);
     void applyWindowLevel(int window, int level);
     void setFrameImage(int frame);
