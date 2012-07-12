@@ -86,10 +86,10 @@ void MainWindow::on_action_Load_Image_triggered()
             // Enable QActions
             ui->actionNew_Job->setEnabled(true);
             ui->actionUndo->setEnabled(true);
-            ui->actionChange_Color_Depth->setEnabled(true);
             ui->actionSave->setEnabled(true);
             ui->actionZoom_In->setEnabled(true);
             ui->actionZoom_Out->setEnabled(true);
+            ui->actionChange_Color_Depth->setEnabled(true);
 
             if (mainController->getImage()->getImageType().toUpper()=="PPM") {
                 ui->actionConver_to_GrayScale->setEnabled(true);
@@ -97,7 +97,8 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionK_Means->setEnabled(true);
             }
 
-            if (mainController->getImage()->getImageType().toUpper()=="PGM"){
+            if (mainController->getImage()->getImageType().toUpper()=="PGM"||
+                    mainController->getImage()->getImageType().toUpper()=="DCM"){
                 ui->actionWeighted_Average->setEnabled(true);
                 ui->actionAdd->setEnabled(true);
                 ui->actionSubstract->setEnabled(true);
@@ -134,6 +135,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionK_Means->setEnabled(true);
                 ui->actionChange_Frame->setEnabled(true);
                 ui->actionConvert_to_PGM->setEnabled(true);
+                ui->actionChange_Color_Depth->setEnabled(false);
             }
 
 
@@ -167,37 +169,6 @@ void MainWindow::on_action_Load_Image_triggered()
 }
 
 void MainWindow::enable_triggered(){
-
-    ui->actionWeighted_Average->setEnabled(true);
-    ui->actionAdd->setEnabled(true);
-    ui->actionSubstract->setEnabled(true);
-    ui->actionMultiply->setEnabled(true);
-    ui->actionDivide->setEnabled(true);
-    ui->actionThreshold->setEnabled(true);
-    ui->actionEqualization->setEnabled(true);
-    ui->actionMean->setEnabled(true);
-    ui->actionConvolution->setEnabled(true);
-    ui->actionGaussiana->setEnabled(true);
-    ui->actionStretching->setEnabled(true);
-    ui->actionGamma_Correction->setEnabled(true);
-    ui->actionNoise_Cleaning_Pixel->setEnabled(true);
-    ui->actionNoise_Cleaning_Line->setEnabled(true);
-    ui->actionSobel->setEnabled(true);
-    ui->actionCanny->setEnabled(true);
-    ui->actionMorphological->setEnabled(true);
-    ui->actionK_Means->setEnabled(true);
-    ui->actionAND->setEnabled(true);
-    ui->actionOR->setEnabled(true);
-    ui->actionXOR->setEnabled(true);
-    ui->actionNOT->setEnabled(true);
-    ui->actionMax->setEnabled(true);
-    ui->actionMin->setEnabled(true);
-
-    ui->actionTranslation->setEnabled(true);
-    ui->actionReflection->setEnabled(true);
-    ui->actionRotation->setEnabled(true);
-    ui->actionScaling->setEnabled(true);
-
     ui->actionWindow_Level->setEnabled(false);
     ui->actionK_Means->setEnabled(false);
     ui->actionChange_Frame->setEnabled(false);
