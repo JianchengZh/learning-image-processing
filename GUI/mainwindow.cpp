@@ -125,7 +125,8 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionMax->setEnabled(true);
                 ui->actionMin->setEnabled(true);
                 ui->actionRemoveCap->setEnabled(true);
-
+                ui->actionWhite_Tissue->setEnabled(true);
+                ui->actionGray_Tissue->setEnabled(true);
                 ui->actionTranslation->setEnabled(true);
                 ui->actionReflection->setEnabled(true);
                 ui->actionRotation->setEnabled(true);
@@ -139,8 +140,7 @@ void MainWindow::on_action_Load_Image_triggered()
                 ui->actionConvert_to_PGM->setEnabled(true);
                 ui->actionChange_Color_Depth->setEnabled(false);
                 ui->actionRemoveCap->setEnabled(true);
-                ui->actionWhite_Tissue->setEnabled(true);
-                ui->actionGray_Tissue->setEnabled(true);
+
                 ui->dockWidget_DICOM->show();
                 ui->plainTextEdit_DICOM->appendPlainText(mainController->getDataSet());
             }

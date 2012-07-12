@@ -614,14 +614,16 @@ void MainController::segmentationK_Means(int cluster)
 {
     delete oldImage;
 
-    if (imagen->getImageType()=="DCM") {
+
+    /*if (imagen->getImageType()=="DCM") {
         changeColorDepth(8);
-    }
+    }*/
     oldImage = imagen;
     Segmentation sg;
 
     if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
     {
+        cout << cluster <<  " cluster"<< endl;
         imagen = sg.kmeansPGM(oldImage, cluster);
     }
     else
@@ -634,9 +636,9 @@ void MainController::segmentationRemoveCap()
 {
     delete oldImage;
 
-    if (imagen->getImageType()=="DCM") {
+    /*if (imagen->getImageType()=="DCM") {
         changeColorDepth(8);
-    }
+    }*/
     oldImage = imagen;
     Segmentation sg;
 
@@ -654,13 +656,13 @@ void MainController::segmentationWhiteTissue()
 {
     delete oldImage;
 
-    if (imagen->getImageType()=="DCM") {
+    /*if (imagen->getImageType()=="DCM") {
         changeColorDepth(8);
-    }
+    }*/
     oldImage = imagen;
     Segmentation sg;
 
-    if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
+    if (static_cast<ImagenPGM *>(oldImage)->getImageType() == "PGM")
     {
         imagen = sg.whiteTissue(oldImage);
     }
@@ -674,13 +676,13 @@ void MainController::segmentationGrayTissue()
 {
     delete oldImage;
 
-    if (imagen->getImageType()=="DCM") {
+    /*if (imagen->getImageType()=="DCM") {
         changeColorDepth(8);
-    }
+    }*/
     oldImage = imagen;
     Segmentation sg;
 
-    if (static_cast<ImagenPGM *>(oldImage) -> getImageType() == "PGM")
+    if (static_cast<ImagenPGM *>(oldImage)->getImageType() == "PGM")
     {
         imagen = sg.grayTissue(oldImage);
     }

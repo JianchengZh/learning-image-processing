@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Medical Image Processing Software</string>
+   <string>PreCyclus Image Processing Software</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
@@ -214,8 +214,6 @@ border: 1px solid rgb(62, 61, 58);
     <addaction name="actionK_Means"/>
     <addaction name="actionChange_Frame"/>
     <addaction name="actionRemoveCap"/>
-    <addaction name="actionWhite_Tissue"/>
-    <addaction name="actionGray_Tissue"/>
    </widget>
    <widget class="QMenu" name="menuGeometric_Operations">
     <property name="title">
